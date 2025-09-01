@@ -1,0 +1,916 @@
+precotex@0.0.0 start D:\Elmer\gib\precotex_angular
+> ng serve --proxy-config proxy.config.json
+
+? Port 4200 is already in use.
+Would you like to use a different port? No
+An unhandled exception occurred: Port 4200 is already in use. Use '--port' to specify a different port.
+See "C:\Users\EINFAN~1\AppData\Local\Temp\ng-uC09a7\angular-errors.log" for further details.
+npm ERR! code ELIFECYCLE
+npm ERR! syscall spawn
+npm ERR! file C:\Windows\system32\cmd.exe
+npm ERR! errno ENOENT
+npm ERR! precotex@0.0.0 start: `ng serve --proxy-config proxy.config.json`
+npm ERR! spawn ENOENT
+npm ERR!
+npm ERR! Failed at the precotex@0.0.0 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Users\einfanzon\AppData\Roaming\npm-cache\_logs\2025-05-23T15_41_10_363Z-debug.log
+PS D:\Elmer\gib\precotex_angular> ^C
+PS D:\Elmer\gib\precotex_angular> npm run start
+
+> precotex@0.0.0 start D:\Elmer\gib\precotex_angular
+> ng serve --proxy-config proxy.config.json
+
+? Port 4200 is already in use.
+Would you like to use a different port? Yes
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                      | Names         |  Raw Size
+main.js                                  | main          |  18.48 MB | 
+vendor.js                                | vendor        |  15.00 MB | 
+styles.css, styles.js                    | styles        | 589.92 kB | 
+polyfills.js                             | polyfills     | 339.42 kB | 
+scripts.js                               | scripts       | 144.88 kB | 
+runtime.js                               | runtime       |  14.41 kB | 
+
+                                         | Initial Total |  34.54 MB
+
+Lazy Chunk Files                         | Names         |  Raw Size
+node_modules_canvg_lib_index_es_js.js    | canvg         | 434.74 kB | 
+node_modules_dompurify_dist_purify_js.js | dompurify     |  65.88 kB | 
+
+Build at: 2025-05-23T15:42:26.172Z - Hash: 8a5538e9c564a3cc - Time: 52076ms
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.index-of.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reduce.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reverse.js'. CommonJS or AMD dependencies can cause optimization bailouts. 
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.promise.js'. CommonJS or AMD dependencies can cause optimization bailouts.       
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.regexp.to-string.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.ends-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.includes.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.match.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.replace.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.split.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.starts-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.trim.js'. CommonJS or AMD dependencies can cause optimization bailouts.   
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/web.dom-collections.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'raf'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\src\app\app.module.ts depends on 'angular2-text-mask'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+./src/app/components/estatus-control-tenido/dialog-visor-reg/dialog-visor-reg.component.ts:4:0-60 - Error: Module not found: Error: Can't resolve 'pdfjs-dist/build/pdf.worker.entry' in 'D:\Elmer\gib\precotex_angular\src\app\components\estatus-control-tenido\dialog-visor-reg'
+
+Error: node_modules/pdfjs-dist/types/src/display/api.d.ts:732:18 - error TS2315: Type 'Uint8Array' is not generic.
+
+732     initialData: Uint8Array<ArrayBufferLike> | null;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/cmap_reader_factory.d.ts:11:19 - error TS2315: Type 'Uint8Array' is not generic.
+
+11         cMapData: Uint8Array<ArrayBufferLike>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/cmap_reader_factory.d.ts:24:31 - error TS2315: Type 'Uint8Array' is not generic.
+
+24     _fetch(url: any): Promise<Uint8Array<any>>;
+                                 ~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/editor/stamp.d.ts:38:19 - error TS2315: Type 'Uint8ClampedArray' is not generic.
+
+38             data: Uint8ClampedArray<ArrayBufferLike>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/node_utils.d.ts:1:46 - error TS2315: Type 'Uint8Array' is not generic.
+
+1 export function fetchData(url: any): Promise<Uint8Array<ArrayBuffer>>;
+                                               ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+91mError: node_modules/pdfjs-dist/types/src/display/node_utils.d.ts:12:31 - error TS2315: Type 'Uint8Array' is not generic.
+
+12     _fetch(url: any): Promise<Uint8Array<ArrayBuffer>>;
+                                 ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/node_utils.d.ts:20:31 - error TS2315: Type 'Uint8Array' is not generic.
+
+20     _fetch(url: any): Promise<Uint8Array<ArrayBuffer>>;
+                                 ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/standard_fontdata_factory.d.ts:8:17 - error TS2315: Type 'Uint8Array' is not generic.
+
+8     }): Promise<Uint8Array<ArrayBufferLike>>;
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/display/standard_fontdata_factory.d.ts:19:31 - error TS2315: Type 'Uint8Array' is not generic.
+
+19     _fetch(url: any): Promise<Uint8Array<any>>;
+                                 ~~~~~~~~~~~~~~~
+
+
+Error: node_modules/pdfjs-dist/types/src/shared/util.d.ts:339:42 - error TS2315: Type 'Uint8Array' is not generic.
+
+339 export function stringToBytes(str: any): Uint8Array<any>;
+                                             ~~~~~~~~~~~~~~~
+
+
+Error: src/app/components/estatus-control-tenido/dialog-visor-reg/dialog-visor-reg.component.ts:6:25 - error TS2307: Cannot find module 'pdfjs-dist/build/pdf.worker.entry' or its corresponding type declarations.
+
+6 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on localhost:51894, open your browser on http://localhost:51894/ **
+
+
+× Failed to compile.
+¿Desea terminar el trabajo por lotes (S/N)? n
+PS D:\Elmer\gib\precotex_angular> npm cache clean --force
+npm WARN using --force I sure hope you know what you are doing.
+PS D:\Elmer\gib\precotex_angular> npm install --legacy-peer-deps
+npm WARN deprecated protractor@7.0.0: We have news to share - Protractor is deprecated and will reach end-of-life by Summer 2023. To learn more and find out about other options please refer to this post on the Angular blog. Thank you for using and contributing to Protractor. https://goo.gle/state-of-e2e-in-angular
+npm WARN deprecated tslint@6.1.3: TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.
+npm WARN deprecated @types/html2canvas@1.0.0: This is a stub types definition. html2canvas provides its own type definitions, so you do not need this installed.
+npm WARN deprecated @types/jspdf@2.0.0: This is a stub types definition. jspdf provides its own type definitions, so you do not need this installed.
+npm WARN deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm WARN deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm WARN deprecated q@1.4.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+npm WARN deprecated
+npm WARN deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+npm WARN deprecated glob@7.2.0: Glob versions prior to v9 are no longer supported
+npm WARN deprecated core-js@3.20.3: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+npm WARN deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
+npm WARN deprecated @babel/plugin-proposal-async-generator-functions@7.16.8: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm WARN deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm WARN deprecated @cordobo/qrcode@1.5.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm WARN deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+npm WARN deprecated
+npm WARN deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+npm WARN deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+npm WARN deprecated acorn-import-assertions@1.9.0: package has been renamed to acorn-import-attributes
+npm WARN deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+npm WARN deprecated @babel/plugin-proposal-json-strings@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-json-strings instead.
+npm WARN deprecated @babel/plugin-proposal-dynamic-import@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-dynamic-import instead.
+npm WARN deprecated @babel/plugin-proposal-private-methods@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
+npm WARN deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm WARN deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm WARN deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm WARN deprecated @babel/plugin-proposal-class-static-block@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-static-block instead.
+npm WARN deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+npm WARN deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm WARN deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm WARN deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm WARN deprecated @babel/plugin-proposal-unicode-property-regex@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
+npm WARN deprecated @babel/plugin-proposal-logical-assignment-operators@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
+npm WARN deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm WARN deprecated @babel/plugin-proposal-private-property-in-object@7.21.11: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+npm WARN deprecated fstream@1.0.12: This package is no longer supported.
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated source-map-resolve@0.6.0: See https://github.com/lydell/source-map-resolve#deprecated
+npm WARN deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+npm WARN deprecated npmlog@5.0.1: This package is no longer supported.
+npm WARN deprecated npmlog@6.0.2: This package is no longer supported.
+npm WARN deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+npm WARN deprecated @npmcli/move-file@2.0.1: This functionality has been moved to @npmcli/fs
+npm WARN deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+npm WARN deprecated gauge@3.0.2: This package is no longer supported.
+npm WARN deprecated are-we-there-yet@3.0.1: This package is no longer supported.
+npm WARN deprecated gauge@4.0.4: This package is no longer supported.
+
+> canvas@2.11.2 install D:\Elmer\gib\precotex_angular\node_modules\canvas
+> node-pre-gyp install --fallback-to-build --update-binary
+
+[canvas] Success: "D:\Elmer\gib\precotex_angular\node_modules\canvas\build\Release\canvas.node" is installed via remote
+
+> core-js@3.20.3 postinstall D:\Elmer\gib\precotex_angular\node_modules\@angular-devkit\build-angular\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+
+The project needs your help! Please consider supporting of core-js:
+> https://opencollective.com/core-js
+> https://patreon.com/zloirock
+> https://paypal.me/zloirock
+> bitcoin: bc1qlea7544qtsmj2rayg0lthvza9fau63ux0fstcz
+
+Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+
+
+> core-js@3.42.0 postinstall D:\Elmer\gib\precotex_angular\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+
+The project needs your help! Please consider supporting core-js:
+> https://opencollective.com/core-js
+> https://patreon.com/zloirock
+> https://boosty.to/zloirock
+> bitcoin: bc1qlea7544qtsmj2rayg0lthvza9fau63ux0fstcz
+
+I highly recommend reading this: https://github.com/zloirock/core-js/blob/master/docs/2023-02-14-so-whats-next.md
+
+
+> esbuild@0.14.22 postinstall D:\Elmer\gib\precotex_angular\node_modules\esbuild
+> node install.js
+
+
+> @angular/cli@13.3.11 postinstall D:\Elmer\gib\precotex_angular\node_modules\@angular\cli
+> node ./bin/postinstall/script.js
+
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN notsup Unsupported engine for pdfjs-dist@3.11.174: wanted: {"node":">=18"} (current: {"node":"14.21.3","npm":"6.14.18"})
+npm WARN notsup Not compatible with your version of node/npm: pdfjs-dist@3.11.174
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-64@0.14.22: wanted {"os":"linux","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-sunos-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-sunos-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-sunos-64@0.14.22: wanted {"os":"sunos","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-32@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-32@0.14.22: wanted {"os":"linux","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-darwin-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-64@0.14.22: wanted {"os":"darwin","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-freebsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-64@0.14.22: wanted {"os":"freebsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-openbsd-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-openbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-openbsd-64@0.14.22: wanted {"os":"openbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-arm):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm@0.14.22: wanted {"os":"linux","arch":"arm"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-32@0.14.22 (node_modules\esbuild\node_modules\esbuild-windows-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-32@0.14.22: wanted {"os":"win32","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-netbsd-64@0.14.22 (node_modules\esbuild\node_modules\esbuild-netbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-netbsd-64@0.14.22: wanted {"os":"netbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm64@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm64@0.14.22: wanted {"os":"linux","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-s390x@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-s390x):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-s390x@0.14.22: wanted {"os":"linux","arch":"s390x"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-arm64@0.14.22 (node_modules\esbuild\node_modules\esbuild-darwin-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-arm64@0.14.22: wanted {"os":"darwin","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-android-arm64@0.14.22 (node_modules\esbuild\node_modules\esbuild-android-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-android-arm64@0.14.22: wanted {"os":"android","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-ppc64le@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-ppc64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-ppc64le@0.14.22: wanted {"os":"linux","arch":"ppc64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-arm64@0.14.22 (node_modules\esbuild\node_modules\esbuild-freebsd-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-arm64@0.14.22: wanted {"os":"freebsd","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-arm64@0.14.22 (node_modules\esbuild\node_modules\esbuild-windows-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-arm64@0.14.22: wanted {"os":"win32","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-mips64le@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-mips64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-mips64le@0.14.22: wanted {"os":"linux","arch":"mips64el"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-riscv64@0.14.22 (node_modules\esbuild\node_modules\esbuild-linux-riscv64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-riscv64@0.14.22: wanted {"os":"linux","arch":"riscv64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: nice-napi@^1.0.2 (node_modules\piscina\node_modules\nice-napi):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for nice-napi@1.0.2: wanted {"os":"!win32","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@~2.3.2 (node_modules\chokidar\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/core@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/common@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/browser@0.1.5 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/ngx-scanner@19.0.0 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @ericblade/quagga2@^1.7.7 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/common@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/core@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/forms@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/compiler@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/core@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN ajv-keywords@3.5.2 requires a peer of ajv@^6.9.1 but none is installed. You must install peer dependencies yourself.
+npm WARN @csstools/selector-specificity@2.2.0 requires a peer of postcss-selector-parser@^6.0.10 but none is installed. You must install peer dependencies yourself.
+
+added 1292 packages from 1537 contributors and audited 1314 packages in 164.422s
+
+140 packages are looking for funding
+  run `npm fund` for details
+
+found 25 vulnerabilities (1 low, 13 moderate, 11 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+PS D:\Elmer\gib\precotex_angular> npm run start                 
+
+> precotex@0.0.0 start D:\Elmer\gib\precotex_angular
+> ng serve --proxy-config proxy.config.json
+
+⠙ Generating browser application bundles (phase: setup)...Warning: Entry point 'angular2-text-mask' contains deep imports into 'D:/Elmer/gib/precotex_angular/node_modules/text-mask-core/dist/textMaskCore'. This is probably not a problem, but may cause the compilation of entry points to be out of order.
+Processing legacy "View Engine" libraries:
+- ag-grid-angular [es2015/esm2015] ()
+- angular2-text-mask [main/commonjs] (git+https://github.com/text-mask/text-mask.git)
+Encourage the library authors to publish an Ivy distribution.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                      | Names         |  Raw Size
+main.js                                  | main          |  18.48 MB | 
+vendor.js                                | vendor        |  17.07 MB | 
+styles.css, styles.js                    | styles        | 549.79 kB | 
+polyfills.js                             | polyfills     | 295.89 kB | 
+scripts.js                               | scripts       | 144.88 kB | 
+runtime.js                               | runtime       |  14.41 kB | 
+
+                                         | Initial Total |  36.53 MB
+
+Lazy Chunk Files                         | Names         |  Raw Size
+node_modules_canvg_lib_index_es_js.js    | canvg         | 434.80 kB | 
+node_modules_dompurify_dist_purify_js.js | dompurify     |  65.88 kB | 
+
+Build at: 2025-05-23T15:48:43.242Z - Hash: ee4f181f9ee749df - Time: 71528ms
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.index-of.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reduce.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reverse.js'. CommonJS or AMD dependencies can cause optimization bailouts. 
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.promise.js'. CommonJS or AMD dependencies can cause optimization bailouts.       
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.regexp.to-string.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.ends-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.includes.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.match.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.replace.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.split.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.starts-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.trim.js'. CommonJS or AMD dependencies can cause optimization bailouts.   
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/web.dom-collections.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'raf'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\src\app\app.module.ts depends on 'angular2-text-mask'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+./node_modules/@kolkov/angular-editor/fesm2015/kolkov-angular-editor.mjs - Error: Module build failed (from ./node_modules/@angular-devkit/build-angular/src/babel/webpack-loader.js):    
+TypeError: Cannot create property 'message' on string 'D:\Elmer\gib\precotex_angular\node_modules\@kolkov\angular-editor\fesm2015\kolkov-angular-editor.mjs: This application depends upon a library published using Angular version 14.0.1, which requires Angular version 14.0.0 or newer to work correctly.
+Consider upgrading your application to use a more recent version of Angular.
+  463 | }
+  464 | AeSelectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: AeSelectComponent, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }], target: i0.ɵɵFactoryTarget.Component });
+> 465 | AeSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "14.0.1", type: AeSelectComponent, selector: "ae-select", inputs: { options: "options", isHidden: ["hidden", "isHidden"] }, outputs: { changeEvent: "change" }, host: { listeners: { "document:click": "onClick($event)", "keydown": "handleKeyDown($event)" }, properties: { "style.display": "this.hidden" } }, providers: [
+      |                          ^
+  466 |         {
+  467 |             provide: NG_VALUE_ACCESSOR,
+  468 |             useExisting: forwardRef(() => AeSelectComponent),'
+    at run (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transformation\index.js:37:15)
+    at run.next (<anonymous>)
+    at Function.transform (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transform.js:25:41)
+    at transform.next (<anonymous>)
+    at step (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:261:32)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:223:11)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:37:40
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-button/ae-button.component.d.ts:9:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+9     static ɵcmp: i0.ɵɵComponentDeclaration<AeButtonComponent, "ae-button", never, { "iconClass": "iconClass"; "title": "title"; }, { "buttonClick": "buttonClick"; }, never, never, false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-select/ae-select.component.d.ts:45:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+45     static ɵcmp: i0.ɵɵComponentDeclaration<AeSelectComponent, "ae-select", never, { "options": "options"; "isHidden": "hidden"; }, { "changeEvent": "change"; }, never, never, false>; 
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-toolbar-set/ae-toolbar-set.component.d.ts:5:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).       
+
+5     static ɵcmp: i0.ɵɵComponentDeclaration<AeToolbarSetComponent, "ae-toolbar-set", never, {}, {}, never, ["*"], false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor-toolbar.component.d.ts:96:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+96     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorToolbarComponent, "angular-editor-toolbar", never, { "id": "id"; "uploadUrl": "uploadUrl"; "upload": "upload"; "showToolbar": "showToolbar"; "fonts": "fonts"; "customClasses": "customClasses"; "defaultFontName": "defaultFontName"; "defaultFontSize": "defaultFontSize"; "hiddenButtons": "hiddenButtons"; }, { "execute": "execute"; }, never, ["*"], false>;
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor.component.d.ts:132:18 - errorm TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+132     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorComponent, "angular-editor", never, { "id": "id"; "config": "config"; "placeholder": "placeholder"; "tabIndex": "tabIndex"; }, { "html": "html"; "viewMode": "viewMode"; "blurEvent": "blur"; "focusEvent": "focus"; }, ["customButtonsTemplateRef"], never, false>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+× Failed to compile.
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files | Names   | Raw Size
+runtime.js          | runtime | 14.41 kB | 
+
+7 unchanged chunks
+
+Build at: 2025-05-23T15:49:13.482Z - Hash: 079f7c482920f5cf - Time: 29792ms
+
+./node_modules/@kolkov/angular-editor/fesm2015/kolkov-angular-editor.mjs - Error: Module build failed (from ./node_modules/@angular-devkit/build-angular/src/babel/webpack-loader.js):    
+TypeError: Cannot create property 'message' on string 'D:\Elmer\gib\precotex_angular\node_modules\@kolkov\angular-editor\fesm2015\kolkov-angular-editor.mjs: This application depends upon a library published using Angular version 14.0.1, which requires Angular version 14.0.0 or newer to work correctly.
+Consider upgrading your application to use a more recent version of Angular.
+  463 | }
+  464 | AeSelectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: AeSelectComponent, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }], target: i0.ɵɵFactoryTarget.Component });
+> 465 | AeSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "14.0.1", type: AeSelectComponent, selector: "ae-select", inputs: { options: "options", isHidden: ["hidden", "isHidden"] }, outputs: { changeEvent: "change" }, host: { listeners: { "document:click": "onClick($event)", "keydown": "handleKeyDown($event)" }, properties: { "style.display": "this.hidden" } }, providers: [
+      |                          ^
+  466 |         {
+  467 |             provide: NG_VALUE_ACCESSOR,
+  468 |             useExisting: forwardRef(() => AeSelectComponent),'
+    at run (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transformation\index.js:37:15)
+    at run.next (<anonymous>)
+    at Function.transform (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transform.js:25:41)
+    at transform.next (<anonymous>)
+    at step (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:261:32)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:223:11)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:37:40
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-button/ae-button.component.d.ts:9:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+9     static ɵcmp: i0.ɵɵComponentDeclaration<AeButtonComponent, "ae-button", never, { "iconClass": "iconClass"; "title": "title"; }, { "buttonClick": "buttonClick"; }, never, never, false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-select/ae-select.component.d.ts:45:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+45     static ɵcmp: i0.ɵɵComponentDeclaration<AeSelectComponent, "ae-select", never, { "options": "options"; "isHidden": "hidden"; }, { "changeEvent": "change"; }, never, never, false>; 
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-toolbar-set/ae-toolbar-set.component.d.ts:5:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).       
+
+5     static ɵcmp: i0.ɵɵComponentDeclaration<AeToolbarSetComponent, "ae-toolbar-set", never, {}, {}, never, ["*"], false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor-toolbar.component.d.ts:96:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+96     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorToolbarComponent, "angular-editor-toolbar", never, { "id": "id"; "uploadUrl": "uploadUrl"; "upload": "upload"; "showToolbar": "showToolbar"; "fonts": "fonts"; "customClasses": "customClasses"; "defaultFontName": "defaultFontName"; "defaultFontSize": "defaultFontSize"; "hiddenButtons": "hiddenButtons"; }, { "execute": "execute"; }, never, ["*"], false>;
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor.component.d.ts:132:18 - errorm TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+132     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorComponent, "angular-editor", never, { "id": "id"; "config": "config"; "placeholder": "placeholder"; "tabIndex": "tabIndex"; }, { "html": "html"; "viewMode": "viewMode"; "blurEvent": "blur"; "focusEvent": "focus"; }, ["customButtonsTemplateRef"], never, false>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+× Failed to compile.
+¿Desea terminar el trabajo por lotes (S/N)? n
+PS D:\Elmer\gib\precotex_angular> npm install
+npm WARN @csstools/selector-specificity@2.2.0 requires a peer of postcss-selector-parser@^6.0.10 but none is installed. You must install peer dependencies yourself.
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/core@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/common@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/browser@0.1.5 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/ngx-scanner@19.0.0 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ajv-keywords@3.5.2 requires a peer of ajv@^6.9.1 but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/compiler@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/core@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @ericblade/quagga2@^1.7.7 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/forms@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/common@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/core@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-android-arm64@0.14.22 (node_modules\esbuild-android-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-android-arm64@0.14.22: wanted {"os":"android","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-64@0.14.22 (node_modules\esbuild-linux-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-64@0.14.22: wanted {"os":"linux","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-arm64@0.14.22 (node_modules\esbuild-freebsd-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-arm64@0.14.22: wanted {"os":"freebsd","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-64@0.14.22 (node_modules\esbuild-darwin-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-64@0.14.22: wanted {"os":"darwin","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm64@0.14.22 (node_modules\esbuild-linux-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm64@0.14.22: wanted {"os":"linux","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-32@0.14.22 (node_modules\esbuild-linux-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-32@0.14.22: wanted {"os":"linux","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-arm64@0.14.22 (node_modules\esbuild-darwin-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-arm64@0.14.22: wanted {"os":"darwin","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-64@0.14.22 (node_modules\esbuild-freebsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-64@0.14.22: wanted {"os":"freebsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-mips64le@0.14.22 (node_modules\esbuild-linux-mips64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-mips64le@0.14.22: wanted {"os":"linux","arch":"mips64el"} (current: {"os":"win32","arch":"x64"})     
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm@0.14.22 (node_modules\esbuild-linux-arm):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm@0.14.22: wanted {"os":"linux","arch":"arm"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-riscv64@0.14.22 (node_modules\esbuild-linux-riscv64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-riscv64@0.14.22: wanted {"os":"linux","arch":"riscv64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-s390x@0.14.22 (node_modules\esbuild-linux-s390x):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-s390x@0.14.22: wanted {"os":"linux","arch":"s390x"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-ppc64le@0.14.22 (node_modules\esbuild-linux-ppc64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-ppc64le@0.14.22: wanted {"os":"linux","arch":"ppc64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-netbsd-64@0.14.22 (node_modules\esbuild-netbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-netbsd-64@0.14.22: wanted {"os":"netbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-openbsd-64@0.14.22 (node_modules\esbuild-openbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-openbsd-64@0.14.22: wanted {"os":"openbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-sunos-64@0.14.22 (node_modules\esbuild-sunos-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-sunos-64@0.14.22: wanted {"os":"sunos","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-32@0.14.22 (node_modules\esbuild-windows-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-32@0.14.22: wanted {"os":"win32","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.3.3 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-arm64@0.14.22 (node_modules\esbuild-windows-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-arm64@0.14.22: wanted {"os":"win32","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: nice-napi@1.0.2 (node_modules\nice-napi):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for nice-napi@1.0.2: wanted {"os":"!win32","arch":"any"} (current: {"os":"win32","arch":"x64"})
+
+removed 1 package and audited 1314 packages in 4.99s
+
+140 packages are looking for funding
+  run `npm fund` for details
+
+found 25 vulnerabilities (1 low, 13 moderate, 11 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+PS D:\Elmer\gib\precotex_angular> ng serve
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                      | Names         |  Raw Size
+main.js                                  | main          |  18.48 MB | 
+vendor.js                                | vendor        |  17.07 MB | 
+styles.css, styles.js                    | styles        | 549.79 kB | 
+polyfills.js                             | polyfills     | 295.89 kB | 
+scripts.js                               | scripts       | 144.88 kB | 
+runtime.js                               | runtime       |  14.41 kB | 
+
+                                         | Initial Total |  36.53 MB
+
+Lazy Chunk Files                         | Names         |  Raw Size
+node_modules_canvg_lib_index_es_js.js    | canvg         | 434.80 kB | 
+node_modules_dompurify_dist_purify_js.js | dompurify     |  65.88 kB | 
+
+Build at: 2025-05-23T15:50:58.732Z - Hash: ee4f181f9ee749df - Time: 53068ms
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.index-of.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reduce.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reverse.js'. CommonJS or AMD dependencies can cause optimization bailouts. 
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.promise.js'. CommonJS or AMD dependencies can cause optimization bailouts.       
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.regexp.to-string.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.ends-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.includes.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.match.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.replace.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.split.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.starts-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.trim.js'. CommonJS or AMD dependencies can cause optimization bailouts.   
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/web.dom-collections.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'raf'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\src\app\app.module.ts depends on 'angular2-text-mask'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+./node_modules/@kolkov/angular-editor/fesm2015/kolkov-angular-editor.mjs - Error: Module build failed (from ./node_modules/@angular-devkit/build-angular/src/babel/webpack-loader.js):    
+TypeError: Cannot create property 'message' on string 'D:\Elmer\gib\precotex_angular\node_modules\@kolkov\angular-editor\fesm2015\kolkov-angular-editor.mjs: This application depends upon a library published using Angular version 14.0.1, which requires Angular version 14.0.0 or newer to work correctly.
+Consider upgrading your application to use a more recent version of Angular.
+  463 | }
+  464 | AeSelectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: AeSelectComponent, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }], target: i0.ɵɵFactoryTarget.Component });
+> 465 | AeSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "14.0.1", type: AeSelectComponent, selector: "ae-select", inputs: { options: "options", isHidden: ["hidden", "isHidden"] }, outputs: { changeEvent: "change" }, host: { listeners: { "document:click": "onClick($event)", "keydown": "handleKeyDown($event)" }, properties: { "style.display": "this.hidden" } }, providers: [
+      |                          ^
+  466 |         {
+  467 |             provide: NG_VALUE_ACCESSOR,
+  468 |             useExisting: forwardRef(() => AeSelectComponent),'
+    at run (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transformation\index.js:37:15)
+    at run.next (<anonymous>)
+    at Function.transform (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transform.js:25:41)
+    at transform.next (<anonymous>)
+    at step (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:261:32)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:223:11)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:37:40
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-button/ae-button.component.d.ts:9:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+9     static ɵcmp: i0.ɵɵComponentDeclaration<AeButtonComponent, "ae-button", never, { "iconClass": "iconClass"; "title": "title"; }, { "buttonClick": "buttonClick"; }, never, never, false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-select/ae-select.component.d.ts:45:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+45     static ɵcmp: i0.ɵɵComponentDeclaration<AeSelectComponent, "ae-select", never, { "options": "options"; "isHidden": "hidden"; }, { "changeEvent": "change"; }, never, never, false>; 
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-toolbar-set/ae-toolbar-set.component.d.ts:5:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).       
+
+5     static ɵcmp: i0.ɵɵComponentDeclaration<AeToolbarSetComponent, "ae-toolbar-set", never, {}, {}, never, ["*"], false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor-toolbar.component.d.ts:96:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+96     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorToolbarComponent, "angular-editor-toolbar", never, { "id": "id"; "uploadUrl": "uploadUrl"; "upload": "upload"; "showToolbar": "showToolbar"; "fonts": "fonts"; "customClasses": "customClasses"; "defaultFontName": "defaultFontName"; "defaultFontSize": "defaultFontSize"; "hiddenButtons": "hiddenButtons"; }, { "execute": "execute"; }, never, ["*"], false>;
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor.component.d.ts:132:18 - errorm TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+132     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorComponent, "angular-editor", never, { "id": "id"; "config": "config"; "placeholder": "placeholder"; "tabIndex": "tabIndex"; }, { "html": "html"; "viewMode": "viewMode"; "blurEvent": "blur"; "focusEvent": "focus"; }, ["customButtonsTemplateRef"], never, false>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+× Failed to compile.
+PS D:\Elmer\gib\precotex_angular> npm install pdfjs-dist@3.11.174 --legacy-peer-deps
+npm WARN deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm WARN deprecated npmlog@5.0.1: This package is no longer supported.
+npm WARN deprecated gauge@3.0.2: This package is no longer supported.
+npm WARN deprecated are-we-there-yet@2.0.0: This package is no longer supported.
+npm WARN notsup Unsupported engine for pdfjs-dist@3.11.174: wanted: {"node":">=18"} (current: {"node":"14.21.3","npm":"6.14.18"})
+npm WARN notsup Not compatible with your version of node/npm: pdfjs-dist@3.11.174
+npm WARN @csstools/selector-specificity@2.2.0 requires a peer of postcss-selector-parser@^6.0.10 but none is installed. You must install peer dependencies yourself.
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/core@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @kolkov/angular-editor@2.1.0 requires a peer of @angular/common@>=14 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/browser@0.1.5 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN @zxing/ngx-scanner@19.0.0 requires a peer of @zxing/library@^0.21.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ajv-keywords@3.5.2 requires a peer of ajv@^6.9.1 but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/compiler@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN codelyzer@6.0.2 requires a peer of @angular/core@>=2.3.1 <13.0.0 || ^12.0.0-next || ^12.1.0-next || ^12.2.0-next but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-barcode-scanner@14.0.1 requires a peer of @ericblade/quagga2@^1.7.7 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/core@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/forms@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-mask@14.3.3 requires a peer of @angular/common@>=14.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/common@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN ngx-scanner-qrcode@1.7.6 requires a peer of @angular/core@^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0 || ^22.0.0 || ^23.0.0 || ^24.0.0 but none is installed. You must install peer dependencies yourself.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-android-arm64@0.14.22 (node_modules\esbuild-android-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-android-arm64@0.14.22: wanted {"os":"android","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-64@0.14.22 (node_modules\esbuild-darwin-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-64@0.14.22: wanted {"os":"darwin","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-64@0.14.22 (node_modules\esbuild-freebsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-64@0.14.22: wanted {"os":"freebsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-32@0.14.22 (node_modules\esbuild-linux-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-32@0.14.22: wanted {"os":"linux","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-64@0.14.22 (node_modules\esbuild-linux-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-64@0.14.22: wanted {"os":"linux","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-freebsd-arm64@0.14.22 (node_modules\esbuild-freebsd-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-freebsd-arm64@0.14.22: wanted {"os":"freebsd","arch":"arm64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-darwin-arm64@0.14.22 (node_modules\esbuild-darwin-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-darwin-arm64@0.14.22: wanted {"os":"darwin","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm@0.14.22 (node_modules\esbuild-linux-arm):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm@0.14.22: wanted {"os":"linux","arch":"arm"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-riscv64@0.14.22 (node_modules\esbuild-linux-riscv64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-riscv64@0.14.22: wanted {"os":"linux","arch":"riscv64"} (current: {"os":"win32","arch":"x64"})       
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-arm64@0.14.22 (node_modules\esbuild-linux-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-arm64@0.14.22: wanted {"os":"linux","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-ppc64le@0.14.22 (node_modules\esbuild-linux-ppc64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-ppc64le@0.14.22: wanted {"os":"linux","arch":"ppc64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-mips64le@0.14.22 (node_modules\esbuild-linux-mips64le):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-mips64le@0.14.22: wanted {"os":"linux","arch":"mips64el"} (current: {"os":"win32","arch":"x64"})     
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-netbsd-64@0.14.22 (node_modules\esbuild-netbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-netbsd-64@0.14.22: wanted {"os":"netbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-linux-s390x@0.14.22 (node_modules\esbuild-linux-s390x):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-linux-s390x@0.14.22: wanted {"os":"linux","arch":"s390x"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-openbsd-64@0.14.22 (node_modules\esbuild-openbsd-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-openbsd-64@0.14.22: wanted {"os":"openbsd","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-32@0.14.22 (node_modules\esbuild-windows-32):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-32@0.14.22: wanted {"os":"win32","arch":"ia32"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-sunos-64@0.14.22 (node_modules\esbuild-sunos-64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-sunos-64@0.14.22: wanted {"os":"sunos","arch":"x64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.3.3 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.3.3: wanted {"os":"darwin","arch":"any"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: esbuild-windows-arm64@0.14.22 (node_modules\esbuild-windows-arm64):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for esbuild-windows-arm64@0.14.22: wanted {"os":"win32","arch":"arm64"} (current: {"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: nice-napi@1.0.2 (node_modules\nice-napi):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for nice-napi@1.0.2: wanted {"os":"!win32","arch":"any"} (current: {"os":"win32","arch":"x64"})
+
++ pdfjs-dist@3.11.174
+updated 1 package and audited 1314 packages in 8.311s
+
+138 packages are looking for funding
+  run `npm fund` for details
+
+found 25 vulnerabilities (1 low, 13 moderate, 11 high)
+  run `npm audit fix` to fix them, or `npm audit` for details
+PS D:\Elmer\gib\precotex_angular> npm run start
+
+> precotex@0.0.0 start D:\Elmer\gib\precotex_angular
+> ng serve --proxy-config proxy.config.json
+
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                      | Names         |  Raw Size
+main.js                                  | main          |  18.48 MB | 
+vendor.js                                | vendor        |  17.07 MB | 
+styles.css, styles.js                    | styles        | 549.79 kB | 
+polyfills.js                             | polyfills     | 295.89 kB | 
+scripts.js                               | scripts       | 144.88 kB | 
+runtime.js                               | runtime       |  14.41 kB | 
+
+                                         | Initial Total |  36.53 MB
+
+Lazy Chunk Files                         | Names         |  Raw Size
+node_modules_canvg_lib_index_es_js.js    | canvg         | 434.80 kB | 
+node_modules_dompurify_dist_purify_js.js | dompurify     |  65.88 kB | 
+
+Build at: 2025-05-23T15:52:18.283Z - Hash: ee4f181f9ee749df - Time: 42248ms
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.index-of.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reduce.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.array.reverse.js'. CommonJS or AMD dependencies can cause optimization bailouts. 
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.promise.js'. CommonJS or AMD dependencies can cause optimization bailouts.       
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.regexp.to-string.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.ends-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.includes.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.match.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.replace.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.split.js'. CommonJS or AMD dependencies can cause optimization bailouts.  
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.starts-with.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/es.string.trim.js'. CommonJS or AMD dependencies can cause optimization bailouts.   
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'core-js/modules/web.dom-collections.iterator.js'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\node_modules\canvg\lib\index.es.js depends on 'raf'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: D:\Elmer\gib\precotex_angular\src\app\app.module.ts depends on 'angular2-text-mask'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+
+
+./node_modules/@kolkov/angular-editor/fesm2015/kolkov-angular-editor.mjs - Error: Module build failed (from ./node_modules/@angular-devkit/build-angular/src/babel/webpack-loader.js):    
+TypeError: Cannot create property 'message' on string 'D:\Elmer\gib\precotex_angular\node_modules\@kolkov\angular-editor\fesm2015\kolkov-angular-editor.mjs: This application depends upon a library published using Angular version 14.0.1, which requires Angular version 14.0.0 or newer to work correctly.
+Consider upgrading your application to use a more recent version of Angular.
+  463 | }
+  464 | AeSelectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: AeSelectComponent, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }], target: i0.ɵɵFactoryTarget.Component });
+> 465 | AeSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "14.0.1", type: AeSelectComponent, selector: "ae-select", inputs: { options: "options", isHidden: ["hidden", "isHidden"] }, outputs: { changeEvent: "change" }, host: { listeners: { "document:click": "onClick($event)", "keydown": "handleKeyDown($event)" }, properties: { "style.display": "this.hidden" } }, providers: [
+      |                          ^
+  466 |         {
+  467 |             provide: NG_VALUE_ACCESSOR,
+  468 |             useExisting: forwardRef(() => AeSelectComponent),'
+    at run (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transformation\index.js:37:15)
+    at run.next (<anonymous>)
+    at Function.transform (D:\Elmer\gib\precotex_angular\node_modules\@babel\core\lib\transform.js:25:41)
+    at transform.next (<anonymous>)
+    at step (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:261:32)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:273:13
+    at async.call.result.err.err (D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:223:11)
+    at D:\Elmer\gib\precotex_angular\node_modules\gensync\index.js:37:40
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-button/ae-button.component.d.ts:9:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+9     static ɵcmp: i0.ɵɵComponentDeclaration<AeButtonComponent, "ae-button", never, { "iconClass": "iconClass"; "title": "title"; }, { "buttonClick": "buttonClick"; }, never, never, false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-select/ae-select.component.d.ts:45:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+45     static ɵcmp: i0.ɵɵComponentDeclaration<AeSelectComponent, "ae-select", never, { "options": "options"; "isHidden": "hidden"; }, { "changeEvent": "change"; }, never, never, false>; 
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+
+
+Error: node_modules/@kolkov/angular-editor/lib/ae-toolbar-set/ae-toolbar-set.component.d.ts:5:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).       
+
+5     static ɵcmp: i0.ɵɵComponentDeclaration<AeToolbarSetComponent, "ae-toolbar-set", never, {}, {}, never, ["*"], false>;
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor-toolbar.component.d.ts:96:18 - error TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+96     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorToolbarComponent, "angular-editor-toolbar", never, { "id": "id"; "uploadUrl": "uploadUrl"; "upload": "upload"; "showToolbar": "showToolbar"; "fonts": "fonts"; "customClasses": "customClasses"; "defaultFontName": "defaultFontName"; "defaultFontSize": "defaultFontSize"; "hiddenButtons": "hiddenButtons"; }, { "execute": "execute"; }, never, ["*"], false>;
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: node_modules/@kolkov/angular-editor/lib/angular-editor.component.d.ts:132:18 - errorm TS2314: Generic type 'ɵɵComponentDeclaration' requires 7 type argument(s).
+
+132     static ɵcmp: i0.ɵɵComponentDeclaration<AngularEditorComponent, "angular-editor", never, { "id": "id"; "config": "config"; "placeholder": "placeholder"; "tabIndex": "tabIndex"; }, { "html": "html"; "viewMode": "viewMode"; "blurEvent": "blur"; "focusEvent": "focus"; }, ["customButtonsTemplateRef"], never, false>;
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+× Failed to compile.

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Services\Almacen\dsogainm.mmy~" />
+    <None Remove="Services\Almacen\kfiijrh1.ele~" />
+    <None Remove="Services\Tintoreria\st1qk3x1.hoz~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.67.2" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.4" />
+    <PackageReference Include="ZXing.Net" Version="0.16.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ic.backend.precotex.web.Data\ic.backend.precotex.web.Data.csproj" />
+    <ProjectReference Include="..\ic.backend.precotex.web.Entity\ic.backend.precotex.web.Entity.csproj" />
+  </ItemGroup>
+
+</Project>
