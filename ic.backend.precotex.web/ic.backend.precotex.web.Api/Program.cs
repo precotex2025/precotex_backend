@@ -51,7 +51,11 @@ using ic.backend.precotex.web.Service.Services.QuejasReclamos;
 using ic.backend.precotex.web.Service.Services.RegistroPartidaParihuela;
 using ic.backend.precotex.web.Service.Services.Tejeduria;
 using ic.backend.precotex.web.Service.Services.Tintoreria;
+using ic.backend.precotex.web.Service.Services.RetiroRepuestos;
 using Microsoft.AspNetCore.Http.Features;
+using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
+using ic.backend.precotex.web.Data.Repositories.Implementation.RetiroRepuestos;
+using ic.backend.precotex.web.Data.Repositories.RetiroRepuestos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,6 +115,7 @@ builder.Services.AddScoped<ITxUbicacionColgadorService, TxUbicacionColgadorServi
 builder.Services.AddScoped<ICalificacionRollosFinalService, SCalificacionRolloFinal>();
 builder.Services.AddScoped<IPartidaQRService, PartidaQRService>();
 builder.Services.AddScoped<ITxProcesoMemorandumService, TxProcesoMemorandumService>();
+builder.Services.AddScoped<ITxRetiroRepuestosService, TxRetiroRepuestosService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -134,7 +139,7 @@ builder.Services.AddScoped<ITxProcesoColgadorRegistroRepository, TxProcesoColgad
 builder.Services.AddScoped<ITxUbicacionColgadorRepository, TxUbicacionColgadorRepository>();
 builder.Services.AddScoped<IPartidaQRRepository, PartidaQRRepository>();
 builder.Services.AddScoped<ITxProcesoMemorandumRepository, TxProcesoMemorandumRepository>();
-
+builder.Services.AddScoped<ITxRetiroRepuestosRepository, TxRetiroRepuestosRepository>();
 
 #endregion
 
