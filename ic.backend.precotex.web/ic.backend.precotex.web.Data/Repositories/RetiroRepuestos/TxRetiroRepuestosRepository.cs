@@ -65,7 +65,6 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
         }
 
         //INSERTAR DATOS CABECERA
-
         public async Task<(int Codigo, string Mensaje)> RegistrarRequerimiento(Tx_Retiro_Repuestos tx_Retiro_Repuestos)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -84,9 +83,9 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
-
                 try
                 {
+                    //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
                         "[dbo].[PA_Lg_RequerimientoAlmacen_WB_I0001]"
                         , parametros
@@ -104,6 +103,85 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
             }
         }
 
+        //ACTUALIZA DATOS CABECERA
+        public async Task<(int Codigo, string Mensaje)> ActualizarRequerimiento(Tx_Retiro_Repuestos tx_Retiro_Repuestos)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos.Num_Requerimiento);
+                parametros.Add("@Nom_Seguridad", tx_Retiro_Repuestos.Cod_Seguridad);
+                parametros.Add("@Nom_Mantenimiento", tx_Retiro_Repuestos.Cod_Mantenimiento);
+                parametros.Add("@Nro_Precinto_Apertura", tx_Retiro_Repuestos.Nro_Precinto_Apertura);    
+                parametros.Add("@Codigo", 0);    
+                parametros.Add("@sMsj", "");    
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacen_WB_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+                    ;
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ACTUALIZA DATOS CABECERA -> ACTUALIZA PRECINTO CIERRE
+        public async Task<(int Codigo, string Mensaje)> ActualizarRequerimientoPrecintoCierre(Tx_Retiro_Repuestos tx_Retiro_Repuestos)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos.Num_Requerimiento);
+                parametros.Add("@Nro_Precinto_Cierre", tx_Retiro_Repuestos.Nro_Precinto_Cierre);
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacen_WB_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+                    ;
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
 
         /************************************************************************/
 
@@ -131,6 +209,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
             }
         }
 
+        //OBTENER DATOS DEL DETALLE DE UN RETIRO
         public async Task<IEnumerable<Tx_Retiro_Repuestos_Detalle>?> ListaRetiroDetallePorNumReqySecuencia(int Num_Requerimiento, int Nro_Secuencia)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -150,6 +229,90 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 return result;
             };
         }
+
+        //REGISTRAR DETALLE A UN RETIRO
+        public async Task<(int Codigo, string Mensaje)> RegistrarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                //PARAMETROS DE ENTRADA
+                parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos_Detalle.Num_Requerimiento);
+                parametros.Add("@Itm_Codigo", tx_Retiro_Repuestos_Detalle.Itm_Codigo);
+                parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
+                parametros.Add("@Itm_Cantidad", tx_Retiro_Repuestos_Detalle.Itm_Cantidad);
+                parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
+                parametros.Add("@Rpt_Cambio", Convert.ToInt32(tx_Retiro_Repuestos_Detalle.Rpt_Cambio));
+                parametros.Add("@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
+
+                //PARAMETROS DE SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacenDetalle_WB_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                        );
+                }
+                catch (Exception ex)
+                {
+
+                }
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ACTUALIZAR DETALLE DE UN RETIRO
+
+        public async Task<(int Codigo, string Mensaje)> ActualizarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                
+                //PARAMETROS DE ENTRADA
+                parametros.Add("@Num_Requerimiento",tx_Retiro_Repuestos_Detalle.Num_Requerimiento);
+                parametros.Add("@Nro_Secuencia", tx_Retiro_Repuestos_Detalle.Nro_Secuencia);
+                parametros.Add("@Itm_Codigo", tx_Retiro_Repuestos_Detalle.Itm_Codigo);
+                parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
+                parametros.Add("@Itm_Cantidad", tx_Retiro_Repuestos_Detalle.Itm_Cantidad);
+                parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
+                parametros.Add("@Rpt_Cambio", tx_Retiro_Repuestos_Detalle.Rpt_Cambio);
+                parametros.Add("@@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
+
+                //PARAMETROS DE SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacenDetalle_WB_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                        );
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
 
         /************************************************************************/
 

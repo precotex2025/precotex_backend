@@ -3,8 +3,10 @@ using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
+using Microsoft.Graph.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,10 +90,61 @@ namespace ic.backend.precotex.web.Service.Services.RetiroRepuestos
             catch(Exception ex)
             {
                 result.Success = false;
-                result.Message = "Error inesperado" + ex.Message;
+                result.Message = "Error inesperado " + ex.Message;
                 return result;
             }
         }
+
+        public async Task<ServiceResponse<int>> ActualizarRequerimiento(Tx_Retiro_Repuestos tx_Retiro_Repuestos)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ActualizarRequerimiento(tx_Retiro_Repuestos);
+                if(resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarRequerimientoPrecintoCierre(Tx_Retiro_Repuestos tx_Retiro_Repuestos)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ActualizarRequerimientoPrecintoCierre(tx_Retiro_Repuestos);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
 
 
         public async Task<ServiceResponseList<Tx_Retiro_Repuestos_Detalle>?> ListaRetiroDetallePorNumRequerimiento(int Num_Requerimiento)
@@ -142,6 +195,55 @@ namespace ic.backend.precotex.web.Service.Services.RetiroRepuestos
             }
         }
 
+        public async Task<ServiceResponse<int>> RegistrarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.RegistrarRequerimientoDetalle(tx_Retiro_Repuestos_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado" + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ActualizarRequerimientoDetalle(tx_Retiro_Repuestos_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
 
 
     }
