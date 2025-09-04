@@ -195,6 +195,31 @@ namespace ic.backend.precotex.web.Service.Services.RetiroRepuestos
             }
         }
 
+        public async Task<ServiceResponseList<Lg_Item>?> ListaItems()
+        {
+            var result = new ServiceResponseList<Lg_Item>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ListaItems();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }       
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion no controlada " + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponse<int>> RegistrarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
         {
             var result = new ServiceResponse<int>();

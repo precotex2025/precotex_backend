@@ -213,5 +213,28 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        /******************************************COMPLEMENTARIOS************************************************************/
+
+        //OBTIENE LOS DATOS DE UN ITEM
+        [HttpGet]
+        [Route("getListaItems")]
+        public async Task<IActionResult> getListaItems()
+        {
+            var result = await _txRetiroRepuestosService.ListaItems();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        //OBTIENE USUARIO Y CODIGO
+
+
+
     }
 }

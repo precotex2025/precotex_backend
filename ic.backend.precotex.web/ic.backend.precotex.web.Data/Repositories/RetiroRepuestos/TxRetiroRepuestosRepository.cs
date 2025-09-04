@@ -286,7 +286,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
                 parametros.Add("@Itm_Cantidad", tx_Retiro_Repuestos_Detalle.Itm_Cantidad);
                 parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
-                parametros.Add("@Rpt_Cambio", tx_Retiro_Repuestos_Detalle.Rpt_Cambio);
+                parametros.Add("@Rpt_Cambio", Convert.ToInt32(tx_Retiro_Repuestos_Detalle.Rpt_Cambio));
                 parametros.Add("@@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
 
                 //PARAMETROS DE SALIDA
@@ -315,6 +315,24 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
 
 
         /************************************************************************/
+
+
+
+        /********************************COMPLEMENTARIOS****************************************/
+        //OBTENER DATOS DE ITEM       
+        public async Task<IEnumerable<Lg_Item>?> ListaItems()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lg_Item>(
+                    "[dbo].[PA_Lg_Item_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
 
     }
 }
