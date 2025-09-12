@@ -11,6 +11,8 @@ namespace ic.backend.precotex.web.Entity.Entities
         public string Cod_Item {  get; set; }
         public string Des_Item { get; set; }
         public string Cod_UniMed { get; set; }
-
+        public double Can_Requerida { get; set; }
+        public string Rpt_Cambio { get; set; }
+        public string Itm_Foto { get; set; }
     }
 }

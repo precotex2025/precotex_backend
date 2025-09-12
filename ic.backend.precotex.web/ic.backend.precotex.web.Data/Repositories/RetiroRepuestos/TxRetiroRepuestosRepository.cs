@@ -73,9 +73,9 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 var parametros = new DynamicParameters();
                 //PARAMETROS ENTRADA
                 parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos.Num_Requerimiento);
-                parametros.Add("@Fec_Requerimiento", tx_Retiro_Repuestos.Fec_Requerimiento);
-                parametros.Add("@Nom_Seguridad", tx_Retiro_Repuestos.Cod_Seguridad);
-                parametros.Add("@Nom_Mantenimiento", tx_Retiro_Repuestos.Cod_Mantenimiento);
+                //parametros.Add("@Fec_Requerimiento", tx_Retiro_Repuestos.Fec_Requerimiento);
+                parametros.Add("@Cod_Seguridad", tx_Retiro_Repuestos.Cod_Seguridad);
+                parametros.Add("@Cod_Mantenimiento", tx_Retiro_Repuestos.Cod_Mantenimiento);
                 parametros.Add("@Nro_Precinto_Apertura", tx_Retiro_Repuestos.Nro_Precinto_Apertura);
                 parametros.Add("@Nro_Precinto_Cierre", "");
 
@@ -114,8 +114,8 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
 
                 //PARAMETROS ENTRADA
                 parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos.Num_Requerimiento);
-                parametros.Add("@Nom_Seguridad", tx_Retiro_Repuestos.Cod_Seguridad);
-                parametros.Add("@Nom_Mantenimiento", tx_Retiro_Repuestos.Cod_Mantenimiento);
+                parametros.Add("@Cod_Seguridad", tx_Retiro_Repuestos.Cod_Seguridad);
+                parametros.Add("@Cod_Mantenimiento", tx_Retiro_Repuestos.Cod_Mantenimiento);
                 parametros.Add("@Nro_Precinto_Apertura", tx_Retiro_Repuestos.Nro_Precinto_Apertura);    
                 parametros.Add("@Codigo", 0);    
                 parametros.Add("@sMsj", "");    
@@ -229,22 +229,60 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 return result;
             };
         }
-
+        
         //REGISTRAR DETALLE A UN RETIRO
-        public async Task<(int Codigo, string Mensaje)> RegistrarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        //public async Task<(int Codigo, string Mensaje)> RegistrarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        //{
+
+        //    using (var connection = new SqlConnection(_connectionString))
+        //    {
+        //        await connection.OpenAsync();
+        //        var parametros = new DynamicParameters();
+        //        //PARAMETROS DE ENTRADA
+        //        parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos_Detalle.Num_Requerimiento);
+        //        parametros.Add("@Cod_Item", tx_Retiro_Repuestos_Detalle.Cod_Item);
+        //        //parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
+        //        parametros.Add("@Can_Requerida", tx_Retiro_Repuestos_Detalle.Can_Requerida);
+        //        //parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
+        //        parametros.Add("@Rpt_Cambio", Convert.ToInt32(tx_Retiro_Repuestos_Detalle.Rpt_Cambio));
+        //        parametros.Add("@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
+
+        //        //PARAMETROS DE SALIDA
+        //        parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        //        parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+        //        try
+        //        {
+        //            //EJECUTAR EL STORED PROCEDURE
+        //            connection.Execute(
+        //                "[dbo].[PA_Lg_RequerimientoAlmacenDetalle_WB_I0001]"
+        //                , parametros
+        //                , commandType: CommandType.StoredProcedure
+        //                );
+        //        }
+        //        catch (Exception ex)
+        //        {
+
+        //        }
+        //        var Codigo = parametros.Get<int>("@Codigo");
+        //        var mensaje = parametros.Get<string>("@sMsj");
+        //        return (Codigo, mensaje);
+        //    }
+        //}
+
+        public async Task<(int Codigo, string Mensaje)> RegistrarRequerimientoDetalle(string nNum_Requerimiento, string sCod_Item, string nCan_Requerida, string sRpt_Cambio, string nombreArchivo)
         {
+
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var parametros = new DynamicParameters();
                 //PARAMETROS DE ENTRADA
-                parametros.Add("@Num_Requerimiento", tx_Retiro_Repuestos_Detalle.Num_Requerimiento);
-                parametros.Add("@Itm_Codigo", tx_Retiro_Repuestos_Detalle.Itm_Codigo);
-                parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
-                parametros.Add("@Itm_Cantidad", tx_Retiro_Repuestos_Detalle.Itm_Cantidad);
-                parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
-                parametros.Add("@Rpt_Cambio", Convert.ToInt32(tx_Retiro_Repuestos_Detalle.Rpt_Cambio));
-                parametros.Add("@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
+                parametros.Add("@Num_Requerimiento", nNum_Requerimiento);
+                parametros.Add("@Cod_Item", sCod_Item);
+                parametros.Add("@Can_Requerida", nCan_Requerida);
+                parametros.Add("@Rpt_Cambio", Convert.ToInt32(sRpt_Cambio));
+                parametros.Add("@Itm_Foto", nombreArchivo);
 
                 //PARAMETROS DE SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -271,7 +309,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
 
         //ACTUALIZAR DETALLE DE UN RETIRO
 
-        public async Task<(int Codigo, string Mensaje)> ActualizarRequerimientoDetalle(Tx_Retiro_Repuestos_Detalle tx_Retiro_Repuestos_Detalle)
+        public async Task<(int Codigo, string Mensaje)> ActualizarRequerimientoDetalle(string nNum_Requerimiento, string nNum_Secuencia ,string nCan_Requerida, string sRpt_Cambio, string sNombreArchivo)
         {
             using(var connection = new SqlConnection(_connectionString))
             {
@@ -280,14 +318,14 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 var parametros = new DynamicParameters();
                 
                 //PARAMETROS DE ENTRADA
-                parametros.Add("@Num_Requerimiento",tx_Retiro_Repuestos_Detalle.Num_Requerimiento);
-                parametros.Add("@Nro_Secuencia", tx_Retiro_Repuestos_Detalle.Nro_Secuencia);
-                parametros.Add("@Itm_Codigo", tx_Retiro_Repuestos_Detalle.Itm_Codigo);
-                parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
-                parametros.Add("@Itm_Cantidad", tx_Retiro_Repuestos_Detalle.Itm_Cantidad);
-                parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
-                parametros.Add("@Rpt_Cambio", Convert.ToInt32(tx_Retiro_Repuestos_Detalle.Rpt_Cambio));
-                parametros.Add("@@Itm_Foto", tx_Retiro_Repuestos_Detalle.Itm_Foto);
+                parametros.Add("@Num_Requerimiento", nNum_Requerimiento);
+                parametros.Add("@Nro_Secuencia", nNum_Secuencia);
+                //parametros.Add("@Cod_Item", tx_Retiro_Repuestos_Detalle.Cod_Item);
+                //parametros.Add("@Itm_Descripcion", tx_Retiro_Repuestos_Detalle.Itm_Descripcion);
+                parametros.Add("@Can_Requerida", nCan_Requerida);
+                //parametros.Add("@Itm_Unidad_Medida", tx_Retiro_Repuestos_Detalle.Itm_Unidad_Medida);
+                parametros.Add("@Rpt_Cambio", Convert.ToInt32(sRpt_Cambio));
+                parametros.Add("@Itm_Foto", sNombreArchivo);
 
                 //PARAMETROS DE SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -320,19 +358,139 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
 
         /********************************COMPLEMENTARIOS****************************************/
         //OBTENER DATOS DE ITEM       
-        public async Task<IEnumerable<Lg_Item>?> ListaItems()
+        public async Task<IEnumerable<Lg_Item>?> ListaItems(string Cod_Item)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Item", Cod_Item);
 
                 var result = await connection.QueryAsync<Lg_Item>(
                     "[dbo].[PA_Lg_Item_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+        
+        public async Task<IEnumerable<Lg_Item>?> ListaItemsCompletos()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+               
+                var result = await connection.QueryAsync<Lg_Item>(
+                    "[dbo].[PA_Lg_Item_S0002]"
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
             }
         }
 
+        public async Task<IEnumerable<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuario(int Id_Usuario)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Id_Usuario", Id_Usuario);
+
+                var result = await connection.QueryAsync<Lg_Retiro_Repuesto_Usuario>(
+                    "[dbo].[PA_Lg_Retiro_Repuesto_Usuario_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuarioPorTipo (int Tip_Usuario)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Tip_Usuario", Tip_Usuario);
+
+                var result = await connection.QueryAsync<Lg_Retiro_Repuesto_Usuario>(
+                    "[dbo].[PA_Lg_Retiro_Repuesto_Usuario_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuarioSeguridadNombres()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Tip_Usuario", 1);
+                var result = await connection.QueryAsync<Lg_Retiro_Repuesto_Usuario>(
+                    "[dbo].[PA_Lg_Retiro_Repuesto_Usuario_S0003]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuarioMantenimientoNombres()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Tip_Usuario", 2);
+                var result = await connection.QueryAsync<Lg_Retiro_Repuesto_Usuario>(
+                    "[dbo].[PA_Lg_Retiro_Repuesto_Usuario_S0003]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lg_Item>?> ListaDatosItemsPorNumReqySecuencia(int Num_Requerimiento, int Nro_Secuencia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Num_Requerimiento", Num_Requerimiento);
+                parametros.Add("@Nro_Secuencia", Nro_Secuencia);
+                var result = await connection.QueryAsync<Lg_Item>(
+                    "[dbo].[PA_Lg_Item_S0003]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_Retiro_Repuestos_Reporte>?> ListaDatosReporte(DateTime FecIni, DateTime FecFin)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Fec_Ini", FecIni);
+                parametros.Add("@Fec_Fin", FecFin);
+
+                var result = await connection.QueryAsync<Tx_Retiro_Repuestos_Reporte>(
+                    "[dbo].[PA_Lg_RequerimientoAlmacen_WB_S0003]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
     }
 }
