@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamos;
@@ -73,9 +74,9 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             }
         }
 
-        public async Task<ServiceResponseList<UnidadNegocioDto>?> ObtenerMotivo()
+        public async Task<ServiceResponseList<MotivoDto>?> ObtenerMotivo()
         {
-            var result = new ServiceResponseList<UnidadNegocioDto>();
+            var result = new ServiceResponseList<MotivoDto>();
             try
             {
                 var resultData = await _txtIQuejasReclamos.ObtenerMotivo();
@@ -304,6 +305,308 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             try
             {
                 var resultData = await _txtIQuejasReclamos.ListaUnidadNegocio();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<AreasDto>?> ListaAreasCalidad()
+        {
+            var result = new ServiceResponseList<AreasDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ListaAreasCalidad();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> AvanzaEstadoReclamo(int iId)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.AvanzaEstadoReclamo(iId);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ProcesoConfirmarReclamo(string sNroCaso, string sNombreArchivoCalidad, string sObservacionCalidad, string sCodAreaResponsableCalidad, string sCod_Usuario)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ProcesoConfirmarReclamo(sNroCaso, sNombreArchivoCalidad, sObservacionCalidad, sCodAreaResponsableCalidad, sCod_Usuario);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ReclamoTipoConsecuenciaDto>?> ListaTipoConsecuencia()
+        {
+            var result = new ServiceResponseList<ReclamoTipoConsecuenciaDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ListaTipoConsecuencia();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ReclamoSubTipoDevolucion>?> ListaSubTipoDevolucion(string sCod_Tipo_Consecuencia)
+        {
+            var result = new ServiceResponseList<ReclamoSubTipoDevolucion>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ListaSubTipoDevolucion(sCod_Tipo_Consecuencia);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sObservacion_Comercial_Cierre, string sCod_Usuario)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ProcesoCerrarReclamo(sNroCaso, sCod_Tipo_Consecuencia, sCod_SubTipo_Devolucion, sFlg_NotaCredito, sObservacion_Comercial_Cierre, sCod_Usuario);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ReclamoUsuarioAreaDto>?> ObtieneUsuarioArea(string Cod_Trabajador)
+        {
+            var result = new ServiceResponseList<ReclamoUsuarioAreaDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtieneUsuarioArea(Cod_Trabajador);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<InformeCalidadDto>?> ObtieneDetalleInformeCalidad(int Id)
+        {
+            var result = new ServiceResponseList<InformeCalidadDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtieneDetalleInformeCalidad(Id);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<InformeComercialDto>?> ObtieneDetalleInformeComercial(int Id)
+        {
+            var result = new ServiceResponseList<InformeComercialDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtieneDetalleInformeComercial(Id);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ReclamoClienteEstadoDto>?> ListaEstados()
+        {
+            var result = new ServiceResponseList<ReclamoClienteEstadoDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ListaEstados();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ReclamoExportarDto>?> ExportarReclamo(FiltroReclamoDto filtro)
+        {
+            var result = new ServiceResponseList<ReclamoExportarDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ExportarReclamo(filtro);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

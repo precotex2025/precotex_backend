@@ -8,6 +8,7 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
 {
     public  class FiltroReclamoDto
     {
+        public int Id { get; set; }
         public string? NroCaso { get; set; }
         public string? Cliente { get; set; }
         public string? TipoRegistro { get; set; }
@@ -19,5 +20,8 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
         public DateTime? FechaRegistro { get; set; }
         public string? Observacion { get; set; }
         public string? UsuarioRegistro { get; set; }
+        public string? Cod_Estado { get; set; }
+
+        public string? cod_Ordtra { get; set; }
     }
 }

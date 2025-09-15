@@ -8,6 +8,10 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Linq;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
+using ic.backend.precotex.web.Api.Parameters;
+using System;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
 {
@@ -124,7 +128,14 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
                         Responsable = form[$"reclamos[{index}][responsable]"],
                         MotivoRegistro = form[$"reclamos[{index}][motivoRegistro]"],
                         EstadoSolicitud = form[$"reclamos[{index}][estadoSolicitud]"],
-                        Observacion = form[$"reclamos[{index}][observacion]"]
+                        Observacion = form[$"reclamos[{index}][observacion]"],
+                        //CAMPOS NUEVOS
+                        Cod_Cliente_Tex = form[$"reclamos[{index}][cod_Cliente_Tex]"],
+                        Cod_Ordtra = form[$"reclamos[{index}][cod_Ordtra]"],
+                        Cod_Tela = form[$"reclamos[{index}][Cod_Tela]"],
+                        Cod_Color = form[$"reclamos[{index}][cod_Color]"],
+                        Id_Unidad_NegocioKey = Convert.ToInt32(form[$"reclamos[{index}][cod_Unidad_Negocio]"]),
+                        Cod_Motivo = form[$"reclamos[{index}][cod_Motivo]"]
                     };
 
                     string rutaBase = @"D:\archivosReclamos"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
@@ -302,5 +313,241 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getListaAreasCalidad")]
+        public async Task<IActionResult> getListaAreasCalidad()
+        {
+            var result = await _IClientes.ListaAreasCalidad();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+        [HttpPost]
+        [Route("postAvanzaEstadoReclamo")]
+        public async Task<IActionResult> postAvanzaEstadoReclamo([FromBody] int iId)
+        {
+
+            var result = await _IClientes.AvanzaEstadoReclamo(iId);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postProcesoConfirmarReclamo")]
+        [ApiExplorerSettings(IgnoreApi = true)] // 👈 oculta de Swagger
+        //public async Task<IActionResult> postProcesoConfirmarReclamo([FromForm] ProcesoConfirmarReclamo parameters, [FromForm][Required] IFormFile archivoCalidad)
+        public async Task<IActionResult> postProcesoConfirmarReclamo()
+        {
+            //CAPTURAMOS LA TRAZA
+            var form = Request.Form;
+            var sNrCaso = form["sNroCaso"];
+            var sNombreArchivoCalidad = form["sNombreArchivoCalidad"];
+            var sObservacionCalidad = form["sObservacionCalidad"];
+            var sCodAreaResponsableCalidad = form["sCodAreaResponsableCalidad"];
+            var sCod_Usuario = form["sCod_Usuario"];
+        
+            //SI TIENE PROCESO POR CONFIRMAR 
+            string nombreArchivo = string.Empty;
+            string rutaBase = @"D:\archivosReclamos"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
+
+            var claveArchivo = $"form['archivoCalidad']";
+            var archivo = form.Files.FirstOrDefault();
+
+            if (archivo != null && archivo.Length > 0)
+                {
+
+                nombreArchivo = $"{Guid.NewGuid()}_{archivo.FileName}";
+                var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
+
+                // Eliminar si ya existe (raro con GUID, pero por si acaso)
+                if (System.IO.File.Exists(rutaArchivo))
+                {
+                    System.IO.File.Delete(rutaArchivo);
+                }
+
+                using (var stream = new FileStream(rutaArchivo, FileMode.Create))
+                {
+                    await archivo.CopyToAsync(stream);
+                }
+            }
+
+            var result = await _IClientes.ProcesoConfirmarReclamo(sNrCaso!, nombreArchivo, sObservacionCalidad!, sCodAreaResponsableCalidad!, sCod_Usuario!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaTipoConsecuencia")]
+        public async Task<IActionResult> getListaTipoConsecuencia()
+        {
+            var result = await _IClientes.ListaTipoConsecuencia();
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getListaSubTipoDevolucion")]
+        public async Task<IActionResult> getListaSubTipoDevolucion([FromQuery] string sCod_Tipo_Consecuencia)
+        {
+            if (string.IsNullOrWhiteSpace(sCod_Tipo_Consecuencia))
+            {
+                return BadRequest("Debe proporcionar, tipo de consecuencia");
+            }
+
+            var result = await _IClientes.ListaSubTipoDevolucion(sCod_Tipo_Consecuencia);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postProcesoCerrarReclamo")]
+        public async Task<IActionResult> postProcesoCerrarReclamo([FromBody] ProcesoCerrarReclamoParameter parameter)
+        {
+
+            var result = await _IClientes.ProcesoCerrarReclamo(parameter.NroCaso, parameter.Cod_Tipo_Consecuencia, parameter.Cod_SubTipo_Devolucion, parameter.Flg_NotaCredito, parameter.Observacion_Comercial_Cierre, parameter.Cod_Usuario);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+        [HttpGet("getObtieneUsuarioArea")]
+        public async Task<IActionResult> getObtieneUsuarioArea([FromQuery] string? Cod_Trabajador)
+        {
+            if (string.IsNullOrWhiteSpace(Cod_Trabajador))
+            {
+                return BadRequest("Debe proporcionar, codigo de trabajador");
+            }
+
+            var result = await _IClientes.ObtieneUsuarioArea(Cod_Trabajador);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getObtieneDetalleInformeCalidad")]
+        public async Task<IActionResult> getObtieneDetalleInformeCalidad([FromQuery] int Id)
+        {
+            var result = await _IClientes.ObtieneDetalleInformeCalidad(Id);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+        [HttpGet("getObtieneDetalleInformeComercial")]
+        public async Task<IActionResult> getObtieneDetalleInformeComercial([FromQuery] int Id)
+        {
+            var result = await _IClientes.ObtieneDetalleInformeComercial(Id);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getDescargar")]
+        public IActionResult DescargarArchivo([FromQuery] string fileName)
+        {
+            try
+            {
+                // Ruta completa
+                var path = Path.Combine(@"D:\archivosReclamos", fileName);
+
+                if (!System.IO.File.Exists(path))
+                    return NotFound("El archivo no existe.");
+
+                // Detectar tipo MIME automáticamente
+                var mimeType = "application/octet-stream";
+                var content = System.IO.File.ReadAllBytes(path);
+
+                return File(content, mimeType, fileName);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al descargar archivo: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("getListaEstados")]
+        public async Task<IActionResult> getListaEstados()
+        {
+            var result = await _IClientes.ListaEstados();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost("getExportarReclamo")]
+        public async Task<IActionResult> getExportarReclamo([FromBody] FiltroReclamoDto filtro)
+        {
+            var result = await _IClientes.ExportarReclamo(filtro);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
     }
 }

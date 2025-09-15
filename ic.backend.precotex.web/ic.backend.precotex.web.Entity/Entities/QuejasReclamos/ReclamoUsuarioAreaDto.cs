@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
 {
-    public class UnidadNegocioDto
+    public class ReclamoUsuarioAreaDto
     {
-        public string Cod_Unidad_Negocio { get; set; } = string.Empty;
-
-        public string Des_Unidad_Negocio { get; set; } = string.Empty;
+            public string? Cod_Trabajador { get; set; }
+        public string? Cod_Area { get; set; }
     }
 }

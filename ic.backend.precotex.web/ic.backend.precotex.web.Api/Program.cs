@@ -68,14 +68,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
       /*DESARROLLO*/
-      
+      /*
       policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
             .AllowAnyHeader()                     // Permitir cualquier encabezado
             .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-      
+      */
      
         /*PRODUCCION*/
-        /*
+        
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36", 
@@ -83,7 +83,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
-        */        
+             
     }); 
 });
 
