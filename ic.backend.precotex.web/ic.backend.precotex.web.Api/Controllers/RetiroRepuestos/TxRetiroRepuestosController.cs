@@ -3,6 +3,7 @@ using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,12 +13,13 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
     [ApiController]
     public class TxRetiroRepuestosController : ControllerBase
     {
-
+        private readonly HttpClient _httpClient;
         public readonly ITxRetiroRepuestosService _txRetiroRepuestosService;
 
-        public TxRetiroRepuestosController (ITxRetiroRepuestosService txRetiroRepuestosService)
+        public TxRetiroRepuestosController (ITxRetiroRepuestosService txRetiroRepuestosService, HttpClient httpClient)
         {
             _txRetiroRepuestosService = txRetiroRepuestosService;
+            _httpClient = httpClient;
         }
 
         /******************************************CABECERA************************************************************/
@@ -372,7 +374,7 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
 
                 nombreArchivo = $"{Guid.NewGuid()}_{archivo.FileName}";
                 var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
-
+                //.Replace(" ", "%20")
                 // Eliminar si ya existe (raro con GUID, pero por si acaso)
                 if (System.IO.File.Exists(rutaArchivo))
                 {
@@ -383,20 +385,20 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
                 {
                     await archivo.CopyToAsync(stream);
                 }
-            }        
+            }
 
 
-        //var result = await _txRetiroRepuestosService.RegistrarRequerimientoDetalle(nNum_Requerimiento, sCod_Item, nCan_Requerida, sRpt_Cambio, sNombreArchivo);
-        //    if (result.Success)
-        //    {
-        //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
-        //        return Ok(result);
-        //    }
+            //var result = await _txRetiroRepuestosService.RegistrarRequerimientoDetalle(nNum_Requerimiento, sCod_Item, nCan_Requerida, sRpt_Cambio, sNombreArchivo);
+            //    if (result.Success)
+            //    {
+            //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+            //        return Ok(result);
+            //    }
 
-        //    result.CodeResult = StatusCodes.Status400BadRequest;
-        //    return BadRequest(result);
-
-            var result = await _txRetiroRepuestosService.ActualizarRequerimientoDetalle(nNum_Requerimiento, nNum_Secuencia, nCan_Requerida, sRpt_Cambio, sNombreArchivo);
+            //    result.CodeResult = StatusCodes.Status400BadRequest;
+            //    return BadRequest(result);
+            //nombreArchivo = nombreArchivo.Replace(" ", "%20");
+            var result = await _txRetiroRepuestosService.ActualizarRequerimientoDetalle(nNum_Requerimiento, nNum_Secuencia, nCan_Requerida, sRpt_Cambio, nombreArchivo);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
@@ -405,6 +407,27 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("GetImageBase64FromUrlAsync")]
+        public async Task<IActionResult> GetImageBase64FromUrlAsync(string imageUrl)
+        {
+            try
+            {
+                // Realiza la solicitud HTTP para obtener la imagen
+                var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
+
+                // Convierte los bytes de la imagen a Base64
+                var base64String = Convert.ToBase64String(imageBytes);
+
+                return Ok(new { Base64Image = base64String }); ;
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, lanzar una excepción
+                return BadRequest(ex);
+            }
         }
 
     }
