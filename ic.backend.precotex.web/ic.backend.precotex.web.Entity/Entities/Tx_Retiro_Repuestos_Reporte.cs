@@ -8,6 +8,7 @@ namespace ic.backend.precotex.web.Entity.Entities
 {
     public class Tx_Retiro_Repuestos_Reporte
     {
+        public int Id_Requerimiento {get; set;}
         public DateTime Fec_Aprobacion { get; set; }
         public string Hora_Aprobacion { get; set; }
         public string Nom_Seguridad { get; set; }

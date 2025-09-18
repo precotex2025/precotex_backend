@@ -32,5 +32,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.RetiroRepuest
         Task<IEnumerable<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuarioMantenimientoNombres();
         Task<IEnumerable<Lg_Item>?> ListaDatosItemsPorNumReqySecuencia(int Num_Requerimiento, int Nro_Secuencia);
         Task<IEnumerable<Tx_Retiro_Repuestos_Reporte>?> ListaDatosReporte(DateTime FecIni, DateTime FecFin);
+        Task<IEnumerable<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosPorIdRequerimientoMAX();
+        Task<(int Codigo, string Mensaje)> EnviarCorreo();
     }
 }

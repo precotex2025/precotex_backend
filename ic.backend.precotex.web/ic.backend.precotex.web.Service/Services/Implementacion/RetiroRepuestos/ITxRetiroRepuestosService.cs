@@ -33,5 +33,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuesto
         Task<ServiceResponseList<Lg_Retiro_Repuesto_Usuario>?> ListaRetiroRepuestoUsuarioMantenimientoNombres();
         Task<ServiceResponseList<Lg_Item>?> ListaDatosItemsPorNumReqySecuencia(int Num_Requerimiento, int Nro_Secuencia);
         Task<ServiceResponseList<Tx_Retiro_Repuestos_Reporte>?> ListaDatosReporte(DateTime FecIni, DateTime FecFin);
+        Task<ServiceResponseList<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosPorIdRequerimientoMAX();
+        Task<ServiceResponse<int>> EnviarCorreo();
     }
 }
