@@ -60,6 +60,10 @@ using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
 using ic.backend.precotex.web.Data.Repositories.Laboratorio;
+using ic.backend.precotex.web.Service.Services.Implementacion.Login;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Login;
+using ic.backend.precotex.web.Service.Services.Login;
+using ic.backend.precotex.web.Data.Repositories.Login;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -122,7 +126,7 @@ builder.Services.AddScoped<IPartidaQRService, PartidaQRService>();
 builder.Services.AddScoped<ITxProcesoMemorandumService, TxProcesoMemorandumService>();
 builder.Services.AddScoped<ITxRetiroRepuestosService, TxRetiroRepuestosService>();
 builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
-
+builder.Services.AddScoped<ITxLoginService, TxLoginService>();
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -147,6 +151,7 @@ builder.Services.AddScoped<IPartidaQRRepository, PartidaQRRepository>();
 builder.Services.AddScoped<ITxProcesoMemorandumRepository, TxProcesoMemorandumRepository>();
 builder.Services.AddScoped<ITxRetiroRepuestosRepository, TxRetiroRepuestosRepository>();
 builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
+builder.Services.AddScoped<ITxLoginRepository, TxLoginRepository>();
 #endregion
 
 
