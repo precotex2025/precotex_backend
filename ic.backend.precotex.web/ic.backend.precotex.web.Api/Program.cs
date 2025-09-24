@@ -82,20 +82,21 @@ builder.Services.AddCors(options =>
     {
         /*DESARROLLO*/
 
-        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-              .AllowAnyHeader()                     // Permitir cualquier encabezado
-              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
+        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
 
         /*PRODUCCION*/
 
-        //policy.WithOrigins(
-        //"http://192.168.1.36",
-        //"https://192.168.1.36",
-        //"https://gestion.precotex.com"
-        //)  // Especifica el origen permitido
-        //.AllowAnyHeader()                     // Permitir cualquier encabezado
-        //.AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
+        policy.WithOrigins(
+        "http://192.168.1.36",
+        "https://192.168.1.36",
+        "https://gestion.precotex.com",
+        "https://gestion.precotex.com:444"
+        )  // Especifica el origen permitido
+        .AllowAnyHeader()                     // Permitir cualquier encabezado
+        .AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
 
     }); 
 });
@@ -168,12 +169,13 @@ app.UseSwaggerUI();
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(@"\\192.168.1.36\imgRetiro"),
-    RequestPath = "/imgRetiro"
+    FileProvider = new PhysicalFileProvider(@"\\fileserverprx\imagenesretiro$"),
+    RequestPath = "/imagenes"
 });
 
-
 // Usa CORS antes de las rutas
+
+
 app.UseCors("AllowAngularApp");
 
 app.UseHttpsRedirection();
