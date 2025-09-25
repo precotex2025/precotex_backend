@@ -23,14 +23,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //OBTENER DATOS CABECERA
-        public async Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado()
+        public async Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+                parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Cab>(
                         "[dbo].[PA_LB_CARTACOL_DG_S0001]"
+                        , parametros
                         , commandType: CommandType.StoredProcedure
                 );
                 return result;
