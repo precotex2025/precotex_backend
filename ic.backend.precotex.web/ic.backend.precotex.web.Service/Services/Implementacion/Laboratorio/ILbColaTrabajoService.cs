@@ -14,7 +14,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             CABECERA 
         */
-        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado();
+        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab);
 
 
 

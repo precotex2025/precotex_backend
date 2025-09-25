@@ -30,6 +30,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 await connection.OpenAsync();
 
                 var parametros = new DynamicParameters();
+
                 parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Cab>(

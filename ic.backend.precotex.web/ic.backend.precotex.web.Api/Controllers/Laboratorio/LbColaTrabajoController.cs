@@ -22,9 +22,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTIENE LISTA DE COLA DE TRABAJO
         [HttpGet]
         [Route("getListaSDCPorEstado")]
-        public async Task<IActionResult> getListaSDCPorEstado()
+        public async Task<IActionResult> getListaSDCPorEstado(string Flg_Est_Lab)
         {
-            var result = await _LbColaTrabajoService.ListaSDCPorEstado();
+            var result = await _LbColaTrabajoService.ListaSDCPorEstado(Flg_Est_Lab);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
