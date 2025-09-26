@@ -14,7 +14,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             CABECERA 
         */
-        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab);
+        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin);
 
 
 
@@ -22,5 +22,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             DETALLE 
         */
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
+        Task<ServiceResponse<int>> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTraDet);
+        Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable();
     }
 }

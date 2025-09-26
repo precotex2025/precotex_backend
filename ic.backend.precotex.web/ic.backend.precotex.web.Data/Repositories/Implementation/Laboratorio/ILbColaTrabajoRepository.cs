@@ -12,13 +12,14 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             CABECERA 
         */
-        Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab);
+        Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin);
 
 
         /*
             DETALLE 
         */
         Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
-
+        Task<(int Codigo, string Mensaje)> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTrabajoDet);
+        Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable();
     }
 }

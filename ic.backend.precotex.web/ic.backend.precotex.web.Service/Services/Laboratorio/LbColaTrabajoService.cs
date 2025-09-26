@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZXing;
 
 namespace ic.backend.precotex.web.Service.Services.Laboratorio
 {
@@ -23,12 +24,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             CABECERA 
         */
-        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab)
+        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin)
         {
             var result = new ServiceResponseList<Lb_ColTra_Cab>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab);
+                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -58,6 +59,55 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             try
             {
                 var resultData = await _lbColaTrabajoRepository.ListaColoresSDC(Corr_Carta);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTraDet)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.RegistrarDetalleColorSDC(lbColaTraDet);
+                if(resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch(Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable()
+        {
+            var result = new ServiceResponseList<Lb_ColTra_Det>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.LlenarDesplegable();
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

@@ -14,5 +14,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cod_Color {  get; set; }
         public string? Estandar_Tono_Comer {  get; set; }
         public string? Formulado { get; set; }
+        public string? Flg_Est_Lab { get; set; }
     }       
 }
