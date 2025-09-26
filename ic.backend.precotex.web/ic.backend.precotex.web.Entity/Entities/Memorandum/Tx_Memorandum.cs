@@ -27,6 +27,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Memorandum
         public DateTime? Fec_Modifica { get; set; }
         public string? Cod_Equipo { get; set; }
 
+        //NUEVOS CAMPOS
+        public string? Cod_Tipo_Movimiento { get; set; }
+        public string? Datos_Externo { get; set; }
+        public string? Direccion_Externo { get; set; }
+
         //Otros Datos
         public string? Emisor { get; set; }
         public string? Receptor { get; set; }
@@ -36,7 +41,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Memorandum
         public string? Usuario_Seg_Destino { get; set; }
         public string? Descripcion_Estado_Memo { get; set; }
         public string? Descripcion_Tipo_Memorandum { get; set; }
-
+        public string? Glosa { get; set; }
+        public int? Cantidad { get; set; }
+        public string? Descripcion_Tipo_Motivo { get; set; }
+        public string? Descripcion_Tipo_Movimiento { get; set; }
 
         /*
          

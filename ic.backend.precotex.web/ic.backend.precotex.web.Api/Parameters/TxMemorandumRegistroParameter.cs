@@ -15,6 +15,11 @@ namespace ic.backend.precotex.web.Api.Parameters
         public string? Cod_Motivo_Memo { get; set; }
         public string? Accion { get; set; }
         public List<Tx_Memorandum_Detalle>? Detalle { get; set; }
+
+        //NUEVOS CAMPOS
+        public string? Cod_Tipo_Movimiento { get; set; }
+        public string? Datos_Externo { get; set; }
+        public string? Direccion_Externo { get; set; }
     }
 
     public class Tx_Memorandum_Det
