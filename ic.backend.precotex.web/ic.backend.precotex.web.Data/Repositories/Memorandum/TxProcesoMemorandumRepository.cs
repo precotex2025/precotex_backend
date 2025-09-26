@@ -100,6 +100,28 @@ namespace ic.backend.precotex.web.Data.Repositories.Memorandum
             }
         }
 
+        public async Task<IEnumerable<Tx_Memorandum_Detalle_Exportacion>?> ExportarInformacionMemorandumDetalle(DateTime FecIni, DateTime FecFin)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    FEC_INICIO = FecIni,
+                    FEC_FIN = FecFin
+
+                };
+
+                var result = await connection.QueryAsync<Tx_Memorandum_Detalle_Exportacion>(
+                     "[dbo].[TX_EXPORTAR_MEMORANDUM]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Tx_Movimiento_Memorandum>?> HistorialMovimientoMemorandum(string sNumMemo)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -297,6 +319,62 @@ namespace ic.backend.precotex.web.Data.Repositories.Memorandum
             */
         }
 
+        public async Task<IEnumerable<Tx_Memorandum>?> ObtieneInformacionMemorandumDetalle(string NumMemo)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    var parametros = new
+                    {
+                        NUM_MEMO = NumMemo
+                    };
+
+                    var result = await connection.QueryAsync<Tx_Memorandum>(
+                         "[dbo].[TX_OBTENER_MEMORANDUM_DETALLADO_PTX]",
+                         parametros,
+                         commandType: System.Data.CommandType.StoredProcedure
+                    );
+
+                    return result;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Errores específicos de SQL
+                Console.WriteLine($"Error SQL: {sqlEx.Message}");
+                throw; // puedes relanzar o manejar como quieras
+            }
+            catch (Exception ex)
+            {
+                // Errores generales
+                Console.WriteLine($"Error general: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_Memorandum_Linea_Tiempo>?> ObtieneLineaTempoMemorandum(string NumMemo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Num_Memo = NumMemo
+                };
+
+                var result = await connection.QueryAsync<Tx_Memorandum_Linea_Tiempo>(
+                     "[dbo].[SP_LINEA_TIEMPO_MEMORANDUM]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Sg_Planta>?> Plantas()
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -330,6 +408,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Memorandum
                 parametros.Add("@Cod_Usuario_Seguridad_Receptor", tx_Memorandum.Cod_Usuario_Seguridad_Receptor);
                 parametros.Add("@Cod_Tipo_Memo", tx_Memorandum.Cod_Tipo_Memo);
                 parametros.Add("@Cod_Motivo_Memo", tx_Memorandum.Cod_Motivo_Memo);
+
+                //Nuevos Campos
+                parametros.Add("@Cod_Tipo_Movimiento", tx_Memorandum.Cod_Tipo_Movimiento);
+                parametros.Add("@Datos_Externo", tx_Memorandum.Datos_Externo);
+                parametros.Add("@Direccion_Externo", tx_Memorandum.Direccion_Externo);
+
                 // Parámetro tipo tabla (TVP)
                 var tvp = CrearDataTable(detalle);
                 parametros.Add("@Detalle", tvp.AsTableValuedParameter("dbo.TVP_MEMORANDUM_DETALLE"));

@@ -4,6 +4,14 @@ using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Service.Services.Implementacion.Memorandum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PdfiumViewer;
+using System.Drawing.Printing;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using ic.backend.precotex.web.Service.Services.Implementacion.DDT;
+using ZXing;
+using ic.backend.precotex.web.Service.common;
+using ic.backend.precotex.web.Service.Services.Implementacion.HelpCommon;
 
 namespace ic.backend.precotex.web.Api.Controllers.Memorandum
 {
@@ -11,11 +19,15 @@ namespace ic.backend.precotex.web.Api.Controllers.Memorandum
     [ApiController]
     public class TxProcesoMemorandumController : ControllerBase
     {
+        private readonly IHelpCommonService _IHelpCommonService;
         private readonly ITxProcesoMemorandumService _txProcesoMemorandumService;
+        private readonly ITxUbicacionColgadorService _txUbicacionColgadorService;
 
-        public TxProcesoMemorandumController (ITxProcesoMemorandumService txProcesoMemorandumService)
+        public TxProcesoMemorandumController(ITxProcesoMemorandumService txProcesoMemorandumService, ITxUbicacionColgadorService ITxUbicacionColgadorService, IHelpCommonService IHelpCommonService)
         {
             _txProcesoMemorandumService = txProcesoMemorandumService;
+            _txUbicacionColgadorService = ITxUbicacionColgadorService;
+            _IHelpCommonService = IHelpCommonService;
         }
 
         [HttpGet]
@@ -78,7 +90,11 @@ namespace ic.backend.precotex.web.Api.Controllers.Memorandum
                 Cod_Usuario_Seguridad_Emisor = parameters.Cod_Usuario_Seguridad_Emisor,
                 Cod_Usuario_Seguridad_Receptor = parameters.Cod_Usuario_Seguridad_Receptor,
                 Cod_Tipo_Memo = parameters.Cod_Tipo_Memo,
-                Cod_Motivo_Memo = parameters.Cod_Motivo_Memo
+                Cod_Motivo_Memo = parameters.Cod_Motivo_Memo,
+                //nuevos campos
+                Cod_Tipo_Movimiento = parameters.Cod_Tipo_Movimiento,
+                Datos_Externo = parameters.Datos_Externo,
+                Direccion_Externo = parameters.Direccion_Externo
             };
             var result = await _txProcesoMemorandumService.ProcesoMntoMemorandum(_txMemorandum, parameters.Detalle!, parameters.Accion!);
             if (result.Success)
@@ -182,7 +198,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Memorandum
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
-            
+
         [HttpGet]
         [Route("getObtenerRolUsuarioMemorandum")]
         public async Task<IActionResult> getObtenerRolUsuarioMemorandum([FromQuery] string sCodUsuario, [FromQuery] string sNumMemo)
@@ -272,6 +288,70 @@ namespace ic.backend.precotex.web.Api.Controllers.Memorandum
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getExportarInformacionMemorandumDetalle")]
+        public async Task<IActionResult> getExportarInformacionMemorandumDetalle(DateTime FecIni, DateTime FecFin)
+        {
+            var result = await _txProcesoMemorandumService.ExportarInformacionMemorandumDetalle(FecIni, FecFin);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtieneLineaTempoMemorandum")]
+        public async Task<IActionResult> getObtieneLineaTempoMemorandum([FromQuery] string sNumMemo)
+        {
+            var result = await _txProcesoMemorandumService.ObtieneLineaTempoMemorandum(sNumMemo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getDescargarMemo")]
+        public async Task<IActionResult> postImprimirMemo([FromQuery] string sNumMemo, int iCantidad)
+        {
+            try
+            {
+
+
+                // 1. Obtener memo desde la función del servicio
+                var memo = await _txProcesoMemorandumService.ObtieneInformacionMemorandumDetalle(sNumMemo);
+                if (memo == null)
+                    return NotFound("No se encontró el memo");
+
+                ServiceResponse<string> result = null;
+                var resultPrint = await _txUbicacionColgadorService.ObtenerImpresoraPredeterminada();
+                result = await _IHelpCommonService.PrintA4ToPdf(memo.Elements.ToList(), iCantidad);
+
+                if (result.Success)
+                {
+                    result.CodeResult = StatusCodes.Status200OK;
+                    // Leer el archivo generado
+                    var pdfBytes = System.IO.File.ReadAllBytes(result.Element!);
+                    return File(pdfBytes, "application/pdf", Path.GetFileName(result.Element!));
+                }
+
+                result.CodeResult = StatusCodes.Status400BadRequest;
+                return BadRequest(result);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al descargar archivo: {ex.Message}");
+            }
+        }
 
     }
 }

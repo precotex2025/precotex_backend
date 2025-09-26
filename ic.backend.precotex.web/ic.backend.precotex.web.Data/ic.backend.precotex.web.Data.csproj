@@ -18,4 +18,9 @@
     <ProjectReference Include="..\ic.backend.precotex.web.Entity\ic.backend.precotex.web.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Implementation\Login\" />
+    <Folder Include="Repositories\Login\" />
+  </ItemGroup>
+
 </Project>

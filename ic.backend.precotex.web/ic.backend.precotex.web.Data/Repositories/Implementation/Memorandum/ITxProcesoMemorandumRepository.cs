@@ -25,5 +25,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Memorandum
         Task<IEnumerable<Tx_Movimiento_Memorandum>?> HistorialMovimientoMemorandum(string sNumMemo);
         Task<(int Codigo, string Mensaje)> DevolverMemorandum(Tx_Memorandum tx_Memorandum);
         Task<IEnumerable<Tx_Roles>?> ObtenerInfoUsuarioMemorandum(string sCodUsuario);
+        Task<IEnumerable<Tx_Memorandum_Detalle_Exportacion>?> ExportarInformacionMemorandumDetalle(DateTime FecIni, DateTime FecFin);
+        Task<IEnumerable<Tx_Memorandum_Linea_Tiempo>?> ObtieneLineaTempoMemorandum(string NumMemo);
+        Task<IEnumerable<Tx_Memorandum>?> ObtieneInformacionMemorandumDetalle(string NumMemo);
+        
     }
 }

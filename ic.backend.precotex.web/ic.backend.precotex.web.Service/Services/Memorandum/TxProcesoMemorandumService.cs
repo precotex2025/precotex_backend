@@ -90,6 +90,36 @@ namespace ic.backend.precotex.web.Service.Services.Memorandum
             }
         }
 
+        public async Task<ServiceResponseList<Tx_Memorandum_Detalle_Exportacion>?> ExportarInformacionMemorandumDetalle(DateTime FecIni, DateTime FecFin)
+        {
+            var result = new ServiceResponseList<Tx_Memorandum_Detalle_Exportacion>();
+            try
+            {
+                var resultData = await _txProcesoMemorandumRepository.ExportarInformacionMemorandumDetalle(FecIni, FecFin);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponseList<Tx_Movimiento_Memorandum>?> HistorialMovimientoMemorandum(string sNumMemo)
         {
             var result = new ServiceResponseList<Tx_Movimiento_Memorandum>();
@@ -306,6 +336,66 @@ namespace ic.backend.precotex.web.Service.Services.Memorandum
             try
             {
                 var resultData = await _txProcesoMemorandumRepository.ObtieneInformacionMemorandum(FecIni, FecFin, NumMemo, codUsuario, CodPlantaGarita);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Memorandum>?> ObtieneInformacionMemorandumDetalle(string NumMemo)
+        {
+            var result = new ServiceResponseList<Tx_Memorandum>();
+            try
+            {
+                var resultData = await _txProcesoMemorandumRepository.ObtieneInformacionMemorandumDetalle(NumMemo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Memorandum_Linea_Tiempo>?> ObtieneLineaTempoMemorandum(string NumMemo)
+        {
+            var result = new ServiceResponseList<Tx_Memorandum_Linea_Tiempo>();
+            try
+            {
+                var resultData = await _txProcesoMemorandumRepository.ObtieneLineaTempoMemorandum(NumMemo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
