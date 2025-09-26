@@ -1,23 +1,29 @@
 ﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
+using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
 {
+    [EnableCors("AllowAngularApp")]
     [Route("api/[controller]")]
     [ApiController]
     public class TxRetiroRepuestosController : ControllerBase
     {
-
+        private readonly HttpClient _httpClient;
         public readonly ITxRetiroRepuestosService _txRetiroRepuestosService;
 
-        public TxRetiroRepuestosController (ITxRetiroRepuestosService txRetiroRepuestosService)
+        public TxRetiroRepuestosController(ITxRetiroRepuestosService txRetiroRepuestosService, HttpClient httpClient)
         {
             _txRetiroRepuestosService = txRetiroRepuestosService;
+            _httpClient = httpClient;
         }
 
         /******************************************CABECERA************************************************************/
@@ -358,10 +364,11 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             var sRpt_Cambio = form["sRpt_Cambio"];
             var sNombreArchivo = form["sNombre_Archivo"];
 
-
             //SI TIENE PROCESO POR CONFIRMAR 
             string nombreArchivo = string.Empty;
-            string rutaBase = @"\\192.168.1.36\d$\dayala\imgRetiro\"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            //string rutaBase = @"D:\ImagenesRetiro"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            string rutaBase = @"\\fileserverprx\imagenesretiro$"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            //string rutaBase = @"\\192.168.1.36:8083\ImagenesRetiro\"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
             Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
 
             var claveArchivo = $"form['itm_Foto']";
@@ -371,8 +378,8 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             {
 
                 nombreArchivo = $"{Guid.NewGuid()}_{archivo.FileName}";
-                var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
-
+                var rutaArchivo = Path.Combine(rutaBase, nombreArchivo).Replace(" ", "_");
+                //.Replace(" ", "%20")
                 // Eliminar si ya existe (raro con GUID, pero por si acaso)
                 if (System.IO.File.Exists(rutaArchivo))
                 {
@@ -383,20 +390,9 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
                 {
                     await archivo.CopyToAsync(stream);
                 }
-            }        
-
-
-        //var result = await _txRetiroRepuestosService.RegistrarRequerimientoDetalle(nNum_Requerimiento, sCod_Item, nCan_Requerida, sRpt_Cambio, sNombreArchivo);
-        //    if (result.Success)
-        //    {
-        //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
-        //        return Ok(result);
-        //    }
-
-        //    result.CodeResult = StatusCodes.Status400BadRequest;
-        //    return BadRequest(result);
-
-            var result = await _txRetiroRepuestosService.ActualizarRequerimientoDetalle(nNum_Requerimiento, nNum_Secuencia, nCan_Requerida, sRpt_Cambio, sNombreArchivo);
+            }
+            nombreArchivo = nombreArchivo.Replace(" ", "_");
+            var result = await _txRetiroRepuestosService.ActualizarRequerimientoDetalle(nNum_Requerimiento, nNum_Secuencia, nCan_Requerida, sRpt_Cambio, nombreArchivo);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
@@ -407,5 +403,123 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("GetImageBase64FromUrlAsync")]
+        public async Task<IActionResult> GetImageBase64FromUrlAsync(string imageUrl)
+        {
+            try
+            {
+                // Realiza la solicitud HTTP para obtener la imagen
+                var imageBytes = await _httpClient.GetByteArrayAsync(imageUrl);
+
+                // Convierte los bytes de la imagen a Base64
+                var base64String = Convert.ToBase64String(imageBytes);
+
+                return Ok(new { Base64Image = base64String }); ;
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, lanzar una excepción
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("guardar-excel")]
+        public async Task<IActionResult> GuardarExcel(int Num_Requerimiento)
+        {
+            try
+            {
+                using var memoryStream = new MemoryStream();
+                await Request.Body.CopyToAsync(memoryStream);
+
+                // Asegúrate de que el stream esté en posición 0
+                memoryStream.Position = 0;
+
+                var fileName = $"Reporte_{Num_Requerimiento}.xlsx";
+                //var filePath = Path.Combine(@"\\192.168.1.36\d$\dayala\Reportes-RetiroRepuestos\", fileName);
+                //var filePath = Path.Combine(@"D:\Reportes-RetiroRepuestos\", fileName);
+                var filePath = Path.Combine(@"\\fileserverprx\imagenesretiro$", fileName);
+                 
+                // Guarda el archivo como binario puro
+                await System.IO.File.WriteAllBytesAsync(filePath, memoryStream.ToArray());
+
+                return Ok(new { message = "Archivo guardado correctamente", path = filePath });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al guardar el archivo: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("getListaRetiroRepuestosPorIdRequerimientoMAX")]
+        public async Task<IActionResult> ListaRetiroRepuestosPorIdRequerimientoMAX()
+        {
+            var result = await _txRetiroRepuestosService.ListaRetiroRepuestosPorIdRequerimientoMAX();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postEnviarCorreo")]
+        public async Task<IActionResult> postEnviarCorreo([FromBody] string cuerpo)
+        {
+            var result = await _txRetiroRepuestosService.EnviarCorreo();
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+        
+
+        [HttpPost]
+        [Route("postEnviarCorreo2")]
+        public async Task<IActionResult> postEnviarCorreo2([FromBody] int Num_Requerimiento)
+        {
+            var result = await _txRetiroRepuestosService.EnviarCorreo2(Num_Requerimiento);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaRetiroRepuestosDetallePorNumRequerimiento")]
+        public async Task<IActionResult> ListaRetiroRepuestosDetallePorNumRequerimiento(int Num_Requerimiento)
+        {
+            var result = await _txRetiroRepuestosService.ListaRetiroRepuestosDetallePorNumRequerimiento(Num_Requerimiento);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getImagen")]
+        public IActionResult GetImage(string imageId)
+        {
+            var path = Path.Combine(@"\\fileserverprx\imagenesretiro$\", imageId);
+            if (!System.IO.File.Exists(path)) return NotFound();
+            var mime = "image/jpeg";
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, mime);
+        }
     }
 }

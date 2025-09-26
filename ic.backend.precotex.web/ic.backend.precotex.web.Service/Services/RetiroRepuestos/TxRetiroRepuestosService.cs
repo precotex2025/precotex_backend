@@ -446,5 +446,105 @@ namespace ic.backend.precotex.web.Service.Services.RetiroRepuestos
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosPorIdRequerimientoMAX()
+        {
+            var result = new ServiceResponseList<Tx_Retiro_Repuestos_Reporte>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ListaRetiroRepuestosPorIdRequerimientoMAX();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion no controlada " + ex.Message;
+                return result;
+            }
+        }
+        
+        public async Task<ServiceResponseList<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosDetallePorNumRequerimiento(int Num_Requerimiento)
+        {
+            var result = new ServiceResponseList<Tx_Retiro_Repuestos_Reporte>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.ListaRetiroRepuestosDetallePorNumRequerimiento(Num_Requerimiento);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion no controlada " + ex.Message;
+                return result;
+            }
+        }
+       
+        public async Task<ServiceResponse<int>> EnviarCorreo()
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.EnviarCorreo();
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> EnviarCorreo2(int Num_Requerimiento)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txRetiroRepuestosRepository.EnviarCorreo2(Num_Requerimiento);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
     }
 }

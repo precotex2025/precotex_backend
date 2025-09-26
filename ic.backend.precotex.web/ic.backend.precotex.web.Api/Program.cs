@@ -56,6 +56,15 @@ using Microsoft.AspNetCore.Http.Features;
 using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
 using ic.backend.precotex.web.Data.Repositories.Implementation.RetiroRepuestos;
 using ic.backend.precotex.web.Data.Repositories.RetiroRepuestos;
+using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio;
+using ic.backend.precotex.web.Service.Services.Laboratorio;
+using ic.backend.precotex.web.Data.Repositories.Laboratorio;
+using ic.backend.precotex.web.Service.Services.Implementacion.Login;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Login;
+using ic.backend.precotex.web.Service.Services.Login;
+using ic.backend.precotex.web.Data.Repositories.Login;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,23 +80,24 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-      /*DESARROLLO*/
-      /*
-      policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-            .AllowAnyHeader()                     // Permitir cualquier encabezado
-            .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-      */
-     
+        /*DESARROLLO*/
+
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+
+
         /*PRODUCCION*/
-        
-        policy.WithOrigins(
-        "http://192.168.1.36",
-        "https://192.168.1.36",
-        "https://gestion.precotex.com"
-        )  // Especifica el origen permitido
-        .AllowAnyHeader()                     // Permitir cualquier encabezado
-        .AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
-             
+
+        //policy.WithOrigins(
+        //"http://192.168.1.36",
+        //"https://192.168.1.36",
+        //"https://gestion.precotex.com",
+        //"https://gestion.precotex.com:444"
+        //)  // Especifica el origen permitido
+        //.AllowAnyHeader()                     // Permitir cualquier encabezado
+        //.AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
+
     }); 
 });
 
@@ -116,7 +126,8 @@ builder.Services.AddScoped<ICalificacionRollosFinalService, SCalificacionRolloFi
 builder.Services.AddScoped<IPartidaQRService, PartidaQRService>();
 builder.Services.AddScoped<ITxProcesoMemorandumService, TxProcesoMemorandumService>();
 builder.Services.AddScoped<ITxRetiroRepuestosService, TxRetiroRepuestosService>();
-
+builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
+builder.Services.AddScoped<ITxLoginService, TxLoginService>();
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -140,8 +151,12 @@ builder.Services.AddScoped<ITxUbicacionColgadorRepository, TxUbicacionColgadorRe
 builder.Services.AddScoped<IPartidaQRRepository, PartidaQRRepository>();
 builder.Services.AddScoped<ITxProcesoMemorandumRepository, TxProcesoMemorandumRepository>();
 builder.Services.AddScoped<ITxRetiroRepuestosRepository, TxRetiroRepuestosRepository>();
-
+builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
+builder.Services.AddScoped<ITxLoginRepository, TxLoginRepository>();
 #endregion
+
+
+
 
 var app = builder.Build();
 
@@ -152,7 +167,15 @@ app.UseSwagger();
 app.UseSwaggerUI();
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(@"\\fileserverprx\imagenesretiro$"),
+    RequestPath = "/imagenes"
+});
+
 // Usa CORS antes de las rutas
+
+
 app.UseCors("AllowAngularApp");
 
 app.UseHttpsRedirection();

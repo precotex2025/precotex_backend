@@ -328,7 +328,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 parametros.Add("@Itm_Foto", sNombreArchivo);
 
                 //PARAMETROS DE SALIDA
-                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection   .Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
                 try
@@ -492,5 +492,113 @@ namespace ic.backend.precotex.web.Data.Repositories.RetiroRepuestos
                 return result;
             }
         }
+
+        public async Task<IEnumerable<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosPorIdRequerimientoMAX()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Tx_Retiro_Repuestos_Reporte>(
+                    "[dbo].[PA_Lg_RequerimientoAlmacen_WB_S0004]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_Retiro_Repuestos_Reporte>?> ListaRetiroRepuestosDetallePorNumRequerimiento(int Num_Requerimiento)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Num_Requerimiento", Num_Requerimiento);
+
+                var result = await connection.QueryAsync<Tx_Retiro_Repuestos_Reporte>(
+                    "[dbo].[PA_Lg_RequerimientoAlmacenDetalle_WB_S0003]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> EnviarCorreo()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacen_CORREO_WB]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+                    ;
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> EnviarCorreo2(int Num_Requerimiento)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Num_Requerimiento", Num_Requerimiento);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lg_RequerimientoAlmacen_CORREO_WB_V2]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+                    ;
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
     }
 }
