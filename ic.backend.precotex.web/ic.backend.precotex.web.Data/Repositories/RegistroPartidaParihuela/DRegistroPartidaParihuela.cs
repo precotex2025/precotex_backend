@@ -227,5 +227,13 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
 
         }
 
+
+
+
+        void hola()
+        {
+
+        }
+
     }
 }
