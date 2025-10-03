@@ -13,5 +13,7 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
         public string Acronimo { get; set; } = string.Empty;
 
         public string Estado { get; set; } = string.Empty;
+
+        public int IdArea { get; set; }
     }
 }

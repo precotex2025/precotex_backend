@@ -135,7 +135,9 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
                         Cod_Tela = form[$"reclamos[{index}][Cod_Tela]"],
                         Cod_Color = form[$"reclamos[{index}][cod_Color]"],
                         Id_Unidad_NegocioKey = Convert.ToInt32(form[$"reclamos[{index}][cod_Unidad_Negocio]"]),
-                        Cod_Motivo = form[$"reclamos[{index}][cod_Motivo]"]
+                        Cod_Motivo = form[$"reclamos[{index}][cod_Motivo]"],
+                        IdArea = Convert.ToInt32(form[$"reclamos[{index}][idArea]"]),
+                        IdResponsable = Convert.ToInt32(form[$"reclamos[{index}][idResponsable]"])
                     };
 
                     string rutaBase = @"D:\archivosReclamos"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 

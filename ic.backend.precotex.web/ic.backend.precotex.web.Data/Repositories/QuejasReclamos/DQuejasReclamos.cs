@@ -60,7 +60,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var query = @"
-                                    SELECT IdEstado, Acronimo, Estado FROM EstadoQuejas WHERE FlagEstado = 1
+                                    SELECT IdEstado, Acronimo, Estado, IdArea FROM EstadoQuejas WHERE FlagEstado = 1
                                 ";
 
                     var estado = await connection.QueryAsync<EstadoDto>(query);
@@ -126,7 +126,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var query = @"
-                                    SELECT IdArea, NombreArea FROM TX_AREA WHERE Estado = 1;
+                                    SELECT IdArea, NombreArea FROM TX_AREA WHERE Estado = 1 ORDER BY NombreArea ASC;
                                 ";
 
                     var responsable = await connection.QueryAsync<ResponsableDto>(query);
@@ -164,6 +164,10 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                         detalles.Columns.Add("Cod_Color");
                         detalles.Columns.Add("Id_Unidad_NegocioKey");
                         detalles.Columns.Add("Cod_Motivo");
+                        //Nuevos Campos v2
+                        detalles.Columns.Add("IdArea");
+                        detalles.Columns.Add("IdResponsable");
+
 
                         foreach (var item in reclamo)
                         {
@@ -182,7 +186,10 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 item.Cod_Tela,
                                 item.Cod_Color,
                                 item.Id_Unidad_NegocioKey,
-                                item.Cod_Motivo
+                                item.Cod_Motivo,
+                                //Nuevos Campos v2
+                                item.IdArea,
+                                item.IdResponsable
                             );
                         }
 
@@ -224,6 +231,9 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 pDetalle.Add("@Cod_Color", item.Cod_Color);
                                 pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
                                 pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
+                                pDetalle.Add("@IdReclamoClienteDetalle", 0);
+                                pDetalle.Add("@IdArea", item.IdArea);
+                                pDetalle.Add("@IdResponsable", item.IdResponsable);
 
                                 await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
                             }
@@ -249,6 +259,8 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
                                 pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
                                 pDetalle.Add("@IdReclamoClienteDetalle", item.Id);
+                                pDetalle.Add("@IdArea", item.IdArea);
+                                pDetalle.Add("@IdResponsable", item.IdResponsable);
 
                                 await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
                             }
@@ -300,6 +312,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                     parameters.Add("@FechaInicio", filtro.FechaInicio);
                     parameters.Add("@FechaFin", filtro.FechaFin);
                     parameters.Add("@Cod_Ordtra", filtro.cod_Ordtra);
+                    parameters.Add("@Cod_Unidad_Negocio", filtro.cod_Unidad_Negocio);
 
                     var result = await connection.QueryAsync<FiltroReclamoDto>(
                         "usp_ObtenerReclamosCliente",

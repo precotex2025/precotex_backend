@@ -49,5 +49,9 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
         public string? Des_Tela { get; set; }
         public string? Des_Color { get; set; }
         public string? Des_Unidad_Negocio { get; set; }
+
+        //Nuevos Campos
+        public int? IdArea { get; set; }
+        public int? IdResponsable { get; set; }
     }
 }
