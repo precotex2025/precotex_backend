@@ -4,7 +4,6 @@ using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Service.Services.Implementacion.Memorandum;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PdfiumViewer;
 using System.Drawing.Printing;
 using iTextSharp.text.pdf;
 using iTextSharp.text;

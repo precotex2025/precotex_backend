@@ -23,5 +23,6 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
         public string? Cod_Estado { get; set; }
 
         public string? cod_Ordtra { get; set; }
+        public string? cod_Unidad_Negocio { get; set; }
     }
 }
