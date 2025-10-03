@@ -65,6 +65,7 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Login;
 using ic.backend.precotex.web.Service.Services.Login;
 using ic.backend.precotex.web.Data.Repositories.Login;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -164,7 +165,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwagger();
 }
 
 app.UseStaticFiles(new StaticFileOptions
