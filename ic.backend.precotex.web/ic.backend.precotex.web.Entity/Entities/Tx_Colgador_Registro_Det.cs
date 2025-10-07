@@ -31,5 +31,11 @@ namespace ic.backend.precotex.web.Entity.Entities
 
         public string? Flg_Estatus { get; set; }
 
+        /*Nuevos Cma*/
+        public string? Composicion { get; set; }
+        public string? Fabric { get; set; }
+        public string? Yarn { get; set; }
+        public string? Nom_Cliente { get; set; }
+
     }
 }
