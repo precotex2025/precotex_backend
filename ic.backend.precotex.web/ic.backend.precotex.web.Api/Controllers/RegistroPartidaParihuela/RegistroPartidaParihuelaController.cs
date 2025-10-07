@@ -113,7 +113,25 @@ namespace ic.backend.precotex.web.Api.Controllers.RegistroPartidaParihuela
             result.CodeResult = StatusCodes.Status400BadRequest;
             return Ok(result);
 
+        }
+
+        [HttpPost]
+        [Route("postEnviarCabecera")]
+        public async Task<IActionResult> postEnviarCabecera([FromBody] string pCod_Partida)
+        {
+
+            var result = await _IRegistroPartidaParihuela.EnviarCabecera(pCod_Partida);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
             }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return Ok(result);
+
+        }
+
 
 
         // Modelo para recibir los datos
