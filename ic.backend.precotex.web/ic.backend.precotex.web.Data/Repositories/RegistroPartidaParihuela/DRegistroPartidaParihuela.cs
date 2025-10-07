@@ -58,6 +58,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
                     dataTable.Columns.Add("PesoParihuela", typeof(decimal));
                     dataTable.Columns.Add("PesoBruto", typeof(decimal));
                     dataTable.Columns.Add("Complemento", typeof(string));
+                    dataTable.Columns.Add("PesoNeto", typeof(decimal));
                     dataTable.Columns.Add("PesoComplemento", typeof(decimal));
 
                     foreach (var item in pData)
@@ -68,6 +69,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
                             item.PesoParihuela,
                             item.PesoBruto,
                             item.Complemento,
+                            item.PesoNeto,
                             item.PesoComplemento
                         );
                     }
@@ -225,6 +227,39 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
                 throw; // new ApplicationException($"Error en SQL Server: {sqlEx.Message}", sqlEx);
             }
 
+        }
+
+
+        //INSERTA CABECERA CUANDO SE DA CLICK AL BOTON ENVIAR DESPACHO PARA LUEGO EJECUTAR EL MÉTODO EnviarDespacho
+        public async Task<(int Codigo, string Mensaje)> EnviarCabecera(string pCod_Partida)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@pCod_Partida", pCod_Partida);
+
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                try
+                {
+                    connection.Execute(
+                    "[dbo].[PA_PRE_TX_MOVISTK_I0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
         }
 
     }

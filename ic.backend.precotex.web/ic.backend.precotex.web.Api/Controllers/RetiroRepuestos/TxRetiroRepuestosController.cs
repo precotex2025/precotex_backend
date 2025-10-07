@@ -367,8 +367,8 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             //SI TIENE PROCESO POR CONFIRMAR 
             string nombreArchivo = string.Empty;
             //string rutaBase = @"D:\ImagenesRetiro"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
-            string rutaBase = @"\\fileserverprx\imagenesretiro$"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
-            //string rutaBase = @"\\192.168.1.36:8083\ImagenesRetiro\"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            //string rutaBase = @"\\fileserverprx\imagenesretiro$"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            string rutaBase = @"\\192.168.1.36:8084\"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
             Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
 
             var claveArchivo = $"form['itm_Foto']";
@@ -438,7 +438,8 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
                 var fileName = $"Reporte_{Num_Requerimiento}.xlsx";
                 //var filePath = Path.Combine(@"\\192.168.1.36\d$\dayala\Reportes-RetiroRepuestos\", fileName);
                 //var filePath = Path.Combine(@"D:\Reportes-RetiroRepuestos\", fileName);
-                var filePath = Path.Combine(@"\\fileserverprx\imagenesretiro$", fileName);
+                //var filePath = Path.Combine(@"\\fileserverprx\imagenesretiro$", fileName);
+                var filePath = Path.Combine(@"\\192.168.1.36\", fileName);
                  
                 // Guarda el archivo como binario puro
                 await System.IO.File.WriteAllBytesAsync(filePath, memoryStream.ToArray());
@@ -515,7 +516,8 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
         [HttpGet("getImagen")]
         public IActionResult GetImage(string imageId)
         {
-            var path = Path.Combine(@"\\fileserverprx\imagenesretiro$\", imageId);
+            //var path = Path.Combine(@"\\fileserverprx\imagenesretiro$\", imageId);
+            var path = Path.Combine(@"\\192.168.1.36\", imageId);
             if (!System.IO.File.Exists(path)) return NotFound();
             var mime = "image/jpeg";
             var bytes = System.IO.File.ReadAllBytes(path);
