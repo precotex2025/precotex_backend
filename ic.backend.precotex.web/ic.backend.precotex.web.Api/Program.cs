@@ -65,6 +65,7 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Login;
 using ic.backend.precotex.web.Service.Services.Login;
 using ic.backend.precotex.web.Data.Repositories.Login;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,22 +82,22 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-        /*
+
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-        */
+
 
         /*PRODUCCION*/
 
-        policy.WithOrigins(
-        "http://192.168.1.36",
-        "https://192.168.1.36",
-        "https://gestion.precotex.com",
-        "https://gestion.precotex.com:444"
-        )  // Especifica el origen permitido
-        .AllowAnyHeader()                     // Permitir cualquier encabezado
-        .AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
+        //policy.WithOrigins(
+        //"http://192.168.1.36",
+        //"https://192.168.1.36",
+        //"https://gestion.precotex.com",
+        //"https://gestion.precotex.com:444"
+        //)  // Especifica el origen permitido
+        //.AllowAnyHeader()                     // Permitir cualquier encabezado
+        //.AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
 
     }); 
 });
@@ -164,7 +165,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwagger();
 }
 
 app.UseStaticFiles(new StaticFileOptions
