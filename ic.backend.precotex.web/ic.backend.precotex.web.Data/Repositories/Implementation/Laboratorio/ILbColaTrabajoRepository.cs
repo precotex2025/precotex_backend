@@ -31,6 +31,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         */
         Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<IEnumerable<Lg_Item>?> CargarComboBoxItem();
+        Task<(int Codigo, string Mensaje)> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
+        Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo);
 
         /*
             INFORMACION SDC

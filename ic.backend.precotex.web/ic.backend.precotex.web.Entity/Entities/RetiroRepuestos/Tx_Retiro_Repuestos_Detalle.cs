@@ -17,8 +17,8 @@ namespace ic.backend.precotex.web.Entity.Entities.RetiroRepuestos
         //public string? Itm_Unidad_Medida { get; set; }
         public string? Cod_UniMed { get; set; }
         public string? Rpt_Cambio { get; set; }
-        public string? Itm_Foto { get; set; }   
-        
+        public string? Itm_Foto { get; set; }
+        public string? UrlImagen { get; set; }
 
 
     }

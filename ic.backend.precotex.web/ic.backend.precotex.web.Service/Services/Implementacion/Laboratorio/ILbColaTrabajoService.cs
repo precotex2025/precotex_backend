@@ -42,5 +42,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
              HOJA DE FORMULACION
         */
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec);
+        Task<ServiceResponse<int>> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
+        Task<ServiceResponse<int>> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo);
     }
 }

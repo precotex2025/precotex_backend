@@ -1,12 +1,8 @@
 ﻿using ic.backend.precotex.web.Api.Parameters;
-using ic.backend.precotex.web.Entity.Entities;
-using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
-using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.RetiroRepuestos;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -148,6 +144,25 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            //var response = await _txRetiroRepuestosService.ListaRetiroDetallePorNumRequerimiento(Num_Requerimiento);
+
+            //if (response?.Elements != null)
+            //{
+            //    foreach (var item in response.Elements)
+            //    {
+            //        item.UrlImagen = $"https://gestion.precotex.com/api/imagenes/{item.Itm_Foto}";
+            //    }
+            //}
+
+
+            //if (response?.Success == true)
+            //{
+            //    return Ok(response);
+            //}
+            //else
+            //{
+            //    return BadRequest(response);
+            //}
         }
 
         //OBTIENE LOS DATOS DE UN DETALLE DE UN RETIRO
@@ -348,13 +363,14 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             return BadRequest(result);
         }
 
-
-        [HttpPost]
-        [Route("patchActualizarRequerimientoDetalle")]
-        [ApiExplorerSettings(IgnoreApi = true)] // 👈 oculta de Swagger
         //public async Task<IActionResult> postProcesoConfirmarReclamo([FromForm] ProcesoConfirmarReclamo parameters, [FromForm][Required] IFormFile archivoCalidad)
+        [HttpPatch]
+        [Route("patchActualizarRequerimientoDetalle")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> postProcesoConfirmarReclamo()
         {
+            try
+            {
             //CAPTURAMOS LA TRAZA
             var form = Request.Form;
             var nNum_Requerimiento = form["nNum_Requerimiento"];
@@ -368,7 +384,7 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             string nombreArchivo = string.Empty;
             //string rutaBase = @"D:\ImagenesRetiro"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
             //string rutaBase = @"\\fileserverprx\imagenesretiro$"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
-            string rutaBase = @"\\192.168.1.36:8084\"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+            string rutaBase = @"D:\htdocs\app\foto"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
             Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
 
             var claveArchivo = $"form['itm_Foto']";
@@ -401,7 +417,57 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
         }
+
+        //[HttpPost]
+        //[Route("patchActualizarRequerimientoDetalle")]
+        //public async Task<IActionResult> postProcesoConfirmarReclamoBase64([FromBody] Tx_RequerimientoImagen dto)
+        //{
+        //    string nombreArchivo = string.Empty;
+
+        //    if (!string.IsNullOrEmpty(dto.ImagenBase64))
+        //    {
+        //        try
+        //        {
+        //            var rutaBase = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
+        //            Directory.CreateDirectory(rutaBase);
+
+        //            nombreArchivo = $"{Guid.NewGuid()}_{dto.sNombre_Archivo}".Replace(" ", "_");
+        //            var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
+
+        //            var bytes = Convert.FromBase64String(dto.ImagenBase64);
+        //            await System.IO.File.WriteAllBytesAsync(rutaArchivo, bytes);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return StatusCode(500, $"Error al guardar imagen: {ex.Message}");
+        //        }
+        //    }
+
+        //    var result = await _txRetiroRepuestosService.ActualizarRequerimientoDetalle(
+        //        dto.nNum_Requerimiento,
+        //        dto.nNum_Secuencia,
+        //        dto.nCan_Requerida,
+        //        dto.sRpt_Cambio,
+        //        nombreArchivo
+        //    );
+
+        //    if (result.Success)
+        //    {
+        //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+        //        return Ok(result);
+        //    }
+
+        //    result.CodeResult = StatusCodes.Status400BadRequest;
+        //    return BadRequest(result);
+        //}
+
+
 
         [HttpGet]
         [Route("GetImageBase64FromUrlAsync")]
@@ -439,7 +505,7 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
                 //var filePath = Path.Combine(@"\\192.168.1.36\d$\dayala\Reportes-RetiroRepuestos\", fileName);
                 //var filePath = Path.Combine(@"D:\Reportes-RetiroRepuestos\", fileName);
                 //var filePath = Path.Combine(@"\\fileserverprx\imagenesretiro$", fileName);
-                var filePath = Path.Combine(@"\\192.168.1.36\", fileName);
+                var filePath = Path.Combine(@"D:\htdocs\app\foto", fileName);
                  
                 // Guarda el archivo como binario puro
                 await System.IO.File.WriteAllBytesAsync(filePath, memoryStream.ToArray());
@@ -513,15 +579,27 @@ namespace ic.backend.precotex.web.Api.Controllers.RetiroRepuestos
             return BadRequest(result);
         }
 
-        [HttpGet("getImagen")]
+        [HttpGet]
+        [Route("getImagenDesdeBackEnd")]
         public IActionResult GetImage(string imageId)
         {
             //var path = Path.Combine(@"\\fileserverprx\imagenesretiro$\", imageId);
-            var path = Path.Combine(@"\\192.168.1.36\", imageId);
+            var path = Path.Combine(@"D:\htdocs\app\foto", imageId);
             if (!System.IO.File.Exists(path)) return NotFound();
             var mime = "image/jpeg";
             var bytes = System.IO.File.ReadAllBytes(path);
             return File(bytes, mime);
         }
+
+        //[HttpGet("getImagen")]
+        //public IActionResult GetImage(string imageId)
+        //{
+        //    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes", imageId);
+        //    if (!System.IO.File.Exists(path)) return NotFound();
+        //    var mime = "image/jpeg";
+        //    var bytes = System.IO.File.ReadAllBytes(path);
+        //    return File(bytes, mime);
+        //}
+
     }
 }

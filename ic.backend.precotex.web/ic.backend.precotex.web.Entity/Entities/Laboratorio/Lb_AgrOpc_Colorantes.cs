@@ -29,5 +29,20 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public double? Car_Por { get; set; }
         public double? Sod_Gr { get; set; }
         public double? Sod_Por { get; set; }
+        public IEnumerable<Colorantes>? Colorantes { get; set; }
     }
+
+    public class Colorantes
+    {
+        public int? Corr_Carta { get; set; }
+        public int? Sec { get; set; }
+        public string? Col_Cod { get; set; }
+        public decimal? Por_Ini { get; set; }
+        public decimal? Por_Aju { get; set; }
+        public decimal? Por_Fin { get; set; }
+        public int? id_secuencia { get; set; }
+        public int? correlativo { get; set; }
+    }
+
+
 }

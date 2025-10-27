@@ -141,7 +141,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Procedencia = parametros.Procedencia,
-                //id_secuencia = parametros.id_secuencia,
+                Correlativo = parametros.Correlativo,
                 Col_Cod = parametros.Col_Cod,
                 Por_Ini = parametros.Por_Ini,
                 Por_Aju = parametros.Por_Aju,
@@ -208,6 +208,43 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postCopiarOpcionColorante")]
+        public async Task<IActionResult> postCopiarOpcionColorante([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lb_AgrOpc_Colorantes = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+            };
+
+            var result = await _LbColaTrabajoService.CopiarOpcionColorante(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpDelete]
+        [Route("deleteEliminarArea")]
+        public async Task<IActionResult> deleteEliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = await _LbColaTrabajoService.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
 

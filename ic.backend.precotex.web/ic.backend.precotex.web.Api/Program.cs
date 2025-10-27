@@ -69,6 +69,8 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.ReporteNC;
 using ic.backend.precotex.web.Service.Services.ReporteNC;
 using ic.backend.precotex.web.Data.Repositories.ReporteNC;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -78,7 +80,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "AllAlongAnApp", Version = "v1" });
+});
+
 
 // Configuraci�n de CORS
 builder.Services.AddCors(options =>
@@ -86,11 +92,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-        
+
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-        
+
 
         /*PRODUCCION*/
 
@@ -101,7 +107,7 @@ builder.Services.AddCors(options =>
         //"https://gestion.precotex.com:444"
         //)  // Especifica el origen permitido
         //.AllowAnyHeader()                     // Permitir cualquier encabezado
-        //.AllowAnyMethod();                    // Permitir cualquier m�todo (GET, POST, etc.)
+        //.AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
     }); 
 });
@@ -170,22 +176,27 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-app.UseSwagger();
-app.UseSwagger();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "BackEnd v1");
+    });
 }
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(@"\\fileserverprx\imagenesretiro$"),
-    RequestPath = "/imagenes"
-});
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    //FileProvider = new PhysicalFileProvider(@"\\fileserverprx\imagenesretiro$"),
+//    FileProvider = new PhysicalFileProvider(@"D:\htdocs\app\foto"),
+//    RequestPath = "/imagenes"
+//});
 
 // Usa CORS antes de las rutas
 
+app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseCors("AllowAngularApp");
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

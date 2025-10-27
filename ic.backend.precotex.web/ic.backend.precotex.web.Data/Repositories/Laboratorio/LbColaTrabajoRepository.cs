@@ -12,6 +12,7 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using Microsoft.Graph.Models.TermStore;
+using System.ComponentModel;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -187,7 +188,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Corr_Carta", lb_AgrOpc_Colorantes.Corr_Carta);
                 parametros.Add("@Sec", lb_AgrOpc_Colorantes.Sec);
                 parametros.Add("@Procedencia", lb_AgrOpc_Colorantes.Procedencia);
-                //parametros.Add("@id_secuencia", lb_AgrOpc_Colorantes.id_secuencia);
+                parametros.Add("@Correlativo", lb_AgrOpc_Colorantes.Correlativo);
                 parametros.Add("@Col_Cod", lb_AgrOpc_Colorantes.Col_Cod);
                 parametros.Add("@Por_Ini", lb_AgrOpc_Colorantes.Por_Ini);
                 parametros.Add("@Por_Aju", lb_AgrOpc_Colorantes.Por_Aju);
@@ -280,23 +281,139 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         //CARGAR DATOS GRILLA HOJA FORMULACION
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec)
         {
+            //using (var connection = new SqlConnection(_connectionString))
+            //{
+            //    await connection.OpenAsync();
+
+            //    var parametros = new DynamicParameters();
+            //    parametros.Add("@Corr_Carta", Corr_Carta);
+            //    parametros.Add("@Sec", Sec);
+
+            //    var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+            //        "[dbo].[PA_Lb_Colorantes_WB_S0001]"
+            //        , parametros
+            //        , commandType: CommandType.StoredProcedure
+            //    );
+            //    return result;
+            //}
+
+            using var connection = new SqlConnection(_connectionString);
+             await connection.OpenAsync();
+            var parametros = new DynamicParameters();
+            parametros.Add("@Corr_Carta", Corr_Carta);
+            parametros.Add("@Sec", Sec);
+
+            using var multi = await connection.QueryMultipleAsync(
+                "[dbo].[PA_Lb_Colorantes_WB_S0001]"
+                , parametros
+                , commandType: CommandType.StoredProcedure
+            );
+
+            var DatosGenerales = (await multi.ReadAsync<Lb_AgrOpc_Colorantes>()).ToList();
+            var rutas = await multi.ReadAsync<Colorantes>();
+
+            foreach (var datos in DatosGenerales)
+            {
+                datos.Colorantes = rutas
+               .Where(r => r.Corr_Carta == datos.Corr_Carta && r.Sec == datos.Sec)
+               .ToList();
+
+            }
+            return DatosGenerales;
+
+        }
+
+        //LISTAR AHIBAS
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListaAhibas()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_Ahibas_WB_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        //COPIAR OPCION
+        public async Task<(int Codigo, string Mensaje)> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes)
+        {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 var parametros = new DynamicParameters();
-                parametros.Add("@Corr_Carta", Corr_Carta);
-                parametros.Add("@Sec", Sec);
 
-                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
-                    "[dbo].[PA_Lb_Colorantes_WB_S0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                );
-                return result;
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", lb_AgrOpc_Colorantes.Corr_Carta);
+                parametros.Add("@Sec", lb_AgrOpc_Colorantes.Sec);
+                parametros.Add("@Correlativo", lb_AgrOpc_Colorantes.Correlativo);
+                
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_I0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
             }
         }
+        
+        //ELIMINAR OPCION AGREGADA
+        public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+                parametros.Add("@Correlativo", Correlativo);
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_D0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
     }
 }

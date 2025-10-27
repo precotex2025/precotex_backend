@@ -27,12 +27,19 @@ namespace ic.backend.precotex.web.Entity.Entities.ReporteNC
         public string? Rep_AccCor_Tom { get; set; }
         public string? Rep_DetObs { get; set; }
         public string? Rep_Resp_Levantamiento { get; set; }
+        public string? Imagenes { get; set; }
+        public string? imgnombre { get; set; }
+        public int? Img_Fam { get; set; }
 
         //VARIABLES PARA MOSTRAR DESCRIPCION EN LOS SELECTS
         public string? Est_Des { get; set; }
         public string? Niv_Rgo_Des { get; set; }
         public string? Responsable { get; set; }
         public string? Are_Des { get; set; }
+        public string? Des_Planta { get; set; }
+        public string? Cla_Des { get; set; }
+        public string? Resp_Nom { get; set; }
+        public string? Est_Id { get; set; }
 
     }
 }
