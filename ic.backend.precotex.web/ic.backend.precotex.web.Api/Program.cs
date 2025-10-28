@@ -72,6 +72,10 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.Builder;
+using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimiento;
+using ic.backend.precotex.web.Service.Services.SolicitudMantenimiento;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SolicitudMantenimiento;
+using ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -140,6 +144,7 @@ builder.Services.AddScoped<ITxRetiroRepuestosService, TxRetiroRepuestosService>(
 builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
 builder.Services.AddScoped<ITxLoginService, TxLoginService>();
 builder.Services.AddScoped<ITxReporteNCService, TxReporteNCService>();
+builder.Services.AddScoped<ITMSolicitudMantenimientoService, TMSolicitudMantenimientoService>();
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -166,6 +171,7 @@ builder.Services.AddScoped<ITxRetiroRepuestosRepository, TxRetiroRepuestosReposi
 builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
 builder.Services.AddScoped<ITxLoginRepository, TxLoginRepository>();
 builder.Services.AddScoped<ITxReporteNCRepository, TxReporteNCRepository>();
+builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMantenimientoRepository>();
 #endregion
 
 
