@@ -33,6 +33,8 @@ namespace ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento
         public string? Supervisor { get; set; }
         public string? Estado { get; set; }
         public int? Num_Planta { get; set; }
+        public string? T1_Tiempo_Espera_Min_Des { get; set; }
+        
 
 
         /*
