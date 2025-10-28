@@ -20,6 +20,40 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
             _tMSolicitudMantenimientoRepository = tMSolicitudMantenimientoRepository;
         }
 
+        public async Task<ServiceResponse<int>> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _tMSolicitudMantenimientoRepository.AvanzaEstadoSolicitudMantenimiento(sCodUsuario, sCodSolicitud, sObservaciones);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponseList<TM_Maquina>?> ObtieneInformacionMaquinas(string sCodMaquina)
         {
             var result = new ServiceResponseList<TM_Maquina>();
