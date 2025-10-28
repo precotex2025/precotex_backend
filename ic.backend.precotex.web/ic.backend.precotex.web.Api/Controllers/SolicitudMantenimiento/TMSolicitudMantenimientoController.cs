@@ -76,6 +76,33 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtieneInformacionSolicitudesVisor")]
+        public async Task<IActionResult> getObtieneInformacionSolicitudesVisor()
+        {
+            var result = await _tMSolicitudMantenimientoService.ObtieneInformacionSolicitudesVisor();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getImagenDesdeBackEnd")]
+        public IActionResult GetImage(string imageId)
+        {
+            //var path = Path.Combine(@"\\fileserverprx\imagenesretiro$\", imageId);
+            var path = Path.Combine(@"D:\htdocs\app\foto\", imageId);
+            if (!System.IO.File.Exists(path)) return NotFound();
+            var mime = "image/jpeg";
+            var bytes = System.IO.File.ReadAllBytes(path);
+            return File(bytes, mime);
+        }
+
         [HttpPost]
         [Route("postAvanzaEstadoSolicitudMantenimiento")]
         public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
