@@ -21,10 +21,11 @@ namespace ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento
         public string? Fec_Registro { get; set; }
         public string? Usu_Registro { get; set; }
         public string? Cod_Equipo { get; set; }
-        public string? T1_Tiempo_Espera_Min { get; set; }
-        public string? T2_Tiempo_Interv_Min { get; set; }
+        public int? T1_Tiempo_Espera_Min { get; set; }
+        public int? T2_Tiempo_Interv_Min { get; set; }
         public int? T3_Tiempo_VB_Min { get; set; }
-        public string? Cod_Usuario_Supervisor { get; set; }
+        public string? Cod_Usuario_Supervisor { get; set; }     
+        public string? cod_Usuario_Tecnico { get; set; }
 
         //otros campos
         public string? Area { get; set; }
@@ -34,10 +35,14 @@ namespace ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento
         public string? Estado { get; set; }
         public int? Num_Planta { get; set; }
         public string? T1_Tiempo_Espera_Min_Des { get; set; }
+        public string? T2_Tiempo_Interv_Min_Des { get; set; }
+        public string? T3_Tiempo_VB_Min_Des { get; set; }
         public string? Nombre_Estado { get; set; }
         public string? Hora_Reporte { get; set; }
-        public string? cod_Usuario_Tecnico { get; set; }
-
+        public string? Des_Usuario_Tecnico { get; set; }
+        public string? Prioridad_Des { get; set; }
+        public string? Nombre_Tarea { get; set; }
+        public string? Desc_TipFall { get; set; }
 
         /*
           

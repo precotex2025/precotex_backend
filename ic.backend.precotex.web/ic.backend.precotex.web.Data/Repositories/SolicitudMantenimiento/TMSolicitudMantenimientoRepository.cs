@@ -22,7 +22,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones)
+        public async Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -34,6 +34,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
                 parametros.Add("@Cod_Usuario", sCodUsuario);
                 parametros.Add("@Cod_Solicitud", sCodSolicitud);
                 parametros.Add("@Observaciones", sObservaciones);
+                parametros.Add("@Datos_Lider", sDatosLider);
 
                 // Parámetros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -158,6 +159,62 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
                  );
 
                 return result;
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                // Parametros de SQL
+                parametros.Add("@Accion", tM_Tiempo_Mantenimiento.Accion);
+                parametros.Add("@Num_mante", tM_Tiempo_Mantenimiento.Num_Mante);
+                //parametros.Add("@Fec_Registro", tM_Tiempo_Mantenimiento.Fec_Registro);
+                parametros.Add("@Cod_Maquina", tM_Tiempo_Mantenimiento.Cod_Maquina);
+                parametros.Add("@Nro_DocIde", tM_Tiempo_Mantenimiento.Nro_DocIde);
+                parametros.Add("@Cod_Tarea", tM_Tiempo_Mantenimiento.Cod_Tarea);
+                parametros.Add("@Cod_Ordtra", tM_Tiempo_Mantenimiento.Cod_Ordtra);
+                //parametros.Add("@Fec_Hora_Inicio", tM_Tiempo_Mantenimiento.Fec_Hora_Inicio);
+                //parametros.Add("@Fec_Hora_Fin", tM_Tiempo_Mantenimiento.Fec_Hora_Fin);
+                parametros.Add("@ObserMante", tM_Tiempo_Mantenimiento.ObserMante);
+                parametros.Add("@Cod_Usuario", tM_Tiempo_Mantenimiento.Cod_Usuario);
+                parametros.Add("@Cod_Espe", tM_Tiempo_Mantenimiento.Cod_Espe);
+                parametros.Add("@Cod_Articulo", tM_Tiempo_Mantenimiento.Cod_Articulo);
+                parametros.Add("@Cod_Area_Tej_Mante_Maq", tM_Tiempo_Mantenimiento.Cod_Area_Tej_Mante_Maq);
+                parametros.Add("@Cod_Tej_Cond", tM_Tiempo_Mantenimiento.Cod_Tej_Cond);
+                parametros.Add("@Cod_ParMaq_Tej", tM_Tiempo_Mantenimiento.Cod_ParMaq_Tej);
+                parametros.Add("@Cod_TipFall", tM_Tiempo_Mantenimiento.Cod_TipFall);
+                parametros.Add("@ObserMante2", tM_Tiempo_Mantenimiento.ObserMante2);
+                parametros.Add("@Flg_Atribuido", tM_Tiempo_Mantenimiento.Flg_Atribuido);
+                parametros.Add("@Num_Planta", tM_Tiempo_Mantenimiento.Num_Planta);
+                parametros.Add("@Cod_Solicitud", tM_Tiempo_Mantenimiento.Cod_Solicitud);
+                parametros.Add("@Datos_Lider", tM_Tiempo_Mantenimiento.Datos_Lider);
+
+                // Parámetros de salida
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                // Ejecutar el procedimiento almacenado
+                try
+                {
+                    connection.Execute(
+                        "[dbo].[Tj_Tiempo_Man_Maqui_Tj_v2_Sede_Web]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (Exception ex) { }
+
+                //Obtener los valores de salida
+                var codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+
+                return (codigo, mensaje);
+
             }
         }
     }

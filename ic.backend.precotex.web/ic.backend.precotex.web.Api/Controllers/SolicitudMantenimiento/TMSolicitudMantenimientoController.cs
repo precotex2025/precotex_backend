@@ -4,6 +4,7 @@ using ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento;
 using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimiento;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 {
@@ -21,8 +22,82 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 
         [HttpPost]
         [Route("postProcesoMntoSolicitudMantenimiento")]
-        public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento([FromBody] TmSolicitudMantenimientoParameter parameters)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        //public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento([FromBody] TmSolicitudMantenimientoParameter parameters)
+        public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento()
         {
+            try
+            {
+                var form = Request.Form;
+                var sOpcion = form["sOpcion"];
+                var sCod_Solicitud = form["sCod_Solicitud"];
+                var sCod_Area = form["sCod_Area"];
+                var sCod_Maquina = form["sCod_Maquina"];
+                var sObservacion = form["sObservacion"];
+                var sPrioridad = form["sPrioridad"];
+                var sParo_Maquina = form["sParo_Maquina"];
+                var sHora_Inicio = form["sHora_Inicio"];
+                var sUsu_Registro = form["sUsu_Registro"];
+                var sRuta_Fotografia = form["sRuta_Fotografia"];
+                //archivo
+                var claveArchivo = $"form['itm_Foto']";
+                var archivo = form.Files.FirstOrDefault();
+                string nombreArchivo = string.Empty;
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    //ruta
+                    string rutaBase = @"D:\htdocs\app\foto"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+                    Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
+
+                    nombreArchivo = $"{Guid.NewGuid()}_{archivo.FileName}";
+                    var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
+
+                    if (System.IO.File.Exists(rutaArchivo))
+                    {
+                        System.IO.File.Delete(rutaArchivo);
+                    }
+
+                    using (var stream = new FileStream(rutaArchivo, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                }
+
+                //Preparamos la data
+                TM_Solicitud_Mantenimiento _tmSolicitudMantenimiento = new TM_Solicitud_Mantenimiento
+                {
+                    Cod_Solicitud = sCod_Solicitud,
+                    Cod_Area = sCod_Area,
+                    Cod_Maquina = sCod_Maquina,
+                    Observacion = sObservacion,
+                    Prioridad = sPrioridad,
+                    Paro_Maquina = sParo_Maquina == "1" ? true : false,
+                    Ruta_Fotografia = nombreArchivo,
+                    Hora_Inicio = sHora_Inicio,
+                    Usu_Registro = sUsu_Registro
+                };
+
+                //Registro de Solicitud
+                var result = await _tMSolicitudMantenimientoService.ProcesoMntoSolicitudMantenimiento(_tmSolicitudMantenimiento, sOpcion!);
+                if (result.Success)
+                {
+                    result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                    return Ok(result);
+                }
+
+                result.CodeResult = StatusCodes.Status400BadRequest;
+                return BadRequest(result);
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
+
+
+            /*
             TM_Solicitud_Mantenimiento _tmSolicitudMantenimiento = new TM_Solicitud_Mantenimiento
             {
                 Cod_Solicitud = parameters.Cod_Solicitud,
@@ -41,9 +116,11 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
+            
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            */
         }
 
         [HttpGet]
@@ -108,11 +185,26 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
         public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
         {
 
-            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!);
+            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!, parameters.sDatosLider!);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postProcesoMntoTiempoManMquina")]
+        public async Task<IActionResult> postProcesoMntoTiempoManMquina([FromBody] TM_Tiempo_Mantenimiento parameters)
+        {
+            var result = await _tMSolicitudMantenimientoService.ProcesoMntoTiempoManMquina(parameters, parameters.Accion!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);  
             }
 
             result.CodeResult = StatusCodes.Status400BadRequest;
