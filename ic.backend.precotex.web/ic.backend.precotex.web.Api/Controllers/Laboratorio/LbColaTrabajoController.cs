@@ -132,6 +132,52 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchActualizarEstadoDeColorTricomia")]
+        public async Task<IActionResult> patchActualizarEstadoDeColorTricomia([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Flg_Est_Lab = parametros.Flg_Est_Lab
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoDeColorTricomia(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarEstadoDeColorTricomiaAutolab")]
+        public async Task<IActionResult> patchActualizarEstadoDeColorTricomiaAutolab([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Flg_Est_Autolab = parametros.Flg_Est_Autolab
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoDeColorTricomiaAutolab(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         [HttpPost]
         [Route("postAgregarOpcionColorante")]
         public async Task<IActionResult> AgregarOpcionColorante([FromBody] Lb_AgrOpc_Colorantes parametros)
@@ -156,7 +202,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Car_Gr = parametros.Car_Gr,
                 Car_Por = parametros.Car_Por,
                 Sod_Gr = parametros.Sod_Gr,
-                Sod_Por = parametros.Sod_Por
+                Sod_Por = parametros.Sod_Por,
+                Familia = parametros.Familia
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(parametros);
@@ -238,13 +285,360 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpDelete]
-        [Route("deleteEliminarArea")]
+        [Route("deleteEliminarOpcionColorante")]
         public async Task<IActionResult> deleteEliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarColorantesAgregarOpcion")]
+        public async Task<IActionResult> getListarColorantesAgregarOpcion()
+        {
+            var result = await _LbColaTrabajoService.ListarColorantesAgregarOpcion();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonados")]
+        public async Task<IActionResult> getListarJabonados()
+        {
+            var result = await _LbColaTrabajoService.ListarJabonados();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonadosCalculado")]
+        public async Task<IActionResult> getListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadosCalculado(Colorante_Total, Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarFijados")]
+        public async Task<IActionResult> getListarFijados()
+        {
+            var result = await _LbColaTrabajoService.ListarFijados();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarFijadosCalculado")]
+        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarCarbonatoSodaCalculado")]
+        public async Task<IActionResult> getListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        {
+            var result = await _LbColaTrabajoService.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarColaAutolab")]
+        public async Task<IActionResult> getListarColaAutolab()
+        {
+            var result = await _LbColaTrabajoService.ListarColaAutolab();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchEnviarADispensado")]
+        public async Task<IActionResult> patchEnviarADispensado([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Posicion = parametros.Posicion
+            };
+
+            var result = await _LbColaTrabajoService.EnviarADispensado(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarDispensado")]
+        public async Task<IActionResult> getListarDispensado()
+        {
+            var result = await _LbColaTrabajoService.ListarDispensado();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaAhibas")]
+        public async Task<IActionResult> getListaAhibas()
+        {
+            var result = await _LbColaTrabajoService.ListaAhibas();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchCargarAahiba")]
+        public async Task<IActionResult> patchCargarAahiba([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Ahi_Id = parametros.Ahi_Id
+            };
+
+            var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarItemsEnAhiba")]
+        public async Task<IActionResult> getListarItemsEnAhiba(int Ahi_Id)
+        {
+            var result = await _LbColaTrabajoService.ListarItemsEnAhiba(Ahi_Id);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarPH")]
+        public async Task<IActionResult> patchActualizarPH([FromBody] Lb_ColTra_Det parametros)
+        {
+            Lb_ColTra_Det _lbColTraDet = new Lb_ColTra_Det
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Tip_Ph = parametros.Tip_Ph,
+                Ph_Val = parametros.Ph_Val
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarPH(_lbColTraDet);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchEnviarAutolab")]
+        public async Task<IActionResult> patchEnviarAutolab([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo
+            };
+
+            var result = await _LbColaTrabajoService.EnviarAutolab(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postAgregarAuxiliaresHojaFormulacion")]
+        public async Task<IActionResult> postAgregarAuxiliaresHojaFormulacion([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Familia = parametros.Familia
+            };
+
+            var result = await _LbColaTrabajoService.AgregarAuxiliaresHojaFormulacion(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postLlenarTextoFinal")]
+        public async Task<IActionResult> postLlenarTextoFinal([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes _lbAgrOpcColorante = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo
+            };
+
+            var result = await _LbColaTrabajoService.LlenarTextoFinal(_lbAgrOpcColorante);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonado")]
+        public async Task<IActionResult> getListarJabonado()
+        {
+            var result = await _LbColaTrabajoService.ListarJabonado();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarFamiliasProceso")]
+        public async Task<IActionResult> getListarFamiliasProceso()
+        {
+            var result = await _LbColaTrabajoService.ListarFamiliasProceso();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getCargarColoranteParaCopiar")]
+        public async Task<IActionResult> getCargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = await _LbColaTrabajoService.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getCargarColoranteParaDetalle")]
+        public async Task<IActionResult> getCargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = await _LbColaTrabajoService.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 

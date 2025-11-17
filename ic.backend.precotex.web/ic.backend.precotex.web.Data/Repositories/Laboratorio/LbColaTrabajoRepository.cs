@@ -13,6 +13,7 @@ using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using Microsoft.Graph.Models.TermStore;
 using System.ComponentModel;
+using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -173,7 +174,88 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, mensaje);
             }
-        } 
+        }
+        public async Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Flg_Est_Lab", _lbAgrOpcColorante.Flg_Est_Lab);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomiaAutolab(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Flg_Est_Autolab", _lbAgrOpcColorante.Flg_Est_Autolab);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
 
         //INSERTAR DATOS DE OPCION
         public async Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes) 
@@ -204,6 +286,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Car_Por", lb_AgrOpc_Colorantes.Car_Por);
                 parametros.Add("@Sod_Gr", lb_AgrOpc_Colorantes.Sod_Gr);
                 parametros.Add("@Sod_Por", lb_AgrOpc_Colorantes.Sod_Por);
+                parametros.Add("@Familia", lb_AgrOpc_Colorantes.Familia);
                 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -221,7 +304,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 }
                 catch (SqlException ex)
                 {
-                    
+                    Console.WriteLine("SQL Error: " + ex.Message);
                 }
 
                 var Codigo = parametros.Get<int>("@Codigo");
@@ -298,7 +381,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             //}
 
             using var connection = new SqlConnection(_connectionString);
-             await connection.OpenAsync();
+            await connection.OpenAsync();
             var parametros = new DynamicParameters();
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
@@ -315,8 +398,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             foreach (var datos in DatosGenerales)
             {
                 datos.Colorantes = rutas
-               .Where(r => r.Corr_Carta == datos.Corr_Carta && r.Sec == datos.Sec)
-               .ToList();
+                 .Where(r =>
+                     r.Corr_Carta == datos.Corr_Carta &&
+                     r.Sec == datos.Sec &&
+                     r.correlativo == datos.Correlativo
+                 )
+                 .ToList();
 
             }
             return DatosGenerales;
@@ -324,13 +411,13 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR AHIBAS
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListaAhibas()
+        public async Task<IEnumerable<Lb_Ahibas>?> ListaAhibas()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 
-                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                var result = await connection.QueryAsync<Lb_Ahibas>(
                     "[dbo].[PA_Lb_Ahibas_WB_S0001]"
                     , commandType: CommandType.StoredProcedure
                 );
@@ -414,6 +501,515 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, mensaje);
             }
+        }
+
+        //LISTAR COLORANTES
+        public async Task<IEnumerable<Lb_Colorantes>?> ListarColorantesAgregarOpcion()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Colorantes>(
+                    "[dbo].[PA_Lb_Tipo_Colorante_HojaFormulacion_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        /*
+            JABONADOS 
+        */
+        public async Task<IEnumerable<Lb_Jabonados>?> ListarJabonados()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Jabonados>(
+                    "[dbo].[PA_Lb_Jabonados_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var parameters = new DynamicParameters();
+                parameters.Add("@Colorante_Total", Colorante_Total);
+                parameters.Add("@Familia", Familia);
+
+                var result = await connection.QueryAsync<Lb_Jabonados>(
+                    "[dbo].[PA_Lb_Jabonados_Detalle_S0001]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        /*
+            FIJADOS 
+        */
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijados()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Fijados>(
+                    "[dbo].[PA_Lb_Fijados_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Colorante_Total", Colorante_Total);
+                parameters.Add("@Familia", Familia);
+
+                var result = await connection.QueryAsync<Lb_Fijados>(
+                    "[dbo].[PA_Lb_Fijados_Detalle_S0001]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        /*
+            CARBONATO Y SODA
+        */
+
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Colorante_Total", Colorante_Total);
+                parameters.Add("@Familia", Familia);
+                parameters.Add("@Com_Cod_Con", Com_Cod_Con);
+
+                var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Extra>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Valores_S0001]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        /*
+            DISPENSADO EN AUTOLAB 
+        */
+
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarColaAutolab()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0003]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        //ENVIAR A DISPENSADO
+        public async Task<(int Codigo, string Mensaje)> EnviarADispensado(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Posicion", _lbAgrOpcColorante.Posicion);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0003]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //LISTAR DISPENSADO
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarDispensado()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0004]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        //CARGAR COLORANTES A UN AHIBA
+        public async Task<(int Codigo, string Mensaje)> CargarAahiba(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Ahi_Id", _lbAgrOpcColorante.Ahi_Id);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0004]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //LISTAR ITEMS EN AHIBA
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarItemsEnAhiba(int Ahi_Id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Ahi_Id", Ahi_Id);
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0005]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        //ACTUALIZAR PH - INI - FIN - JAB
+        public async Task<(int Codigo, string Mensaje)> ActualizarPH(Lb_ColTra_Det lb_ColTra_Det)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", lb_ColTra_Det.Corr_Carta);
+                parametros.Add("@Sec", lb_ColTra_Det.Sec);
+                parametros.Add("@Correlativo", lb_ColTra_Det.Correlativo);
+                parametros.Add("@Tip_Ph", lb_ColTra_Det.Tip_Ph);
+                parametros.Add("@Ph_Val", lb_ColTra_Det.Ph_Val);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0006]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ENVIAR A AUTOLAB
+        public async Task<(int Codigo, string Mensaje)> EnviarAutolab(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0005]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //AGREGAR AUXILIARES DESDE AGREGAR OPCION EN LA HOJA DE FORMULACION
+        public async Task<(int Codigo, string Mensaje)> AgregarAuxiliaresHojaFormulacion(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+                parametros.Add("@Familia", _lbAgrOpcColorante.Familia);
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> LlenarTextoFinal(Lb_AgrOpc_Colorantes _lbAgrOpcColorante)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", _lbAgrOpcColorante.Corr_Carta);
+                parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
+                parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_Unido_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //LISTAR JABONADO
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Extra>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+            var parametros = new DynamicParameters();
+            parametros.Add("@Corr_Carta", Corr_Carta);
+            parametros.Add("@Sec", Sec);
+            parametros.Add("@Correlativo", Correlativo);
+
+            using var multi = await connection.QueryMultipleAsync(
+                "[dbo].[PA_Lb_Colorantes_WB_S0002]"
+                , parametros
+                , commandType: CommandType.StoredProcedure
+            );
+
+            var DatosGenerales = (await multi.ReadAsync<Lb_AgrOpc_Colorantes>()).ToList();
+            var rutas = await multi.ReadAsync<Colorantes>();
+
+            foreach (var datos in DatosGenerales)
+            {
+                datos.Colorantes = rutas
+                 .Where(r =>
+                     r.Corr_Carta == datos.Corr_Carta &&
+                     r.Sec == datos.Sec &&
+                     r.correlativo == datos.Correlativo
+                 )
+                 .ToList();
+
+            }
+            return DatosGenerales;
+        }
+
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.OpenAsync();
+            var parametros = new DynamicParameters();
+            parametros.Add("@Corr_Carta", Corr_Carta);
+            parametros.Add("@Sec", Sec);
+            parametros.Add("@Correlativo", Correlativo);
+
+            using var multi = await connection.QueryMultipleAsync(
+                "[dbo].[PA_Lb_Colorantes_WB_S0003]"
+                , parametros
+                , commandType: CommandType.StoredProcedure
+            );
+
+            var DatosGenerales = (await multi.ReadAsync<Lb_AgrOpc_Colorantes>()).ToList();
+            var auxiliares = await multi.ReadAsync<Auxiliares>();
+            var colorantes = await multi.ReadAsync<Colorantes>();
+           
+            foreach (var datos in DatosGenerales)
+            {
+                datos.Auxiliares = auxiliares
+                    .Where(a =>
+                        a.Corr_Carta == datos.Corr_Carta &&
+                        a.Sec == datos.Sec &&
+                        a.correlativo == datos.Correlativo
+                    )
+                    .ToList();
+
+                datos.Colorantes = colorantes
+                 .Where(r =>
+                     r.Corr_Carta == datos.Corr_Carta &&
+                     r.Sec == datos.Sec &&
+                     r.correlativo == datos.Correlativo
+                 )
+                 .ToList();
+            }
+            return DatosGenerales;
         }
     }
 }
