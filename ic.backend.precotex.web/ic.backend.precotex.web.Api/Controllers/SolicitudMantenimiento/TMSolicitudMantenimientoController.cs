@@ -259,21 +259,12 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
         //public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
         //{
 
-<<<<<<< HEAD
-        //    var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!);
-        //    if (result.Success)
-        //    {
-        //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
-        //        return Ok(result);
-        //    }
-=======
-            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!, parameters.sDatosLider!);
+            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
->>>>>>> main
 
         //    result.CodeResult = StatusCodes.Status400BadRequest;
         //    return BadRequest(result);
