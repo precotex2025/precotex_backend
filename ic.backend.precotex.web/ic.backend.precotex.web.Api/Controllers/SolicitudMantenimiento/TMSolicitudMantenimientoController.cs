@@ -1,9 +1,19 @@
 ﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento;
 using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimiento;
+using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
+using ic.backend.precotex.web.Service.Services.WallyChat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Graph.Models;
+using Org.BouncyCastle.Asn1.Crmf;
+using System.IO;
+using System.Net.Http.Headers;
+using ZXing;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 {
@@ -13,16 +23,155 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
     public class TMSolicitudMantenimientoController : ControllerBase
     {
         private readonly ITMSolicitudMantenimientoService _tMSolicitudMantenimientoService;
+        private readonly IWaliChatService _waliChatService;
+        private readonly IConfiguration _configuration;
 
-        public TMSolicitudMantenimientoController(ITMSolicitudMantenimientoService tMSolicitudMantenimientoService)
+        public TMSolicitudMantenimientoController(ITMSolicitudMantenimientoService tMSolicitudMantenimientoService,
+                                                   IWaliChatService waliChatService ,
+                                                   IConfiguration configuration)
         {
             _tMSolicitudMantenimientoService = tMSolicitudMantenimientoService;
+            _waliChatService = waliChatService;
+            _configuration = configuration;
         }
 
         [HttpPost]
         [Route("postProcesoMntoSolicitudMantenimiento")]
-        public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento([FromBody] TmSolicitudMantenimientoParameter parameters)
+        [ApiExplorerSettings(IgnoreApi = true)]
+        //public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento([FromBody] TmSolicitudMantenimientoParameter parameters)
+        public async Task<IActionResult> postProcesoMntoSolicitudMantenimiento()
         {
+            bool bExisteImagen = false;
+
+            //string sGrupoA = _configuration["WaliChat:GrupoA"]!;
+            //string sGrupoB = _configuration["WaliChat:GrupoB"]!;
+            //string sGrupoC = _configuration["WaliChat:GrupoC"]!;
+            //string sGrupoD = _configuration["WaliChat:GrupoD"]!;
+
+            try
+            {
+                var form = Request.Form;
+                var sOpcion = form["sOpcion"];
+                var sCod_Solicitud = form["sCod_Solicitud"];
+                var sCod_Area = form["sCod_Area"];
+                var sCod_Maquina = form["sCod_Maquina"];
+                var sObservacion = form["sObservacion"];
+                var sPrioridad = form["sPrioridad"];
+                var sParo_Maquina = form["sParo_Maquina"];
+                var sHora_Inicio = form["sHora_Inicio"];
+                var sUsu_Registro = form["sUsu_Registro"];
+                var sRuta_Fotografia = form["sRuta_Fotografia"];
+                //archivo
+                var claveArchivo = $"form['itm_Foto']";
+                var archivo = form.Files.FirstOrDefault();
+                string nombreArchivo = string.Empty;
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    bExisteImagen = true;
+
+                    //ruta
+                    string rutaBase = @"D:\htdocs\app\foto"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
+                    Directory.CreateDirectory(rutaBase); // Se asegura de que el directorio exista
+
+                    nombreArchivo = $"{Guid.NewGuid()}_{archivo.FileName}";
+                    var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
+
+                    if (System.IO.File.Exists(rutaArchivo))
+                    {
+                        System.IO.File.Delete(rutaArchivo);
+                    }
+
+                    using (var stream = new FileStream(rutaArchivo, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                }
+
+                //Preparamos la data
+                TM_Solicitud_Mantenimiento _tmSolicitudMantenimiento = new TM_Solicitud_Mantenimiento
+                {
+                    Cod_Solicitud = sCod_Solicitud,
+                    Cod_Area = sCod_Area,
+                    Cod_Maquina = sCod_Maquina,
+                    Observacion = sObservacion,
+                    Prioridad = sPrioridad,
+                    Paro_Maquina = sParo_Maquina == "1" ? true : false,
+                    Ruta_Fotografia = nombreArchivo,
+                    Hora_Inicio = sHora_Inicio,
+
+                    Usu_Registro = sUsu_Registro
+                };
+
+                //Registro de Solicitud
+                var result = await _tMSolicitudMantenimientoService.ProcesoMntoSolicitudMantenimiento(_tmSolicitudMantenimiento, sOpcion!);
+                if (result.Success)
+                {
+                    var sNroSolicitud = result.Message[^10..];
+                    string sCodigoGruposWathsApp = string.Empty;
+                    string message = string.Empty;
+                    string _codArea = string.Empty;
+                    
+                    //Obtenemos los datos de la solicitud Generada.
+                    var result2 = await _tMSolicitudMantenimientoService.ObtieneInformacionSolicitudMantenimientoByNumero(sNroSolicitud);
+                    if (result2!.Success)
+                    {
+                        //Recorremos la información
+                        foreach (var item in result2.Elements!)
+                        {
+                            _codArea = item.Cod_Area!;
+                            var _area = item.Area;
+                            var _maquina = item.Maquina;
+                            var _supervisor = item.Supervisor;
+                            var _prioridad = item.Prioridad;
+                            message = @"🚨 *¡Solicitud de Mantenimiento!* \\n *Numero*: " + sNroSolicitud + @"\\n *Area*: " + _area + @"\\n *Maquina*: " + _maquina + @"\\n *Prioridad*: 🔴" + _prioridad + @"\\n *Supervisor*: " + _supervisor + @"\\n *Observación*: " + sObservacion;
+                        }
+
+                        //Validamos el tipo de Grupo Al cual se enviara la notificación
+                        //if (_codArea == "001")//Tejeduria
+                        //{
+                        //    sCodigoGruposWathsApp = sGrupoA;
+                        //    //sCodigoGruposWathsApp = "120363402894222077@g.us";
+                        //    //sCodigoGruposWathsApp = "120363423584808935@g.us";
+                        //}
+                        //else if (_codArea == "007")//ACABADOS H1
+                        //{
+                        //    sCodigoGruposWathsApp = sGrupoD;
+                        //    //sCodigoGruposWathsApp = "120363422799360149@g.us";
+                        //    //sCodigoGruposWathsApp = "120363423584808935@g.us";
+                        //}
+
+                        sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(_codArea)!;
+
+                        //Verifica si cargo la imagen
+                        if (bExisteImagen)
+                        {
+                            //string imageURL = "https://picsum.photos/seed/picsum/600/400";
+                            string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
+                            //Se envia a grupo con imagen
+                            var body = await _waliChatService.EnviarMensajeImageAsync(sCodigoGruposWathsApp, message, imageURL, false);
+                        }
+                        else
+                        {
+                            //Se envia Mensaje a Wathsapp 
+                            var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, message);
+                        }
+                    }
+
+                    result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                    return Ok(result);
+                }
+
+                result.CodeResult = StatusCodes.Status400BadRequest;
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno: {ex.Message}");
+            }
+
+
+            /*
             TM_Solicitud_Mantenimiento _tmSolicitudMantenimiento = new TM_Solicitud_Mantenimiento
             {
                 Cod_Solicitud = parameters.Cod_Solicitud,
@@ -41,9 +190,11 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
+            
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            */
         }
 
         [HttpGet]
@@ -108,16 +259,39 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
         //public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
         //{
 
+<<<<<<< HEAD
         //    var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!);
         //    if (result.Success)
         //    {
         //        result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
         //        return Ok(result);
         //    }
+=======
+            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!, parameters.sDatosLider!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+>>>>>>> main
 
         //    result.CodeResult = StatusCodes.Status400BadRequest;
         //    return BadRequest(result);
         //}
 
+        [HttpPost]
+        [Route("postProcesoMntoTiempoManMquina")]
+        public async Task<IActionResult> postProcesoMntoTiempoManMquina([FromBody] TM_Tiempo_Mantenimiento parameters)
+        {
+            var result = await _tMSolicitudMantenimientoService.ProcesoMntoTiempoManMquina(parameters, parameters.Accion!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

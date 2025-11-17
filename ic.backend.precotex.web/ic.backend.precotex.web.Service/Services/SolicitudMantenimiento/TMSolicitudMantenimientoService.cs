@@ -20,12 +20,12 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
             _tMSolicitudMantenimientoRepository = tMSolicitudMantenimientoRepository;
         }
 
-        public async Task<ServiceResponse<int>> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones)
+        public async Task<ServiceResponse<int>> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider)
         {
             var result = new ServiceResponse<int>();
             try
             {
-                var resultData = await _tMSolicitudMantenimientoRepository.AvanzaEstadoSolicitudMantenimiento(sCodUsuario, sCodSolicitud, sObservaciones);
+                var resultData = await _tMSolicitudMantenimientoRepository.AvanzaEstadoSolicitudMantenimiento(sCodUsuario, sCodSolicitud, sObservaciones, sDatosLider);
                 if (resultData.Codigo > 0)
                 {
                     result.Message = resultData.Mensaje;
@@ -178,6 +178,68 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
             }
         }
 
+        public async Task<ServiceResponse<int>> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _tMSolicitudMantenimientoRepository.ProcesoMntoTiempoManMquina(tM_Tiempo_Mantenimiento, sTipoTransac);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
 
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud)
+        {
+            var result = new ServiceResponseList<TM_Solicitud_Mantenimiento>();
+            try
+            {
+                var resultData = await _tMSolicitudMantenimientoRepository.ObtieneInformacionSolicitudMantenimientoByNumero(sCodSolicitud);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
     }
 }

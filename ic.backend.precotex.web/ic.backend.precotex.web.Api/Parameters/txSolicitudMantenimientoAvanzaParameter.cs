@@ -5,5 +5,6 @@
         public string? Cod_Usuario { get; set; }
         public string? Cod_Solicitud { get; set; }
         public string? Observaciones { get; set; }
+        public string? sDatosLider { get; set; }
     }
 }
