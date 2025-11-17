@@ -76,6 +76,8 @@ using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimi
 using ic.backend.precotex.web.Service.Services.SolicitudMantenimiento;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SolicitudMantenimiento;
 using ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento;
+using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
+using ic.backend.precotex.web.Service.Services.WallyChat;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,23 +98,23 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-
+        /*
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        */
 
         /*PRODUCCION*/
-
-        //policy.WithOrigins(
-        //"http://192.168.1.36",
-        //"https://192.168.1.36",
-        //"https://gestion.precotex.com",
-        //"https://gestion.precotex.com:444"
-        //)  // Especifica el origen permitido
-        //.AllowAnyHeader()                     // Permitir cualquier encabezado
-        //.AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        
+        policy.WithOrigins(
+        "http://192.168.1.36",
+        "https://192.168.1.36",
+        "https://gestion.precotex.com",
+        "https://gestion.precotex.com:444"
+        )  // Especifica el origen permitido
+        .AllowAnyHeader()                     // Permitir cualquier encabezado
+        .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        
     }); 
 });
 
@@ -145,6 +147,7 @@ builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
 builder.Services.AddScoped<ITxLoginService, TxLoginService>();
 builder.Services.AddScoped<ITxReporteNCService, TxReporteNCService>();
 builder.Services.AddScoped<ITMSolicitudMantenimientoService, TMSolicitudMantenimientoService>();
+builder.Services.AddScoped<IWaliChatService, WaliChatService>();
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();

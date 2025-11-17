@@ -18,6 +18,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SolicitudMant
         Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
         Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider);
         Task<(int Codigo, string Mensaje)> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac);
+        Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud);
 
     }
 }

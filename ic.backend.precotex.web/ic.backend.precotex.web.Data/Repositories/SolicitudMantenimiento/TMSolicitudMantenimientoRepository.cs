@@ -217,5 +217,25 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
 
             }
         }
+
+        public async Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Cod_Solicitud = sCodSolicitud
+                };
+
+                var result = await connection.QueryAsync<TM_Solicitud_Mantenimiento>(
+                     "[dbo].[SP_Obtiene_Solicitudes_Mantenimiento_By_Numero]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
     }
 }

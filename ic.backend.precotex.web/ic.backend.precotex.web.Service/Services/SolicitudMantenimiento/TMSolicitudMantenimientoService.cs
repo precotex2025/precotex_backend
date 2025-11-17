@@ -211,5 +211,35 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud)
+        {
+            var result = new ServiceResponseList<TM_Solicitud_Mantenimiento>();
+            try
+            {
+                var resultData = await _tMSolicitudMantenimientoRepository.ObtieneInformacionSolicitudMantenimientoByNumero(sCodSolicitud);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
     }
 }
