@@ -14,18 +14,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SolicitudMant
         Task<(int Codigo, string Mensaje)> ProcesoMntoSolicitudMantenimiento(TM_Solicitud_Mantenimiento tM_Solicitud_Mantenimiento, string sTipoTransac);
         Task<IEnumerable<TM_Maquina>?> ObtieneInformacionMaquinas(string sCodMaquina);
         Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimiento(DateTime FecIni, DateTime FecFin, string codUsuario);
-<<<<<<< HEAD
+
 
         /*VISOR*/
         Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
-        Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones);
-=======
-        /*VISOR*/
-        Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
+        //Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones);
         Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider);
+        /*VISOR*/
+        //Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
+        //Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider);
         Task<(int Codigo, string Mensaje)> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac);
         Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud);
->>>>>>> main
+
 
     }
 }
