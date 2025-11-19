@@ -34,6 +34,7 @@ namespace ic.backend.precotex.web.Service.Services.RegistroPartidaParihuela
                 }
 
                 result.Success = true;
+                result.Message = "Encontrado";
                 result.Elements = resultData.ToList();
                 result.TotalElements = resultData.ToList().Count();
                 return result;
