@@ -27,7 +27,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
         private readonly IConfiguration _configuration;
 
         public TMSolicitudMantenimientoController(ITMSolicitudMantenimientoService tMSolicitudMantenimientoService,
-                                                   IWaliChatService waliChatService ,
+                                                   IWaliChatService waliChatService,
                                                    IConfiguration configuration)
         {
             _tMSolicitudMantenimientoService = tMSolicitudMantenimientoService;
@@ -111,7 +111,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                     string sCodigoGruposWathsApp = string.Empty;
                     string message = string.Empty;
                     string _codArea = string.Empty;
-                    
+
                     //Obtenemos los datos de la solicitud Generada.
                     var result2 = await _tMSolicitudMantenimientoService.ObtieneInformacionSolicitudMantenimientoByNumero(sNroSolicitud);
                     if (result2!.Success)
@@ -254,21 +254,21 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
             return File(bytes, mime);
         }
 
-        //[HttpPost]
-        //[Route("postAvanzaEstadoSolicitudMantenimiento")]
-        //public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
-        //{
+        [HttpPost]
+        [Route("postAvanzaEstadoSolicitudMantenimiento")]
+        public async Task<IActionResult> postAvanzaEstadoSolicitudMantenimiento([FromBody] txSolicitudMantenimientoAvanzaParameter parameters)
+        {
 
-            //var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!);
-            //if (result.Success)
-            //{
-            //    result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
-            //    return Ok(result);
-            //}
+            var result = await _tMSolicitudMantenimientoService.AvanzaEstadoSolicitudMantenimiento(parameters.Cod_Usuario, parameters.Cod_Solicitud!, parameters.Observaciones!, parameters.sDatosLider!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
 
-        //    result.CodeResult = StatusCodes.Status400BadRequest;
-        //    return BadRequest(result);
-        //}
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
         [HttpPost]
         [Route("postProcesoMntoTiempoManMquina")]
