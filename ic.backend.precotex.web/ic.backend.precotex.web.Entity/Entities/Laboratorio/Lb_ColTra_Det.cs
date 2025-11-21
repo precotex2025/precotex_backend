@@ -18,9 +18,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Ini {get; set;}
         public decimal? Ph_Fin {get; set;}
         public decimal? Ph_Jab { get; set; }
-        public int? Dosificacion1 { get; set; }
-        public int? Dosificacion2 { get; set; }
-        public int? Dosificacion3 { get; set; }
+        public decimal? Dosificacion1 { get; set; }
+        public decimal? Dosificacion2 { get; set; }
+        public decimal? Dosificacion3 { get; set; }
         public string? Flg_Est_Lab { get; set; }
 
         //OTROS CAMPOS 
