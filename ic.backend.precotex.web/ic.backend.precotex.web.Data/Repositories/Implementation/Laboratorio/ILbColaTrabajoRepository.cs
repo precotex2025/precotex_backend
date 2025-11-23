@@ -84,5 +84,13 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo);
 
+
+
+
+        /*
+             LOGIN
+        */
+        Task<IEnumerable<Lb_Usuarios>?> GetUsuarioWeb(string Cod_Usuario);
+
     }
 }

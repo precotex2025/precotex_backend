@@ -20,5 +20,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Estado { get; set; }
         public string? Flg_Est_Lab { get; set; }
         public string? Cod_Ruta { get; set; }
+        public string? Entregado { get; set; }
     }
 }

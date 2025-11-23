@@ -1011,5 +1011,27 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
             return DatosGenerales;
         }
+
+
+
+
+        /*************************LOGIN**********************/
+        public async Task<IEnumerable<Lb_Usuarios>?> GetUsuarioWeb(string Cod_Usuario)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Usuario", Cod_Usuario);
+
+                var result = await connection.QueryAsync<Lb_Usuarios>(
+                    "[dbo].[PA_Lb_Usuarios_WB_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

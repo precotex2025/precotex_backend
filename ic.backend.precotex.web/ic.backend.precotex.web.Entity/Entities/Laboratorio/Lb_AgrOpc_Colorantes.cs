@@ -42,6 +42,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Ini { get; set; }
         public decimal? Ph_Fin { get; set; }
         public decimal? Ph_Jab { get; set; }
+
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
