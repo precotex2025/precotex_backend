@@ -107,54 +107,43 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 var result = await _tMSolicitudMantenimientoService.ProcesoMntoSolicitudMantenimiento(_tmSolicitudMantenimiento, sOpcion!);
                 if (result.Success)
                 {
-                    var sNroSolicitud = result.Message[^10..];
-                    string sCodigoGruposWathsApp = string.Empty;
-                    string message = string.Empty;
-                    string _codArea = string.Empty;
-
-                    //Obtenemos los datos de la solicitud Generada.
-                    var result2 = await _tMSolicitudMantenimientoService.ObtieneInformacionSolicitudMantenimientoByNumero(sNroSolicitud);
-                    if (result2!.Success)
+                    if (result.CodeTransacc == 1)
                     {
-                        //Recorremos la información
-                        foreach (var item in result2.Elements!)
-                        {
-                            _codArea = item.Cod_Area!;
-                            var _area = item.Area;
-                            var _maquina = item.Maquina;
-                            var _supervisor = item.Supervisor;
-                            var _prioridad = item.Prioridad;
-                            message = @"🚨 *¡Solicitud de Mantenimiento!* \\n *Numero*: " + sNroSolicitud + @"\\n *Area*: " + _area + @"\\n *Maquina*: " + _maquina + @"\\n *Prioridad*: 🔴" + _prioridad + @"\\n *Supervisor*: " + _supervisor + @"\\n *Observación*: " + sObservacion;
-                        }
+                        var sNroSolicitud = result.Message[^10..];
+                        string sCodigoGruposWathsApp = string.Empty;
+                        string message = string.Empty;
+                        string _codArea = string.Empty;
 
-                        //Validamos el tipo de Grupo Al cual se enviara la notificación
-                        //if (_codArea == "001")//Tejeduria
-                        //{
-                        //    sCodigoGruposWathsApp = sGrupoA;
-                        //    //sCodigoGruposWathsApp = "120363402894222077@g.us";
-                        //    //sCodigoGruposWathsApp = "120363423584808935@g.us";
-                        //}
-                        //else if (_codArea == "007")//ACABADOS H1
-                        //{
-                        //    sCodigoGruposWathsApp = sGrupoD;
-                        //    //sCodigoGruposWathsApp = "120363422799360149@g.us";
-                        //    //sCodigoGruposWathsApp = "120363423584808935@g.us";
-                        //}
-
-                        sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(_codArea)!;
-
-                        //Verifica si cargo la imagen
-                        if (bExisteImagen)
+                        //Obtenemos los datos de la solicitud Generada.
+                        var result2 = await _tMSolicitudMantenimientoService.ObtieneInformacionSolicitudMantenimientoByNumero(sNroSolicitud);
+                        if (result2!.Success)
                         {
-                            //string imageURL = "https://picsum.photos/seed/picsum/600/400";
-                            string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
-                            //Se envia a grupo con imagen
-                            var body = await _waliChatService.EnviarMensajeImageAsync(sCodigoGruposWathsApp, message, imageURL, false);
-                        }
-                        else
-                        {
-                            //Se envia Mensaje a Wathsapp 
-                            var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, message);
+                            //Recorremos la información
+                            foreach (var item in result2.Elements!)
+                            {
+                                _codArea = item.Cod_Area!;
+                                var _area = item.Area;
+                                var _maquina = item.Maquina;
+                                var _supervisor = item.Supervisor;
+                                var _prioridad = item.Prioridad;
+                                message = @"🚨 *¡Solicitud de Mantenimiento!* \\n *Numero*: " + sNroSolicitud + @"\\n *Area*: " + _area + @"\\n *Maquina*: " + _maquina + @"\\n *Prioridad*: 🔴" + _prioridad + @"\\n *Supervisor*: " + _supervisor + @"\\n *Observación*: " + sObservacion;
+                            }
+
+                            sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(_codArea)!;
+
+                            //Verifica si cargo la imagen
+                            if (bExisteImagen)
+                            {
+                                //string imageURL = "https://picsum.photos/seed/picsum/600/400";
+                                string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
+                                //Se envia a grupo con imagen
+                                var body = await _waliChatService.EnviarMensajeImageAsync(sCodigoGruposWathsApp, message, imageURL, false);
+                            }
+                            else
+                            {
+                                //Se envia Mensaje a Wathsapp 
+                                var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, message);
+                            }
                         }
                     }
 
