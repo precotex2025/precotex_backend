@@ -17,6 +17,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.ReporteNC
         Task<(int Codigo, string Mensaje)> ActualizarEstado(Tx_ReporteNC tx_ReporteNC);
         Task<IEnumerable<Tx_ReporteNC>?> ListarDatosResolvedor(int Rep_ID);
         Task<(int Codigo, string Mensaje)> ActualizarReporteNC(Tx_ReporteNC tx_ReporteNC);
+        Task<(int Codigo, string Mensaje)> ActualizarReporteNCCierre(Tx_ReporteNC tx_ReporteNC);
         Task<IEnumerable<Tx_ReportesNC_Estados>?> ListarEstados();
         Task<(int Codigo, string Mensaje)> ActualizarReporteNCOriginal(Tx_ReporteNC tx_ReporteNC);
         Task<(int Codigo, string Mensaje)> RegistrarImagendeReporteNC(int Rep_Id, string Img_Des, int Img_Fam);

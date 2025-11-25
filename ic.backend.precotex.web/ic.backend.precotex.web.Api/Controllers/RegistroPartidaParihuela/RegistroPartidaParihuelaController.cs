@@ -43,7 +43,7 @@ namespace ic.backend.precotex.web.Api.Controllers.RegistroPartidaParihuela
         public async Task<IActionResult> UpdateDetPartida([FromBody] UpdateDetPartidaRequest request)
         {
 
-            var result = await _IRegistroPartidaParihuela.UpdateDetPartida(request.pData, request.pCod_Usuario, request.pEstadoParihuela);
+            var result = await _IRegistroPartidaParihuela.UpdateDetPartida(request.pData, request.pCod_Usuario, request.pEstadoParihuela, request.pReposicion);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -140,6 +140,7 @@ namespace ic.backend.precotex.web.Api.Controllers.RegistroPartidaParihuela
             public List<E_RegistroPartidaParihuela> pData { get; set; }  // Cambiar el tipo de dato según lo que realmente sea pData
             public string pCod_Usuario { get; set; }
             public string pEstadoParihuela { get; set; }
+            public string pReposicion { get; set; }
         }
 
     }

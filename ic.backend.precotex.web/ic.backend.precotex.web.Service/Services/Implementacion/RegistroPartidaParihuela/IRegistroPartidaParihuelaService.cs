@@ -12,7 +12,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.RegistroPartid
     {
         Task<ServiceResponseList<E_RegistroPartidaParihuela>?> ObtenerDetPartida(string pCod_Partida, string pOpcion);
 
-        Task<ServiceResponseList<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela);
+        Task<ServiceResponseList<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela, string pReposicion);
 
         Task<ServiceResponseList<E_Complemento>?> ObtenerCategoriasPorId(string pIdPartida);
 

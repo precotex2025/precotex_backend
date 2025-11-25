@@ -45,7 +45,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
 
         }
 
-        public async Task<IEnumerable<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela)
+        public async Task<IEnumerable<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela, string pReposicion)
         {
             try
             {
@@ -79,6 +79,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
                     parameters.Add("@pData", dataTable.AsTableValuedParameter("dbo.TipoRegistroPartidaParihuela")); // Tipo de tabla en SQL
                     parameters.Add("@pCod_Usuario", pCod_Usuario, DbType.String);
                     parameters.Add("@pEstadoParihuela", pEstadoParihuela, DbType.String);
+                    parameters.Add("@pReposicion", pReposicion, DbType.String);
 
                     // Ejecutar SP con Dapper
                     var result = await connection.QueryAsync<E_RegistroPartidaParihuela>(

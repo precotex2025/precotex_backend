@@ -22,7 +22,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cur_Jabo { get; set; }
         public string? Fijado { get; set; }
         public string? Acidulado { get; set; }
-        public double? Rel_Ban {  get; set; }
+        public string? Rel_Ban {  get; set; }
         public double? Pes_Mue { get; set; }
         public double? Volumen { get; set; }
         public double? Car_Gr { get; set; }
@@ -38,7 +38,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Tip_Tenido { get; set; }
         public string? Cur_Tenido { get; set; }
         public string? Previo { get; set; }
-        public decimal? R_B { get; set; }
+        public string? R_B { get; set; }
         public decimal? Ph_Ini { get; set; }
         public decimal? Ph_Fin { get; set; }
         public decimal? Ph_Jab { get; set; }

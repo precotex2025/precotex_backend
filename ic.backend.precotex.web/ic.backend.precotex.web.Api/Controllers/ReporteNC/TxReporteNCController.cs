@@ -248,6 +248,81 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                     }
 
                     //REGISTRAMOS EL NOMBRE EN LA BD CON RESPECTO AL ID DEL REPORTE
+                    //var img = await _txReporteNCService.RegistrarImagendeReporteNC(rep_Id, nombreSinEspacio, img_Fam);
+
+                }
+
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarReporteNCCierre")]
+        public async Task<IActionResult> patchActualizarReporteNCCierre([FromBody] Tx_ReporteNCParameter parametros)
+        {
+            Tx_ReporteNC _txReporteNC = new Tx_ReporteNC
+            {
+                Rep_Id = parametros.Rep_Id,
+                Rep_Est = parametros.Rep_Est,
+                Rep_DetObs = parametros.Rep_DetObs,
+                Imagenes = parametros.Imagenes,
+                imgnombre = parametros.imgnombre,
+                Img_Fam = parametros.Img_Fam
+
+            };
+
+            var result = await _txReporteNCService.ActualizarReporteNCCierre(_txReporteNC);
+            if (!result.Success)
+            {
+                result.CodeResult = StatusCodes.Status400BadRequest;
+                return BadRequest(result);
+            }
+            else
+            {
+                int rep_Id = parametros.Rep_Id ?? 0;
+                int img_Fam = parametros.Img_Fam ?? 0;
+                var nombres = parametros.imgnombre.Split(',');
+                var imagenes = _txReporteNC.Imagenes.Split('|');
+
+                for (int i = 0; i < nombres.Length; i++)
+                {
+                    //RECORREMOS EL ARREGLO DE NOMBRES Y OBTENEMOS TANTO EL NOMBRE DE LA IMAGEN COMO SU BASE64
+                    var nombre = nombres[i];
+                    var base64 = imagenes[i];
+
+                    var imagenEnBDAEliminar = await _txReporteNCService.EliminarImagenParaElPatch(nombre);
+
+                    int index = nombre.IndexOf("_");
+
+                    if (index != -1 && index < nombre.Length - 1)
+                    {
+                        nombre = nombre.Substring(index + 1);
+                    }
+
+                    var nombreSinEspacio = nombre.Replace(" ", "_");
+                    var bytes = Convert.FromBase64String(base64);
+
+                    //DEFINIMOS LA RUTA, LA RUTA TIENE QUE EXISTIR
+                    string rutaBase = @"D:\htdocs\app\foto";
+                    Directory.CreateDirectory(rutaBase);
+
+                    nombreSinEspacio = $"{Guid.NewGuid()}_{nombreSinEspacio}";
+                    var rutaArchivo = Path.Combine(rutaBase, nombreSinEspacio);
+
+                    if (System.IO.File.Exists(rutaArchivo))
+                    {
+                        System.IO.File.Delete(rutaArchivo);
+                    }
+
+                    using (var stream = new FileStream(rutaArchivo, FileMode.Create))
+
+                    using (var ms = new MemoryStream(bytes))
+                    {
+                        await ms.CopyToAsync(stream);
+                    }
+
+                    //REGISTRAMOS EL NOMBRE EN LA BD CON RESPECTO AL ID DEL REPORTE
                     var img = await _txReporteNCService.RegistrarImagendeReporteNC(rep_Id, nombreSinEspacio, img_Fam);
 
                 }

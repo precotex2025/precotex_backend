@@ -223,6 +223,45 @@ namespace ic.backend.precotex.web.Data.Repositories.ReporteNC
             }
         }
 
+        public async Task<(int Codigo, string Mensaje)> ActualizarReporteNCCierre(Tx_ReporteNC tx_ReporteNC)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Rep_Id", tx_ReporteNC.Rep_Id);
+                parametros.Add("@Rep_Est", tx_ReporteNC.Rep_Est);
+                parametros.Add("@Rep_DetObs", tx_ReporteNC.Rep_DetObs);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                Console.Write(parametros);
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Tx_ReportesNC_U0004]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
         //LISTAR ESTADOS
         public async Task<IEnumerable<Tx_ReportesNC_Estados>?> ListarEstados()
         {

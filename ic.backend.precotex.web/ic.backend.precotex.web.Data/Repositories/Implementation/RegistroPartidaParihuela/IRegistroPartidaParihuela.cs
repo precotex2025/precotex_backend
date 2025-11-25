@@ -11,7 +11,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.RegistroParti
     {
         Task<IEnumerable<E_RegistroPartidaParihuela>?> ObtenerDetPartida(string pCod_Partida, string pOpcion);
 
-        Task<IEnumerable<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela);
+        Task<IEnumerable<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela, string pReposicion);
 
         Task<IEnumerable<E_Complemento>?> ObtenerCategoriasPorId(string pIdPartida);
 

@@ -18,6 +18,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.ReporteNC
         Task<ServiceResponse<int>> ActualizarEstado(Tx_ReporteNC tx_ReporteNC);
         Task<ServiceResponseList<Tx_ReporteNC>?> ListarDatosResolvedor(int Rep_ID);
         Task<ServiceResponse<int>> ActualizarReporteNC(Tx_ReporteNC tx_ReporteNC);
+        Task<ServiceResponse<int>> ActualizarReporteNCCierre(Tx_ReporteNC tx_ReporteNC);
         Task<ServiceResponseList<Tx_ReportesNC_Estados>?> ListarEstados();
         Task<ServiceResponse<int>> ActualizarReporteNCOriginal(Tx_ReporteNC tx_ReporteNC);
         Task<ServiceResponse<int>> RegistrarImagendeReporteNC(int Rep_Id, string Img_Des, int Img_Fam);

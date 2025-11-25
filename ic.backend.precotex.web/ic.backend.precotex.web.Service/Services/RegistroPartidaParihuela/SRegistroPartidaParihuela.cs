@@ -46,12 +46,12 @@ namespace ic.backend.precotex.web.Service.Services.RegistroPartidaParihuela
             }
         }
 
-        public async Task<ServiceResponseList<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela)
+        public async Task<ServiceResponseList<E_RegistroPartidaParihuela>?> UpdateDetPartida(List<E_RegistroPartidaParihuela> pData, string pCod_Usuario, string pEstadoParihuela, string pReposicion)
         {
             var result = new ServiceResponseList<E_RegistroPartidaParihuela>();
             try
             {
-                var resultData = await _txIRegistroPartidaParihuela.UpdateDetPartida(pData, pCod_Usuario, pEstadoParihuela);
+                var resultData = await _txIRegistroPartidaParihuela.UpdateDetPartida(pData, pCod_Usuario, pEstadoParihuela, pReposicion);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

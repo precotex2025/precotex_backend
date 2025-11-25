@@ -197,6 +197,31 @@ namespace ic.backend.precotex.web.Service.Services.ReporteNC
             }
         }
 
+        public async Task<ServiceResponse<int>> ActualizarReporteNCCierre(Tx_ReporteNC tx_ReporteNC)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txReporteNCRepository.ActualizarReporteNCCierre(tx_ReporteNC);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
         //LISTAR ESTADOS
         public async Task<ServiceResponseList<Tx_ReportesNC_Estados>?> ListarEstados()
         {
