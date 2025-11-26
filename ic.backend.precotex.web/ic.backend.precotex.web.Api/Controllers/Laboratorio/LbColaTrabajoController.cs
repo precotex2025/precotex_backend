@@ -203,7 +203,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Car_Por = parametros.Car_Por,
                 Sod_Gr = parametros.Sod_Gr,
                 Sod_Por = parametros.Sod_Por,
-                Familia = parametros.Familia
+                Familia = parametros.Familia,
+                Cambio = parametros.Cambio
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(parametros);

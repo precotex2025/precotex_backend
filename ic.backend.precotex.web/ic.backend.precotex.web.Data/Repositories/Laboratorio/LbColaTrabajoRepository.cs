@@ -287,6 +287,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sod_Gr", lb_AgrOpc_Colorantes.Sod_Gr);
                 parametros.Add("@Sod_Por", lb_AgrOpc_Colorantes.Sod_Por);
                 parametros.Add("@Familia", lb_AgrOpc_Colorantes.Familia);
+                parametros.Add("@Cambio", lb_AgrOpc_Colorantes.Cambio);
                 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
