@@ -550,7 +550,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Familia = parametros.Familia
+                Familia = parametros.Familia,
+                Cambio = parametros.Cambio
             };
 
             var result = await _LbColaTrabajoService.AgregarAuxiliaresHojaFormulacion(_lbAgrOpcColorante);
