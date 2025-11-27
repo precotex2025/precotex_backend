@@ -673,6 +673,7 @@ namespace ic.backend.precotex.web.Data.Repositories.ReporteNC
                 parametros.Add("@Resp_Nom", _txReporteNCResponsable.Resp_Nom);
                 parametros.Add("@Resp_Ape_Pat", _txReporteNCResponsable.Resp_Ape_Pat);
                 parametros.Add("@Resp_Ape_Mat", _txReporteNCResponsable.Resp_Ape_Mat);
+                parametros.Add("@Resp_Correo", _txReporteNCResponsable.Resp_Correo);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -710,6 +711,7 @@ namespace ic.backend.precotex.web.Data.Repositories.ReporteNC
                 parametros.Add("@Resp_Nom", _txReporteNCResponsable.Resp_Nom);
                 parametros.Add("@Resp_Ape_Pat", _txReporteNCResponsable.Resp_Ape_Pat);
                 parametros.Add("@Resp_Ape_Mat", _txReporteNCResponsable.Resp_Ape_Mat);
+                parametros.Add("@Resp_Correo", _txReporteNCResponsable.Resp_Correo);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);

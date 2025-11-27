@@ -632,7 +632,8 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
             {
                 Resp_Nom = parametros.Resp_Nom,
                 Resp_Ape_Pat = parametros.Resp_Ape_Pat,
-                Resp_Ape_Mat = parametros.Resp_Ape_Mat
+                Resp_Ape_Mat = parametros.Resp_Ape_Mat,
+                Resp_Correo = parametros.Resp_Correo
             };
 
             var result = await _txReporteNCService.RegistrarResponsable(_txReportesNC_Responsables);
@@ -655,7 +656,8 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                 Resp_Id = parametros.Resp_Id,
                 Resp_Nom = parametros.Resp_Nom,
                 Resp_Ape_Pat = parametros.Resp_Ape_Pat,
-                Resp_Ape_Mat = parametros.Resp_Ape_Mat
+                Resp_Ape_Mat = parametros.Resp_Ape_Mat,
+                Resp_Correo = parametros.Resp_Correo
             };
 
             var result = await _txReporteNCService.ActualizarResponsable(_txReportesNC_Areas);

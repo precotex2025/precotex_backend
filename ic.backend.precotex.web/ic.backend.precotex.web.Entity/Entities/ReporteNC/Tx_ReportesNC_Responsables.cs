@@ -12,5 +12,6 @@ namespace ic.backend.precotex.web.Entity.Entities.ReporteNC
         public string? Resp_Nom { get; set; }
         public string? Resp_Ape_Pat { get; set; }
         public string? Resp_Ape_Mat { get; set; }
+        public string? Resp_Correo { get; set; }
     }
 }
