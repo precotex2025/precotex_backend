@@ -43,7 +43,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Fin { get; set; }
         public decimal? Ph_Jab { get; set; }
         public int? Cambio { get; set; }
-
+        public string? Ingreso_Manual { get; set; }
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
@@ -74,6 +74,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Por_Fin { get; set; }
         public int? id_secuencia { get; set; }
         public int? correlativo { get; set; }
+        public int? Ingreso_Manual { get; set; }
     }
 
 

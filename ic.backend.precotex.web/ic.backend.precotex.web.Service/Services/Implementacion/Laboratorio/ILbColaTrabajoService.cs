@@ -34,6 +34,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         */
         Task<ServiceResponse<int>> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<ServiceResponseList<Lg_Item>?> CargarComboBoxItem();
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(int Corr_Carta, int Sec, int Correlativo);
 
         /*
             INFORMACION SDC 

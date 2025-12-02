@@ -898,5 +898,29 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }
