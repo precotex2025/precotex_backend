@@ -663,5 +663,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListarIngresoManual")]
+        public async Task<IActionResult> getListarIngresoManual(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = await _LbColaTrabajoService.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
