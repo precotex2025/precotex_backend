@@ -98,14 +98,13 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-
-        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
 
         /*PRODUCCION*/
-
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -114,7 +113,6 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-
     }); 
 });
 
@@ -148,6 +146,8 @@ builder.Services.AddScoped<ITxLoginService, TxLoginService>();
 builder.Services.AddScoped<ITxReporteNCService, TxReporteNCService>();
 builder.Services.AddScoped<ITMSolicitudMantenimientoService, TMSolicitudMantenimientoService>();
 builder.Services.AddScoped<IWaliChatService, WaliChatService>();
+builder.Services.AddScoped<ITxDesarrolloTelaService, TxDesarrolloTelaService>();
+
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -175,6 +175,7 @@ builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
 builder.Services.AddScoped<ITxLoginRepository, TxLoginRepository>();
 builder.Services.AddScoped<ITxReporteNCRepository, TxReporteNCRepository>();
 builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMantenimientoRepository>();
+builder.Services.AddScoped<ITxDesarrolloTelaRepository, TxDesarrolloTelaRepository>();
 #endregion
 
 
