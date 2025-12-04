@@ -18,7 +18,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.RegistroParti
         Task<IEnumerable<string>?> validarMerma(string pCod_Partida);
         Task<IEnumerable<string>?> UpdateEstadoMermaAsync(string pCod_Partida);
 
-        Task<IEnumerable<string>?> EnviarDespacho(string pCod_Partida);
+        Task<IEnumerable<string>?> EnviarDespacho(string pCod_Partida, string pUsr);
 
         Task<(int Codigo, string Mensaje)> EnviarCabecera(string pCod_Partida);
     }

@@ -14,6 +14,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Descripcion_Color { get; set; }
         public string? Cod_Color {  get; set; }
         public string? Estandar_Tono_Comer {  get; set; }
+        public int? Dias_Lab { get; set; }        
         public string? Formulado { get; set; }
         public decimal? Ph_Ini {get; set;}
         public decimal? Ph_Fin {get; set;}

@@ -100,10 +100,10 @@ namespace ic.backend.precotex.web.Api.Controllers.RegistroPartidaParihuela
 
         [HttpPost]
         [Route("getEnviarDespacho")]
-        public async Task<IActionResult> getEnviarDespacho([FromQuery] string pCod_Partida)
+        public async Task<IActionResult> getEnviarDespacho([FromQuery] string pCod_Partida, string pUsr)
         {
 
-            var result = await _IRegistroPartidaParihuela.EnviarDespacho(pCod_Partida);
+            var result = await _IRegistroPartidaParihuela.EnviarDespacho(pCod_Partida, pUsr);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
