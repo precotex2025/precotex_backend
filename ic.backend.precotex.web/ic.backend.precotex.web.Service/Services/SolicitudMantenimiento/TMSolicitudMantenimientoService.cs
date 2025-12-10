@@ -148,12 +148,12 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
             }
         }
 
-        public async Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor()
+        public async Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor(string sCodUsuario)
         {
             var result = new ServiceResponseList<TM_Solicitud_Mantenimiento>();
             try
             {
-                var resultData = await _tMSolicitudMantenimientoRepository.ObtieneInformacionSolicitudesVisor();
+                var resultData = await _tMSolicitudMantenimientoRepository.ObtieneInformacionSolicitudesVisor(sCodUsuario);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

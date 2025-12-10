@@ -14,7 +14,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMante
         Task<ServiceResponseList<TM_Maquina>?> ObtieneInformacionMaquinas(string sCodMaquina);
         Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimiento(DateTime FecIni, DateTime FecFin, string codUsuario);
         /*VISOR*/
-        Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
+        Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor(string sCodUsuario);
 
         //Task<ServiceResponse<int>> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones);
 

@@ -17,7 +17,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SolicitudMant
 
 
         /*VISOR*/
-        Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor();
+        Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor(string sCodUsuario);
         //Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones);
         Task<(int Codigo, string Mensaje)> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider);
         /*VISOR*/

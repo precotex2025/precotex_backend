@@ -147,14 +147,19 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
             }
         }
 
-        public async Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor()
+        public async Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudesVisor(string sCodUsuario)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+                var parametros = new
+                {
+                    CodUsuario = sCodUsuario
+                };
 
                 var result = await connection.QueryAsync<TM_Solicitud_Mantenimiento>(
                      "[dbo].[SP_Visor_Solicitudes_Mantenimiento]"
+                     , parametros
                      , commandType: System.Data.CommandType.StoredProcedure
                  );
 
