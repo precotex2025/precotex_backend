@@ -204,17 +204,19 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
             }
         }
 
-        public async Task<IEnumerable<string>?> EnviarDespacho(string pCod_Partida)
+        public async Task<IEnumerable<string>?> EnviarDespacho(string pCod_Partida, string pUsr)
         {
             try
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var rusltado = await connection.QueryAsync<string>(
-                        "[dbo].[SP_S_Enviar_Despacho]",
+                        //"[dbo].[SP_S_Enviar_Despacho]",
+                        "[dbo].[PA_PARIHUELAS_WB]",
                         new
                         {
-                            pCod_Partida = pCod_Partida
+                            pCod_Partida = pCod_Partida,
+                            pUsr = pUsr
                         },
                         commandType: System.Data.CommandType.StoredProcedure
                     );

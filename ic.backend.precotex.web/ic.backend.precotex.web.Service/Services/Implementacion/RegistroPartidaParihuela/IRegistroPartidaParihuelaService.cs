@@ -20,7 +20,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.RegistroPartid
 
         Task<ServiceResponseList<string>?> UpdateEstadoMermaAsync(string pCod_Partida);
 
-        Task<ServiceResponseList<string>?> EnviarDespacho(string pCod_Partida);
+        Task<ServiceResponseList<string>?> EnviarDespacho(string pCod_Partida, string pUsr);
 
         Task<ServiceResponse<int>> EnviarCabecera(string pCod_Partida);
     }

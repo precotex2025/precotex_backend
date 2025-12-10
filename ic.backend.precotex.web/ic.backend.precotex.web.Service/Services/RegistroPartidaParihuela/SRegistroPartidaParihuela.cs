@@ -147,12 +147,12 @@ namespace ic.backend.precotex.web.Service.Services.RegistroPartidaParihuela
             }
         }
 
-        public async Task<ServiceResponseList<string>?> EnviarDespacho(string pCod_Partida)
+        public async Task<ServiceResponseList<string>?> EnviarDespacho(string pCod_Partida, string pUsr)
         {
             var result = new ServiceResponseList<string>();
             try
             {
-                var resultData = await _txIRegistroPartidaParihuela.EnviarDespacho(pCod_Partida);
+                var resultData = await _txIRegistroPartidaParihuela.EnviarDespacho(pCod_Partida, pUsr);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
