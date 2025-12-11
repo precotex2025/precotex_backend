@@ -22,8 +22,8 @@ namespace ic.backend.precotex.web.Api.Controllers.DDT
         }
 
         [HttpPost]
-        [Route("postListadoColgadoresBandeja")]
-        public async Task<IActionResult> postListadoColgadoresBandeja([FromBody] txDesarrolloTelasParameter filtro)
+        [Route("postListadoDesarrolloTelas")]
+        public async Task<IActionResult> postListadoDesarrolloTelas([FromBody] txDesarrolloTelasParameter filtro)
         {
       
             var result = await _txDesarrolloTelaService.ListadoDesarrolloTelas(filtro.Accion!,filtro.Cod_Tela!,filtro.Cod_Version!, filtro.Nom_Version!,
@@ -56,15 +56,13 @@ namespace ic.backend.precotex.web.Api.Controllers.DDT
         [Route("getPdf")]
         public IActionResult getPdf(string ruta)
         {
-            
-
             string baseFolder = @"\\SERVERDATA\Estilos";
             string fileName = ruta;
 
             var fullPath = Path.Combine(baseFolder, fileName);
 
-            //if (!System.IO.File.Exists(baseFolder, fileName))
-             //   return NotFound("Archivo no encontrado");
+            if (!System.IO.File.Exists(fullPath))
+                return NotFound("Archivo no encontrado");
 
             var bytes = System.IO.File.ReadAllBytes(fullPath);
             return File(bytes, "application/pdf");
