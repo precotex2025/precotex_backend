@@ -686,5 +686,31 @@ namespace ic.backend.precotex.web.Service.Services.ReporteNC
             }
         }
 
+        /*MENSAJES WSP*/
+        //OBTENER DATOS PARA ENVIAR MENSAJE
+        public async Task<ServiceResponseList<Tx_ReporteNC>?> ObtenerDatosRegistro(int Rep_Id)
+        {
+            var result = new ServiceResponseList<Tx_ReporteNC>();
+            try
+            {
+                var resultData = await _txReporteNCRepository.ObtenerDatosRegistro(Rep_Id);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }

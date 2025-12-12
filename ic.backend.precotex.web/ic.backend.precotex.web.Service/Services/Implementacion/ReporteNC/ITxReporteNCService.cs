@@ -43,5 +43,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.ReporteNC
 
         /*USUARIOS*/
         Task<ServiceResponseList<Tx_ReportesNC_Usuarios>?> ObtenerUsuarios(string Usr_Cod);
+
+        /*MENSAJES WSP*/
+        Task<ServiceResponseList<Tx_ReporteNC>?> ObtenerDatosRegistro(int Rep_Id);
     }
 }

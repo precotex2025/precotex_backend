@@ -42,5 +42,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.ReporteNC
 
         /*USUARIOS*/
         Task<IEnumerable<Tx_ReportesNC_Usuarios>?> ObtenerUsuarios(string Usr_Cod);
+
+        /*MENSAJES WSP*/
+        Task<IEnumerable<Tx_ReporteNC>?> ObtenerDatosRegistro(int Rep_Id);
+
     }
 }
