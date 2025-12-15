@@ -21,7 +21,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRo
         Task<ServiceResponseList<ECalificacion>?> ObtenerCalificacion();
         Task<ServiceResponseList<ECalificacion>?> ObtenerEstadoProceso();
         Task<ServiceResponseList<ERrollosPorPartida>?> BuscarPorPartida(string partida);
-        Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel);
+        Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso);
         Task<ServiceResponseList<EPartidaCab>?> GuardarPartida(EPartidaCab partida);
         Task<ServiceResponseList<EPartidaPorRollo>?> BuscarPartidaPorRollo(string partida, string usuario);
         Task<ServiceResponseList<EPartidaPorRollo>?> updatePartidaPorRollo(string partida, int id);
@@ -31,5 +31,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRo
         Task<ServiceResponseList<EDefectosRegistrados>?> ObtenerDefectosRegistradosPorRollo(string Cod_OrdTra, string Cod_Tela, string PrefijoMaquina, string CodigoRollo);
         Task<ServiceResponseList<EPartidaCab>?> GuardarDefectosPartida(EPartidaCab partida);
         Task<ServiceResponse<int>> EliminarDefectoRollo(string CodOrdTra, string CodigoRollo, string CodMotivo);
+        Task<ServiceResponseList<EReproceso>?> ObtenerReproceso();
     }
 }

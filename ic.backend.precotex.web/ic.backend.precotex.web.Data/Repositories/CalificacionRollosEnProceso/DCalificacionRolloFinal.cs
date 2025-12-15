@@ -306,7 +306,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
             }
         }
 
-        public async Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel)
+        public async Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso)
         {
             try
             {
@@ -324,9 +324,11 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                     parameters.Add("@Observacion_Rectilineo", sObsRec);
                     parameters.Add("@Cod_Calidad", sCodCal);
                     parameters.Add("@Cod_Telas", sCodTel);
+                    
 
 
                     parameters.Add("@OPCION", 1);
+                    parameters.Add("@Reproceso", Reproceso);
 
                     var result = await connection.QueryAsync<ERrollosPorPartida>(
                         "TI_MUESTRA_DETALLE_POR_ROLLO_POR_PARTIDA_CALIFICACION_REV_PRE_1_HM",
@@ -367,6 +369,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                         parameters.Add("@Inspector", partida.auditor ?? (object)DBNull.Value);
                         parameters.Add("@responsable_digitado", partida.supervisor ?? (object)DBNull.Value);
                         parameters.Add("@Observacion_Rectilineo", "");
+                        
 
 
                         // Serialize detPartida and detDefecto to JSON
@@ -397,6 +400,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                     */
                     parameters.Add("@Cod_Calidad", "");
                     parameters.Add("@Cod_Tela", _telaComb);
+                    parameters.Add("@Reproceso", Convert.ToInt32(partida.reproceso ?? (object)DBNull.Value));
 
                     // 👉 Solo se ejecuta si hay detPartida
                     result = await connection.QueryAsync<EPartidaCab>(
@@ -1261,5 +1265,20 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                 return (codigo, mensaje);
             }
         }
+
+        public async Task<IEnumerable<EReproceso>?> ObtenerReproceso()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<EReproceso>(
+                    "[dbo].[PA_CC_Listado_Reproceso_Rollos_Auditoria_tintoreria_WS_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
     }
 }

@@ -203,7 +203,8 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             [FromQuery] string? sResDig,
             [FromQuery] string? sObsRec,
             [FromQuery] string? sCodCal,
-            [FromQuery] string? sCodTel
+            [FromQuery] string? sCodTel,
+            [FromQuery] int Reproceso
             )
         {
             if (string.IsNullOrWhiteSpace(partida) || string.IsNullOrWhiteSpace(articulo))
@@ -211,7 +212,7 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
                 return BadRequest("Debe proporcionar 'partida' y 'articulo'.");
             }
 
-            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel);
+            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel, Reproceso);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -360,6 +361,21 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerReproceso")]
+        public async Task<IActionResult> getObtenerReproceso()
+        {
+            var result = await _Calificacion.ObtenerReproceso();
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 
