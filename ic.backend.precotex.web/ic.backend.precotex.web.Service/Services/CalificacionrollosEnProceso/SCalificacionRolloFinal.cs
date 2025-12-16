@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionRollosFinal;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
+using ic.backend.precotex.web.Entity.Entities.ReporteNC;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRollosFinal;
 using Microsoft.Graph.Models;
+using Org.BouncyCastle.Ocsp;
 
 namespace ic.backend.precotex.web.Service.Services.CalificacionrollosFinal
 {
@@ -297,12 +299,12 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosFinal
             }
         }
 
-        public async Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel)
+        public async Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso, string Maquina)
         {
             var result = new ServiceResponseList<ERrollosPorPartida>();
             try
             {
-                var resultData = await _txtCalificacion.BuscarRolloPorPartidaDetalle(partida, articulo,sObs,sCodUsu,sReco,sIns,sResDig,sObsRec,sCodCal, sCodTel);
+                var resultData = await _txtCalificacion.BuscarRolloPorPartidaDetalle(partida, articulo,sObs,sCodUsu,sReco,sIns,sResDig,sObsRec,sCodCal, sCodTel, Reproceso, Maquina);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -530,6 +532,92 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosFinal
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<EReproceso>?> ObtenerReproceso()
+        {
+            var result = new ServiceResponseList<EReproceso>();
+            try
+            {
+                var resultData = await _txtCalificacion.ObtenerReproceso();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtCalificacion.RegistrarImagenPorRollo(Img_Cod_OrdTra, Img_Cod_Rollo, Img_Des);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+
+        public async Task<ServiceResponseList<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo)
+        {
+            var result = new ServiceResponseList<EImagenes>();
+            try
+            {
+                var resultData = await _txtCalificacion.ObtenerImagenes(Img_Cod_OrdTra, Img_Cod_Rollo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
+
     }
 
 }

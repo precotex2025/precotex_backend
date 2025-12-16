@@ -794,5 +794,26 @@ namespace ic.backend.precotex.web.Data.Repositories.ReporteNC
                 return result;
             }
         }
+
+        /*MENSAJES WSP*/
+        //OBTENER DATOS PARA ENVIAR MENSAJE
+        public async Task<IEnumerable<Tx_ReporteNC>?> ObtenerDatosRegistro(int Rep_Id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Rep_Id", Rep_Id);
+
+                var result = await connection.QueryAsync<Tx_ReporteNC>(
+                        "[dbo].[PA_Tx_ReportesNC_S0004]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso
         public string alto { get; set; } = string.Empty;
         public string largo { get; set; } = string.Empty;
         public string densidad { get; set; } = string.Empty;
+        public string reproceso { get; set; } = string.Empty;
+
         public List<object> detPartida { get; set; }
         public List<object> detDefecto { get; set; }
         public List<object> detRectilineo { get; set; }

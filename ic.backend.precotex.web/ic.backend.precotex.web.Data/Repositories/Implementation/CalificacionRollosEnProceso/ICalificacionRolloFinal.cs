@@ -20,7 +20,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
         Task<IEnumerable<ECalificacion>?> ObtenerCalificacion();
         Task<IEnumerable<ECalificacion>?> ObtenerEstadoProceso();
         Task<IEnumerable<ERrollosPorPartida>?> BuscarPorPartida(string partida);
-        Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel);
+        Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso, string Maquina);
         Task<IEnumerable<EPartidaCab>?> GuardarPartida(EPartidaCab filtro);
         Task<IEnumerable<EPartidaPorRollo>?> BuscarPartidaPorRollo(string partida, string usuario);
         Task<IEnumerable<EPartidaPorRollo>?> updatePartidaPorRollo(string partida, int id);
@@ -30,5 +30,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
         Task<IEnumerable<EDefectosRegistrados>?> ObtenerDefectosRegistradosPorRollo(string Cod_OrdTra, string Cod_Tela, string PrefijoMaquina, string CodigoRollo);
         Task<IEnumerable<EPartidaCab>?> GuardarDefectosPartida(EPartidaCab filtro);
         Task<(int Codigo, string Mensaje)> EliminarDefectoRollo(string CodOrdTra, string CodigoRollo, string CodMotivo);
+        Task<IEnumerable<EReproceso>?> ObtenerReproceso();
+        Task<(int Codigo, string Mensaje)> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des);
+        Task<IEnumerable<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo);
     }
 }

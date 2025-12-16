@@ -39,6 +39,8 @@ namespace ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso
         public string Observacion { get; set; }
         public string Responsable { get; set; }
         public string Inspector { get; set; }
+        public string Reproceso { get; set; }
+        public string Maquina { get; set; }
 
 
     }

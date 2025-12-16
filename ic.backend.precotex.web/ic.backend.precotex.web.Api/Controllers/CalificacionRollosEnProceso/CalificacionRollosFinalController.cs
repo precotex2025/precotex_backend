@@ -203,7 +203,9 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             [FromQuery] string? sResDig,
             [FromQuery] string? sObsRec,
             [FromQuery] string? sCodCal,
-            [FromQuery] string? sCodTel
+            [FromQuery] string? sCodTel,
+            [FromQuery] int Reproceso,
+            [FromQuery] string Maquina
             )
         {
             if (string.IsNullOrWhiteSpace(partida) || string.IsNullOrWhiteSpace(articulo))
@@ -211,7 +213,7 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
                 return BadRequest("Debe proporcionar 'partida' y 'articulo'.");
             }
 
-            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel);
+            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel, Reproceso, Maquina);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -272,7 +274,10 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
         }
 
         [HttpPost("subir-archivo")]
-        public async Task<IActionResult> SubirArchivo(IFormFile archivo)
+        public async Task<IActionResult> SubirArchivo([FromForm] IFormFile archivo,
+            [FromForm] string Img_Cod_OrdTra, 
+            [FromForm] string Img_Cod_Rollo,
+            [FromForm] string Img_Des)
         {
             if (archivo == null || archivo.Length == 0)
                 return BadRequest("Archivo vacío");
@@ -287,6 +292,8 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             var rutaCompleta = Path.Combine(ruta, nombreArchivo);
             using var stream = new FileStream(rutaCompleta, FileMode.Create);
             await archivo.CopyToAsync(stream);
+
+            var imagen = await _Calificacion.RegistrarImagenPorRollo(Img_Cod_OrdTra, Img_Cod_Rollo, Img_Des);
 
             return Ok(new { mensaje = "Archivo subido exitosamente", nombre = nombreArchivo });
 
@@ -366,5 +373,36 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getObtenerReproceso")]
+        public async Task<IActionResult> getObtenerReproceso()
+        {
+            var result = await _Calificacion.ObtenerReproceso();
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerImagenes")]
+        public async Task<IActionResult> getObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo)
+        {
+            var result = await _Calificacion.ObtenerImagenes(Img_Cod_OrdTra, Img_Cod_Rollo);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
