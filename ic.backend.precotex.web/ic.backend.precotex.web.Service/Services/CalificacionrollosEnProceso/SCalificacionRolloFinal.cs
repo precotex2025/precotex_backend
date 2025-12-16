@@ -556,6 +556,68 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosFinal
                 return result;
             }
         }
+
+        public async Task<ServiceResponse<int>> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtCalificacion.RegistrarImagenPorRollo(Img_Cod_OrdTra, Img_Cod_Rollo, Img_Des);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+
+        public async Task<ServiceResponseList<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo)
+        {
+            var result = new ServiceResponseList<EImagenes>();
+            try
+            {
+                var resultData = await _txtCalificacion.ObtenerImagenes(Img_Cod_OrdTra, Img_Cod_Rollo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
+
     }
 
 }

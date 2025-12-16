@@ -12,6 +12,7 @@ using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using Microsoft.Extensions.Configuration;
 using ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionRollosFinal;
 using ic.backend.precotex.web.Entity.Entities.Memorandum;
+using ic.backend.precotex.web.Entity.Entities.ReporteNC;
 
 namespace ic.backend.precotex.web.Data.Repositories.CalificacionRollosFinal
 {
@@ -1292,6 +1293,65 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                     "[dbo].[PA_CC_Listado_Reproceso_Rollos_Auditoria_tintoreria_WS_S0001]"
                     , commandType: CommandType.StoredProcedure
                     );
+                return result;
+            }
+        }
+
+        /*IMAGENES*/
+
+        //GUARDAR IMAGENES
+        public async Task<(int Codigo, string Mensaje)> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Img_Cod_OrdTra", Img_Cod_OrdTra);
+                parametros.Add("@@Img_Cod_Rollo", Img_Cod_Rollo);
+                parametros.Add("@Img_Des", Img_Des);
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_cc_auditoria_tintoreria_cabecera_tela_imagenes_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //OBTENEMOS NOS NOMBRES DE LAS IMAGENES DE LA BASE DE DATOS
+        public async Task<IEnumerable<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Img_Cod_OrdTra", Img_Cod_OrdTra);
+                parametros.Add("@Img_Cod_Rollo", Img_Cod_Rollo);
+                var result = await connection.QueryAsync<EImagenes>(
+                        "[dbo].[PA_cc_auditoria_tintoreria_cabecera_tela_imagenes_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
                 return result;
             }
         }

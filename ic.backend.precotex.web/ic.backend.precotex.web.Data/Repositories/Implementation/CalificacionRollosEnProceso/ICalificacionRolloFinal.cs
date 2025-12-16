@@ -31,5 +31,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
         Task<IEnumerable<EPartidaCab>?> GuardarDefectosPartida(EPartidaCab filtro);
         Task<(int Codigo, string Mensaje)> EliminarDefectoRollo(string CodOrdTra, string CodigoRollo, string CodMotivo);
         Task<IEnumerable<EReproceso>?> ObtenerReproceso();
+        Task<(int Codigo, string Mensaje)> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des);
+        Task<IEnumerable<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo);
     }
 }

@@ -32,5 +32,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRo
         Task<ServiceResponseList<EPartidaCab>?> GuardarDefectosPartida(EPartidaCab partida);
         Task<ServiceResponse<int>> EliminarDefectoRollo(string CodOrdTra, string CodigoRollo, string CodMotivo);
         Task<ServiceResponseList<EReproceso>?> ObtenerReproceso();
+        Task<ServiceResponse<int>> RegistrarImagenPorRollo(string Img_Cod_OrdTra, string Img_Cod_Rollo, string Img_Des);
+        Task<ServiceResponseList<EImagenes>?> ObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo);
     }
 }
