@@ -204,7 +204,8 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             [FromQuery] string? sObsRec,
             [FromQuery] string? sCodCal,
             [FromQuery] string? sCodTel,
-            [FromQuery] int Reproceso
+            [FromQuery] int Reproceso,
+            [FromQuery] string Maquina
             )
         {
             if (string.IsNullOrWhiteSpace(partida) || string.IsNullOrWhiteSpace(articulo))
@@ -212,7 +213,7 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
                 return BadRequest("Debe proporcionar 'partida' y 'articulo'.");
             }
 
-            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel, Reproceso);
+            var result = await _Calificacion.BuscarRolloPorPartidaDetalle(partida, articulo, sObs, sCodUsu, sReco, sIns, sResDig, sObsRec, sCodCal, sCodTel, Reproceso, Maquina);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

@@ -20,7 +20,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
         Task<IEnumerable<ECalificacion>?> ObtenerCalificacion();
         Task<IEnumerable<ECalificacion>?> ObtenerEstadoProceso();
         Task<IEnumerable<ERrollosPorPartida>?> BuscarPorPartida(string partida);
-        Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso);
+        Task<IEnumerable<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso, string Maquina);
         Task<IEnumerable<EPartidaCab>?> GuardarPartida(EPartidaCab filtro);
         Task<IEnumerable<EPartidaPorRollo>?> BuscarPartidaPorRollo(string partida, string usuario);
         Task<IEnumerable<EPartidaPorRollo>?> updatePartidaPorRollo(string partida, int id);

@@ -299,12 +299,12 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosFinal
             }
         }
 
-        public async Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso)
+        public async Task<ServiceResponseList<ERrollosPorPartida>?> BuscarRolloPorPartidaDetalle(string partida, string articulo, string sObs, string sCodUsu, string sReco, string sIns, string sResDig, string sObsRec, string sCodCal, string sCodTel, int Reproceso, string Maquina)
         {
             var result = new ServiceResponseList<ERrollosPorPartida>();
             try
             {
-                var resultData = await _txtCalificacion.BuscarRolloPorPartidaDetalle(partida, articulo,sObs,sCodUsu,sReco,sIns,sResDig,sObsRec,sCodCal, sCodTel, Reproceso);
+                var resultData = await _txtCalificacion.BuscarRolloPorPartidaDetalle(partida, articulo,sObs,sCodUsu,sReco,sIns,sResDig,sObsRec,sCodCal, sCodTel, Reproceso, Maquina);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
