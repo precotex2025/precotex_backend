@@ -105,6 +105,7 @@ builder.Services.AddCors(options =>
         */
 
         /*PRODUCCION*/
+        
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -113,6 +114,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
+        
     }); 
 });
 
@@ -147,6 +149,7 @@ builder.Services.AddScoped<ITxReporteNCService, TxReporteNCService>();
 builder.Services.AddScoped<ITMSolicitudMantenimientoService, TMSolicitudMantenimientoService>();
 builder.Services.AddScoped<IWaliChatService, WaliChatService>();
 builder.Services.AddScoped<ITxDesarrolloTelaService, TxDesarrolloTelaService>();
+builder.Services.AddScoped<ITjTiempoImproductivoService, TjTiempoImproductivoService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -176,6 +179,7 @@ builder.Services.AddScoped<ITxLoginRepository, TxLoginRepository>();
 builder.Services.AddScoped<ITxReporteNCRepository, TxReporteNCRepository>();
 builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMantenimientoRepository>();
 builder.Services.AddScoped<ITxDesarrolloTelaRepository, TxDesarrolloTelaRepository>();
+builder.Services.AddScoped<ITjTiempoImproductivoRepository, TjTiempoImproductivoRepository>();
 #endregion
 
 
