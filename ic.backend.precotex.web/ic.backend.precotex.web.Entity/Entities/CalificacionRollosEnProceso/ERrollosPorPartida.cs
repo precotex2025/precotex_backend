@@ -32,6 +32,8 @@ namespace ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso
 
         public string Ot_Tejeduria { get; set; } = string.Empty;
 
+        public string Img_Des { get; set; } = string.Empty;
+
 
         //nuevo
         public decimal Mtrs2_R { get; set; }

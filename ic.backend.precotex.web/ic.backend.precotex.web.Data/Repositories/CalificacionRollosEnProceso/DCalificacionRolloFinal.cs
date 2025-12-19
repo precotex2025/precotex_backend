@@ -571,6 +571,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
 
                                 var result = await connection.QueryAsync<EPartidaCab>(
                                     "cc_Insert_Defecto_Auditoria_tintoreria_detalle_WS",
+                                    //"cc_Insert_Defecto_Auditoria_tintoreria_detalle_WS_DA",
                                     parameters,
                                     commandType: CommandType.StoredProcedure
                                 );

@@ -97,5 +97,10 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             LOGIN 
         */
         Task<ServiceResponseList<Lb_Usuarios>?> GetUsuarioWeb(string Cod_Usuario);
+
+        /*
+            REPORTE   
+        */
+        Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo);
     }
 }

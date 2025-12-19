@@ -922,5 +922,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = new ServiceResponseList<Lb_Reporte>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.CargarDatosReporte(Corr_Carta, Sec, Correlativo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
     }
 }

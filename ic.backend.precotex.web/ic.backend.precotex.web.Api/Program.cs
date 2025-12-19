@@ -82,6 +82,7 @@ using ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Cotizaciones;
 using ic.backend.precotex.web.Service.Services.Cotizaciones;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -215,6 +216,12 @@ app.UseRouting();
 app.UseCors("AllowAngularApp");
 
 app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions { 
+    ContentTypeProvider = new FileExtensionContentTypeProvider { 
+        Mappings = { [".webmanifest"] = "application/manifest.json" } 
+    } 
+});
 
 app.MapControllers();
 

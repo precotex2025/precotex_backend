@@ -13,8 +13,8 @@ using ic.backend.precotex.web.Api.Parameters;
 
 namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CalificacionRollosFinalController : ControllerBase
     {
         ICalificacionRollosFinalService _Calificacion;
@@ -274,29 +274,33 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
         }
 
         [HttpPost("subir-archivo")]
-        public async Task<IActionResult> SubirArchivo([FromForm] IFormFile archivo,
-            [FromForm] string Img_Cod_OrdTra, 
-            [FromForm] string Img_Cod_Rollo,
-            [FromForm] string Img_Des)
+        //USAR CONSUMES CUANDO SE TIENEN VARIOS FromForm
+        [Consumes("multipart/form-data")]
+        
+        public async Task<IActionResult> SubirArchivo(
+            [FromForm] ESubirArchivoRequest request)
         {
-            if (archivo == null || archivo.Length == 0)
+            if (request.Archivo == null || request.Archivo.Length == 0)
                 return BadRequest("Archivo vacío");
 
-            var nombreArchivo = Path.GetFileName(archivo.FileName);
+            var nombreArchivo = Path.GetFileName(request.Archivo.FileName);
 
-            string ruta = @"D:\FotosEstampadoDigital"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FotosEstampadoDigital");
-            //var ruta = Path.Combine(_env.ContentRootPath, "FotosEstampadoDigital");
+            string ruta = @"D:\htdocs\app\foto";
             if (!Directory.Exists(ruta))
                 Directory.CreateDirectory(ruta);
 
             var rutaCompleta = Path.Combine(ruta, nombreArchivo);
             using var stream = new FileStream(rutaCompleta, FileMode.Create);
-            await archivo.CopyToAsync(stream);
+            await request.Archivo.CopyToAsync(stream);
 
-            var imagen = await _Calificacion.RegistrarImagenPorRollo(Img_Cod_OrdTra, Img_Cod_Rollo, Img_Des);
+            await _Calificacion.RegistrarImagenPorRollo(
+                request.Img_Cod_OrdTra, request.Img_Cod_Rollo, request.Img_Des);
 
-            return Ok(new { mensaje = "Archivo subido exitosamente", nombre = nombreArchivo });
-
+            return Ok(new
+            {
+                mensaje = "Archivo subido exitosamente",
+                nombre = nombreArchivo
+            });
         }
 
         [HttpPost]
@@ -393,7 +397,7 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
         [Route("getObtenerImagenes")]
         public async Task<IActionResult> getObtenerImagenes(string Img_Cod_OrdTra, string Img_Cod_Rollo)
         {
-            var result = await _Calificacion.ObtenerImagenes(Img_Cod_OrdTra, Img_Cod_Rollo);
+            var result = await _Calificacion.ObtenerImagenes(Img_Cod_OrdTra, Img_Cod_Rollo);    
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

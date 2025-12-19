@@ -93,5 +93,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         */
         Task<IEnumerable<Lb_Usuarios>?> GetUsuarioWeb(string Cod_Usuario);
 
+
+
+        /*
+            REPORTE 
+        */
+        Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo);
     }
 }

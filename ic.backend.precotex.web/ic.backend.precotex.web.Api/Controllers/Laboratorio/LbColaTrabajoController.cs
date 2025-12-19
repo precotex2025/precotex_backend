@@ -678,5 +678,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getCargarDatosReporte")]
+        public async Task<IActionResult> getCargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        {
+            var result = await _LbColaTrabajoService.CargarDatosReporte(Corr_Carta, Sec, Correlativo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
