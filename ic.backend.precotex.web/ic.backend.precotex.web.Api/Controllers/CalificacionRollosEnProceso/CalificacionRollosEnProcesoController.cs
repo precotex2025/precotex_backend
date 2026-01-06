@@ -478,5 +478,20 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerDatosCabeceraEnProceso")]
+        public async Task<IActionResult> getObtenerDatosCabeceraEnProceso(string Cod_OrdTra)
+        {
+            var result = await _Calificacion.ObtenerDatosCabeceraEnProceso(Cod_OrdTra);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }

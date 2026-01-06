@@ -848,6 +848,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Familia", _lbAgrOpcColorante.Familia);
                 parametros.Add("@Cambio", _lbAgrOpcColorante.Cambio);
+                parametros.Add("@Procedencia", _lbAgrOpcColorante.Procedencia);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -1084,8 +1085,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 info.Colorantes_Reporte = colorantes
                     .Where(c =>
                         c.Corr_Carta == info.Corr_Carta &&
-                        c.Sec == info.Sec &&
-                        c.Correlativo == info.Correlativo)
+                        c.Sec == info.Sec /*&&*/
+                        /*c.Correlativo == info.Correlativo*/)
                     .ToList();
 
                 info.Ruta_Reporte = rutas

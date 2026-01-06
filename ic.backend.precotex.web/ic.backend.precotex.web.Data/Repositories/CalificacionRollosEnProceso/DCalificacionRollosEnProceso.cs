@@ -891,5 +891,24 @@ SELECT a.Nom_Auditor+ '  '+a.Tip_Auditor + a.cod_Auditor  As acronimo, cod_Audit
                 return result;
             }
         }
+
+        public async Task<IEnumerable<EPartidaCab>?>ObtenerDatosCabeceraEnProceso(string Cod_OrdTra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_OrdTra", Cod_OrdTra);
+
+                var result = await connection.QueryAsync<EPartidaCab>(
+                    "[dbo].[PA_CC_AUDITORIA_TINTORERIA_CABECERA_PRE_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
     }
 }

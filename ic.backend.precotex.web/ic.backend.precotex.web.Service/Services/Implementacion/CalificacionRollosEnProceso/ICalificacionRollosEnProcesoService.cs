@@ -44,5 +44,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRo
         Task<ServiceResponseList<E_UpdateDesglose>?> ActualizarDesgloseItem(E_UpdateDesglose model);
 
         Task<ServiceResponseList<E_RegistroDesgloseRequest>?> EliminarDesglose(int id);
+
+        //BUSQUEDA DATOS CABECERA
+        Task<ServiceResponseList<EPartidaCab>?> ObtenerDatosCabeceraEnProceso(string Cod_OrdTra);
     }
 }

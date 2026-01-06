@@ -44,5 +44,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
         Task<IEnumerable<E_UpdateDesglose>?> ActualizarDesgloseItem(E_UpdateDesglose model);
 
         Task<IEnumerable<E_RegistroDesgloseRequest>?> EliminarDesglose(int id);
+
+
+        //BUSQUEDA DATOS CABECERA
+        Task<IEnumerable<EPartidaCab>?> ObtenerDatosCabeceraEnProceso(string Cod_OrdTra);
     }
 }

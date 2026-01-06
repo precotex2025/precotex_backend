@@ -8,6 +8,7 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionRollo
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.Desglose;
+using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities.QR;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRollosEnProceso;
@@ -679,5 +680,30 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosEnProceso
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<EPartidaCab>?> ObtenerDatosCabeceraEnProceso(string Cod_OrdTra)
+        {
+            var result = new ServiceResponseList<EPartidaCab>();
+            try
+            {
+                var resultData = await _txtCalificacion.ObtenerDatosCabeceraEnProceso(Cod_OrdTra);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }
