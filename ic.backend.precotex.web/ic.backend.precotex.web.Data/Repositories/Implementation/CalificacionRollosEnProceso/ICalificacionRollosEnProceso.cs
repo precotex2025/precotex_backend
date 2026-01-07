@@ -48,5 +48,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.CalificacionR
 
         //BUSQUEDA DATOS CABECERA
         Task<IEnumerable<EPartidaCab>?> ObtenerDatosCabeceraEnProceso(string Cod_OrdTra);
+        Task<IEnumerable<EAuditor>?> ObtenerAuditor(string Cod_Usuario);
     }
 }

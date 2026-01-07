@@ -910,5 +910,24 @@ SELECT a.Nom_Auditor+ '  '+a.Tip_Auditor + a.cod_Auditor  As acronimo, cod_Audit
                 return result;
             }
         }
+
+        public async Task<IEnumerable<EAuditor>?> ObtenerAuditor(string Cod_Usuario)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Usuario", Cod_Usuario);
+
+                var result = await connection.QueryAsync<EAuditor>(
+                    "[dbo].[PA_ti_cc_auditor_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
     }
 }

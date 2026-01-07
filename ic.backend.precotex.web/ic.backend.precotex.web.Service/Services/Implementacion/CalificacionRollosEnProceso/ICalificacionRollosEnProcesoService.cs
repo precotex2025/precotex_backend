@@ -47,5 +47,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.CalificacionRo
 
         //BUSQUEDA DATOS CABECERA
         Task<ServiceResponseList<EPartidaCab>?> ObtenerDatosCabeceraEnProceso(string Cod_OrdTra);
+        Task<ServiceResponseList<EAuditor>?> ObtenerAuditor(string Cod_Usuario);
     }
 }

@@ -44,13 +44,28 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Jab { get; set; }
         public int? Cambio { get; set; }
         public string? Ingreso_Manual { get; set; }
+        public string? ProcedenciaHardCodeada { get; set; }
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
+        public IEnumerable<Quimicos>? Quimicos { get; set; }
         
     }
 
     public class Auxiliares
+    {
+        public int? Corr_Carta { get; set; }
+        public int? Sec { get; set; }
+        public string? Col_Cod { get; set; }
+        public string? Col_Des { get; set; }
+        public decimal? Por_Ini { get; set; }
+        public decimal? Por_Aju { get; set; }
+        public decimal? Por_Fin { get; set; }
+        public int? id_secuencia { get; set; }
+        public int? correlativo { get; set; }
+    }
+
+    public class Quimicos
     {
         public int? Corr_Carta { get; set; }
         public int? Sec { get; set; }

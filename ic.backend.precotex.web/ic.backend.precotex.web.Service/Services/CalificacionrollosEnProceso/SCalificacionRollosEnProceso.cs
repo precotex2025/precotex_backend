@@ -705,5 +705,29 @@ namespace ic.backend.precotex.web.Service.Services.CalificacionrollosEnProceso
             }
         }
 
+        public async Task<ServiceResponseList<EAuditor>?> ObtenerAuditor(string Cod_Usuario)
+        {
+            var result = new ServiceResponseList<EAuditor>();
+            try
+            {
+                var resultData = await _txtCalificacion.ObtenerAuditor(Cod_Usuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }

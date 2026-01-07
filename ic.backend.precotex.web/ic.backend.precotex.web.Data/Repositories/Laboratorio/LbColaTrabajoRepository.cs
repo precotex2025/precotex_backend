@@ -365,22 +365,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         //CARGAR DATOS GRILLA HOJA FORMULACION
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec)
         {
-            //using (var connection = new SqlConnection(_connectionString))
-            //{
-            //    await connection.OpenAsync();
-
-            //    var parametros = new DynamicParameters();
-            //    parametros.Add("@Corr_Carta", Corr_Carta);
-            //    parametros.Add("@Sec", Sec);
-
-            //    var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
-            //        "[dbo].[PA_Lb_Colorantes_WB_S0001]"
-            //        , parametros
-            //        , commandType: CommandType.StoredProcedure
-            //    );
-            //    return result;
-            //}
-
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
             var parametros = new DynamicParameters();
@@ -848,7 +832,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Familia", _lbAgrOpcColorante.Familia);
                 parametros.Add("@Cambio", _lbAgrOpcColorante.Cambio);
-                parametros.Add("@Procedencia", _lbAgrOpcColorante.Procedencia);
+                parametros.Add("@Procedencia", _lbAgrOpcColorante.ProcedenciaHardCodeada);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -989,18 +973,31 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
-
+            //PRIMER SELECT PARA LOS DATOS GENERALES
             var DatosGenerales = (await multi.ReadAsync<Lb_AgrOpc_Colorantes>()).ToList();
+            //SEGUNDO SELECT PARA LOS AUXILIARES
             var auxiliares = await multi.ReadAsync<Auxiliares>();
+            //TERCER SELECT PARA LA SAL Y CO3
+            var quimicos = await multi.ReadAsync<Quimicos>();
+            //CUARTO SELECT PARA LOS COLORANTES
             var colorantes = await multi.ReadAsync<Colorantes>();
            
             foreach (var datos in DatosGenerales)
             {
+                //AUXILIARES
                 datos.Auxiliares = auxiliares
                     .Where(a =>
                         a.Corr_Carta == datos.Corr_Carta &&
                         a.Sec == datos.Sec &&
                         a.correlativo == datos.Correlativo
+                    )
+                    .ToList();
+                
+                datos.Quimicos = quimicos
+                    .Where(q =>
+                        q.Corr_Carta == datos.Corr_Carta &&
+                        q.Sec == datos.Sec &&
+                        q.correlativo == datos.Correlativo
                     )
                     .ToList();
 
