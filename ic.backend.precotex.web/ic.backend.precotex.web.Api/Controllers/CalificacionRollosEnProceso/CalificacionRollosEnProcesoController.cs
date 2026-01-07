@@ -493,5 +493,20 @@ namespace ic.backend.precotex.web.Api.Controllers.CalificacionRollosEnProceso
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerAuditor2")]
+        public async Task<IActionResult> getObtenerAuditor2(string Cod_Usuario)
+        {
+            var result = await _Calificacion.ObtenerAuditor(Cod_Usuario);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
