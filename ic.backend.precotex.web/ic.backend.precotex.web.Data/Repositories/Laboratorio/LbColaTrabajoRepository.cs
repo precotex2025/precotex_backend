@@ -1100,6 +1100,23 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             return infoPrincipal;
         }
 
+        /******************************MANTENIMIENTOS SOLICITADOS********************************/
+
+        //LISTAR JABONADO
+        public async Task<IEnumerable<Lb_Jabonados>?> ListarJabonadoMantenimiento()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Jabonados>(
+                    "[dbo].[PA_Lb_Jabonados_S0002]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
         //CREAR NUEVO JABONADO
         public async Task<(int Codigo, string Mensaje)> RegistrarJabonado(Lb_Jabonados _lb_Jabonados)
         {
@@ -1218,6 +1235,21 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, mensaje);
+            }
+        }
+
+        //LISTAR JABONADO DETALLE
+        public async Task<IEnumerable<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Detalle>(
+                    "[dbo].[PA_Lb_Jabonados_Detalle_S0002]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
             }
         }
 
@@ -1353,6 +1385,21 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //LISTAR FIJADOS
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosMantenimiento()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Fijados>(
+                    "[dbo].[PA_Lb_Fijados_S0002]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
         //CREAR NUEVO FIJADO 
         public async Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados)
         {
@@ -1474,6 +1521,21 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //LISTAR FIJADOS DETALLE
+        public async Task<IEnumerable<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Fijados_Detalle>(
+                    "[dbo].[PA_Lb_Fijados_Detalle_S0002]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
         //CREAR NUEVO FIJADO DETALLE
         public async Task<(int Codigo, string Mensaje)> RegistrarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
         {
@@ -1517,7 +1579,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        //MODIFICAR JABONADO DETALLE
+        //MODIFICAR FIJADO DETALLE
         public async Task<(int Codigo, string Mensaje)> ModificarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -1562,7 +1624,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        //ELIMINAR JABONADO DETALLE
+        //ELIMINAR FIJADO DETALLE
         public async Task<(int Codigo, string Mensaje)> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -1603,6 +1665,327 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return (Codigo, mensaje);
             }
         }
+
+        //CREAR NUEVO PROCESO
+        public async Task<(int Codigo, string Mensaje)> RegistrarProceso(ComponentesExtra _ComponentesExtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Pro_Cod", _ComponentesExtra.Pro_Cod);
+                parametros.Add("@Pro_Des", _ComponentesExtra.Pro_Des);
+                parametros.Add("@Usr_Reg", _ComponentesExtra.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR PROCESO
+        public async Task<(int Codigo, string Mensaje)> ModificarProceso(ComponentesExtra _ComponentesExtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Pro_Cod", _ComponentesExtra.Pro_Cod);
+                parametros.Add("@Pro_Cod_Org", _ComponentesExtra.Pro_Cod_Org);
+                parametros.Add("@Pro_Des", _ComponentesExtra.Pro_Des);
+                parametros.Add("@Usr_Mod", _ComponentesExtra.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR PROCESO
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarProceso(ComponentesExtra _ComponentesExtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Pro_Cod", _ComponentesExtra.Pro_Cod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //CREAR NUEVO PROCESO VALOR
+        public async Task<(int Codigo, string Mensaje)> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+
+                parametros.Add("@Pro_Cod", _ComponentesExtraValores.Pro_Cod);
+                parametros.Add("@Com_Cod_Con", _ComponentesExtraValores.Com_Cod_Con);
+                parametros.Add("@Com_Ran_Ini", _ComponentesExtraValores.Com_Ran_Ini);
+                parametros.Add("@Com_Ran_Fin", _ComponentesExtraValores.Com_Ran_Fin);
+                parametros.Add("@Com_Cod_Extra1", _ComponentesExtraValores.Com_Cod_Extra1);
+                parametros.Add("@Com_Can_Extra1", _ComponentesExtraValores.Com_Can_Extra1);
+                parametros.Add("@Com_Cod_Extra2", _ComponentesExtraValores.Com_Cod_Extra2);
+                parametros.Add("@Com_Can_Extra2", _ComponentesExtraValores.Com_Can_Extra2);
+                parametros.Add("@Com_Cod_Extra3", _ComponentesExtraValores.Com_Cod_Extra3);
+                parametros.Add("@Com_Can_Extra3", _ComponentesExtraValores.Com_Can_Extra3);
+                parametros.Add("@Com_Cod_Extra4", _ComponentesExtraValores.Com_Cod_Extra4);
+                parametros.Add("@Com_Can_Extra4", _ComponentesExtraValores.Com_Can_Extra4);
+                parametros.Add("@Com_Cod_Extra5", _ComponentesExtraValores.Com_Cod_Extra5);
+                parametros.Add("@Com_Can_Extra5", _ComponentesExtraValores.Com_Can_Extra5);
+                parametros.Add("@Com_Cod_Extra6", _ComponentesExtraValores.Com_Cod_Extra6);
+                parametros.Add("@Com_Can_Extra6", _ComponentesExtraValores.Com_Can_Extra6);
+                parametros.Add("@Com_Cod_Extra7", _ComponentesExtraValores.Com_Cod_Extra7);
+                parametros.Add("@Com_Can_Extra7", _ComponentesExtraValores.Com_Can_Extra7);
+                parametros.Add("@Com_Cod_Extra8", _ComponentesExtraValores.Com_Cod_Extra8);
+                parametros.Add("@Com_Can_Extra8", _ComponentesExtraValores.Com_Can_Extra8);
+                parametros.Add("@Com_Cod_Extra9", _ComponentesExtraValores.Com_Cod_Extra9);
+                parametros.Add("@Com_Can_Extra9", _ComponentesExtraValores.Com_Can_Extra9);
+                parametros.Add("@Com_Cod_Extra10", _ComponentesExtraValores.Com_Cod_Extra10);
+                parametros.Add("@Com_Can_Extra10", _ComponentesExtraValores.Com_Can_Extra10);
+                parametros.Add("@Com_Cod_Extra11", _ComponentesExtraValores.Com_Cod_Extra11);
+                parametros.Add("@Com_Can_Extra11", _ComponentesExtraValores.Com_Can_Extra11);
+                parametros.Add("@Com_Cod_Extra12", _ComponentesExtraValores.Com_Cod_Extra12);
+                parametros.Add("@Com_Can_Extra12", _ComponentesExtraValores.Com_Can_Extra12);
+                parametros.Add("@Com_Cod_Extra13", _ComponentesExtraValores.Com_Cod_Extra13);
+                parametros.Add("@Com_Can_Extra13", _ComponentesExtraValores.Com_Can_Extra13);
+                parametros.Add("@Com_Cod_Extra14", _ComponentesExtraValores.Com_Cod_Extra14);
+                parametros.Add("@Com_Can_Extra14", _ComponentesExtraValores.Com_Can_Extra14);
+                parametros.Add("@Com_Cod_Extra15", _ComponentesExtraValores.Com_Cod_Extra15);
+                parametros.Add("@Com_Can_Extra15", _ComponentesExtraValores.Com_Can_Extra15);
+                parametros.Add("@Com_Cod_Extra16", _ComponentesExtraValores.Com_Cod_Extra16);
+                parametros.Add("@Com_Can_Extra16", _ComponentesExtraValores.Com_Can_Extra16);
+                parametros.Add("@Usr_Reg", _ComponentesExtraValores.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Valores_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR PROCESO VALOR
+        public async Task<(int Codigo, string Mensaje)> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+
+                parametros.Add("@Pro_Cod", _ComponentesExtraValores.Pro_Cod);
+                parametros.Add("@Pro_Cod_Org", _ComponentesExtraValores.Pro_Cod_Org);
+                parametros.Add("@Com_Cod_Con", _ComponentesExtraValores.Com_Cod_Con);
+                parametros.Add("@Com_Cod_Con_Org", _ComponentesExtraValores.Com_Cod_Con_Org);
+                parametros.Add("@Com_Ran_Ini", _ComponentesExtraValores.Com_Ran_Ini);
+                parametros.Add("@Com_Ran_Ini_Org", _ComponentesExtraValores.Com_Ran_Ini_Org);
+                parametros.Add("@Com_Ran_Fin", _ComponentesExtraValores.Com_Ran_Fin);
+                parametros.Add("@Com_Cod_Extra1", _ComponentesExtraValores.Com_Cod_Extra1);
+                parametros.Add("@Com_Can_Extra1", _ComponentesExtraValores.Com_Can_Extra1);
+                parametros.Add("@Com_Cod_Extra2", _ComponentesExtraValores.Com_Cod_Extra2);
+                parametros.Add("@Com_Can_Extra2", _ComponentesExtraValores.Com_Can_Extra2);
+                parametros.Add("@Com_Cod_Extra3", _ComponentesExtraValores.Com_Cod_Extra3);
+                parametros.Add("@Com_Can_Extra3", _ComponentesExtraValores.Com_Can_Extra3);
+                parametros.Add("@Com_Cod_Extra4", _ComponentesExtraValores.Com_Cod_Extra4);
+                parametros.Add("@Com_Can_Extra4", _ComponentesExtraValores.Com_Can_Extra4);
+                parametros.Add("@Com_Cod_Extra5", _ComponentesExtraValores.Com_Cod_Extra5);
+                parametros.Add("@Com_Can_Extra5", _ComponentesExtraValores.Com_Can_Extra5);
+                parametros.Add("@Com_Cod_Extra6", _ComponentesExtraValores.Com_Cod_Extra6);
+                parametros.Add("@Com_Can_Extra6", _ComponentesExtraValores.Com_Can_Extra6);
+                parametros.Add("@Com_Cod_Extra7", _ComponentesExtraValores.Com_Cod_Extra7);
+                parametros.Add("@Com_Can_Extra7", _ComponentesExtraValores.Com_Can_Extra7);
+                parametros.Add("@Com_Cod_Extra8", _ComponentesExtraValores.Com_Cod_Extra8);
+                parametros.Add("@Com_Can_Extra8", _ComponentesExtraValores.Com_Can_Extra8);
+                parametros.Add("@Com_Cod_Extra9", _ComponentesExtraValores.Com_Cod_Extra9);
+                parametros.Add("@Com_Can_Extra9", _ComponentesExtraValores.Com_Can_Extra9);
+                parametros.Add("@Com_Cod_Extra10", _ComponentesExtraValores.Com_Cod_Extra10);
+                parametros.Add("@Com_Can_Extra10", _ComponentesExtraValores.Com_Can_Extra10);
+                parametros.Add("@Com_Cod_Extra11", _ComponentesExtraValores.Com_Cod_Extra11);
+                parametros.Add("@Com_Can_Extra11", _ComponentesExtraValores.Com_Can_Extra11);
+                parametros.Add("@Com_Cod_Extra12", _ComponentesExtraValores.Com_Cod_Extra12);
+                parametros.Add("@Com_Can_Extra12", _ComponentesExtraValores.Com_Can_Extra12);
+                parametros.Add("@Com_Cod_Extra13", _ComponentesExtraValores.Com_Cod_Extra13);
+                parametros.Add("@Com_Can_Extra13", _ComponentesExtraValores.Com_Can_Extra13);
+                parametros.Add("@Com_Cod_Extra14", _ComponentesExtraValores.Com_Cod_Extra14);
+                parametros.Add("@Com_Can_Extra14", _ComponentesExtraValores.Com_Can_Extra14);
+                parametros.Add("@Com_Cod_Extra15", _ComponentesExtraValores.Com_Cod_Extra15);
+                parametros.Add("@Com_Can_Extra15", _ComponentesExtraValores.Com_Can_Extra15);
+                parametros.Add("@Com_Cod_Extra16", _ComponentesExtraValores.Com_Cod_Extra16);
+                parametros.Add("@Com_Can_Extra16", _ComponentesExtraValores.Com_Can_Extra16);
+                parametros.Add("@Usr_Mod", _ComponentesExtraValores.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR PROCESO VALOR
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Pro_Cod", _ComponentesExtraValores.Pro_Cod);
+                parametros.Add("@Com_Cod_Con", _ComponentesExtraValores.Com_Cod_Con);
+                parametros.Add("@Com_Ran_Ini", _ComponentesExtraValores.Com_Ran_Ini);
+                parametros.Add("@Flg_Status", _ComponentesExtraValores.Flg_Status);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+
 
     }
 }

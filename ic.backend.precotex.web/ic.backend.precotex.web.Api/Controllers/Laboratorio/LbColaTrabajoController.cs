@@ -694,6 +694,24 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+
+        /***********************************************MANTENIMIENTOS**************************************************/
+
+        [HttpGet]
+        [Route("getListarJabonadoMantenimiento")]
+        public async Task<IActionResult> getListarJabonadoMantenimiento()
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadoMantenimiento();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         [HttpPost]
         [Route("postRegistrarJabonado")]
         public async Task<IActionResult> postRegistrarJabonado([FromBody] Lb_Jabonados parametros)
@@ -750,6 +768,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonadosDetalleMantenimiento")]
+        public async Task<IActionResult> getListarJabonadosDetalleMantenimiento()
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadosDetalleMantenimiento();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 
@@ -834,6 +867,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListarFijadosMantenimiento")]
+        public async Task<IActionResult> getListarFijadosMantenimiento()
+        {
+            var result = await _LbColaTrabajoService.ListarFijadosMantenimiento();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         [HttpPost]
         [Route("postRegistrarFijado")]
         public async Task<IActionResult> postRegistrarFijado([FromBody] Lb_Fijados parametros)
@@ -890,6 +938,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarFijadosDetalleMantenimiento")]
+        public async Task<IActionResult> getListarFijadosDetalleMantenimiento()
+        {
+            var result = await _LbColaTrabajoService.ListarFijadosDetalleMantenimiento();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 

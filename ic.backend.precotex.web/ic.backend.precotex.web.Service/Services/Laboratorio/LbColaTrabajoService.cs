@@ -946,6 +946,32 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        /***********************************************MANTENIMIENTOS**************************************************/
+        public async Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadoMantenimiento()
+        {
+            var result = new ServiceResponseList<Lb_Jabonados>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadoMantenimiento();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
         public async Task<ServiceResponse<int>> RegistrarJabonado(Lb_Jabonados lb_Jabonados)
         {
             var result = new ServiceResponse<int>();
@@ -1016,6 +1042,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             {
                 result.Success = false;
                 result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento()
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Detalle>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadosDetalleMantenimiento();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
                 return result;
             }
         }
@@ -1094,6 +1144,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosMantenimiento()
+        {
+            var result = new ServiceResponseList<Lb_Fijados>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosMantenimiento();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados)
         {
             var result = new ServiceResponse<int>();
@@ -1164,6 +1238,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             {
                 result.Success = false;
                 result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento()
+        {
+            var result = new ServiceResponseList<Lb_Fijados_Detalle>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosDetalleMantenimiento();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
                 return result;
             }
         }
