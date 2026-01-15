@@ -946,6 +946,301 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponse<int>> RegistrarJabonado(Lb_Jabonados lb_Jabonados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.RegistrarJabonado(lb_Jabonados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ModificarJabonado(Lb_Jabonados lb_Jabonados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ModificarJabonado(lb_Jabonados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+        public async Task<ServiceResponse<int>> DeshabilitarJabonado(Lb_Jabonados lb_Jabonados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.DeshabilitarJabonado(lb_Jabonados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> RegistrarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.RegistrarJabonadoDetalle(lb_Jabonados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ModificarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ModificarJabonadoDetalle(lb_Jabonados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+        public async Task<ServiceResponse<int>> DeshabilitarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.DeshabilitarJabonadoDetalle(lb_Jabonados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.RegistrarFijado(lb_Fijados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ModificarFijado(Lb_Fijados lb_Fijados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ModificarFijado(lb_Fijados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+        public async Task<ServiceResponse<int>> DeshabilitarFijado(Lb_Fijados lb_Fijados)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.DeshabilitarFijado(lb_Fijados);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> RegistrarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.RegistrarFijadoDetalle(lb_Fijados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ModificarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ModificarFijadoDetalle(lb_Fijados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+        public async Task<ServiceResponse<int>> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.DeshabilitarFijadoDetalle(lb_Fijados_Detalle);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
 
     }
 }

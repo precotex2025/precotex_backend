@@ -54,12 +54,24 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         */
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonados();
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia);
+        Task<ServiceResponse<int>> RegistrarJabonado(Lb_Jabonados lb_Jabonados);
+        Task<ServiceResponse<int>> ModificarJabonado(Lb_Jabonados lb_Jabonados);
+        Task<ServiceResponse<int>> DeshabilitarJabonado(Lb_Jabonados lb_Jabonados);
+        Task<ServiceResponse<int>> RegistrarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
+        Task<ServiceResponse<int>> ModificarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
+        Task<ServiceResponse<int>> DeshabilitarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
 
         /*
             FIJADOS
         */
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijados();
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia);
+        Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados);
+        Task<ServiceResponse<int>> ModificarFijado(Lb_Fijados lb_Fijados);
+        Task<ServiceResponse<int>> DeshabilitarFijado(Lb_Fijados lb_Fijados);
+        Task<ServiceResponse<int>> RegistrarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
+        Task<ServiceResponse<int>> ModificarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
+        Task<ServiceResponse<int>> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
 
         /*
             CARBONATO Y SODA 

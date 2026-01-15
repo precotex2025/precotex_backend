@@ -1100,5 +1100,509 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             return infoPrincipal;
         }
 
+        //CREAR NUEVO JABONADO
+        public async Task<(int Codigo, string Mensaje)> RegistrarJabonado(Lb_Jabonados _lb_Jabonados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Des", _lb_Jabonados.Jab_Des);
+                parametros.Add("@Usr_Reg", _lb_Jabonados.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR JABONADO
+        public async Task<(int Codigo, string Mensaje)> ModificarJabonado(Lb_Jabonados _lb_Jabonados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Jabonados.Jab_Id);
+                parametros.Add("@Jab_Des", _lb_Jabonados.Jab_Des);
+                parametros.Add("@Usr_Mod", _lb_Jabonados.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR JABONADO
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarJabonado(Lb_Jabonados _lb_Jabonados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Jabonados.Jab_Id);
+                parametros.Add("@Flg_Status", _lb_Jabonados.Flg_Status);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //CREAR NUEVO JABONADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> RegistrarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Jabonados_Detalle.Jab_Id);
+                parametros.Add("@Jab_Ran_Ini", _lb_Jabonados_Detalle.Jab_Ran_Ini);
+                parametros.Add("@Jab_Ran_Fin", _lb_Jabonados_Detalle.Jab_Ran_Fin);
+                parametros.Add("@Jab_Can", _lb_Jabonados_Detalle.Jab_Can);
+                parametros.Add("@Familia", _lb_Jabonados_Detalle.Familia);
+                parametros.Add("@Usr_Reg", _lb_Jabonados_Detalle.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_Detalle_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR JABONADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> ModificarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Jabonados_Detalle.Jab_Id);
+                parametros.Add("@Jab_Ran_Ini", _lb_Jabonados_Detalle.Jab_Ran_Ini);
+                parametros.Add("@Jab_Ran_Fin", _lb_Jabonados_Detalle.Jab_Ran_Fin);
+                parametros.Add("@Jab_Can", _lb_Jabonados_Detalle.Jab_Can);
+                parametros.Add("@Familia", _lb_Jabonados_Detalle.Familia);
+                parametros.Add("@Jab_Ran_Ini_Org", _lb_Jabonados_Detalle.Jab_Ran_Ini_Org);
+                parametros.Add("@Familia_Org", _lb_Jabonados_Detalle.Familia_Org);
+                parametros.Add("@Usr_Mod", _lb_Jabonados_Detalle.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_Detalle_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR JABONADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Jabonados_Detalle.Jab_Id);
+                parametros.Add("@Jab_Ran_Ini", _lb_Jabonados_Detalle.Jab_Ran_Ini);
+                parametros.Add("@Familia", _lb_Jabonados_Detalle.Familia);
+                parametros.Add("@Flg_Status", _lb_Jabonados_Detalle.Flg_Status);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Jabonados_Detalle_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //CREAR NUEVO FIJADO 
+        public async Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Fij_Des", _lb_Fijados.Fij_Des);
+                parametros.Add("@Usr_Reg", _lb_Fijados.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR FIJADO
+        public async Task<(int Codigo, string Mensaje)> ModificarFijado(Lb_Fijados _lb_Fijados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Fij_Id", _lb_Fijados.Fij_Id);
+                parametros.Add("@Fij_Des", _lb_Fijados.Fij_Des);
+                parametros.Add("@Usr_Mod", _lb_Fijados.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR FIJADO
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarFijado(Lb_Fijados _lb_Fijados)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Fijados.Fij_Id);
+                parametros.Add("@Flg_Status", _lb_Fijados.Flg_Status);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //CREAR NUEVO FIJADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> RegistrarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Fij_Id", _lb_Fijados_Detalle.Fij_Id);
+                parametros.Add("@Fij_Ran_Ini", _lb_Fijados_Detalle.Fij_Ran_Ini);
+                parametros.Add("@Fij_Ran_Fin", _lb_Fijados_Detalle.Fij_Ran_Fin);
+                parametros.Add("@Familia", _lb_Fijados_Detalle.Familia);
+                parametros.Add("@Usr_Reg", _lb_Fijados_Detalle.Usr_Reg);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_Detalle_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //MODIFICAR JABONADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> ModificarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Fij_Id", _lb_Fijados_Detalle.Fij_Id);
+                parametros.Add("@Fij_Ran_Ini", _lb_Fijados_Detalle.Fij_Ran_Ini);
+                parametros.Add("@Fij_Ran_Fin", _lb_Fijados_Detalle.Fij_Ran_Fin);
+                parametros.Add("@Familia", _lb_Fijados_Detalle.Familia);
+                parametros.Add("@Fij_Ran_Ini_Org", _lb_Fijados_Detalle.Fij_Ran_Ini_Org);
+                parametros.Add("@Familia_Org", _lb_Fijados_Detalle.Familia_Org);
+                parametros.Add("@Usr_Mod", _lb_Fijados_Detalle.Usr_Mod);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_Detalle_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //ELIMINAR JABONADO DETALLE
+        public async Task<(int Codigo, string Mensaje)> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Jab_Id", _lb_Fijados_Detalle.Fij_Id);
+                parametros.Add("@Jab_Ran_Ini", _lb_Fijados_Detalle.Fij_Ran_Ini);
+                parametros.Add("@Familia", _lb_Fijados_Detalle.Familia);
+                parametros.Add("@Flg_Status", _lb_Fijados_Detalle.Flg_Status);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Fijados_Detalle_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
     }
 }

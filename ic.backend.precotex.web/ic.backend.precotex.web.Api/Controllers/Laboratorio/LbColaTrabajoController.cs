@@ -694,5 +694,285 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("postRegistrarJabonado")]
+        public async Task<IActionResult> postRegistrarJabonado([FromBody] Lb_Jabonados parametros)
+        {
+            Lb_Jabonados _lbJabonados = new Lb_Jabonados
+            {
+                Jab_Des = parametros.Jab_Des,
+                Usr_Reg = parametros.Usr_Reg
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarJabonado(_lbJabonados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarJabonado")]
+        public async Task<IActionResult> patchModificarJabonado([FromBody] Lb_Jabonados parametros)
+        {
+            Lb_Jabonados _lbJabonados = new Lb_Jabonados
+            {
+                Jab_Id = parametros.Jab_Id,
+                Jab_Des = parametros.Jab_Des,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.ModificarJabonado(_lbJabonados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarJabonado")]
+        public async Task<IActionResult> patchDeshabilitarJabonado([FromBody] Lb_Jabonados parametros)
+        {
+            Lb_Jabonados _lbJabonados = new Lb_Jabonados
+            {
+                Jab_Id = parametros.Jab_Id
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarJabonado(_lbJabonados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postRegistrarJabonadoDetalle")]
+        public async Task<IActionResult> postRegistrarJabonadoDetalle([FromBody] Lb_Jabonados_Detalle parametros)
+        {
+            Lb_Jabonados_Detalle _lbJabonados_Detalle = new Lb_Jabonados_Detalle
+            {
+                Jab_Id = parametros.Jab_Id,
+                Jab_Ran_Ini = parametros.Jab_Ran_Ini,
+                Jab_Ran_Fin = parametros.Jab_Ran_Fin,
+                Jab_Can = parametros.Jab_Can,
+                Familia = parametros.Familia,
+                Jab_Ran_Ini_Org = parametros.Jab_Ran_Ini_Org,
+                Familia_Org = parametros.Familia_Org,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarJabonadoDetalle(_lbJabonados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarJabonadoDetalle")]
+        public async Task<IActionResult> patchModificarJabonadoDetalle([FromBody] Lb_Jabonados_Detalle parametros)
+        {
+            Lb_Jabonados_Detalle _lbJabonados_Detalle = new Lb_Jabonados_Detalle
+            {
+                Jab_Id = parametros.Jab_Id,
+                Jab_Ran_Ini = parametros.Jab_Ran_Ini,
+                Jab_Ran_Fin = parametros.Jab_Ran_Fin,
+                Jab_Can = parametros.Jab_Can,
+                Familia = parametros.Familia,
+                Jab_Ran_Ini_Org = parametros.Jab_Ran_Ini_Org,
+                Familia_Org = parametros.Familia_Org,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.ModificarJabonadoDetalle(_lbJabonados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarJabonadoDetalle")]
+        public async Task<IActionResult> patchDeshabilitarJabonadoDetalle([FromBody] Lb_Jabonados_Detalle parametros)
+        {
+            Lb_Jabonados_Detalle _lbJabonados_Detalle = new Lb_Jabonados_Detalle
+            {
+                Jab_Id = parametros.Jab_Id,
+                Jab_Ran_Ini = parametros.Jab_Ran_Ini,
+                Familia = parametros.Familia,
+                Flg_Status = parametros.Flg_Status
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarJabonadoDetalle(_lbJabonados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postRegistrarFijado")]
+        public async Task<IActionResult> postRegistrarFijado([FromBody] Lb_Fijados parametros)
+        {
+            Lb_Fijados _lbFijados = new Lb_Fijados
+            {
+                Fij_Des = parametros.Fij_Des,
+                Usr_Reg = parametros.Usr_Reg
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarFijado(_lbFijados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarFijado")]
+        public async Task<IActionResult> patchModificarFijado([FromBody] Lb_Fijados parametros)
+        {
+            Lb_Fijados _lbFijados = new Lb_Fijados
+            {
+                Fij_Id = parametros.Fij_Id,
+                Fij_Des = parametros.Fij_Des,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.ModificarFijado(_lbFijados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarFijado")]
+        public async Task<IActionResult> patchDeshabilitarFijado([FromBody] Lb_Fijados parametros)
+        {
+            Lb_Fijados _lbFijados = new Lb_Fijados
+            {
+                Fij_Id = parametros.Fij_Id
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarFijado(_lbFijados);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postRegistrarFijadoDetalle")]
+        public async Task<IActionResult> postRegistrarFijadoDetalle([FromBody] Lb_Fijados_Detalle parametros)
+        {
+            Lb_Fijados_Detalle _lbFijados_Detalle = new Lb_Fijados_Detalle
+            {
+                Fij_Id = parametros.Fij_Id,
+                Fij_Ran_Ini = parametros.Fij_Ran_Ini,
+                Fij_Ran_Fin = parametros.Fij_Ran_Fin,
+                Familia = parametros.Familia,
+                Fij_Ran_Ini_Org = parametros.Fij_Ran_Ini_Org,
+                Familia_Org = parametros.Familia_Org,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarFijadoDetalle(_lbFijados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarFijadoDetalle")]
+        public async Task<IActionResult> patchModificarFijadoDetalle([FromBody] Lb_Fijados_Detalle parametros)
+        {
+            Lb_Fijados_Detalle _lbFijados_Detalle = new Lb_Fijados_Detalle
+            {
+                Fij_Id = parametros.Fij_Id,
+                Fij_Ran_Ini = parametros.Fij_Ran_Ini,
+                Fij_Ran_Fin = parametros.Fij_Ran_Fin,
+                Familia = parametros.Familia,
+                Fij_Ran_Ini_Org = parametros.Fij_Ran_Ini_Org,
+                Familia_Org = parametros.Familia_Org,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.ModificarFijadoDetalle(_lbFijados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarFijadoDetalle")]
+        public async Task<IActionResult> patchDeshabilitarFijadoDetalle([FromBody] Lb_Fijados_Detalle parametros)
+        {
+            Lb_Fijados_Detalle _lbFijados_Detalle = new Lb_Fijados_Detalle
+            {
+                Fij_Id = parametros.Fij_Id,
+                Fij_Ran_Ini = parametros.Fij_Ran_Ini,
+                Familia = parametros.Familia,
+                Flg_Status = parametros.Flg_Status
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarFijadoDetalle(_lbFijados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+
     }
 }
