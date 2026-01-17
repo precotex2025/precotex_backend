@@ -58,7 +58,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> RegistrarJabonado(Lb_Jabonados lb_Jabonados);
         Task<ServiceResponse<int>> ModificarJabonado(Lb_Jabonados lb_Jabonados);
         Task<ServiceResponse<int>> DeshabilitarJabonado(Lb_Jabonados lb_Jabonados);
-        Task<ServiceResponseList<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento();
+        Task<ServiceResponseList<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento(int Jab_Id);
         Task<ServiceResponse<int>> RegistrarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
         Task<ServiceResponse<int>> ModificarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
         Task<ServiceResponse<int>> DeshabilitarJabonadoDetalle(Lb_Jabonados_Detalle lb_Jabonados_Detalle);
@@ -72,7 +72,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados);
         Task<ServiceResponse<int>> ModificarFijado(Lb_Fijados lb_Fijados);
         Task<ServiceResponse<int>> DeshabilitarFijado(Lb_Fijados lb_Fijados);
-        Task<ServiceResponseList<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento();
+        Task<ServiceResponseList<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento(int Fij_Id);
         Task<ServiceResponse<int>> RegistrarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
         Task<ServiceResponse<int>> ModificarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
         Task<ServiceResponse<int>> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle lb_Fijados_Detalle);
@@ -118,5 +118,18 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             REPORTE   
         */
         Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo);
+
+        /*
+            COMPONENTES EXTRA   
+        */
+        Task<ServiceResponse<int>> RegistrarProceso(ComponentesExtra _ComponentesExtra);
+        Task<ServiceResponse<int>> ModificarProceso(ComponentesExtra _ComponentesExtra);
+        Task<ServiceResponse<int>> DeshabilitarProceso(ComponentesExtra _ComponentesExtra);
+        Task<ServiceResponseList<ComponentesExtraValores>?> ListarProcesoValor(string Pro_Cod);
+        Task<ServiceResponse<int>> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
+        Task<ServiceResponse<int>> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
+        Task<ServiceResponse<int>> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
+
+
     }
 }

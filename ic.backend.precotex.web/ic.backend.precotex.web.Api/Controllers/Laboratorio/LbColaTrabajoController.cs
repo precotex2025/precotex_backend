@@ -761,7 +761,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         {
             Lb_Jabonados _lbJabonados = new Lb_Jabonados
             {
-                Jab_Id = parametros.Jab_Id
+                Jab_Id = parametros.Jab_Id,
+                Flg_Status = parametros.Flg_Status
             };
 
             var result = await _LbColaTrabajoService.DeshabilitarJabonado(_lbJabonados);
@@ -777,9 +778,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadosDetalleMantenimiento")]
-        public async Task<IActionResult> getListarJabonadosDetalleMantenimiento()
+        public async Task<IActionResult> getListarJabonadosDetalleMantenimiento(int Jab_Id)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadosDetalleMantenimiento();
+            var result = await _LbColaTrabajoService.ListarJabonadosDetalleMantenimiento(Jab_Id);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -931,7 +932,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         {
             Lb_Fijados _lbFijados = new Lb_Fijados
             {
-                Fij_Id = parametros.Fij_Id
+                Fij_Id = parametros.Fij_Id,
+                Flg_Status = parametros.Flg_Status
             };
 
             var result = await _LbColaTrabajoService.DeshabilitarFijado(_lbFijados);
@@ -947,9 +949,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarFijadosDetalleMantenimiento")]
-        public async Task<IActionResult> getListarFijadosDetalleMantenimiento()
+        public async Task<IActionResult> getListarFijadosDetalleMantenimiento(int Fij_Id)
         {
-            var result = await _LbColaTrabajoService.ListarFijadosDetalleMantenimiento();
+            var result = await _LbColaTrabajoService.ListarFijadosDetalleMantenimiento(Fij_Id);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1025,6 +1027,224 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             };
 
             var result = await _LbColaTrabajoService.DeshabilitarFijadoDetalle(_lbFijados_Detalle);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postRegistrarProceso")]
+        public async Task<IActionResult> postRegistrarProceso([FromBody] ComponentesExtra parametros)
+        {
+            ComponentesExtra _lbComponentesExtra = new ComponentesExtra
+            {
+                Pro_Cod = parametros.Pro_Cod,
+                Pro_Des = parametros.Pro_Des,
+                Usr_Reg = parametros.Usr_Reg
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarProceso(_lbComponentesExtra);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarProceso")]
+        public async Task<IActionResult> patchModificarProceso([FromBody] ComponentesExtra parametros)
+        {
+            ComponentesExtra _lbComponentesExtra = new ComponentesExtra
+            {
+                Pro_Cod = parametros.Pro_Cod,
+                Pro_Cod_Org = parametros.Pro_Cod_Org,
+                Pro_Des = parametros.Pro_Des,
+                Usr_Mod = parametros.Usr_Mod
+            };
+
+            var result = await _LbColaTrabajoService.ModificarProceso(_lbComponentesExtra);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarProceso")]
+        public async Task<IActionResult> patchDeshabilitarProceso([FromBody] ComponentesExtra parametros)
+        {
+            ComponentesExtra _lbComponentesExtra = new ComponentesExtra
+            {
+                Pro_Cod = parametros.Pro_Cod,
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarProceso(_lbComponentesExtra);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarProcesoValor")]
+        public async Task<IActionResult> getListarProcesoValor(string Pro_Cod)
+        {
+            var result = await _LbColaTrabajoService.ListarProcesoValor(Pro_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postRegistrarProcesoValor")]
+        public async Task<IActionResult> postRegistrarProcesoValor([FromBody] ComponentesExtraValores parametros)
+        {
+            ComponentesExtraValores value = new ComponentesExtraValores
+            {
+                Pro_Cod = parametros.Pro_Cod,
+                Com_Cod_Con = parametros.Com_Cod_Con,
+                Com_Ran_Ini = parametros.Com_Ran_Ini,
+                Com_Ran_Fin = parametros.Com_Ran_Fin,
+                Com_Cod_Extra1 = parametros.Com_Cod_Extra1,
+                Com_Can_Extra1 = parametros.Com_Can_Extra1,
+                Com_Cod_Extra2 = parametros.Com_Cod_Extra2,
+                Com_Can_Extra2 = parametros.Com_Can_Extra2,
+                Com_Cod_Extra3 = parametros.Com_Cod_Extra3,
+                Com_Can_Extra3 = parametros.Com_Can_Extra3,
+                Com_Cod_Extra4 = parametros.Com_Cod_Extra4,
+                Com_Can_Extra4 = parametros.Com_Can_Extra4,
+                Com_Cod_Extra5 = parametros.Com_Cod_Extra5,
+                Com_Can_Extra5 = parametros.Com_Can_Extra5,
+                Com_Cod_Extra6 = parametros.Com_Cod_Extra6,
+                Com_Can_Extra6 = parametros.Com_Can_Extra6,
+                Com_Cod_Extra7 = parametros.Com_Cod_Extra7,
+                Com_Can_Extra7 = parametros.Com_Can_Extra7,
+                Com_Cod_Extra8 = parametros.Com_Cod_Extra8,
+                Com_Can_Extra8 = parametros.Com_Can_Extra8,
+                Com_Cod_Extra9 = parametros.Com_Cod_Extra9,
+                Com_Can_Extra9 = parametros.Com_Can_Extra9,
+                Com_Cod_Extra10 = parametros.Com_Cod_Extra10,
+                Com_Can_Extra10 = parametros.Com_Can_Extra10,
+                Com_Cod_Extra11 = parametros.Com_Cod_Extra11,
+                Com_Can_Extra11 = parametros.Com_Can_Extra11,
+                Com_Cod_Extra12 = parametros.Com_Cod_Extra12,
+                Com_Can_Extra12 = parametros.Com_Can_Extra12,
+                Com_Cod_Extra13 = parametros.Com_Cod_Extra13,
+                Com_Can_Extra13 = parametros.Com_Can_Extra13,
+                Com_Cod_Extra14 = parametros.Com_Cod_Extra14,
+                Com_Can_Extra14 = parametros.Com_Can_Extra14,
+                Com_Cod_Extra15 = parametros.Com_Cod_Extra15,
+                Com_Can_Extra15 = parametros.Com_Can_Extra15,
+                Com_Cod_Extra16 = parametros.Com_Cod_Extra16,
+                Com_Can_Extra16 = parametros.Com_Can_Extra16,
+                Usr_Reg = parametros.Usr_Reg
+            };
+
+            var result = await _LbColaTrabajoService.RegistrarProcesoValor(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchModificarProcesoValor")]
+        public async Task<IActionResult> patchModificarProcesoValor([FromBody] ComponentesExtraValores parametros)
+        {
+            ComponentesExtraValores value = new ComponentesExtraValores
+            {
+                Pro_Cod = parametros.Pro_Cod,
+                Pro_Cod_Org = parametros.Pro_Cod_Org,
+                Com_Cod_Con = parametros.Com_Cod_Con,
+                Com_Cod_Con_Org = parametros.Com_Cod_Con_Org,
+                Com_Ran_Ini = parametros.Com_Ran_Ini,
+                Com_Ran_Ini_Org = parametros.Com_Ran_Ini_Org,
+                Com_Ran_Fin = parametros.Com_Ran_Fin,
+                Com_Cod_Extra1 = parametros.Com_Cod_Extra1,
+                Com_Can_Extra1 = parametros.Com_Can_Extra1,
+                Com_Cod_Extra2 = parametros.Com_Cod_Extra2,
+                Com_Can_Extra2 = parametros.Com_Can_Extra2,
+                Com_Cod_Extra3 = parametros.Com_Cod_Extra3,
+                Com_Can_Extra3 = parametros.Com_Can_Extra3,
+                Com_Cod_Extra4 = parametros.Com_Cod_Extra4,
+                Com_Can_Extra4 = parametros.Com_Can_Extra4,
+                Com_Cod_Extra5 = parametros.Com_Cod_Extra5,
+                Com_Can_Extra5 = parametros.Com_Can_Extra5,
+                Com_Cod_Extra6 = parametros.Com_Cod_Extra6,
+                Com_Can_Extra6 = parametros.Com_Can_Extra6,
+                Com_Cod_Extra7 = parametros.Com_Cod_Extra7,
+                Com_Can_Extra7 = parametros.Com_Can_Extra7,
+                Com_Cod_Extra8 = parametros.Com_Cod_Extra8,
+                Com_Can_Extra8 = parametros.Com_Can_Extra8,
+                Com_Cod_Extra9 = parametros.Com_Cod_Extra9,
+                Com_Can_Extra9 = parametros.Com_Can_Extra9,
+                Com_Cod_Extra10 = parametros.Com_Cod_Extra10,
+                Com_Can_Extra10 = parametros.Com_Can_Extra10,
+                Com_Cod_Extra11 = parametros.Com_Cod_Extra11,
+                Com_Can_Extra11 = parametros.Com_Can_Extra11,
+                Com_Cod_Extra12 = parametros.Com_Cod_Extra12,
+                Com_Can_Extra12 = parametros.Com_Can_Extra12,
+                Com_Cod_Extra13 = parametros.Com_Cod_Extra13,
+                Com_Can_Extra13 = parametros.Com_Can_Extra13,
+                Com_Cod_Extra14 = parametros.Com_Cod_Extra14,
+                Com_Can_Extra14 = parametros.Com_Can_Extra14,
+                Com_Cod_Extra15 = parametros.Com_Cod_Extra15,
+                Com_Can_Extra15 = parametros.Com_Can_Extra15,
+                Com_Cod_Extra16 = parametros.Com_Cod_Extra16,
+                Com_Can_Extra16 = parametros.Com_Can_Extra16,
+                Usr_Reg = parametros.Usr_Reg
+            };
+
+            var result = await _LbColaTrabajoService.ModificarProcesoValor(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchDeshabilitarProcesoValor")]
+        public async Task<IActionResult> patchDeshabilitarProcesoValor([FromBody] ComponentesExtraValores parametros)
+        {
+            ComponentesExtraValores value = new ComponentesExtraValores
+            {
+                Pro_Cod = parametros.Pro_Cod,
+                Com_Cod_Con = parametros.Com_Cod_Con,
+                Com_Ran_Ini = parametros.Com_Ran_Ini,
+                Flg_Status = parametros.Flg_Status
+            };
+
+            var result = await _LbColaTrabajoService.DeshabilitarProcesoValor(value);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;

@@ -1239,14 +1239,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR JABONADO DETALLE
-        public async Task<IEnumerable<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento()
+        public async Task<IEnumerable<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento(int Jab_Id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Jab_Id", Jab_Id);
+
                 var result = await connection.QueryAsync<Lb_Jabonados_Detalle>(
                     "[dbo].[PA_Lb_Jabonados_Detalle_S0002]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -1491,7 +1496,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var parametros = new DynamicParameters();
 
                 //PARAMETROS ENTRADA
-                parametros.Add("@Jab_Id", _lb_Fijados.Fij_Id);
+                parametros.Add("@Fij_Id", _lb_Fijados.Fij_Id);
                 parametros.Add("@Flg_Status", _lb_Fijados.Flg_Status);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
@@ -1522,14 +1527,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR FIJADOS DETALLE
-        public async Task<IEnumerable<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento()
+        public async Task<IEnumerable<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento(int Fij_Id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Fij_Id", Fij_Id);
+
                 var result = await connection.QueryAsync<Lb_Fijados_Detalle>(
                     "[dbo].[PA_Lb_Fijados_Detalle_S0002]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -1788,6 +1798,27 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //LISTAR PROCESOS VALOR
+        public async Task<IEnumerable<ComponentesExtraValores>?> ListarProcesoValor(string Pro_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cod", Pro_Cod);
+
+                var result = await connection.QueryAsync<ComponentesExtraValores>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Valores_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+
         //CREAR NUEVO PROCESO VALOR
         public async Task<(int Codigo, string Mensaje)> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores)
         {
@@ -1985,7 +2016,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-
+        
 
     }
 }

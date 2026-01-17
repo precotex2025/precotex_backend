@@ -18,6 +18,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Fec_Reg { get; set; }
         public string? Fec_Mod { get; set; }
         public string? Flg_Status { get; set; }
+        public string? item { get; set; }
+        public string? descripcion { get; set; }
+        public string? usuario { get; set; }
     }
 
     public class Lb_Fijados_Detalle

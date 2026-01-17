@@ -53,7 +53,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> RegistrarJabonado(Lb_Jabonados _lb_Jabonados);
         Task<(int Codigo, string Mensaje)> ModificarJabonado(Lb_Jabonados _lb_Jabonados);
         Task<(int Codigo, string Mensaje)> DeshabilitarJabonado(Lb_Jabonados _lb_Jabonados);
-        Task<IEnumerable<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento();
+        Task<IEnumerable<Lb_Jabonados_Detalle>?> ListarJabonadosDetalleMantenimiento(int Jab_Id);
         Task<(int Codigo, string Mensaje)> RegistrarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle);
         Task<(int Codigo, string Mensaje)> ModificarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle);
         Task<(int Codigo, string Mensaje)> DeshabilitarJabonadoDetalle(Lb_Jabonados_Detalle _lb_Jabonados_Detalle);
@@ -67,7 +67,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados);
         Task<(int Codigo, string Mensaje)> ModificarFijado(Lb_Fijados _lb_Fijados);
         Task<(int Codigo, string Mensaje)> DeshabilitarFijado(Lb_Fijados _lb_Fijados);
-        Task<IEnumerable<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento();
+        Task<IEnumerable<Lb_Fijados_Detalle>?> ListarFijadosDetalleMantenimiento(int Fij_Id);
         Task<(int Codigo, string Mensaje)> RegistrarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle);
         Task<(int Codigo, string Mensaje)> ModificarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle);
         Task<(int Codigo, string Mensaje)> DeshabilitarFijadoDetalle(Lb_Fijados_Detalle _lb_Fijados_Detalle);
@@ -124,6 +124,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> RegistrarProceso(ComponentesExtra _ComponentesExtra);
         Task<(int Codigo, string Mensaje)> ModificarProceso(ComponentesExtra _ComponentesExtra);
         Task<(int Codigo, string Mensaje)> DeshabilitarProceso(ComponentesExtra _ComponentesExtra);
+        Task<IEnumerable<ComponentesExtraValores>?> ListarProcesoValor(string Pro_Cod);
         Task<(int Codigo, string Mensaje)> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<(int Codigo, string Mensaje)> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<(int Codigo, string Mensaje)> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
