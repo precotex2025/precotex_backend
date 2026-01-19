@@ -37,5 +37,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Val { get; set; }
         public string? Tela { get; set; }
         public decimal? Can_Jabo { get; set; }
-    }       
+        public string? Fec_Asignacion { get; set; }
+    }
 }
