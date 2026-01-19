@@ -1255,6 +1255,23 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListarCurvas")]
+        public async Task<IActionResult> getListarCurvas(string Pro_Cod)
+        {
+            var result = await _LbColaTrabajoService.ListarCurvas(Pro_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+
 
 
     }

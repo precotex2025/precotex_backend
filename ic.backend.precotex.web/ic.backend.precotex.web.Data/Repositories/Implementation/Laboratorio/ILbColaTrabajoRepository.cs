@@ -128,7 +128,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<(int Codigo, string Mensaje)> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<(int Codigo, string Mensaje)> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
-
+        Task<IEnumerable<Lb_Curvas>?> ListarCurvas(string Pro_Cod);
 
 
     }

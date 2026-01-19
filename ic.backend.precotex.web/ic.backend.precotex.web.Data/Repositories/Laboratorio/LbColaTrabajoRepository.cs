@@ -2016,7 +2016,26 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        
+        //LISTAR CURVAS
+        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvas(string Pro_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cod", Pro_Cod);
+
+                var result = await connection.QueryAsync<Lb_Curvas>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Curvas_Tenido_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
 
     }
 }
