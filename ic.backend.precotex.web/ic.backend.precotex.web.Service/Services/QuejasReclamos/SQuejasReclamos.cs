@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamos;
+using ic.backend.precotex.web.Entity.common;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
@@ -467,12 +468,12 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             }
         }
 
-        public async Task<ServiceResponse<int>> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sObservacion_Comercial_Cierre, string sCod_Usuario)
+        public async Task<ServiceResponse<int>> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sFlg_FleteAereo, string sObservacion_Comercial_Cierre, string sCod_Usuario)
         {
             var result = new ServiceResponse<int>();
             try
             {
-                var resultData = await _txtIQuejasReclamos.ProcesoCerrarReclamo(sNroCaso, sCod_Tipo_Consecuencia, sCod_SubTipo_Devolucion, sFlg_NotaCredito, sObservacion_Comercial_Cierre, sCod_Usuario);
+                var resultData = await _txtIQuejasReclamos.ProcesoCerrarReclamo(sNroCaso, sCod_Tipo_Consecuencia, sCod_SubTipo_Devolucion, sFlg_NotaCredito, sFlg_FleteAereo, sObservacion_Comercial_Cierre, sCod_Usuario);
                 if (resultData.Codigo > 0)
                 {
                     result.Message = resultData.Mensaje;
@@ -607,6 +608,56 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             try
             {
                 var resultData = await _txtIQuejasReclamos.ExportarReclamo(filtro);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<dtoGeneral>?> ObtieneTemporada(string sCodCliente)
+        {
+            var result = new ServiceResponseList<dtoGeneral>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtieneTemporada(sCodCliente);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "BD SQL: " + sql.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada)
+        {
+            var result = new ServiceResponseList<dtoGeneral>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtieneEstilo(sCodCliente, sTemporada);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

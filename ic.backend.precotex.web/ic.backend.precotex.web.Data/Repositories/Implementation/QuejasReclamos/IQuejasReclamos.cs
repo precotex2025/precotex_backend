@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ic.backend.precotex.web.Entity.common;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using static ic.backend.precotex.web.Entity.Entities.QuejasReclamos.Clientes;
@@ -32,11 +34,16 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamo
 
         Task<IEnumerable<ReclamoTipoConsecuenciaDto>?> ListaTipoConsecuencia();
         Task<IEnumerable<ReclamoSubTipoDevolucion>?> ListaSubTipoDevolucion(string sCod_Tipo_Consecuencia);
-        Task<(int Codigo, string Mensaje)> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sObservacion_Comercial_Cierre, string sCod_Usuario);
+        Task<(int Codigo, string Mensaje)> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sFlg_FleteAereo, string sObservacion_Comercial_Cierre, string sCod_Usuario);
         Task<IEnumerable<ReclamoUsuarioAreaDto>?> ObtieneUsuarioArea(string Cod_Trabajador);
         Task<IEnumerable<InformeCalidadDto>?> ObtieneDetalleInformeCalidad(int Id);
         Task<IEnumerable<InformeComercialDto>?> ObtieneDetalleInformeComercial(int Id);
         Task<IEnumerable<ReclamoClienteEstadoDto>?> ListaEstados();
         Task<IEnumerable<ReclamoExportarDto>?> ExportarReclamo(FiltroReclamoDto filtro);
+
+        //Nuevos Metodos Reclamo
+        Task<IEnumerable<dtoGeneral>?> ObtieneTemporada(string sCodCliente);
+        Task<IEnumerable<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada);
+
     }
 }

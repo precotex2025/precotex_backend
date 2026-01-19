@@ -137,7 +137,10 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
                         Id_Unidad_NegocioKey = Convert.ToInt32(form[$"reclamos[{index}][cod_Unidad_Negocio]"]),
                         Cod_Motivo = form[$"reclamos[{index}][cod_Motivo]"],
                         IdArea = Convert.ToInt32(form[$"reclamos[{index}][idArea]"]),
-                        IdResponsable = Convert.ToInt32(form[$"reclamos[{index}][idResponsable]"])
+                        IdResponsable = Convert.ToInt32(form[$"reclamos[{index}][idResponsable]"]),
+                        //Campos Nuevos
+                        Cod_TemCli = form[$"reclamos[{index}][Cod_TemCli]"],
+                        Cod_EstCli = form[$"reclamos[{index}][Cod_EstCli]"]
                     };
 
                     string rutaBase = @"D:\archivosReclamos"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
@@ -438,7 +441,7 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
         public async Task<IActionResult> postProcesoCerrarReclamo([FromBody] ProcesoCerrarReclamoParameter parameter)
         {
 
-            var result = await _IClientes.ProcesoCerrarReclamo(parameter.NroCaso, parameter.Cod_Tipo_Consecuencia, parameter.Cod_SubTipo_Devolucion, parameter.Flg_NotaCredito, parameter.Observacion_Comercial_Cierre, parameter.Cod_Usuario);
+            var result = await _IClientes.ProcesoCerrarReclamo(parameter.NroCaso, parameter.Cod_Tipo_Consecuencia, parameter.Cod_SubTipo_Devolucion, parameter.Flg_NotaCredito, parameter.Flg_FleteAereo, parameter.Observacion_Comercial_Cierre, parameter.Cod_Usuario);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
@@ -540,6 +543,44 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
         public async Task<IActionResult> getExportarReclamo([FromBody] FiltroReclamoDto filtro)
         {
             var result = await _IClientes.ExportarReclamo(filtro);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getObtieneTemporada")]
+        public async Task<IActionResult> getObtieneTemporada(string sCodCliente)
+        {
+            if (string.IsNullOrWhiteSpace(sCodCliente))
+            {
+                return BadRequest("Debe proporcionar, codigo de cliente");
+            }
+
+            var result = await _IClientes.ObtieneTemporada(sCodCliente);
+            if (result.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet("getObtieneEstilo")]
+        public async Task<IActionResult> getObtieneEstilo(string sCodCliente, string sTemporada)
+        {
+            if (string.IsNullOrWhiteSpace(sCodCliente))
+            {
+                return BadRequest("Debe proporcionar, codigo de cliente");
+            }
+
+            var result = await _IClientes.ObtieneEstilo(sCodCliente, sTemporada);
             if (result.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
