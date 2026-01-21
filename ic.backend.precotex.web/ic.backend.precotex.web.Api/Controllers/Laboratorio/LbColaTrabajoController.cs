@@ -27,9 +27,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTIENE LISTA DE COLA DE TRABAJO
         [HttpGet]
         [Route("getListaSDCPorEstado")]
-        public async Task<IActionResult> getListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin)
+        public async Task<IActionResult> getListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin);
+            var result = await _LbColaTrabajoService.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -66,7 +66,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             Lb_ColTra_Det _lbColaTrabajoDet = new Lb_ColTra_Det
             {
                 Corr_Carta = parametros.Corr_Carta ?? 0,
-                Sec = parametros.Sec ?? 0
+                Sec = parametros.Sec ?? 0,
+                Cur_Ten = parametros.Cur_Ten ?? 0,
+                Usr_Cod = parametros.Usr_Cod ?? "",
             };
 
             var result = await _LbColaTrabajoService.RegistrarDetalleColorSDC(_lbColaTrabajoDet);

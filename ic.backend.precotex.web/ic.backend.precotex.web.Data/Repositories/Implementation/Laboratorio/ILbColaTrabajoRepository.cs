@@ -13,7 +13,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             CABECERA 
         */
-        Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin);
+        Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
 
 
         /*

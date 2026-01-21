@@ -25,12 +25,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             CABECERA 
         */
-        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin)
+        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Cab>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin);
+                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

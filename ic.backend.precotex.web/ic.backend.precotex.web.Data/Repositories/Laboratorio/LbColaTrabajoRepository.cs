@@ -28,17 +28,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //OBTENER DATOS CABECERA
-        public async Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin)
+        public async Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 var parametros = new DynamicParameters();
-
-                parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
+                
                 parametros.Add("@Fec_Ini", Fec_Ini);
                 parametros.Add("@Fec_Fin", Fec_Fin);
+                parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
+                parametros.Add("@Usr_Cod", Usr_Cod);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Cab>(
                         "[dbo].[PA_LB_CARTACOL_DG_S0001]"
@@ -76,6 +77,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
                 parametros.Add("@Sec", lbColaTrabajoDet.Sec);
+                parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
