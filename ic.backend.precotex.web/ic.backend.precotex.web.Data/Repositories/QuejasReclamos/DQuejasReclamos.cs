@@ -824,5 +824,38 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                 throw new Exception("Se produjo un error inesperado.", sqlEx);
             }
         }
+
+        public async Task<(int Codigo, string Mensaje)> ProcesoReenviaReclamo(int iId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                // Parametros de SQL
+                parametros.Add("@Id", iId);
+                // Parámetros de salida
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                // Ejecutar el procedimiento almacenado
+                try
+                {
+                    connection.Execute(
+                        "[dbo].[SP_Proceso_Reenvia_Reclamo]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (Exception ex) { }
+
+                //Obtener los valores de salida
+                var codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+
+                return (codigo, mensaje);
+            }
+        }
     }
 }

@@ -676,5 +676,39 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
                 return result;
             }
         }
+
+        public async Task<ServiceResponse<int>> ProcesoReenviaReclamo(int iId)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ProcesoReenviaReclamo(iId);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
     }
 }

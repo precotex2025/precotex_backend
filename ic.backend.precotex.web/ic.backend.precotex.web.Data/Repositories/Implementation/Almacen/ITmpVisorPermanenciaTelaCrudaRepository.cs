@@ -11,5 +11,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Almacen
     public interface ITmpVisorPermanenciaTelaCrudaRepository
     {
         Task<IEnumerable<Tx_Visor_Permanencia_Tela_Cruda>?> ObtieneListaPermanenciaTelaCruda(int? anio);
+        Task<IEnumerable<Lg_RequerimientoAlmacen>?> EstatusRequerimientoAlmacen(string? sEstado);
+
     }
 }

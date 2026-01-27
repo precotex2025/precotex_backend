@@ -44,6 +44,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamo
         //Nuevos Metodos Reclamo
         Task<IEnumerable<dtoGeneral>?> ObtieneTemporada(string sCodCliente);
         Task<IEnumerable<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada);
-
+        Task<(int Codigo, string Mensaje)> ProcesoReenviaReclamo(int iId);
     }
 }

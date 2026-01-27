@@ -591,6 +591,22 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("postProcesoReenviaReclamo")]
+        public async Task<IActionResult> postProcesoReenviaReclamo([FromBody] ProcesoReenviaReclamoParameter parameter)
+        {
+
+            var result = await _IClientes.ProcesoReenviaReclamo(parameter.Id);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
 
     }
 }
