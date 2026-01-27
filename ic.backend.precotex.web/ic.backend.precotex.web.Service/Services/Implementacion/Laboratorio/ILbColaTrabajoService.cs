@@ -14,7 +14,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             CABECERA 
         */
-        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin);
+        Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
 
 
 
@@ -129,7 +129,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> RegistrarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<ServiceResponse<int>> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<ServiceResponse<int>> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
-
+        Task<ServiceResponseList<Lb_Curvas>?> ListarCurvas(string Pro_Cod);
 
     }
 }

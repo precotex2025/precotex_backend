@@ -25,12 +25,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             CABECERA 
         */
-        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin)
+        public async Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Cab>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin);
+                var resultData = await _lbColaTrabajoRepository.ListaSDCPorEstado(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -1508,6 +1508,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             {
                 result.Success = false;
                 result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvas(string Pro_Cod)
+        {
+            var result = new ServiceResponseList<Lb_Curvas>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarCurvas(Pro_Cod);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
                 return result;
             }
         }
