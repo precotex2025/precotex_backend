@@ -469,7 +469,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Ahi_Id = parametros.Ahi_Id
+                Ahi_Id = parametros.Ahi_Id,
+                Nro_Tubo = parametros.Nro_Tubo
             };
 
             var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);

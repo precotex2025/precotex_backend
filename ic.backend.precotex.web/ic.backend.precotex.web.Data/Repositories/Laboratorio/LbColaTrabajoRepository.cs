@@ -691,6 +691,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Ahi_Id", _lbAgrOpcColorante.Ahi_Id);
+                parametros.Add("@Nro_Tubo", _lbAgrOpcColorante.Ahi_Id);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
