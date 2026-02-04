@@ -42,5 +42,68 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
+        //LISTAR RUTAS POR COD TELA
+        public async Task<IEnumerable<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@cod_tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas>(
+                        "[dbo].[tx_sm_muestra_Tela_DatTecnicos_cabecera]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }   
+        }
+
+        //LISTAR PROCESOS POR RUTA
+        public async Task<IEnumerable<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas_Detalle>(
+                        "[dbo].[PA_BuscarRutaTextilDetV1_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        //LISTAR CODIGO Y DESCRIPCION DE TELA
+        public async Task<IEnumerable<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Telas>(
+                    "[dbo].[PA_Tx_Tela_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
     }
 }

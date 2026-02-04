@@ -2,6 +2,7 @@
 using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
 using ic.backend.precotex.web.Entity.Entities.Cotizaciones;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
+using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones;
 using System;
@@ -45,5 +46,78 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
+        //LISTAR RUTAS POR COD TELA
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela) 
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Rutas>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.RutaXCodTela(Cod_Tela);
+                if(resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        //LISTAR PROCESOS POR RUTA
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta) 
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Rutas_Detalle>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.RutaXCodTelaDetalle(Cod_Tela, Cod_Ruta);
+                if(resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Telas>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaTelas(Cod_Tela);
+                if(resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }
