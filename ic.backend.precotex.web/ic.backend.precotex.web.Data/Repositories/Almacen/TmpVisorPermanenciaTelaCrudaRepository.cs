@@ -21,6 +21,22 @@ namespace ic.backend.precotex.web.Data.Repositories.Almacen
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
+        public async Task<IEnumerable<Lg_RequerimientoAlmacen>?> EstatusRequerimientoAlmacen(string? sEstado)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var proveedores = await connection.QueryAsync<Lg_RequerimientoAlmacen>(
+                     "[dbo].[Tx_Visor_Estatus_RequerImientos_Almacen]",
+                     new { param_Estado = sEstado },
+                     commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return proveedores;
+            }
+        }
+
         public async Task<IEnumerable<Tx_Visor_Permanencia_Tela_Cruda>?> ObtieneListaPermanenciaTelaCruda(int? anio)
         {
             using (var connection = new SqlConnection(_connectionString))

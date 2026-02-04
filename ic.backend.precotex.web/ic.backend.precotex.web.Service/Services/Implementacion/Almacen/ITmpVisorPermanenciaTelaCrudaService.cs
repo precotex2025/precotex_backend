@@ -11,5 +11,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Almacen
     public interface ITmpVisorPermanenciaTelaCrudaService
     {
         Task<ServiceResponseList<Tx_Visor_Permanencia_Tela_Cruda>?> ObtieneListaPermanenciaTelaCruda(int? anio);
+        Task<ServiceResponseList<Lg_RequerimientoAlmacen>?> EstatusRequerimientoAlmacen(string? sEstado);
     }
 }

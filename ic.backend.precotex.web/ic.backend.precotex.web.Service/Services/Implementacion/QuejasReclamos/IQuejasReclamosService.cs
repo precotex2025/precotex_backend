@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ic.backend.precotex.web.Entity.common;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Service.common;
@@ -33,11 +34,16 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.QuejasReclamos
 
         Task<ServiceResponseList<ReclamoTipoConsecuenciaDto>?> ListaTipoConsecuencia();
         Task<ServiceResponseList<ReclamoSubTipoDevolucion>?> ListaSubTipoDevolucion(string sCod_Tipo_Consecuencia);
-        Task<ServiceResponse<int>> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sObservacion_Comercial_Cierre, string sCod_Usuario);
+        Task<ServiceResponse<int>> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sFlg_FleteAereo, string sObservacion_Comercial_Cierre, string sCod_Usuario);
         Task<ServiceResponseList<ReclamoUsuarioAreaDto>?> ObtieneUsuarioArea(string Cod_Trabajador);
         Task<ServiceResponseList<InformeCalidadDto>?> ObtieneDetalleInformeCalidad(int Id);
         Task<ServiceResponseList<InformeComercialDto>?> ObtieneDetalleInformeComercial(int Id);
         Task<ServiceResponseList<ReclamoClienteEstadoDto>?> ListaEstados();
         Task<ServiceResponseList<ReclamoExportarDto>?> ExportarReclamo(FiltroReclamoDto filtro);
+
+        //Nuevos Metodos Reclamo
+        Task<ServiceResponseList<dtoGeneral>?> ObtieneTemporada(string sCodCliente);
+        Task<ServiceResponseList<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada);
+        Task<ServiceResponse<int>> ProcesoReenviaReclamo(int iId);
     }
 }

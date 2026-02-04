@@ -6,6 +6,7 @@
         public string? Cod_Tipo_Consecuencia { get; set; }
         public string? Cod_SubTipo_Devolucion { get; set; }
         public string? Flg_NotaCredito { get; set; }
+        public string? Flg_FleteAereo { get; set; }
         public string? Observacion_Comercial_Cierre { get; set; }
         public string? Cod_Usuario { get; set; }
 

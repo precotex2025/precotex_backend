@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamos;
+using ic.backend.precotex.web.Entity.common;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
@@ -167,7 +168,9 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                         //Nuevos Campos v2
                         detalles.Columns.Add("IdArea");
                         detalles.Columns.Add("IdResponsable");
-
+                        //Nuevos Campos v3
+                        detalles.Columns.Add("Cod_TemCli");
+                        detalles.Columns.Add("Cod_EstCli");
 
                         foreach (var item in reclamo)
                         {
@@ -189,7 +192,10 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 item.Cod_Motivo,
                                 //Nuevos Campos v2
                                 item.IdArea,
-                                item.IdResponsable
+                                item.IdResponsable,
+                                //Nuevos Campos v3
+                                item.Cod_TemCli,
+                                item.Cod_EstCli
                             );
                         }
 
@@ -234,6 +240,8 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 pDetalle.Add("@IdReclamoClienteDetalle", 0);
                                 pDetalle.Add("@IdArea", item.IdArea);
                                 pDetalle.Add("@IdResponsable", item.IdResponsable);
+                                pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
+                                pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
 
                                 await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
                             }
@@ -261,6 +269,8 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                                 pDetalle.Add("@IdReclamoClienteDetalle", item.Id);
                                 pDetalle.Add("@IdArea", item.IdArea);
                                 pDetalle.Add("@IdResponsable", item.IdResponsable);
+                                pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
+                                pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
 
                                 await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
                             }
@@ -595,7 +605,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sObservacion_Comercial_Cierre, string sCod_Usuario)
+        public async Task<(int Codigo, string Mensaje)> ProcesoCerrarReclamo(string sNroCaso, string sCod_Tipo_Consecuencia, string sCod_SubTipo_Devolucion, string sFlg_NotaCredito, string sFlg_FleteAereo, string sObservacion_Comercial_Cierre, string sCod_Usuario)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -608,6 +618,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                 parametros.Add("@Cod_Tipo_Consecuencia", sCod_Tipo_Consecuencia);
                 parametros.Add("@Cod_SubTipo_Devolucion", sCod_SubTipo_Devolucion);
                 parametros.Add("@Flg_NotaCredito", sFlg_NotaCredito);
+                parametros.Add("@Flg_FleteAereo", sFlg_FleteAereo);
                 parametros.Add("@Observacion_Comercial_Cierre", sObservacion_Comercial_Cierre);
                 parametros.Add("@Cod_Usuario", sCod_Usuario);
                 // Parámetros de salida
@@ -760,6 +771,90 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
             {
                 Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
                 throw;
+            }
+        }
+
+        public async Task<IEnumerable<dtoGeneral>?> ObtieneTemporada(string sCod_Cliente)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@Cod_Cliente", sCod_Cliente);
+
+                    var result = await connection.QueryAsync<dtoGeneral>(
+                        "sp_Obtener_Temporadas_x_cliente",
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    return result;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
+                throw new Exception("Se produjo un error inesperado.", sqlEx);
+            }
+        }
+
+        public async Task<IEnumerable<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@Cliente", sCodCliente);
+                    parameters.Add("@Temporada", sTemporada);
+
+                    var result = await connection.QueryAsync<dtoGeneral>(
+                        "sp_Obtener_Estilos_x_Temporadas",
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    return result;
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
+                throw new Exception("Se produjo un error inesperado.", sqlEx);
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> ProcesoReenviaReclamo(int iId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                // Parametros de SQL
+                parametros.Add("@Id", iId);
+                // Parámetros de salida
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                // Ejecutar el procedimiento almacenado
+                try
+                {
+                    connection.Execute(
+                        "[dbo].[SP_Proceso_Reenvia_Reclamo]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (Exception ex) { }
+
+                //Obtener los valores de salida
+                var codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+
+                return (codigo, mensaje);
             }
         }
     }
