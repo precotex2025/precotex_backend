@@ -1058,6 +1058,55 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        // COMENTADO POR QUE SE USA VERSION NUEVA 
+        //public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        //{
+        //    using var connection = new SqlConnection(_connectionString);
+        //    await connection.OpenAsync();
+        //    var parametros = new DynamicParameters();
+        //    parametros.Add("@Corr_Carta", Corr_Carta);
+        //    parametros.Add("@Sec", Sec);
+        //    parametros.Add("@Correlativo", Correlativo);
+
+        //    using var multi = await connection.QueryMultipleAsync(
+        //        "[dbo].[PA_LB_CARTACOL_DG_S0003]"
+        //        , parametros
+        //        , commandType: CommandType.StoredProcedure
+        //    );
+
+        //    // CABECERA
+        //    var infoPrincipal = (await multi.ReadAsync<Lb_Reporte>()).ToList();
+
+        //    // CUERPO
+        //    var colorantes = await multi.ReadAsync <Colorantes_Reporte>();
+
+        //    // FOOTER
+        //    var rutas = await multi.ReadAsync<Ruta_Reporte>();
+        //    var solidez = await multi.ReadAsync<Solidez_Reporte>();
+
+        //    foreach (var info in infoPrincipal)
+        //    {
+        //        info.Colorantes_Reporte = colorantes
+        //            .Where(c =>
+        //                c.Corr_Carta == info.Corr_Carta &&
+        //                c.Sec == info.Sec /*&&*/
+        //                /*c.Correlativo == info.Correlativo*/)
+        //            .ToList();
+
+        //        info.Ruta_Reporte = rutas
+        //            .Where(r => 
+        //                r.Corr_Carta == info.Corr_Carta)
+        //            .ToList();
+
+        //        info.Solidez_Reporte = solidez
+        //            .Where(s => 
+        //                s.Corr_Carta == info.Corr_Carta)
+        //            .ToList();
+        //    }
+
+        //    return infoPrincipal;
+        //}
+
         public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -1068,41 +1117,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Correlativo", Correlativo);
 
             using var multi = await connection.QueryMultipleAsync(
-                "[dbo].[PA_LB_CARTACOL_DG_S0003]"
-                , parametros
-                , commandType: CommandType.StoredProcedure
+                "[dbo].[PA_LB_CARTACOL_DG_S0003]",
+                parametros,
+                commandType: CommandType.StoredProcedure
             );
 
-            //CABECERA
+            // CABECERA
             var infoPrincipal = (await multi.ReadAsync<Lb_Reporte>()).ToList();
-            //CUERPO
-            var colorantes = await multi.ReadAsync <Colorantes_Reporte>();
-            //FOOTER
-            var rutas = await multi.ReadAsync<Ruta_Reporte>();
-            var solidez = await multi.ReadAsync<Solidez_Reporte>();
+
+            // CUERPO
+            var colorantes = multi.IsConsumed ? Enumerable.Empty<Colorantes_Reporte>()
+                                              : await multi.ReadAsync<Colorantes_Reporte>();
+
+            // FOOTER
+            var rutas = multi.IsConsumed ? Enumerable.Empty<Ruta_Reporte>()
+                                         : await multi.ReadAsync<Ruta_Reporte>();
+
+            var solidez = multi.IsConsumed ? Enumerable.Empty<Solidez_Reporte>()
+                                           : await multi.ReadAsync<Solidez_Reporte>();
 
             foreach (var info in infoPrincipal)
             {
                 info.Colorantes_Reporte = colorantes
-                    .Where(c =>
-                        c.Corr_Carta == info.Corr_Carta &&
-                        c.Sec == info.Sec /*&&*/
-                        /*c.Correlativo == info.Correlativo*/)
+                    .Where(c => c.Corr_Carta == info.Corr_Carta && c.Sec == info.Sec)
                     .ToList();
 
                 info.Ruta_Reporte = rutas
-                    .Where(r => 
-                        r.Corr_Carta == info.Corr_Carta)
+                    .Where(r => r.Corr_Carta == info.Corr_Carta)
                     .ToList();
 
                 info.Solidez_Reporte = solidez
-                    .Where(s => 
-                        s.Corr_Carta == info.Corr_Carta)
+                    .Where(s => s.Corr_Carta == info.Corr_Carta)
                     .ToList();
             }
 
             return infoPrincipal;
         }
+
 
         /******************************MANTENIMIENTOS SOLICITADOS********************************/
 

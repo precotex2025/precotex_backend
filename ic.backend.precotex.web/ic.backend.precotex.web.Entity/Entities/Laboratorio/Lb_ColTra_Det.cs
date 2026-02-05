@@ -27,6 +27,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Dosificacion2L { get; set; }
         public decimal? Dosificacion3L { get; set; }
         public int? Cur_Ten { get; set; }
+        public string? Cur_Des { get; set; }
         public string? Usr_Cod { get; set; }
         public decimal? Sod_Gr { get; set; }
 
