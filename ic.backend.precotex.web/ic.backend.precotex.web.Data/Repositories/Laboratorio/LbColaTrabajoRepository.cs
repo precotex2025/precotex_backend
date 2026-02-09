@@ -753,6 +753,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", lb_ColTra_Det.Sec);
                 parametros.Add("@Correlativo", lb_ColTra_Det.Correlativo);
                 parametros.Add("@Tip_Ph", lb_ColTra_Det.Tip_Ph);
+                parametros.Add("@JabonadoIndex", lb_ColTra_Det.JabonadoIndex);
                 parametros.Add("@Ph_Val", lb_ColTra_Det.Ph_Val);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");

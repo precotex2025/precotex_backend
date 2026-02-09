@@ -43,5 +43,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Can_Jabo { get; set; }
         public string? Fec_Asignacion { get; set; }
         public int? Nro_Tubo { get; set; }
+        public int? JabonadoIndex { get; set; }
+        public decimal? Ph_Jab2 { get; set; }
+        public decimal? Ph_Jab3 { get; set; }
     }
 }

@@ -509,6 +509,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Tip_Ph = parametros.Tip_Ph,
+                JabonadoIndex = parametros.JabonadoIndex,
                 Ph_Val = parametros.Ph_Val
             };
 
