@@ -95,7 +95,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_Ahibas>?> ListaAhibas();
         Task<ServiceResponse<int>> CargarAahiba(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarItemsEnAhiba(int Ahi_Id);
-
+        Task<ServiceResponse<int>> ProcesoAhiba(Lb_Ahibas _Ahibas);
 
 
 

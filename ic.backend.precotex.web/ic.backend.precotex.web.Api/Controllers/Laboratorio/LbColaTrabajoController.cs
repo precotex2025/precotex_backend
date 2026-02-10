@@ -1274,7 +1274,26 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchProcesoAhiba")]
+        public async Task<IActionResult> patchProcesoAhiba([FromBody] Lb_Ahibas parametros)
+        {
+            Lb_Ahibas value = new Lb_Ahibas
+            {
+                Ahi_Id = parametros.Ahi_Id,
+                Ahi_Est_Pro = parametros.Ahi_Est_Pro,
+            };
 
+            var result = await _LbColaTrabajoService.ProcesoAhiba(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
 
 

@@ -1536,6 +1536,32 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        //ACTUALIZAR ESTADO INICIO FIN AHIBA
+        public async Task<ServiceResponse<int>> ProcesoAhiba(Lb_Ahibas _Ahibas)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ProcesoAhiba(_Ahibas);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
 
     }
 }

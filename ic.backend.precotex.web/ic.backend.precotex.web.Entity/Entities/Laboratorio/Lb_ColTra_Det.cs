@@ -46,5 +46,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int? JabonadoIndex { get; set; }
         public decimal? Ph_Jab2 { get; set; }
         public decimal? Ph_Jab3 { get; set; }
+        public decimal? SulfatoReal { get; set; }
     }
 }

@@ -90,6 +90,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Ahibas>?> ListaAhibas();
         Task<(int Codigo, string Mensaje)> CargarAahiba(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<IEnumerable<Lb_ColTra_Det>?> ListarItemsEnAhiba(int Ahi_Id);
+        Task<(int Codigo, string Mensaje)> ProcesoAhiba(Lb_Ahibas _Ahibas);
 
 
         Task<(int Codigo, string Mensaje)> ActualizarPH(Lb_ColTra_Det lb_ColTra_Det);
