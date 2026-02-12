@@ -98,6 +98,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> AgregarAuxiliaresHojaFormulacion(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<(int Codigo, string Mensaje)> LlenarTextoFinal(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado();
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido();
         Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo);

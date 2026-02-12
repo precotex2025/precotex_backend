@@ -917,6 +917,21 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //LISTAR JABONADO EXCLUIDO
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso()
         {
             using (var connection = new SqlConnection(_connectionString))
