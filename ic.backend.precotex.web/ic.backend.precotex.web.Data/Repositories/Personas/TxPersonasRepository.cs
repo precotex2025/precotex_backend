@@ -47,7 +47,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
 
                         string base64 = Convert.ToBase64String(bytes); 
 
-                        persona.FotoBase64 = "data:image/png;base64," + base64; 
+                        persona.FotoBase64 = "data:image/jpg;base64," + base64; 
                     } 
                 }
 

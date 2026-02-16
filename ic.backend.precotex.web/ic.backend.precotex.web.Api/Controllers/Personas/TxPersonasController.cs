@@ -39,7 +39,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
             try
             {
                 string rutaBase = @"\\192.168.1.36\foto\fotos_personas"; 
-                string nombreArchivo = $"{parametros.Foto_Nro_Dni}.png";
+                string nombreArchivo = $"{parametros.Foto_Nro_Dni}.jpg";
                 string rutaCompleta = Path.Combine(rutaBase, nombreArchivo);
 
                 if (!string.IsNullOrEmpty(parametros.FotoBase64))
@@ -92,7 +92,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
                 }
 
                 string rutaBase = @"\\192.168.1.36\foto\fotos_personas";
-                string nombreArchivo = $"{parametros.Foto_Nro_Dni}.png";
+                string nombreArchivo = $"{parametros.Foto_Nro_Dni}.jpg";
                 string rutaCompleta = Path.Combine(rutaBase, nombreArchivo);
 
                 if (!string.IsNullOrEmpty(parametros.FotoBase64))
