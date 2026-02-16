@@ -1145,9 +1145,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             var colorantes = multi.IsConsumed ? Enumerable.Empty<Colorantes_Reporte>()
                                               : await multi.ReadAsync<Colorantes_Reporte>();
 
-            // FOOTER
+            //FOOTER
             var rutas = multi.IsConsumed ? Enumerable.Empty<Ruta_Reporte>()
-                                         : await multi.ReadAsync<Ruta_Reporte>();
+                                        : await multi.ReadAsync<Ruta_Reporte>();
+            //var rutas = await multi.ReadAsync<(int Corr_Carta, string Descripcion)>();
 
             var solidez = multi.IsConsumed ? Enumerable.Empty<Solidez_Reporte>()
                                            : await multi.ReadAsync<Solidez_Reporte>();
@@ -1161,6 +1162,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 info.Ruta_Reporte = rutas
                     .Where(r => r.Corr_Carta == info.Corr_Carta)
                     .ToList();
+
+                //info.Ruta = rutas
+                //  .Where(r => r.Corr_Carta == info.Corr_Carta)
+                //  .Select(r => r.Descripcion);
 
                 info.Solidez_Reporte = solidez
                     .Where(s => s.Corr_Carta == info.Corr_Carta)

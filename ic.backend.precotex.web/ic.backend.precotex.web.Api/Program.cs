@@ -83,6 +83,10 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Cotizaciones;
 using ic.backend.precotex.web.Service.Services.Cotizaciones;
 using Microsoft.AspNetCore.StaticFiles;
+using ic.backend.precotex.web.Service.Services.Implementacion.Personas;
+using ic.backend.precotex.web.Service.Services.Personas;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
+using ic.backend.precotex.web.Data.Repositories.Personas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -156,6 +160,7 @@ builder.Services.AddScoped<IWaliChatService, WaliChatService>();
 builder.Services.AddScoped<ITxDesarrolloTelaService, TxDesarrolloTelaService>();
 builder.Services.AddScoped<ITjTiempoImproductivoService, TjTiempoImproductivoService>();
 builder.Services.AddScoped<ITxCotizacionesService, TxCotizacionesService>();
+builder.Services.AddScoped<ITxPersonasService, TxPersonasService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -187,6 +192,7 @@ builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMante
 builder.Services.AddScoped<ITxDesarrolloTelaRepository, TxDesarrolloTelaRepository>();
 builder.Services.AddScoped<ITjTiempoImproductivoRepository, TjTiempoImproductivoRepository>();
 builder.Services.AddScoped<ITxCotizacionesRepository, TxCotizacionesRepository>();
+builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 #endregion
 
 
