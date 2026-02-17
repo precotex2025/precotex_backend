@@ -27,6 +27,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Dosificacion2L { get; set; }
         public decimal? Dosificacion3L { get; set; }
         public int? Cur_Ten { get; set; }
+        public string? Cur_Des { get; set; }
         public string? Usr_Cod { get; set; }
         public decimal? Sod_Gr { get; set; }
 
@@ -41,5 +42,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Tela { get; set; }
         public decimal? Can_Jabo { get; set; }
         public string? Fec_Asignacion { get; set; }
+        public int? Nro_Tubo { get; set; }
+        public int? JabonadoIndex { get; set; }
+        public decimal? Ph_Jab2 { get; set; }
+        public decimal? Ph_Jab3 { get; set; }
+        public decimal? SulfatoReal { get; set; }
     }
 }

@@ -95,7 +95,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_Ahibas>?> ListaAhibas();
         Task<ServiceResponse<int>> CargarAahiba(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarItemsEnAhiba(int Ahi_Id);
-
+        Task<ServiceResponse<int>> ProcesoAhiba(Lb_Ahibas _Ahibas);
 
 
 
@@ -104,6 +104,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> AgregarAuxiliaresHojaFormulacion(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponse<int>> LlenarTextoFinal(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado();
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido();
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo);

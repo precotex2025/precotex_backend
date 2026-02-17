@@ -87,6 +87,10 @@ using ic.backend.precotex.web.Data.Repositories.SecureNorm;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Service.Services.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.Personas;
+using ic.backend.precotex.web.Service.Services.Personas;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
+using ic.backend.precotex.web.Data.Repositories.Personas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -160,6 +164,7 @@ builder.Services.AddScoped<IWaliChatService, WaliChatService>();
 builder.Services.AddScoped<ITxDesarrolloTelaService, TxDesarrolloTelaService>();
 builder.Services.AddScoped<ITjTiempoImproductivoService, TjTiempoImproductivoService>();
 builder.Services.AddScoped<ITxCotizacionesService, TxCotizacionesService>();
+builder.Services.AddScoped<ITxPersonasService, TxPersonasService>();
 
 builder.Services.AddScoped<ISNNormaService, SNNormaService>();
 builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
@@ -197,6 +202,7 @@ builder.Services.AddScoped<ITxCotizacionesRepository, TxCotizacionesRepository>(
 
 builder.Services.AddScoped<ISNNormaRepository, SNNormaRepository>();
 builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>();
+builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 #endregion
 
 

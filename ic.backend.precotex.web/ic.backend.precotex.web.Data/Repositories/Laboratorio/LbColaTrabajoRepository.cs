@@ -691,6 +691,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Ahi_Id", _lbAgrOpcColorante.Ahi_Id);
+                parametros.Add("@Nro_Tubo", _lbAgrOpcColorante.Nro_Tubo);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -752,6 +753,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", lb_ColTra_Det.Sec);
                 parametros.Add("@Correlativo", lb_ColTra_Det.Correlativo);
                 parametros.Add("@Tip_Ph", lb_ColTra_Det.Tip_Ph);
+                parametros.Add("@JabonadoIndex", lb_ColTra_Det.JabonadoIndex);
                 parametros.Add("@Ph_Val", lb_ColTra_Det.Ph_Val);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
@@ -915,6 +917,21 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //LISTAR JABONADO EXCLUIDO
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso()
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -1057,6 +1074,55 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        // COMENTADO POR QUE SE USA VERSION NUEVA 
+        //public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        //{
+        //    using var connection = new SqlConnection(_connectionString);
+        //    await connection.OpenAsync();
+        //    var parametros = new DynamicParameters();
+        //    parametros.Add("@Corr_Carta", Corr_Carta);
+        //    parametros.Add("@Sec", Sec);
+        //    parametros.Add("@Correlativo", Correlativo);
+
+        //    using var multi = await connection.QueryMultipleAsync(
+        //        "[dbo].[PA_LB_CARTACOL_DG_S0003]"
+        //        , parametros
+        //        , commandType: CommandType.StoredProcedure
+        //    );
+
+        //    // CABECERA
+        //    var infoPrincipal = (await multi.ReadAsync<Lb_Reporte>()).ToList();
+
+        //    // CUERPO
+        //    var colorantes = await multi.ReadAsync <Colorantes_Reporte>();
+
+        //    // FOOTER
+        //    var rutas = await multi.ReadAsync<Ruta_Reporte>();
+        //    var solidez = await multi.ReadAsync<Solidez_Reporte>();
+
+        //    foreach (var info in infoPrincipal)
+        //    {
+        //        info.Colorantes_Reporte = colorantes
+        //            .Where(c =>
+        //                c.Corr_Carta == info.Corr_Carta &&
+        //                c.Sec == info.Sec /*&&*/
+        //                /*c.Correlativo == info.Correlativo*/)
+        //            .ToList();
+
+        //        info.Ruta_Reporte = rutas
+        //            .Where(r => 
+        //                r.Corr_Carta == info.Corr_Carta)
+        //            .ToList();
+
+        //        info.Solidez_Reporte = solidez
+        //            .Where(s => 
+        //                s.Corr_Carta == info.Corr_Carta)
+        //            .ToList();
+        //    }
+
+        //    return infoPrincipal;
+        //}
+
         public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -1067,41 +1133,48 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Correlativo", Correlativo);
 
             using var multi = await connection.QueryMultipleAsync(
-                "[dbo].[PA_LB_CARTACOL_DG_S0003]"
-                , parametros
-                , commandType: CommandType.StoredProcedure
+                "[dbo].[PA_LB_CARTACOL_DG_S0003]",
+                parametros,
+                commandType: CommandType.StoredProcedure
             );
 
-            //CABECERA
+            // CABECERA
             var infoPrincipal = (await multi.ReadAsync<Lb_Reporte>()).ToList();
-            //CUERPO
-            var colorantes = await multi.ReadAsync <Colorantes_Reporte>();
+
+            // CUERPO
+            var colorantes = multi.IsConsumed ? Enumerable.Empty<Colorantes_Reporte>()
+                                              : await multi.ReadAsync<Colorantes_Reporte>();
+
             //FOOTER
-            var rutas = await multi.ReadAsync<Ruta_Reporte>();
-            var solidez = await multi.ReadAsync<Solidez_Reporte>();
+            var rutas = multi.IsConsumed ? Enumerable.Empty<Ruta_Reporte>()
+                                        : await multi.ReadAsync<Ruta_Reporte>();
+            //var rutas = await multi.ReadAsync<(int Corr_Carta, string Descripcion)>();
+
+            var solidez = multi.IsConsumed ? Enumerable.Empty<Solidez_Reporte>()
+                                           : await multi.ReadAsync<Solidez_Reporte>();
 
             foreach (var info in infoPrincipal)
             {
                 info.Colorantes_Reporte = colorantes
-                    .Where(c =>
-                        c.Corr_Carta == info.Corr_Carta &&
-                        c.Sec == info.Sec /*&&*/
-                        /*c.Correlativo == info.Correlativo*/)
+                    .Where(c => c.Corr_Carta == info.Corr_Carta && c.Sec == info.Sec)
                     .ToList();
 
                 info.Ruta_Reporte = rutas
-                    .Where(r => 
-                        r.Corr_Carta == info.Corr_Carta)
+                    .Where(r => r.Corr_Carta == info.Corr_Carta)
                     .ToList();
 
+                //info.Ruta = rutas
+                //  .Where(r => r.Corr_Carta == info.Corr_Carta)
+                //  .Select(r => r.Descripcion);
+
                 info.Solidez_Reporte = solidez
-                    .Where(s => 
-                        s.Corr_Carta == info.Corr_Carta)
+                    .Where(s => s.Corr_Carta == info.Corr_Carta)
                     .ToList();
             }
 
             return infoPrincipal;
         }
+
 
         /******************************MANTENIMIENTOS SOLICITADOS********************************/
 
@@ -2039,6 +2112,46 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //ACTUALIZAR ESTADO INICIO FIN AHIBA
+        public async Task<(int Codigo, string Mensaje)> ProcesoAhiba(Lb_Ahibas _Ahibas)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Ahi_Id", _Ahibas.Ahi_Id);
+                parametros.Add("@Ahi_Est_Pro", _Ahibas.Ahi_Est_Pro);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Ahibas_WB_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        
     }
 }

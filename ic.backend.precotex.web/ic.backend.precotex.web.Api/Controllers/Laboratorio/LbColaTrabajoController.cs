@@ -469,7 +469,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Ahi_Id = parametros.Ahi_Id
+                Ahi_Id = parametros.Ahi_Id,
+                Nro_Tubo = parametros.Nro_Tubo
             };
 
             var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);
@@ -508,6 +509,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Tip_Ph = parametros.Tip_Ph,
+                JabonadoIndex = parametros.JabonadoIndex,
                 Ph_Val = parametros.Ph_Val
             };
 
@@ -596,6 +598,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         public async Task<IActionResult> getListarJabonado()
         {
             var result = await _LbColaTrabajoService.ListarJabonado();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonadoExcluido")]
+        public async Task<IActionResult> ListarJabonadoExcluido()
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluido();
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1272,7 +1289,26 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchProcesoAhiba")]
+        public async Task<IActionResult> patchProcesoAhiba([FromBody] Lb_Ahibas parametros)
+        {
+            Lb_Ahibas value = new Lb_Ahibas
+            {
+                Ahi_Id = parametros.Ahi_Id,
+                Ahi_Est_Pro = parametros.Ahi_Est_Pro,
+            };
 
+            var result = await _LbColaTrabajoService.ProcesoAhiba(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
 
 

@@ -143,7 +143,7 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                     mensajeWsp = @"🚨 *¡Se acaba de crear un registro de No Conformidad!* \\n *Numero*: " + Convert.ToString(_repId) + @"\\n *Planta*: " + _planta + @"\\n *Area*: " + _area +
                                  @"\\n *Reportado Por*: " + _reportadoPor + @"\\n *Responsable*: " + _responsable;
 
-                    string? value = "999";
+                    string? value = parametros.Cod_Planta_Tg == "4" ? "998" : "999";
 
                     //ASIGNAR CODIGO DE GRUPO 
                     sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(value)!;

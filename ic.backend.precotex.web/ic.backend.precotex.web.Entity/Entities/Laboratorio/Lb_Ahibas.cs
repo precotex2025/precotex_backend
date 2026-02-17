@@ -10,5 +10,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     {
         public int? Ahi_Id { get; set; }
         public string? Ahi_Des { get; set; }
+        public int? Ahi_Pos_Can { get; set; }
+        public string? Ahi_Est_Pro { get; set; }
     }
 }
