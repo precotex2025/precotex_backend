@@ -6,9 +6,13 @@ using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimi
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using ZXing.Aztec.Internal;
 
 namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
 {

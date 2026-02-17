@@ -83,6 +83,10 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Cotizaciones;
 using ic.backend.precotex.web.Service.Services.Cotizaciones;
 using Microsoft.AspNetCore.StaticFiles;
+using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Service.Services.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -103,11 +107,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-
-        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
 
         /*PRODUCCION*/
 
@@ -157,6 +161,9 @@ builder.Services.AddScoped<ITxDesarrolloTelaService, TxDesarrolloTelaService>();
 builder.Services.AddScoped<ITjTiempoImproductivoService, TjTiempoImproductivoService>();
 builder.Services.AddScoped<ITxCotizacionesService, TxCotizacionesService>();
 
+builder.Services.AddScoped<ISNNormaService, SNNormaService>();
+builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
+
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -187,6 +194,9 @@ builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMante
 builder.Services.AddScoped<ITxDesarrolloTelaRepository, TxDesarrolloTelaRepository>();
 builder.Services.AddScoped<ITjTiempoImproductivoRepository, TjTiempoImproductivoRepository>();
 builder.Services.AddScoped<ITxCotizacionesRepository, TxCotizacionesRepository>();
+
+builder.Services.AddScoped<ISNNormaRepository, SNNormaRepository>();
+builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>();
 #endregion
 
 

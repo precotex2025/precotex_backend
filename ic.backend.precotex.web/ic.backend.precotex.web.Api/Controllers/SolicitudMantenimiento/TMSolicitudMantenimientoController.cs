@@ -6,6 +6,7 @@ using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimi
 using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
 using ic.backend.precotex.web.Service.Services.WallyChat;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Graph.Models;
@@ -13,6 +14,7 @@ using Org.BouncyCastle.Asn1.Crmf;
 using System.IO;
 using System.Net.Http.Headers;
 using ZXing;
+using static iTextSharp.text.pdf.AcroFields;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
@@ -107,7 +109,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 var result = await _tMSolicitudMantenimientoService.ProcesoMntoSolicitudMantenimiento(_tmSolicitudMantenimiento, sOpcion!);
                 if (result.Success)
                 {
-                    if (result.CodeTransacc == 1)
+                    if (result.CodeTransacc == 2)
                     {
                         var sNroSolicitud = result.Message[^10..];
                         string sCodigoGruposWathsApp = string.Empty;
@@ -147,7 +149,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                         }
                     }
 
-                    result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                    result.CodeResult = result.CodeTransacc == 2 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                     return Ok(result);
                 }
 
@@ -272,6 +274,33 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postSendAlerta")]
+        public async Task<IActionResult> postSendAlerta([FromBody] AlertaRequest parameters)
+        {
+            string message = string.Empty;
+            var _area = parameters.Area;
+            var _nombre = parameters.Nombre;
+            var _fecha = parameters.FechaHora;
+            var _nroDestino = parameters.NumeroDestino;
+            message = @"🚨 *¡Solicitud de Alerta!* \\n *Area*: " + _area + @"\\n *Nombre*: " + _nombre + @"\\n *Fecha*: " + _fecha;
+            string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=alerta.png";
+            var body = await _waliChatService.EnviarMensajeImagePhoneAsync(_nroDestino, message, imageURL);
+            return Ok(1);
+        }
+
+
+
+
+
+        public class AlertaRequest 
+        { 
+            public string Area { get; set; } 
+            public string Nombre { get; set; } 
+            public string FechaHora { get; set; } 
+            public string NumeroDestino { get; set; } 
         }
     }
 }
