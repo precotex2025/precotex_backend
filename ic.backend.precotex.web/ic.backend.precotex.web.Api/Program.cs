@@ -83,6 +83,10 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Cotizaciones;
 using ic.backend.precotex.web.Service.Services.Cotizaciones;
 using Microsoft.AspNetCore.StaticFiles;
+using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Service.Services.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.Personas;
 using ic.backend.precotex.web.Service.Services.Personas;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
@@ -107,11 +111,19 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
+<<<<<<< HEAD
 
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
+=======
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
+>>>>>>> main
 
         /*PRODUCCION*/
 
@@ -162,6 +174,9 @@ builder.Services.AddScoped<ITjTiempoImproductivoService, TjTiempoImproductivoSer
 builder.Services.AddScoped<ITxCotizacionesService, TxCotizacionesService>();
 builder.Services.AddScoped<ITxPersonasService, TxPersonasService>();
 
+builder.Services.AddScoped<ISNNormaService, SNNormaService>();
+builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
+
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -192,6 +207,9 @@ builder.Services.AddScoped<ITMSolicitudMantenimientoRepository, TMSolicitudMante
 builder.Services.AddScoped<ITxDesarrolloTelaRepository, TxDesarrolloTelaRepository>();
 builder.Services.AddScoped<ITjTiempoImproductivoRepository, TjTiempoImproductivoRepository>();
 builder.Services.AddScoped<ITxCotizacionesRepository, TxCotizacionesRepository>();
+
+builder.Services.AddScoped<ISNNormaRepository, SNNormaRepository>();
+builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>();
 builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 #endregion
 

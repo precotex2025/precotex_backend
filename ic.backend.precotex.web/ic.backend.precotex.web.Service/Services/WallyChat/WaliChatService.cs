@@ -147,5 +147,42 @@ namespace ic.backend.precotex.web.Service.Services.WallyChat
             }
 
         }
+
+        public async Task<string> EnviarMensajeImagePhoneAsync(string phoneNumber, string message, string imageUrl)
+        {
+            var apiKey = _configuration["WaliChat:Token"]!;
+            var url = $"https://api.wali.chat/v1/messages?token={apiKey}";
+
+            using (var client = new HttpClient())
+            {
+                // Estructura del cuerpo según la documentación oficial de WaliChat
+                var payload = new
+                {
+                    phone = phoneNumber, // usa el groupId completo, sin agregar @g.us si ya está incluido
+                    message = message,
+                    media = new
+                    {
+                        url = imageUrl,
+                        viewOnce = false
+                    }
+                };
+
+                var json = JsonConvert.SerializeObject(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(url, content);
+                var body = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Error al enviar imagen a phone: {response.StatusCode}");
+                    Console.WriteLine(body);
+                    throw new Exception($"Error al enviar imagen a phone: {body}");
+                }
+
+                Console.WriteLine($"Imagen enviada correctamente: {body}");
+                return body;
+            }
+        }
     }
 }
