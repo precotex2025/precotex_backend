@@ -12,5 +12,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Personas
         Task<IEnumerable<Tx_Personas>?> ObtenerNombre(string Nro_Dni);
         Task<(int Codigo, string Mensaje)> RegistrarDniFoto(Tx_Personas valores);
         Task<(int Codigo, string Mensaje)> ActualizarDniFoto(Tx_Personas valores);
+        Task<IEnumerable<Seg_Camara>?> ObtenerDatosRegistro(string Nro_Dni);
     }
 }

@@ -97,5 +97,30 @@ namespace ic.backend.precotex.web.Service.Services.Personas
                 return result;
             }   
         }
+
+
+        public async Task<ServiceResponseList<Seg_Camara>?> ObtenerDatosRegistro(string Nro_Dni)
+        {
+            var result = new ServiceResponseList<Seg_Camara>();
+            try
+            {
+                var resultData = await _ITxPersonasRepository.ObtenerDatosRegistro(Nro_Dni);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

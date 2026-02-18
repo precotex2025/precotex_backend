@@ -10,17 +10,20 @@ using System.Text;
 using System.Threading.Tasks;
 using ic.backend.precotex.web.Entity.Entities.Personas;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
+using ZXing;
 
 namespace ic.backend.precotex.web.Data.Repositories.Personas
 {
     public class TxPersonasRepository: ITxPersonasRepository
     {
         private readonly string _connectionString;
+        private readonly string _connectionStringCamara;
 
         //DECLARAMOS CADENA DE CONEXION
         public TxPersonasRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
+            _connectionStringCamara = configuration.GetConnectionString("ConnectionCamaras")!;
         }
 
         //OBTENER NOMBRE X DNI
@@ -126,5 +129,49 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
                 return (Codigo, Mensaje);
             }
         }
+
+        public async Task<IEnumerable<Seg_Camara>?> ObtenerDatosRegistro(string Nro_Dni)
+        {
+            using (var connection = new SqlConnection(_connectionStringCamara))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Nro_Dni", Nro_Dni);
+
+                try
+                {
+                    var personas = await connection.QueryAsync<Seg_Camara>(
+                        "[dbo].[PA_Seg_Camara_Marcacion_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+
+                    foreach (var persona in personas)
+                    {
+                        if (!string.IsNullOrEmpty(persona.Foto_Ruta) && File.Exists(persona.Foto_Ruta))
+                        {
+
+                            byte[] bytes = File.ReadAllBytes(persona.Foto_Ruta);
+
+                            string base64 = Convert.ToBase64String(bytes);
+
+                            persona.FotoBase64 = "data:image/jpg;base64," + base64;
+                        }
+                    }
+                    return personas;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
+
+
     }
 }
