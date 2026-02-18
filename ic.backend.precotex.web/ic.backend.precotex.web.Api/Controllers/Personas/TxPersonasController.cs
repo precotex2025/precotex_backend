@@ -135,9 +135,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
 
         [HttpGet]
         [Route("getObtenerDatosRegistro")]
-        public async Task<IActionResult> getObtenerDatosRegistro(string Nro_Dni)
+        public async Task<IActionResult> getObtenerDatosRegistro(int Id_Marcacion, string Nro_Dni)
         {
-            var result = await _ITxPersonasService.ObtenerDatosRegistro(Nro_Dni);
+            var result = await _ITxPersonasService.ObtenerDatosRegistro(Id_Marcacion, Nro_Dni);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -148,6 +148,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerMarcación1p1")]
+        public async Task<IActionResult> getObtenerMarcación1p1()
+        {
+            var result = await _ITxPersonasService.ObtenerMarcación1p1();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
     }
 }

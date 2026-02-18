@@ -99,12 +99,36 @@ namespace ic.backend.precotex.web.Service.Services.Personas
         }
 
 
-        public async Task<ServiceResponseList<Seg_Camara>?> ObtenerDatosRegistro(string Nro_Dni)
+        public async Task<ServiceResponseList<Seg_Camara>?> ObtenerDatosRegistro(int Id_Marcacion, string Nro_Dni)
         {
             var result = new ServiceResponseList<Seg_Camara>();
             try
             {
-                var resultData = await _ITxPersonasRepository.ObtenerDatosRegistro(Nro_Dni);
+                var resultData = await _ITxPersonasRepository.ObtenerDatosRegistro(Id_Marcacion, Nro_Dni);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Seg_Camara>?> ObtenerMarcación1p1()
+        {
+            var result = new ServiceResponseList<Seg_Camara>();
+            try
+            {
+                var resultData = await _ITxPersonasRepository.ObtenerMarcación1p1();
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

@@ -130,7 +130,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
             }
         }
 
-        public async Task<IEnumerable<Seg_Camara>?> ObtenerDatosRegistro(string Nro_Dni)
+        public async Task<IEnumerable<Seg_Camara>?> ObtenerDatosRegistro(int Id_Marcacion, string Nro_Dni)
         {
             using (var connection = new SqlConnection(_connectionStringCamara))
             {
@@ -138,6 +138,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
 
                 var parametros = new DynamicParameters();
 
+                parametros.Add("@Id_Marcacion", Id_Marcacion);
                 parametros.Add("@Nro_Dni", Nro_Dni);
 
                 try
@@ -150,6 +151,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
 
                     foreach (var persona in personas)
                     {
+                        //Console.WriteLine(File.Exists(@"\\fileserverprx\Fotos de empleados$\"+persona.Cam_Mar_Cod_Usr+".jpg"));
+
                         if (!string.IsNullOrEmpty(persona.Foto_Ruta) && File.Exists(persona.Foto_Ruta))
                         {
 
@@ -169,9 +172,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
             }
         }
 
+        public async Task<IEnumerable<Seg_Camara>?> ObtenerMarcación1p1()
+        {
+            using (var connection = new SqlConnection(_connectionStringCamara))
+            {
+                await connection.OpenAsync();
+                try
+                {
+                    var result = await connection.QueryAsync<Seg_Camara>(
+                        "[dbo].[PA_Seg_Camara_Marcacion_S0002]"
+                        , commandType: CommandType.StoredProcedure
+                        );
 
-
-
-
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
