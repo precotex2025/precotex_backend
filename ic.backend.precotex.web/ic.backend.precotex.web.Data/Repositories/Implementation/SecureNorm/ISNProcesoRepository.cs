@@ -10,6 +10,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm
     public interface ISNProcesoRepository
     {
         Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Proceso sN_Proceso, string sTipoTransac);
-        Task<IEnumerable<SN_Proceso>?> Listado();
+        Task<IEnumerable<SN_Proceso>?> Listado(string sEstado);
     }
 }

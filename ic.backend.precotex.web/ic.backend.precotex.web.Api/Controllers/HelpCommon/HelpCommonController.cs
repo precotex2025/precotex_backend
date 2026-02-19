@@ -1,13 +1,16 @@
-﻿using ic.backend.precotex.web.Api.Parameters;
+﻿using Azure;
+using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.HelpCommon;
 using ic.backend.precotex.web.Service.Services.Implementacion.DDT;
 using ic.backend.precotex.web.Service.Services.Implementacion.HelpCommon;
 using ic.backend.precotex.web.Service.Services.Implementacion.RegistroPartidaParihuela;
+using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
+using static ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento.TMSolicitudMantenimientoController;
 
 namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
 {
@@ -17,11 +20,21 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
     {
         private readonly IHelpCommonService _IHelpCommonService;
         private readonly ITxUbicacionColgadorService _txUbicacionColgadorService;
+        private readonly IGenerateImageDinamycService _generateImageDinamyc;
+        private readonly IWaliChatService _waliChatService;
+        private readonly IConfiguration _configuration;
 
-        public HelpCommonController(IHelpCommonService IHelpCommonService, ITxUbicacionColgadorService ITxUbicacionColgadorService)
+        public HelpCommonController(IHelpCommonService IHelpCommonService, 
+                                    ITxUbicacionColgadorService ITxUbicacionColgadorService,    
+                                    IGenerateImageDinamycService generateImageDinamyc,
+                                    IWaliChatService waliChatService,
+                                    IConfiguration configuration)
         {
             _IHelpCommonService = IHelpCommonService;
             _txUbicacionColgadorService = ITxUbicacionColgadorService;
+            _generateImageDinamyc = generateImageDinamyc;
+            _waliChatService = waliChatService;
+            _configuration = configuration;
         }
 
         // Método POST para imprimir el ticket
@@ -128,6 +141,71 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             return Ok(resultado);
         }
 
+
+        [HttpPost]
+        [Route("GenerarAlerta")]
+        public async Task<IActionResult> GenerarAlerta([FromBody] AlertaParameter alertaParameter)
+        {
+            var response = await _generateImageDinamyc.GenerarImagen(
+                     titulo: alertaParameter.Titulo, 
+                     colorHex: alertaParameter.ColorHex, 
+                     iconoPath: alertaParameter.IconoPath, 
+                     area: alertaParameter.Area, 
+                     persona: alertaParameter.Persona, 
+                     fecha: alertaParameter.Fecha, 
+                     hora: alertaParameter.Hora,
+                     tipo: alertaParameter.tipo
+            );
+
+            if (!response.Success || response.Element == null)
+            {
+                return BadRequest(new { response.Message });
+            }
+
+            
+
+            //ruta
+            string nombreArchivo = string.Empty;
+            string rutaBase = @"D:\htdocs\app\foto";
+            string sNameAlert = "Alerta";
+
+            Directory.CreateDirectory(rutaBase);
+            nombreArchivo = $"{sNameAlert}_{Guid.NewGuid()}.PNG";
+            var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
+
+
+            // Guardar la imagen en disco antes de devolverla
+            var filePath = Path.Combine(rutaBase, nombreArchivo); 
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+
+            await System.IO.File.WriteAllBytesAsync(filePath, response.Element);
+
+            //Envia notificacion a Wathsapp
+            string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
+            var grupo = _configuration.GetSection("WaliChat").GetValue<string>("GrupoNotificaA")!;
+
+            try
+            {
+                var sendNotify = await _waliChatService.EnviarMensajeImageAsync(grupo, "", imageURL, false);
+            }
+            catch (Exception ex)
+            {
+                if (System.IO.File.Exists(rutaArchivo))
+                {
+                    System.IO.File.Delete(rutaArchivo);
+                }
+                return BadRequest(new { ex.Message });
+            }
+            
+
+            if (System.IO.File.Exists(rutaArchivo))
+            {
+                System.IO.File.Delete(rutaArchivo);
+            }
+
+            return File(response.Element, "image/png");
+        }
+
         #region SET VALORES
         private PrintTicketContent setDataPrintTicketContent(PrintContentParameter printContentParameter)
         {
@@ -149,6 +227,7 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
                 PrintName = printContentParameter.PrintName!,
             };
         }
+
         #endregion
     }
 }
