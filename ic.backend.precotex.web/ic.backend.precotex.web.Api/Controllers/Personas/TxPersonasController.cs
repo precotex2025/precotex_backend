@@ -11,6 +11,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
     public class TxPersonasController : ControllerBase
     {
         public readonly ITxPersonasService _ITxPersonasService;
+        //public string rutaBase = @"\\192.168.1.36\foto\fotos_personas";
+        public string rutaBase = @"\\fileserverprx\Fotos de empleados$";
 
         public TxPersonasController(ITxPersonasService ITxPersonasService)
         {
@@ -38,7 +40,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
         {
             try
             {
-                string rutaBase = @"\\192.168.1.36\foto\fotos_personas"; 
+
                 string nombreArchivo = $"{parametros.Foto_Nro_Dni}.jpg";
                 string rutaCompleta = Path.Combine(rutaBase, nombreArchivo);
 
@@ -91,7 +93,6 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
                     System.IO.File.Delete(parametros.Foto_Ruta);
                 }
 
-                string rutaBase = @"\\192.168.1.36\foto\fotos_personas";
                 string nombreArchivo = $"{parametros.Foto_Nro_Dni}.jpg";
                 string rutaCompleta = Path.Combine(rutaBase, nombreArchivo);
 
@@ -132,6 +133,35 @@ namespace ic.backend.precotex.web.Api.Controllers.Personas
             }
         }
 
+        [HttpGet]
+        [Route("getObtenerDatosRegistro")]
+        public async Task<IActionResult> getObtenerDatosRegistro(int Id_Marcacion, string Nro_Dni)
+        {
+            var result = await _ITxPersonasService.ObtenerDatosRegistro(Id_Marcacion, Nro_Dni);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerMarcación1p1")]
+        public async Task<IActionResult> getObtenerMarcación1p1()
+        {
+            var result = await _ITxPersonasService.ObtenerMarcación1p1();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
     }
 }

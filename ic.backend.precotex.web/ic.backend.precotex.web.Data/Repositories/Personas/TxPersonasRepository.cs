@@ -10,17 +10,20 @@ using System.Text;
 using System.Threading.Tasks;
 using ic.backend.precotex.web.Entity.Entities.Personas;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
+using ZXing;
 
 namespace ic.backend.precotex.web.Data.Repositories.Personas
 {
     public class TxPersonasRepository: ITxPersonasRepository
     {
         private readonly string _connectionString;
+        private readonly string _connectionStringCamara;
 
         //DECLARAMOS CADENA DE CONEXION
         public TxPersonasRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
+            _connectionStringCamara = configuration.GetConnectionString("ConnectionCamaras")!;
         }
 
         //OBTENER NOMBRE X DNI
@@ -124,6 +127,69 @@ namespace ic.backend.precotex.web.Data.Repositories.Personas
                 var Codigo = parametros.Get<int>("@Codigo");
                 var Mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, Mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<Seg_Camara>?> ObtenerDatosRegistro(int Id_Marcacion, string Nro_Dni)
+        {
+            using (var connection = new SqlConnection(_connectionStringCamara))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Marcacion", Id_Marcacion);
+                parametros.Add("@Nro_Dni", Nro_Dni);
+
+                try
+                {
+                    var personas = await connection.QueryAsync<Seg_Camara>(
+                        "[dbo].[PA_Seg_Camara_Marcacion_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+
+                    foreach (var persona in personas)
+                    {
+                        //Console.WriteLine(File.Exists(@"\\fileserverprx\Fotos de empleados$\"+persona.Cam_Mar_Cod_Usr+".jpg"));
+
+                        if (!string.IsNullOrEmpty(persona.Foto_Ruta) && File.Exists(persona.Foto_Ruta))
+                        {
+
+                            byte[] bytes = File.ReadAllBytes(persona.Foto_Ruta);
+
+                            string base64 = Convert.ToBase64String(bytes);
+
+                            persona.FotoBase64 = "data:image/jpg;base64," + base64;
+                        }
+                    }
+                    return personas;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<IEnumerable<Seg_Camara>?> ObtenerMarcación1p1()
+        {
+            using (var connection = new SqlConnection(_connectionStringCamara))
+            {
+                await connection.OpenAsync();
+                try
+                {
+                    var result = await connection.QueryAsync<Seg_Camara>(
+                        "[dbo].[PA_Seg_Camara_Marcacion_S0002]"
+                        , commandType: CommandType.StoredProcedure
+                        );
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
     }
