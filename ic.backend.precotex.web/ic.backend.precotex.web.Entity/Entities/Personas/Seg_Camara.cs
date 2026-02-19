@@ -17,5 +17,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Personas
         public string? Flg_Cargado { get; set; }
         public string? Foto_Ruta { get; set; }
         public string? FotoBase64 { get; set; }
+        public string? Nombre { get; set; }
     }
 }
