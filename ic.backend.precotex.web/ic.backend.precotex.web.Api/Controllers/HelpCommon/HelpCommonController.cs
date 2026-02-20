@@ -162,9 +162,7 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
                 return BadRequest(new { response.Message });
             }
 
-            
-
-            //ruta
+            //Generamos la Ruta  
             string nombreArchivo = string.Empty;
             string rutaBase = @"D:\htdocs\app\foto";
             string sNameAlert = "Alerta";
@@ -172,7 +170,6 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             Directory.CreateDirectory(rutaBase);
             nombreArchivo = $"{sNameAlert}_{Guid.NewGuid()}.PNG";
             var rutaArchivo = Path.Combine(rutaBase, nombreArchivo);
-
 
             // Guardar la imagen en disco antes de devolverla
             var filePath = Path.Combine(rutaBase, nombreArchivo); 
@@ -190,6 +187,7 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             }
             catch (Exception ex)
             {
+                //Elimina el archivo al Finalizar
                 if (System.IO.File.Exists(rutaArchivo))
                 {
                     System.IO.File.Delete(rutaArchivo);
@@ -197,7 +195,7 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
                 return BadRequest(new { ex.Message });
             }
             
-
+            //Elimina el archivo al Finalizar
             if (System.IO.File.Exists(rutaArchivo))
             {
                 System.IO.File.Delete(rutaArchivo);

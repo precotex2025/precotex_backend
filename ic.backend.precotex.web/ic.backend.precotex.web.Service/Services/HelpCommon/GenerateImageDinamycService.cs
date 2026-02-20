@@ -26,7 +26,7 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
                                     string area, string persona, string fecha, string hora, string tipo)
         {
             int width = 600;
-            int height = 425;
+            int height = 480;
 
             using var image = new SI.Image<SI2.Rgba32>(width, height);
 
@@ -45,7 +45,7 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
                 vPathIcon = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=icon_alert_yellow.png";
             }
 
-                using var httpClient = new HttpClient(); 
+            using var httpClient = new HttpClient(); 
             using var response = await httpClient.GetAsync(vPathIcon);
             response.EnsureSuccessStatusCode();
 
@@ -67,7 +67,7 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
             image.Mutate(ctx => ctx.DrawText(titulo, fontTitle, SI.Color.White, new SI.PointF(100, 100)));
 
             // Cuadro blanco interno
-            var rect = new SI.Rectangle(20, 150, width - 40, height - 180);
+            var rect = new SI.Rectangle(20, 150, width - 40, height - 185);
             float cornerRadius = 25f;
 
             //var roundedRect = new RectangularPolygon(rect.X, rect.Y, rect.Width, rect.Height);
@@ -84,33 +84,72 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
            
             image.Mutate(ctx =>
             {
-                ctx.Fill(SI.Color.White, path);
+                ctx.Fill(SI.Color.FromRgb(255, 255, 252), path);
                 //ctx.Draw(SI.Color.Black, 2, rect);
             });
 
             // Campos dinámicos: título arriba, valor abajo
-            float startX = 35;
+            float startX = 50;
             float startY = 160;
-            float spacingY = 60; // espacio vertical entre bloques
+            float spacingY = 70; // espacio vertical entre bloques
+
+            /*DESDE NUEVO CAMBIO*/
+
+            var bloques = new[] { 
+                new { Titulo = "Área", Valor = area },
+                new { Titulo = "Persona", Valor = persona }, 
+                new { Titulo = "Fecha", Valor = fecha },
+                new { Titulo = "Hora", Valor = hora } 
+            };
+
+            var fontLabelContent = SI4.SystemFonts.CreateFont("Arial", 15, SI4.FontStyle.Bold); // títulos
 
             image.Mutate(ctx =>
             {
-                // Área
-                ctx.DrawText("Área", fontLabel, SI.Color.Black, new SI.PointF(startX, startY));
-                ctx.DrawText(area, fontValue, SI.Color.Red, new SI.PointF(startX, startY + 25));
+                for (int i = 0; i < bloques.Length; i++)
+                {
+                    float cornerRadiusZ = 15f;
+                    float y = startY + i * spacingY;
 
-                // Persona
-                ctx.DrawText("Persona", fontLabel, SI.Color.Black, new SI.PointF(startX, startY + spacingY));
-                ctx.DrawText(persona, fontValue, SI.Color.Red, new SI.PointF(startX, startY + spacingY + 25));
+                    // Definir rectángulo para el bloque  , utlizamos el ancho general - 
+                    var rect = new RectangleF(startX, y, width - 100, 65);
 
-                // Fecha
-                ctx.DrawText("Fecha", fontLabel, SI.Color.Black, new SI.PointF(startX, startY + spacingY * 2));
-                ctx.DrawText(fecha, fontValue, SI.Color.Red, new SI.PointF(startX, startY + spacingY * 2 + 25));
+                    // Sombrita rojiza suave a la izquierda
+                    //var sombra = new RectangleF(rect.X - 6, rect.Y, 8, rect.Height);
+                    // Path para la sombra (desplazada a la izquierda)
+                    var sombraPath = new PathCollection( 
+                        new EllipsePolygon(rect.Left - 6 + cornerRadiusZ, rect.Top + cornerRadiusZ, cornerRadiusZ), 
+                        new EllipsePolygon(rect.Right - 6 - cornerRadiusZ, rect.Top + cornerRadiusZ, cornerRadiusZ), 
+                        new EllipsePolygon(rect.Right - 6 - cornerRadiusZ, rect.Bottom - cornerRadiusZ, cornerRadiusZ), 
+                        new EllipsePolygon(rect.Left - 6 + cornerRadiusZ, rect.Bottom - cornerRadiusZ, cornerRadiusZ), 
+                        new RectangularPolygon(rect.Left - 6 + cornerRadiusZ, rect.Top, rect.Width - 2 * cornerRadiusZ, rect.Height), 
+                        new RectangularPolygon(rect.Left - 6, rect.Top + cornerRadiusZ, rect.Width, rect.Height - 2 * cornerRadiusZ) 
+                        );
+                    ctx.Fill(SI.Color.FromRgb(194, 36, 35), sombraPath); // rojo translúcido
 
-                // Hora
-                ctx.DrawText("Hora", fontLabel, SI.Color.Black, new SI.PointF(startX, startY + spacingY * 3));
-                ctx.DrawText(hora, fontValue, SI.Color.Red, new SI.PointF(startX, startY + spacingY * 3 + 25));
+                    
+                    var path = new PathCollection(
+                        new EllipsePolygon(rect.Left + cornerRadiusZ, rect.Top + cornerRadiusZ, cornerRadiusZ), // sup izq
+                        new EllipsePolygon(rect.Right - cornerRadiusZ, rect.Top + cornerRadiusZ, cornerRadiusZ), // sup der
+                        new EllipsePolygon(rect.Right - cornerRadiusZ, rect.Bottom - cornerRadiusZ, cornerRadiusZ), // inf der
+                        new EllipsePolygon(rect.Left + cornerRadiusZ, rect.Bottom - cornerRadiusZ, cornerRadiusZ), // inf izq
+                        new RectangularPolygon(rect.Left + cornerRadiusZ, rect.Top, rect.Width - 2 * cornerRadiusZ, rect.Height), // centro horizontal
+                        new RectangularPolygon(rect.Left, rect.Top + cornerRadiusZ, rect.Width, rect.Height - 2 * cornerRadiusZ) // centro vertical
+                    );
+
+                    // Dibujar cuadro blanco encima
+                    ctx.Fill(SI.Color.FromRgb(245,245,245), path);
+                    //ctx.Draw(SI.Color.Black, 1, rect);
+
+                    // Texto dentro del cuadro
+                    ctx.DrawText(bloques[i].Titulo, fontLabelContent, SI.Color.Red, new PointF(rect.X + 10, rect.Y + 15)); 
+                    ctx.DrawText(bloques[i].Valor, fontValue, SI.Color.Black, new PointF(rect.X + 10, rect.Y + 30));
+
+                }
             });
+
+
+            /*HASTA AQUI*/
 
             // Exportar a memoria
             using var ms = new MemoryStream();
