@@ -67,7 +67,7 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
             image.Mutate(ctx => ctx.DrawText(titulo, fontTitle, SI.Color.White, new SI.PointF(100, 100)));
 
             // Cuadro blanco interno
-            var rect = new SI.Rectangle(20, 150, width - 40, height - 185);
+            var rect = new SI.Rectangle(20, 150, width - 40, height - 171);
             float cornerRadius = 25f;
 
             //var roundedRect = new RectangularPolygon(rect.X, rect.Y, rect.Width, rect.Height);
@@ -91,7 +91,7 @@ namespace ic.backend.precotex.web.Service.Services.HelpCommon
             // Campos dinámicos: título arriba, valor abajo
             float startX = 50;
             float startY = 160;
-            float spacingY = 70; // espacio vertical entre bloques
+            float spacingY = 75; // espacio vertical entre bloques
 
             /*DESDE NUEVO CAMBIO*/
 
