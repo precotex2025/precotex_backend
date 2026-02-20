@@ -1311,6 +1311,23 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
 
+        //OBTENER RELACION BANO, VOLUMEN, PESO
+        [HttpGet]
+        [Route("getObtenerTrio")]
+        public async Task<IActionResult> getObtenerTrio(int Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
 
     }
 }

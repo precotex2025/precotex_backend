@@ -2152,6 +2152,28 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        
+        //OBTENER RELACION BANO, VOLUMEN, PESO
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_S0005]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+
+
     }
 }

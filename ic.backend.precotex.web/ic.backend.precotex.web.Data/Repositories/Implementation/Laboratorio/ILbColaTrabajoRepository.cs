@@ -132,6 +132,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<IEnumerable<Lb_Curvas>?> ListarCurvas(string Pro_Cod);
 
+        /*
+            OBTENER RELACION BANO, VOLUMEN, PESO
+        */
+
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec);
+
 
     }
 }
