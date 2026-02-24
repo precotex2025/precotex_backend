@@ -103,12 +103,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.LlenarDesplegable();
+                var resultData = await _lbColaTrabajoRepository.LlenarDesplegable(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

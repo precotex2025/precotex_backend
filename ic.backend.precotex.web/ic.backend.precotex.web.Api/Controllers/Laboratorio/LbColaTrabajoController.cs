@@ -84,9 +84,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getLlenarDesplegable")]
-        public async Task<IActionResult> getLlenarDesplegable()
+        public async Task<IActionResult> getLlenarDesplegable(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.LlenarDesplegable();
+            var result = await _LbColaTrabajoService.LlenarDesplegable(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
