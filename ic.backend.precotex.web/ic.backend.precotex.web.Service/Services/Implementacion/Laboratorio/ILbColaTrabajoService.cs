@@ -15,7 +15,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             CABECERA 
         */
         Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
-
+        Task<ServiceResponseList<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
 
 
         /*

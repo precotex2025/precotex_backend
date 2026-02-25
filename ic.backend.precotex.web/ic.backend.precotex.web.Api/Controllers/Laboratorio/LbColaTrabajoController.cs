@@ -1327,6 +1327,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerDatosProduccion")]
+        public async Task<IActionResult> getObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.ObtenerDatosProduccion(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
 
 
     }
