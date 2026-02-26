@@ -41,6 +41,26 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
             }
         }
 
+        public async Task<IEnumerable<SN_Organizacion>?> Obtener(string sCodigoOrganizacion)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Codigo_Organizacion = sCodigoOrganizacion
+                };
+
+                var result = await connection.QueryAsync<SN_Organizacion>(
+                     "[dbo].[SN_Organizacion_Obtener]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
+
         public async Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Organizacion sN_Organizacion, string sTipoTransac)
         {
             using (var connection = new SqlConnection(_connectionString))

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,9 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public DateTime? Fec_Registro { get; set; }
         public string? Cod_Usuario_Modifico { get; set; }
         public DateTime? Fec_Modificacion { get; set; }
+        //Otros
+        public string? Organizacion { get; set; }
+        
 
         /*
             Codigo_Sede CHAR(3) NOT NULL PRIMARY KEY,

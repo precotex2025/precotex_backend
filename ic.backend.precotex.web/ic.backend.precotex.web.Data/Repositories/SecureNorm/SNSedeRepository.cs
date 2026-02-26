@@ -21,14 +21,16 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
             _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
         }
 
-        public async Task<IEnumerable<SN_Sede>?> Listado(string sEstado)
+        public async Task<IEnumerable<SN_Sede>?> Listado(string sCodigoOrganizacion, string sEstado)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var parametros = new
                 {
-                    SoloActivos = sEstado
+                    Codigo_Organizacion = sCodigoOrganizacion,
+                    SoloActivos = sEstado,
+
                 };
 
                 var result = await connection.QueryAsync<SN_Sede>(
@@ -71,7 +73,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 try
                 {
                     connection.Execute(
-                        "[dbo].[SN_Procesos_Mnto_Proceso]",
+                        "[dbo].[SN_Sedes_Mnto_Proceso]",
                         parametros,
                         commandType: CommandType.StoredProcedure
                     );

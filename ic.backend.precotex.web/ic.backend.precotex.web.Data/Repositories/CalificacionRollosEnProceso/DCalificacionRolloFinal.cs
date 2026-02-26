@@ -560,6 +560,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                                 parameters.Add("@Calidad", _calidadAuditada);
                                 parameters.Add("@MtrsAuditados", _mtrsAuditados);
                                 parameters.Add("@Ancho", partida.ancho);
+                                parameters.Add("@Densidad", partida.densidad);//NUEVO PARAMETRO
                                 parameters.Add("@Calf_Auto", "N");
                                 parameters.Add("@Inspector", partida.auditor ?? (object)DBNull.Value);
                                 parameters.Add("@Factor_Conversion", 0);
@@ -744,6 +745,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                                 parameters.Add("@Calidad", _calidadAuditada);
                                 parameters.Add("@MtrsAuditados", _mtrsAuditados);
                                 parameters.Add("@Ancho", partida.ancho == "" ? 0 : partida.ancho);
+                                parameters.Add("@Densidad", partida.densidad == "" ? 0 : partida.densidad);//NUEVO PARAMETRO
                                 parameters.Add("@Calf_Auto", "N");
                                 parameters.Add("@Inspector", partida.auditor ?? (object)DBNull.Value);
                                 parameters.Add("@Factor_Conversion", 0m, DbType.Decimal);
@@ -1200,6 +1202,7 @@ WHERE A.F_Tintoreria = 'A' AND A.Activo = 'S' ORDER BY a.tip_auditor, a.cod_audi
                     parameters.Add("@Prefijo_Maquina", partida.maquina ?? (object)DBNull.Value);
                     //parameters.Add("@Ancho", partida.ancho ?? "0");
                     parameters.Add("@Ancho", string.IsNullOrEmpty(partida.ancho) ? "0" : partida.ancho);
+                    parameters.Add("@Densidad", string.IsNullOrEmpty(partida.densidad) ? "0" : partida.densidad);//NUEVO PARAMETRO
 
                     // Serialize detPartida and detDefecto to JSON
                     string detPartidaJson = JsonSerializer.Serialize(partida.detPartida);

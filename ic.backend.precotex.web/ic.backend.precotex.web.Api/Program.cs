@@ -111,11 +111,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-
-        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
 
         /*PRODUCCION*/
         
@@ -169,6 +169,8 @@ builder.Services.AddScoped<ITxPersonasService, TxPersonasService>();
 builder.Services.AddScoped<ISNNormaService, SNNormaService>();
 builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
 builder.Services.AddScoped<IGenerateImageDinamycService, GenerateImageDinamycService>();
+builder.Services.AddScoped<ISNSedeService, SNSedeService>();
+builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -204,6 +206,8 @@ builder.Services.AddScoped<ITxCotizacionesRepository, TxCotizacionesRepository>(
 builder.Services.AddScoped<ISNNormaRepository, SNNormaRepository>();
 builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>();
 builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
+builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
+builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
 #endregion
 
 

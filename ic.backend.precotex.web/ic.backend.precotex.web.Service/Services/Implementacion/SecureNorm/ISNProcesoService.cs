@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm
 {
-    public interface ISNOrganizacionService
+    public interface ISNProcesoService
     {
-        Task<ServiceResponse<int>> ProcesoMnto(SN_Organizacion sN_Organizacion, string sTipoTransac);
-        Task<ServiceResponseList<SN_Organizacion>?> Listado(string sEstado);
-        Task<ServiceResponseList<SN_Organizacion>?> Obtener(string sCodigoOrganizacion);
+        Task<ServiceResponse<int>> ProcesoMnto(SN_Proceso sN_Sede, string sTipoTransac);
+        Task<ServiceResponseList<SN_Proceso>?> Listado(string sCodigoOrganizacion, string sEstado);
     }
 }

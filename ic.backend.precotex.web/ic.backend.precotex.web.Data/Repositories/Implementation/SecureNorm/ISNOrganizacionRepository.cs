@@ -11,5 +11,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm
     {
         Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Organizacion sN_Organizacion, string sTipoTransac);
         Task<IEnumerable<SN_Organizacion>?> Listado(string sEstado);
+        Task<IEnumerable<SN_Organizacion>?> Obtener(string sCodigoOrganizacion);
     }
 }
