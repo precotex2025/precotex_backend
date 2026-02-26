@@ -84,9 +84,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getLlenarDesplegable")]
-        public async Task<IActionResult> getLlenarDesplegable()
+        public async Task<IActionResult> getLlenarDesplegable(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.LlenarDesplegable();
+            var result = await _LbColaTrabajoService.LlenarDesplegable(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1303,6 +1303,38 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+        //OBTENER RELACION BANO, VOLUMEN, PESO
+        [HttpGet]
+        [Route("getObtenerTrio")]
+        public async Task<IActionResult> getObtenerTrio(int Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerDatosProduccion")]
+        public async Task<IActionResult> getObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.ObtenerDatosProduccion(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 

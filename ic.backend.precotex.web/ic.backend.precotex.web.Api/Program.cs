@@ -91,6 +91,10 @@ using ic.backend.precotex.web.Service.Services.Implementacion.Personas;
 using ic.backend.precotex.web.Service.Services.Personas;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Personas;
 using ic.backend.precotex.web.Data.Repositories.Personas;
+using ic.backend.precotex.web.Data.Repositories.Implementation.AgendaTelefonica;
+using ic.backend.precotex.web.Data.Repositories.AgendaTelefonica;
+using ic.backend.precotex.web.Service.Services.Implementacion.AgendaTelefonica;
+using ic.backend.precotex.web.Service.Services.AgendaTelefonica;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,7 +122,7 @@ builder.Services.AddCors(options =>
         */
 
         /*PRODUCCION*/
-        
+
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -127,7 +131,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-        
+
     }); 
 });
 
@@ -171,6 +175,7 @@ builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
 builder.Services.AddScoped<IGenerateImageDinamycService, GenerateImageDinamycService>();
 builder.Services.AddScoped<ISNSedeService, SNSedeService>();
 builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
+builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -208,6 +213,7 @@ builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>(
 builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
 builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
+builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 #endregion
 
 

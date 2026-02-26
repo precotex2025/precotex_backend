@@ -103,12 +103,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.LlenarDesplegable();
+                var resultData = await _lbColaTrabajoRepository.LlenarDesplegable(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -1583,6 +1583,54 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             {
                 result.Success = false;
                 result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec)
+        {
+            var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerTrio(Corr_Carta, Sec);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
+        {
+            var result = new ServiceResponseList<Lb_Seg_Formulacion_Color>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerDatosProduccion(Flg_Est_Lab, Fec_Ini, Fec_Fin, Usr_Cod);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
                 return result;
             }
         }

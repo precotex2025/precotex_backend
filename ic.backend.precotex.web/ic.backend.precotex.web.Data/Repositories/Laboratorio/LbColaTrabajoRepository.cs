@@ -14,6 +14,7 @@ using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using Microsoft.Graph.Models.TermStore;
 using System.ComponentModel;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
+using Microsoft.Graph.Models;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -103,14 +104,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //OBTENER DATOS DE TABLA Lb_ColaTrabajoLabDetalle_WB PARA LLENAR EL DESPLEGABLE
-        public async Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable()
+        public async Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
                     "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0001]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -2152,6 +2157,48 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //OBTENER RELACION BANO, VOLUMEN, PESO
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_S0005]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
         
+        public async Task<IEnumerable<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Fec_Ini", Fec_Ini);
+                parametros.Add("@Fec_Fin", Fec_Fin);
+                parametros.Add("@Usr_Cod", Usr_Cod);
+                parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
+
+                var result = await connection.QueryAsync<Lb_Seg_Formulacion_Color>(
+                    "[dbo].[PA_Lb_Seguimiento_Formulacion_Color_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
     }
 }

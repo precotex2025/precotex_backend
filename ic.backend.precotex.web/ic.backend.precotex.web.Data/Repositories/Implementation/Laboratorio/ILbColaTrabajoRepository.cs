@@ -14,14 +14,14 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             CABECERA 
         */
         Task<IEnumerable<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
-
+        Task<IEnumerable<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
 
         /*
             DETALLE 
         */
         Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
         Task<(int Codigo, string Mensaje)> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTrabajoDet);
-        Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable();
+        Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod);
         Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColor(Lb_ColTra_Det lb_ColTra_Det);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
@@ -131,6 +131,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<(int Codigo, string Mensaje)> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<IEnumerable<Lb_Curvas>?> ListarCurvas(string Pro_Cod);
+
+        /*
+            OBTENER RELACION BANO, VOLUMEN, PESO
+        */
+
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec);
 
 
     }

@@ -15,7 +15,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             CABECERA 
         */
         Task<ServiceResponseList<Lb_ColTra_Cab>?> ListaSDCPorEstado(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
-
+        Task<ServiceResponseList<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod);
 
 
         /*
@@ -23,7 +23,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         */
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
         Task<ServiceResponse<int>> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTraDet);
-        Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable();
+        Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod);
         Task<ServiceResponseList<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec);
         Task<ServiceResponse<int>> ActualizarEstadoDeColor(Lb_ColTra_Det lb_ColTra_Det);
         Task<ServiceResponse<int>> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
@@ -131,6 +131,11 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ModificarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<ServiceResponse<int>> DeshabilitarProcesoValor(ComponentesExtraValores _ComponentesExtraValores);
         Task<ServiceResponseList<Lb_Curvas>?> ListarCurvas(string Pro_Cod);
+
+        /*
+            OBTENER RELACION BANO, VOLUMEN, PESO
+        */
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec);
 
     }
 }
