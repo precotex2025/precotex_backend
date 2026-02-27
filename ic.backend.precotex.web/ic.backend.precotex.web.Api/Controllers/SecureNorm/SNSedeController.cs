@@ -12,9 +12,9 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
     [ApiController]
     public class SNSedeController : ControllerBase
     {
-        private readonly SNSedeService _sNSedeService;
+        private readonly ISNSedeService _sNSedeService;
 
-        public SNSedeController(SNSedeService sNSedeService)
+        public SNSedeController(ISNSedeService sNSedeService)
         {
             _sNSedeService = sNSedeService;
         }
