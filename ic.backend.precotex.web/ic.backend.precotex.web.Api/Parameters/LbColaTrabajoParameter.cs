@@ -26,6 +26,7 @@
         public string? Flg_Est_Lab { get; set; }
         public int? Cur_Ten { get; set; }
         public string? Usr_Cod { get; set; }
+        public string? Cod_OrdTra { get; set; }
     }
 
     public class LbColaTrabajoParameter_Colorantes

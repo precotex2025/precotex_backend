@@ -76,26 +76,54 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 await connection.OpenAsync();
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
-                parametros.Add("@Sec", lbColaTrabajoDet.Sec);
-                parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
-                parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
-
-                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
-
-                try
+                if (lbColaTrabajoDet.Cod_OrdTra == null || lbColaTrabajoDet.Cod_OrdTra == "")
                 {
-                    var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_I0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                );
-                }
-                catch
-                {
+                    parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
+                    parametros.Add("@Sec", lbColaTrabajoDet.Sec);
+                    parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
+                    parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                    try
+                    {
+                        var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                        "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                    }
+                    catch
+                    {
+
+                    }
                 }
+                else
+                {
+                    parametros.Add("@Cod_OrdTra", lbColaTrabajoDet.Cod_OrdTra);
+                    parametros.Add("@Sec", lbColaTrabajoDet.Sec);
+                    parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
+
+                    parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                    try
+                    {
+                        var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                        "[dbo].[PA_Lb_ColaTrabajoLabDetalleProduccion_WB_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                
 
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
@@ -118,6 +146,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
+                return result;
+            }
+        }
+
+        //OBTENER DATOS DE TABLA Lb_ColaTrabajoLabDetalleProduccion_WB PARA LLENAR EL DESPLEGABLE
+        public async Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalleProduccion_WB_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
                 return result;
             }
         }
@@ -2199,6 +2246,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        //public Task<IEnumerable<>?> ObtenerDatos
 
     }
 }

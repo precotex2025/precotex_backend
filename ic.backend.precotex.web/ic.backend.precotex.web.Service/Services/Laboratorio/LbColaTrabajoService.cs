@@ -127,6 +127,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod)
+        {
+            var result = new ServiceResponseList<Lb_ColTra_Det>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.LlenarDesplegableProduccion(Usr_Cod);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponseList<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec)
         {
             var result = new ServiceResponseList<Lb_ColTra_Cab_y_Det>();

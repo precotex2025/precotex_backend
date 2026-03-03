@@ -22,6 +22,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
         Task<(int Codigo, string Mensaje)> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTrabajoDet);
         Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod);
+        Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod);
         Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColor(Lb_ColTra_Det lb_ColTra_Det);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);

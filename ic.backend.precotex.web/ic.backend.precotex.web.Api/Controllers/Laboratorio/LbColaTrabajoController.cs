@@ -61,7 +61,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpPost]
         [Route("postRegistrarDetalleColorSDC")]
-        public async Task<IActionResult> RegistrarDetalleColorSDC([FromBody] LbColaTrabajoParameter_Detalle parametros)
+        public async Task<IActionResult> postRegistrarDetalleColorSDC([FromBody] LbColaTrabajoParameter_Detalle parametros)
         {
             Lb_ColTra_Det _lbColaTrabajoDet = new Lb_ColTra_Det
             {
@@ -69,6 +69,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec ?? 0,
                 Cur_Ten = parametros.Cur_Ten ?? 0,
                 Usr_Cod = parametros.Usr_Cod ?? "",
+                Cod_OrdTra = parametros.Cod_OrdTra ?? ""
             };
 
             var result = await _LbColaTrabajoService.RegistrarDetalleColorSDC(_lbColaTrabajoDet);
@@ -87,6 +88,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         public async Task<IActionResult> getLlenarDesplegable(string Usr_Cod)
         {
             var result = await _LbColaTrabajoService.LlenarDesplegable(Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getLlenarDesplegableProduccion")]
+        public async Task<IActionResult> getLlenarDesplegableProduccion(string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.LlenarDesplegableProduccion(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

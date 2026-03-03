@@ -24,6 +24,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
         Task<ServiceResponse<int>> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTraDet);
         Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod);
+        Task<ServiceResponseList<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod);
         Task<ServiceResponseList<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec);
         Task<ServiceResponse<int>> ActualizarEstadoDeColor(Lb_ColTra_Det lb_ColTra_Det);
         Task<ServiceResponse<int>> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
