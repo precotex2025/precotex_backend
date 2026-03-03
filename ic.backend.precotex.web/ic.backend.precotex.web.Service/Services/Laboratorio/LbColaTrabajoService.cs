@@ -54,7 +54,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             DETALLE 
         */
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta)
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListaColoresSDC(string Corr_Carta)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
@@ -151,7 +151,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(string Corr_Carta, int Sec)
         {
             var result = new ServiceResponseList<Lb_ColTra_Cab_y_Det>();
             try
@@ -303,7 +303,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             INFORMACION SDC
         */
-        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(int Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec)
         {
             var result = new ServiceResponseList<Lb_Informe_SDC>();
             try
@@ -330,7 +330,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             HOJA DE FORMULACION
         */
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
@@ -381,7 +381,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //ELIMINAR OPCION AGREGADA
-        public async Task<ServiceResponse<int>> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = new ServiceResponse<int>();
             try
@@ -876,7 +876,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
@@ -900,7 +900,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
@@ -947,7 +947,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
@@ -971,7 +971,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = new ServiceResponseList<Lb_Reporte>();
             try
@@ -1611,7 +1611,7 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try

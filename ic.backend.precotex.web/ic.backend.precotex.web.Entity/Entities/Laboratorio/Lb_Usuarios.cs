@@ -17,8 +17,5 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 		public string? Cod_Trabajador { get; set; }
 
 
-
-
-
     }
 }

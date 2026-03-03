@@ -8,7 +8,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 {
     public class Lb_Informe_SDC
     {
-        public int? Corr_Carta { get; set; } 
+        public string? Corr_Carta { get; set; } 
         public string? Descripcion { get; set; } 
         public string? Descripcion_Color { get; set; } 
         public string? Pantone { get; set; } 

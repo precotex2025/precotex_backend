@@ -19,11 +19,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             DETALLE 
         */
-        Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta);
+        Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(string Corr_Carta);
         Task<(int Codigo, string Mensaje)> RegistrarDetalleColorSDC(Lb_ColTra_Det lbColaTrabajoDet);
         Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegable(string Usr_Cod);
         Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod);
-        Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(string Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColor(Lb_ColTra_Det lb_ColTra_Det);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomia(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDeColorTricomiaAutolab(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
@@ -34,16 +34,16 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<IEnumerable<Lg_Item>?> CargarComboBoxItem();
         Task<(int Codigo, string Mensaje)> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
-        Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo);
+        Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo);
         Task<IEnumerable<Lb_Colorantes>?> ListarColorantesAgregarOpcion();
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(int Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo);
 
         /*
             INFORMACION SDC
         */
         //Task<Lb_Informe_SDC?> CargarInformeSDC(int Corr_Carta, int Sec);
-        Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(int Corr_Carta, int Sec);
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec);
 
         /*
             JABONADOS
@@ -101,8 +101,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado();
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido();
         Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo);
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo);
 
 
 
@@ -117,7 +117,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             REPORTE 
         */
-        Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo);
 
 
         /*
@@ -137,7 +137,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             OBTENER RELACION BANO, VOLUMEN, PESO
         */
 
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
 
 
     }

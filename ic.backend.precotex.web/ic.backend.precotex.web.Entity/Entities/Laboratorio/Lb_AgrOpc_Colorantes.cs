@@ -9,7 +9,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 {
     public class Lb_AgrOpc_Colorantes
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Procedencia { get; set; }
         public int? Correlativo { get; set; }
@@ -55,7 +55,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
     public class Auxiliares
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Col_Cod { get; set; }
         public string? Col_Des { get; set; }
@@ -68,7 +68,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
     public class Quimicos
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Col_Cod { get; set; }
         public string? Col_Des { get; set; }
@@ -81,7 +81,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
     public class Colorantes
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Col_Cod { get; set; }
         public string? Col_Des { get; set; }
