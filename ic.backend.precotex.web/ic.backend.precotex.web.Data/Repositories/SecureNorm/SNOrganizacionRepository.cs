@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +20,20 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
         public SNOrganizacionRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ComboOrganizacion()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var result = await connection.QueryAsync<ComboGral>(
+                     "[dbo].[SN_Organizacion_Combo]"
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
         }
 
         public async Task<IEnumerable<SN_Organizacion>?> Listado(string sEstado)

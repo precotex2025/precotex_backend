@@ -26,6 +26,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             SN_Proceso proceso = new SN_Proceso
             {
                 Codigo_Proceso = parametros.Codigo_Proceso ?? "",
+                Codigo_Organizacion = parametros.Codigo_Organizacion ?? "",
                 Codigo_Sede = parametros.Codigo_Sede ?? "",
                 Proceso = parametros.Proceso ?? "",
                 Codigo_Tipo_Proceso = parametros.Codigo_Tipo_Proceso ?? "",

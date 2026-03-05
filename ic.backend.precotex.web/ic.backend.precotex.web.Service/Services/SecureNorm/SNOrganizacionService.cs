@@ -1,5 +1,6 @@
 ﻿using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
@@ -20,6 +21,36 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
         public SNOrganizacionService(ISNOrganizacionRepository sNOrganizacionRepository)
         {
             _sNOrganizacionRepository = sNOrganizacionRepository;
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ComboOrganizacion()
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _sNOrganizacionRepository.ComboOrganizacion();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
         }
 
         public async Task<ServiceResponseList<SN_Organizacion>?> Listado(string sEstado)

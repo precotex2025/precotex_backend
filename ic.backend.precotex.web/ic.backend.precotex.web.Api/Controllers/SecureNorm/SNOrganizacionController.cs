@@ -82,5 +82,21 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getComboOrganizacion")]
+        public async Task<IActionResult> getComboOrganizacion()
+        {
+            var result = await _sNOrganizacionService.ComboOrganizacion();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
     }
 }

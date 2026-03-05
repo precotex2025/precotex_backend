@@ -1,4 +1,5 @@
-﻿using ic.backend.precotex.web.Entity.Entities.SecureNorm;
+﻿using ic.backend.precotex.web.Entity.Entities;
+using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.common;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm
         Task<ServiceResponse<int>> ProcesoMnto(SN_Organizacion sN_Organizacion, string sTipoTransac);
         Task<ServiceResponseList<SN_Organizacion>?> Listado(string sEstado);
         Task<ServiceResponseList<SN_Organizacion>?> Obtener(string sCodigoOrganizacion);
+        Task<ServiceResponseList<ComboGral>?> ComboOrganizacion();
     }
 }

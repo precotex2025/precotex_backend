@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm
 {
-    public interface ISNSedeRepository
+    public interface IMaeTabRepository
     {
-        Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Sede sN_Sede, string sTipoTransac);
-        Task<IEnumerable<SN_Sede>?> Listado(string sCodigoOrganizacion, string sEstado);
-        Task<IEnumerable<ComboGral>?> ComboSedes(string sCodigoOrganizacion);
+        Task<IEnumerable<ComboGral>?> Lista(string sCodigoTipo);
     }
 }

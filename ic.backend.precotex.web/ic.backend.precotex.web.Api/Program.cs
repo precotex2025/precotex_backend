@@ -122,7 +122,7 @@ builder.Services.AddCors(options =>
         */
 
         /*PRODUCCION*/
-
+        
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -131,7 +131,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-
+        
     }); 
 });
 
@@ -176,6 +176,7 @@ builder.Services.AddScoped<IGenerateImageDinamycService, GenerateImageDinamycSer
 builder.Services.AddScoped<ISNSedeService, SNSedeService>();
 builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
 builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
+builder.Services.AddScoped<IMaeTabService, MaeTabService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -214,6 +215,7 @@ builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
 builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
 builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
+builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
 #endregion
 
 

@@ -64,5 +64,20 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getComboSedes")]
+        public async Task<IActionResult> getComboSedes(string sCodigoOrganizacion)
+        {
+            var result = await _sNSedeService.ComboSedes(sCodigoOrganizacion!);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

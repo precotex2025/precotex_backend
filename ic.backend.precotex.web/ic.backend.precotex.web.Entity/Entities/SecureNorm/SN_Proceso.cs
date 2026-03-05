@@ -9,6 +9,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
     public class SN_Proceso
     {
         public string? Codigo_Proceso { get; set; }
+        public string? Codigo_Organizacion { get; set; }
         public string? Codigo_Sede { get; set; }
         public string? Proceso { get; set; }
         public string? Codigo_Tipo_Proceso { get; set; }
@@ -20,6 +21,10 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public DateTime? Fec_Registro { get; set; }
         public string? Cod_Usuario_Modifico { get; set; }
         public DateTime? Fec_Modificacion { get; set; }
+
+        //otros Campos
+        public string? sede { get; set; }
+        public string? organizacion { get; set; }
 
         /*
     Codigo_Proceso CHAR(3) PRIMARY KEY,

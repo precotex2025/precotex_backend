@@ -23,4 +23,8 @@
     <Folder Include="Repositories\Login\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Repositories\SecureNorm\MaeTabRepository.cs" />
+  </ItemGroup>
+
 </Project>

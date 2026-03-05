@@ -12,28 +12,31 @@ using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 {
-    public class SNProcesoRepository : ISNProcesoRepository
+    public class SNPuestoRepository : ISNPuestoRepository
     {
         private readonly string _connectionString;
 
-        public SNProcesoRepository(IConfiguration configuration)
+        public SNPuestoRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
         }
 
-        public async Task<IEnumerable<SN_Proceso>?> Listado(string sCodigoOrganizacion, string sEstado)
+
+
+        public async Task<IEnumerable<SN_Puesto>?> Listado(string sCodigo_Organizacion, string sCodigo_Sede, string sCodigo_Nivel_Riesgo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var parametros = new
                 {
-                    SoloActivos = sEstado,
-                    Codigo_Organizacion = sCodigoOrganizacion
+                    Codigo_Organizacion = sCodigo_Organizacion,
+                    Codigo_Sede = sCodigo_Sede,
+                    Codigo_Nivel_Riesgo = sCodigo_Nivel_Riesgo
                 };
 
-                var result = await connection.QueryAsync<SN_Proceso>(
-                     "[dbo].[SN_Procesos_Listado]"
+                var result = await connection.QueryAsync<SN_Puesto>(
+                     "[dbo].[SN_Puestos_Listar]"
                      , parametros
                      , commandType: System.Data.CommandType.StoredProcedure
                  );
@@ -42,7 +45,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Proceso sN_Proceso, string sTipoTransac)
+        public async Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Puesto sN_Puesto, string sTipoTransac)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -52,17 +55,21 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
                 // Parametros de SQL
                 parametros.Add("@Accion", sTipoTransac);
-                parametros.Add("@Codigo_Proceso", sN_Proceso.Codigo_Proceso);
-                parametros.Add("@Codigo_Organizacion", sN_Proceso.Codigo_Organizacion);
-                parametros.Add("@Codigo_Sede", sN_Proceso.Codigo_Sede);
-                parametros.Add("@Proceso", sN_Proceso.Proceso);
-                parametros.Add("@Codigo_Tipo_Proceso", sN_Proceso.Codigo_Tipo_Proceso);
-                parametros.Add("@Descripcion", sN_Proceso.Descripcion);
-                parametros.Add("@Nombre_Adjunto", sN_Proceso.Nombre_Adjunto);
-                parametros.Add("@Ruta_Adjunto", sN_Proceso.Ruta_Adjunto);
+                parametros.Add("@Codigo_Puesto", sN_Puesto.Codigo_Puesto);
+                parametros.Add("@Codigo_Organizacion", sN_Puesto.Codigo_Organizacion);
+                parametros.Add("@Codigo_Sede", sN_Puesto.Codigo_Sede);
+                parametros.Add("@Denominacion", sN_Puesto.Denominacion);
+                parametros.Add("@Codigo_Nivel_Riesgo", sN_Puesto.Codigo_Nivel_Riesgo);
+                parametros.Add("@Validacion_Periodica", sN_Puesto.Validacion_Periodica);
 
-                parametros.Add("@Flg_Activo", sN_Proceso.Flg_Activo);
-                parametros.Add("@Cod_Usuario", sN_Proceso.Cod_Usuario);
+                parametros.Add("@Puesto_Descripcion", sN_Puesto.Puesto_Descripcion);
+                parametros.Add("@Puesto_Funciones", sN_Puesto.Puesto_Funciones);
+                parametros.Add("@Puesto_Requisitos", sN_Puesto.Puesto_Requisitos);
+                parametros.Add("@Puesto_Caracteristicas", sN_Puesto.Puesto_Caracteristicas);
+                parametros.Add("@Caracteristicas_Visible", sN_Puesto.Caracteristicas_Visible);
+
+                parametros.Add("@Flg_Activo", sN_Puesto.Flg_Activo);
+                parametros.Add("@Cod_Usuario", sN_Puesto.Cod_Usuario);
 
                 // Parámetros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -72,7 +79,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 try
                 {
                     connection.Execute(
-                        "[dbo].[SN_Procesos_Mnto_Proceso]",
+                        "[dbo].[SN_Puestos_Mnto_Proceso]",
                         parametros,
                         commandType: CommandType.StoredProcedure
                     );

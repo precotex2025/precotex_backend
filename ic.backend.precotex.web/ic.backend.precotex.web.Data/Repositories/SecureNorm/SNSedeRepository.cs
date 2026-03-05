@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +20,27 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
         public SNSedeRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ComboSedes(string sCodigoOrganizacion)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Codigo_Organizacion = sCodigoOrganizacion
+
+                };
+
+                var result = await connection.QueryAsync<ComboGral>(
+                     "[dbo].[SN_Sede_Combo]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
         }
 
         public async Task<IEnumerable<SN_Sede>?> Listado(string sCodigoOrganizacion, string sEstado)

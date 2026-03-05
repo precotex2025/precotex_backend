@@ -180,10 +180,19 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             //Envia notificacion a Wathsapp
             string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
             var grupo = _configuration.GetSection("WaliChat").GetValue<string>("GrupoNotificaA")!;
+            var numero = _configuration.GetSection("WaliChat").GetValue<string>("NumeroNoticaA")!;
 
             try
             {
-                var sendNotify = await _waliChatService.EnviarMensajeImageAsync(grupo, "", imageURL, false);
+                //Configuracion  si envia grupo o numero 
+                if (alertaParameter.enviaGrupo)
+                {
+                    var sendNotify = await _waliChatService.EnviarMensajeImageAsync(grupo, "", imageURL, false);
+                }else
+                {
+                    var sendNotify = await _waliChatService.EnviarMensajeImagePhoneAsync(numero, "", imageURL);
+                }
+                
             }
             catch (Exception ex)
             {

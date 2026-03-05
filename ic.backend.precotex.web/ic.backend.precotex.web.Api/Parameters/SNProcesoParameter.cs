@@ -3,6 +3,7 @@
     public class SNProcesoParameter
     {
         public string? Codigo_Proceso { get; set; }
+        public string? Codigo_Organizacion { get; set; }
         public string? Codigo_Sede { get; set; }
         public string? Proceso { get; set; }
         public string? Codigo_Tipo_Proceso { get; set; }

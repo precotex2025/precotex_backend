@@ -1,4 +1,5 @@
-﻿using ic.backend.precotex.web.Entity.Entities.SecureNorm;
+﻿using ic.backend.precotex.web.Entity.Entities;
+using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm
         Task<(int Codigo, string Mensaje)> ProcesoMnto(SN_Organizacion sN_Organizacion, string sTipoTransac);
         Task<IEnumerable<SN_Organizacion>?> Listado(string sEstado);
         Task<IEnumerable<SN_Organizacion>?> Obtener(string sCodigoOrganizacion);
+        Task<IEnumerable<ComboGral>?> ComboOrganizacion();
     }
 }
