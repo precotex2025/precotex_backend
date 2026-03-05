@@ -46,6 +46,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Ingreso_Manual { get; set; }
         public string? ProcedenciaHardCodeada { get; set; }
         public int? Nro_Tubo { get; set; }
+        public decimal? Kgs_Prod { get; set; }
+        public decimal? R_B_Prod { get; set; }
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
