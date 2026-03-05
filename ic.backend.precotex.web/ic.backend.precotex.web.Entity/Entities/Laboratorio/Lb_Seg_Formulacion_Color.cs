@@ -15,5 +15,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cod_Color { get; set; }
         public string? Des_Color { get; set; }
         public string? Flg_Paso_Termofijado { get; set; }
+        public string? Estado { get; set; }
     }
 }

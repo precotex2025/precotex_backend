@@ -4,7 +4,7 @@
     {
         public string? Cod_Cliente { get; set; }
         public string? Des_Cliente { get; set; }
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public string? Cod_Tela { get; set; }
         public string? Des_Tela { get; set; }
         public DateTime? Fec_creacion { get; set; }
@@ -17,7 +17,7 @@
 
     public class LbColaTrabajoParameter_Detalle
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Descripcion_Color { get; set; }
         public string? Cod_Color { get; set; }
@@ -26,11 +26,12 @@
         public string? Flg_Est_Lab { get; set; }
         public int? Cur_Ten { get; set; }
         public string? Usr_Cod { get; set; }
+        public string? Cod_OrdTra { get; set; }
     }
 
     public class LbColaTrabajoParameter_Colorantes
     {
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public int? id_secuencia { get; set; }
         public string? Col_Cod { get; set; }

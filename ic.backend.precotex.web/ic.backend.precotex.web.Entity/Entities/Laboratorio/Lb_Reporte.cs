@@ -9,7 +9,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     public class Lb_Reporte
     {
         public string? Analista                                     { get; set; }
-        public int? Corr_Carta                                      { get; set; }
+        public string? Corr_Carta                                   { get; set; }
         public string? Nom_Cliente                                  { get; set; }
         public string? Articulo                                     { get; set; }
         public string? Descripcion_Color                            { get; set; }
@@ -32,7 +32,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
     public class Colorantes_Reporte
     {
-        public int? Corr_Carta                  { get; set; }
+        public string? Corr_Carta               { get; set; }
         public int? Sec                         { get; set; }
         public string? Col_Cod                  { get; set; }
         public string? Col_Des                  { get; set; }
@@ -44,13 +44,13 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
     public class Ruta_Reporte
     {
-        public int? Corr_Carta                  { get; set; }
+        public string? Corr_Carta               { get; set; }
         public string? Descripcion              { get; set; }
     }
 
     public class Solidez_Reporte
     {
-        public int? Corr_Carta                  { get; set; }
+        public string? Corr_Carta               { get; set; }
         public string? Descripcion              { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     {
         public string? Cod_Cliente { get; set; }
         public string? Des_Cliente { get; set; }
-        public int? Corr_Carta { get; set; }
+        public string? Corr_Carta { get; set; }
         public int? Sec { get; set; }
         public string? Cod_Tela { get; set; }
         public string? Des_Tela { get; set; }

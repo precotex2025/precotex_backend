@@ -8,7 +8,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 {
     public class Lb_ColTra_Det
     {
-        public int Corr_Carta {  get; set; }
+        public string? Corr_Carta {  get; set; }
         public int Sec { get; set; }
         public int Correlativo { get; set; }
         public string? Descripcion_Color { get; set; }
@@ -47,5 +47,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Jab2 { get; set; }
         public decimal? Ph_Jab3 { get; set; }
         public decimal? SulfatoReal { get; set; }
+
+
+        //PRODUCCION
+        public string? Cod_OrdTra { get; set; }
     }
 }

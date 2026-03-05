@@ -52,7 +52,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR COLORES DETALLE SDC
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(int Corr_Carta)
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListaColoresSDC(string Corr_Carta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -76,26 +76,54 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 await connection.OpenAsync();
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
-                parametros.Add("@Sec", lbColaTrabajoDet.Sec);
-                parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
-                parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
-
-                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
-
-                try
+                if (lbColaTrabajoDet.Cod_OrdTra == null || lbColaTrabajoDet.Cod_OrdTra == "")
                 {
-                    var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_I0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                );
-                }
-                catch
-                {
+                    parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
+                    parametros.Add("@Sec", lbColaTrabajoDet.Sec);
+                    parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
+                    parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                    try
+                    {
+                        var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                        "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                    }
+                    catch
+                    {
+
+                    }
                 }
+                else
+                {
+                    parametros.Add("@Cod_OrdTra", lbColaTrabajoDet.Cod_OrdTra);
+                    parametros.Add("@Sec", lbColaTrabajoDet.Sec);
+                    parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
+
+                    parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                    try
+                    {
+                        var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                        "[dbo].[PA_Lb_ColaTrabajoLabDetalleProduccion_WB_I0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                
 
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
@@ -122,8 +150,27 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //OBTENER DATOS DE TABLA Lb_ColaTrabajoLabDetalleProduccion_WB PARA LLENAR EL DESPLEGABLE
+        public async Task<IEnumerable<Lb_ColTra_Det>?> LlenarDesplegableProduccion(string Usr_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalleProduccion_WB_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
         //LLENAR GRILLA DESPLEGABLE EN HOJA DE FORMULACION
-        public async Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(int Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_ColTra_Cab_y_Det>?> LlenarGrillaDesplegable(string Corr_Carta, int Sec)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -338,7 +385,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
         
         //CARGAR DATOS VENTANA INFORME SDC 
-        public async Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(int Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -353,8 +400,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             );
 
             var sdcList = (await multi.ReadAsync<Lb_Informe_SDC>()).ToList();
-            var rutas = await multi.ReadAsync<(int CodSDC, string Descripcion)>();
-            var solidez = await multi.ReadAsync<(int CodSDC, string DESCRIPCION)>();
+            var rutas = await multi.ReadAsync<(string CodSDC, string Descripcion)>();
+            var solidez = await multi.ReadAsync<(string CodSDC, string DESCRIPCION)>();
 
             foreach (var sdc in sdcList)
             {
@@ -371,7 +418,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //CARGAR DATOS GRILLA HOJA FORMULACION
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(int Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -458,7 +505,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
         
         //ELIMINAR OPCION AGREGADA
-        public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -952,7 +999,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -984,7 +1031,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             return DatosGenerales;
         }
 
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -1059,7 +1106,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -1128,7 +1175,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         //    return infoPrincipal;
         //}
 
-        public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -2158,7 +2205,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //OBTENER RELACION BANO, VOLUMEN, PESO
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(int Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2199,6 +2246,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        //public Task<IEnumerable<>?> ObtenerDatos
 
     }
 }

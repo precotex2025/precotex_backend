@@ -46,7 +46,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTIENE COLORES DE UNA SDC 
         [HttpGet]
         [Route("getListaSDCDetalle")]
-        public async Task<IActionResult> getListaSDCDetalle(int Corr_Carta)
+        public async Task<IActionResult> getListaSDCDetalle(string Corr_Carta)
         {
             var result = await _LbColaTrabajoService.ListaColoresSDC(Corr_Carta);
             if (result!.Success)
@@ -61,14 +61,15 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpPost]
         [Route("postRegistrarDetalleColorSDC")]
-        public async Task<IActionResult> RegistrarDetalleColorSDC([FromBody] LbColaTrabajoParameter_Detalle parametros)
+        public async Task<IActionResult> postRegistrarDetalleColorSDC([FromBody] LbColaTrabajoParameter_Detalle parametros)
         {
             Lb_ColTra_Det _lbColaTrabajoDet = new Lb_ColTra_Det
             {
-                Corr_Carta = parametros.Corr_Carta ?? 0,
+                Corr_Carta = parametros.Corr_Carta ?? "",
                 Sec = parametros.Sec ?? 0,
                 Cur_Ten = parametros.Cur_Ten ?? 0,
                 Usr_Cod = parametros.Usr_Cod ?? "",
+                Cod_OrdTra = parametros.Cod_OrdTra ?? ""
             };
 
             var result = await _LbColaTrabajoService.RegistrarDetalleColorSDC(_lbColaTrabajoDet);
@@ -98,8 +99,23 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        [Route("getLlenarDesplegableProduccion")]
+        public async Task<IActionResult> getLlenarDesplegableProduccion(string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.LlenarDesplegableProduccion(Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
         [Route("getLlenarGrillaDesplegable")]
-        public async Task<IActionResult> getLlenarGrillaDesplegable(int Corr_Carta, int Sec)
+        public async Task<IActionResult> getLlenarGrillaDesplegable(string Corr_Carta, int Sec)
         {
             var result = await _LbColaTrabajoService.LlenarGrillaDesplegable(Corr_Carta, Sec);
             if (result!.Success)
@@ -237,7 +253,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarInformeSDC")]
-        public async Task<IActionResult> getCargarInformeSDC(int Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarInformeSDC(string Corr_Carta, int Sec)
         {
             var result = await _LbColaTrabajoService.CargarInformeSDC(Corr_Carta, Sec);
             if (result!.Success)
@@ -252,7 +268,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarGridHojaFormulacion")]
-        public async Task<IActionResult> getCargarGridHojaFormulacion(int Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarGridHojaFormulacion(string Corr_Carta, int Sec)
         {
             var result = await _LbColaTrabajoService.CargarGridHojaFormulacion(Corr_Carta, Sec);
             if (result!.Success)
@@ -289,7 +305,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpDelete]
         [Route("deleteEliminarOpcionColorante")]
-        public async Task<IActionResult> deleteEliminarOpcionColorante(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> deleteEliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
             if (result.Success)
@@ -640,7 +656,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarColoranteParaCopiar")]
-        public async Task<IActionResult> getCargarColoranteParaCopiar(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo);
             if (result!.Success)
@@ -655,7 +671,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarColoranteParaDetalle")]
-        public async Task<IActionResult> getCargarColoranteParaDetalle(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo);
             if (result!.Success)
@@ -685,7 +701,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarIngresoManual")]
-        public async Task<IActionResult> getListarIngresoManual(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
             if (result!.Success)
@@ -700,7 +716,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarDatosReporte")]
-        public async Task<IActionResult> getCargarDatosReporte(int Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
         {
             var result = await _LbColaTrabajoService.CargarDatosReporte(Corr_Carta, Sec, Correlativo);
             if (result!.Success)
@@ -1314,7 +1330,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTENER RELACION BANO, VOLUMEN, PESO
         [HttpGet]
         [Route("getObtenerTrio")]
-        public async Task<IActionResult> getObtenerTrio(int Corr_Carta, int Sec)
+        public async Task<IActionResult> getObtenerTrio(string Corr_Carta, int Sec)
         {
             var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec);
             if (result!.Success)
