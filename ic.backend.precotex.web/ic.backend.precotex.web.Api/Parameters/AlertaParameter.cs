@@ -11,5 +11,6 @@
         public string? Hora { get; set; }
         public string? tipo { get; set; }
         public bool enviaGrupo { get; set; }
+        public string? NumeroTelefono { get; set; }
     }
 }

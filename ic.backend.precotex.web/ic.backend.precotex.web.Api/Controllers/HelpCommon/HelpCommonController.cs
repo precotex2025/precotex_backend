@@ -180,7 +180,8 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             //Envia notificacion a Wathsapp
             string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
             var grupo = _configuration.GetSection("WaliChat").GetValue<string>("GrupoNotificaA")!;
-            var numero = _configuration.GetSection("WaliChat").GetValue<string>("NumeroNoticaA")!;
+            //var numero = _configuration.GetSection("WaliChat").GetValue<string>("NumeroNoticaA")!;
+            var numero = alertaParameter.NumeroTelefono ?? "";
 
             try
             {
