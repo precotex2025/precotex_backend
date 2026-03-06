@@ -1358,6 +1358,46 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerUltimoCorrelativo")]
+        public async Task<IActionResult> getObtenerUltimoCorrelativo(string Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerUltimoCorrelativo(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("postAgregarOpcionAjustada")]
+        public async Task<IActionResult> postAgregarOpcionAjustada([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes value = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Col_Cod = parametros.Col_Cod,
+                Por_Fin = parametros.Por_Fin,
+                Correlativo_Nuevo = parametros.Correlativo_Nuevo,                
+            };
+
+            var result = await _LbColaTrabajoService.AgregarOpcionAjustada(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
 
 
     }
