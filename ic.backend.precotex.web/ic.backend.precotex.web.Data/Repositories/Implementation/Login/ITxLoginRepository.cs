@@ -13,5 +13,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Login
     {
         Task<IEnumerable<Tx_Login>?> GetUsuarioHabilitado(string Cod_Usuario);
         Task<IEnumerable<Tx_Login>?> GetUsuarioWeb(string Cod_Usuario);
+        Task<IEnumerable<Tx_Login>?> ValidaAccesoRol(string Ruta, int Cod_Rol);
     }
 }

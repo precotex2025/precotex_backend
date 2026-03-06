@@ -67,6 +67,30 @@ namespace ic.backend.precotex.web.Service.Services.Login
             }
         }
 
+        public async Task<ServiceResponseList<Tx_Login>?> ValidaAccesoRol(string Ruta, int Cod_Rol)
+        {
+            var result = new ServiceResponseList<Tx_Login>();
+            try
+            {
+                var resultData = await _txLoginRepository.ValidaAccesoRol(Ruta, Cod_Rol);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
 
     }
 }
