@@ -1373,7 +1373,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
-        [HttpPatch]
+        [HttpPost]
         [Route("postAgregarOpcionAjustada")]
         public async Task<IActionResult> postAgregarOpcionAjustada([FromBody] Lb_AgrOpc_Colorantes parametros)
         {

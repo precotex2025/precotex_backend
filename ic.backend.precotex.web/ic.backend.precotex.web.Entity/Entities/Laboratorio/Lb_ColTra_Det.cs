@@ -47,9 +47,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Jab2 { get; set; }
         public decimal? Ph_Jab3 { get; set; }
         public decimal? SulfatoReal { get; set; }
-
+        public string? Procedencia { get; set; }
 
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
+        
     }
 }
