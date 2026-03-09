@@ -86,9 +86,9 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             COLA AUTOLAB
         */
-        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarColaAutolab();
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarColaAutolab(string Usr_Cod);
         Task<ServiceResponse<int>> EnviarADispensado(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
-        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarDispensado();
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarDispensado(string Usr_Cod);
 
         /*
             AHIBA
@@ -104,8 +104,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> EnviarAutolab(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponse<int>> AgregarAuxiliaresHojaFormulacion(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<ServiceResponse<int>> LlenarTextoFinal(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
-        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado();
-        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido();
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod);
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod);
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo);

@@ -551,12 +551,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //LISTAR COLA AUTOLAB
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarColaAutolab()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarColaAutolab(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarColaAutolab();
+                var resultData = await _lbColaTrabajoRepository.ListarColaAutolab(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -602,12 +602,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //LISTAR DISPENSADO
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarDispensado()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarDispensado(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarDispensado();
+                var resultData = await _lbColaTrabajoRepository.ListarDispensado(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -803,12 +803,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //LISTAR JABONADO
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonado();
+                var resultData = await _lbColaTrabajoRepository.ListarJabonado(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -828,12 +828,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //LISTAR JABONADO EXCLUIDO
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido()
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluido();
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluido(Usr_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

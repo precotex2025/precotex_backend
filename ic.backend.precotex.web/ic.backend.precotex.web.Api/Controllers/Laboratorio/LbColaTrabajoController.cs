@@ -410,9 +410,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarColaAutolab")]
-        public async Task<IActionResult> getListarColaAutolab()
+        public async Task<IActionResult> getListarColaAutolab(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarColaAutolab();
+            var result = await _LbColaTrabajoService.ListarColaAutolab(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -448,9 +448,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarDispensado")]
-        public async Task<IActionResult> getListarDispensado()
+        public async Task<IActionResult> getListarDispensado(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarDispensado();
+            var result = await _LbColaTrabajoService.ListarDispensado(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -611,9 +611,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonado")]
-        public async Task<IActionResult> getListarJabonado()
+        public async Task<IActionResult> getListarJabonado(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarJabonado();
+            var result = await _LbColaTrabajoService.ListarJabonado(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -626,9 +626,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadoExcluido")]
-        public async Task<IActionResult> ListarJabonadoExcluido()
+        public async Task<IActionResult> ListarJabonadoExcluido(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadoExcluido();
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluido(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

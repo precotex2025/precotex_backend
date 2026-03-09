@@ -658,14 +658,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             DISPENSADO EN AUTOLAB 
         */
 
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarColaAutolab()
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarColaAutolab(string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parameters = new DynamicParameters();
+
+                parameters.Add("@Usr_Cod", Usr_Cod);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
                     "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0003]"
+                    , parameters
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -715,14 +720,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR DISPENSADO
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarDispensado()
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarDispensado(string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parameters = new DynamicParameters();
+
+                parameters.Add("@Usr_Cod", Usr_Cod);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
                     "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0004]"
+                    , parameters
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -955,14 +965,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR JABONADO
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado()
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
                     "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -970,14 +984,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //LISTAR JABONADO EXCLUIDO
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido()
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
                     "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
