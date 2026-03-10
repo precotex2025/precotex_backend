@@ -1399,7 +1399,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
-        [Route("getObtenerUltimoCorrelativo")]
+        [Route("getObtenerPartidasAgrupadas")]
         public async Task<IActionResult> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta)
         {
             var result = await _LbColaTrabajoService.ObtenerPartidasAgrupadas(Usr_Cod, Corr_Carta);
