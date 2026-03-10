@@ -2243,6 +2243,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
         
+        //COGER DATOS DE PRODUCCION
         public async Task<IEnumerable<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -2265,6 +2266,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //COGER EL MAYOR CORRELATIVO Y SUMAR 1 PARA NUEVO CORRELATIVO
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -2284,7 +2286,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
-
+        
+        //REGISTRAR MOSQUITO
         public async Task<(int Codigo, string Mensaje)> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores)
         {
             //EL FAMOSO MOSQUITO
@@ -2329,5 +2332,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        //OBTENER RELACION DE PARTIDAS AGRUPADAS
+        public async Task<IEnumerable<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Usr_Cod", Usr_Cod);
+                parametros.Add("@Cod_OrdTra", Corr_Carta);
+
+                var result = await connection.QueryAsync<Lb_Partidas_Agrupadas>(
+                    "[dbo].[PA_Lb_Seguimiento_Formulacion_Color_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
     }
 }
