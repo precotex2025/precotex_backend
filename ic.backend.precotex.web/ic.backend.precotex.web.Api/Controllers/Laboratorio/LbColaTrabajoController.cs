@@ -1413,7 +1413,25 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchReformularPartida")]
+        public async Task<IActionResult> patchReformularPartida([FromBody] Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det value = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+            };
 
+            var result = await _LbColaTrabajoService.ReformularPartida(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

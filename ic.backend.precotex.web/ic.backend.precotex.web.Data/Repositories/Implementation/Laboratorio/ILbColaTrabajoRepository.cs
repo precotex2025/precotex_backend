@@ -146,6 +146,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores);
         Task<IEnumerable<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta);
+        Task<(int Codigo, string Mensaje)> ReformularPartida(Lb_ColTra_Det valores);
 
 
     }

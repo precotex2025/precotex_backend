@@ -143,6 +143,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec);
         Task<ServiceResponse<int>> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores);
         Task<ServiceResponseList<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta);
+        Task<ServiceResponse<int>> ReformularPartida(Lb_ColTra_Det valores);
 
     }
 }
