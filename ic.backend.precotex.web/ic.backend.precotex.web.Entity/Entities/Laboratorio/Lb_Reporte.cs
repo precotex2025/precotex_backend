@@ -28,6 +28,15 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public IEnumerable<Colorantes_Reporte>? Colorantes_Reporte  { get; set; }
         public IEnumerable<Ruta_Reporte>? Ruta_Reporte              { get; set; }
         public IEnumerable<Solidez_Reporte>? Solidez_Reporte        { get; set; }
+
+        public decimal? Kgs_Prod                                    { get; set; }
+        public decimal? R_B_Prod                                    { get; set; }
+        public string? Maquina                                      { get; set; }
+        public string? Temporada                                    { get; set; }
+        public string? TipoPartida                                  { get; set; }
+        public string? Cod_Color                                    { get; set; }
+        public string? PartidasAgrupadas                            { get; set; }
+
     }
 
     public class Colorantes_Reporte
