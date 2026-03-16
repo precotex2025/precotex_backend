@@ -1433,5 +1433,26 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpPatch]
+        [Route("patchActualizarEstadoEntregaProduccion")]
+        public async Task<IActionResult> patchActualizarEstadoEntregaProduccion([FromBody] Lb_Seg_Formulacion_Color valores)
+        {
+            Lb_Seg_Formulacion_Color value = new Lb_Seg_Formulacion_Color
+            {
+                Cod_OrdTra = valores.Cod_OrdTra,
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoEntregaProduccion(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }

@@ -2392,5 +2392,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return (Codigo, mensaje);
             }
         }
+
+        public async Task<(int Codigo, string Mensaje)> ActualizarEstadoEntregaProduccion(Lb_Seg_Formulacion_Color valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Cod_OrdTra", valores.Cod_OrdTra);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Seguimiento_Formulacion_Color_U0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
     }
 }
