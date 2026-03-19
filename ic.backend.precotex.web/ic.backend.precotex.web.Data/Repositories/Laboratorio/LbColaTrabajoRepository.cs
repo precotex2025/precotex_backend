@@ -2302,7 +2302,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", valores.Sec);
                 parametros.Add("@Correlativo", valores.Correlativo);
                 parametros.Add("@Col_Cod", valores.Col_Cod);
-                parametros.Add("@Por_Aju", valores.Por_Fin);
+                parametros.Add("@Por_Ini", valores.Por_Ini);
+                parametros.Add("@Por_Aju", valores.Por_Aju);
+                parametros.Add("@Por_Fin", valores.Por_Fin);
                 parametros.Add("@Correlativo_Nuevo", valores.Correlativo_Nuevo);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");

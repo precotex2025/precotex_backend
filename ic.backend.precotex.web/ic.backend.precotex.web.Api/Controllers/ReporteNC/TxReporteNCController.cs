@@ -14,6 +14,7 @@ using Microsoft.Graph.Reports.AuthenticationMethods.UsersRegisteredByFeatureWith
 using Org.BouncyCastle.Ocsp;
 using static iTextSharp.text.pdf.AcroFields;
 
+
 namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
 {
     [Route("api/[controller]")]
@@ -143,13 +144,39 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                     mensajeWsp = @"🚨 *¡Se acaba de crear un registro de No Conformidad!* \\n *Numero*: " + Convert.ToString(_repId) + @"\\n *Planta*: " + _planta + @"\\n *Area*: " + _area +
                                  @"\\n *Reportado Por*: " + _reportadoPor + @"\\n *Responsable*: " + _responsable;
 
-                    string? value = parametros.Cod_Planta_Tg == "4" ? "998" : "999";
+                    string? value = "";
 
-                    //ASIGNAR CODIGO DE GRUPO 
-                    sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(value)!;
+                    switch (parametros.Cod_Planta_Tg)
+                    {
+                        case "4":
+                            value = "998";
+                            break;
+                        case "1":
+                            value = "+51986714372";
+                            break;
+                        case "5":
+                            value = "+51986714372";
+                            break;
+                        default:
+                            value = "999";
+                            break;
+                    }
+                        
+                     //= parametros.Cod_Planta_Tg == "4" ? "998" : "999";
 
-                    //ENVIAR MENSAJE
-                    var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, mensajeWsp);
+                    //ASIGNAR CODIGO DE GRUPO
+                    if(value.Length == 12)
+                    {
+                        var body = await _waliChatService.EnviarMensajePhoneAsync(value, mensajeWsp);
+                    }
+                    else
+                    {
+                        sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(value)!;
+
+                        //ENVIAR MENSAJE
+                        var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, mensajeWsp);
+                    }
+                    
                 }
 
 

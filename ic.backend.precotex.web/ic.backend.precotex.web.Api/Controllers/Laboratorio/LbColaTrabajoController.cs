@@ -1383,8 +1383,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Col_Cod = parametros.Col_Cod,
+                Por_Ini = parametros.Por_Ini,
+                Por_Aju = parametros.Por_Aju,
                 Por_Fin = parametros.Por_Fin,
-                Correlativo_Nuevo = parametros.Correlativo_Nuevo,                
+                Correlativo_Nuevo = parametros.Correlativo_Nuevo         
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionAjustada(value);
