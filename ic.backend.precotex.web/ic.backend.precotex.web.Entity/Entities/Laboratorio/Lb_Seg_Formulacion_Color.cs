@@ -17,5 +17,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Flg_Paso_Termofijado { get; set; }
         public string? Estado { get; set; }
         public string? Flg_Est_Lab { get; set; }
+        public string? Partidas { get; set; }
     }
 }
