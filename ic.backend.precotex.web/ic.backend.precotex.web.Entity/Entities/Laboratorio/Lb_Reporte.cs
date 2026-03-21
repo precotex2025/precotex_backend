@@ -24,6 +24,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Acabado                                      { get; set; }
         public int? Sec                                             { get; set; }
         public int? Correlativo                                     { get; set; }
+        public decimal? Ph_Ini                                      { get; set; }               
         public IEnumerable<string>? Ruta                            { get; set; }
         public IEnumerable<Colorantes_Reporte>? Colorantes_Reporte  { get; set; }
         public IEnumerable<Ruta_Reporte>? Ruta_Reporte              { get; set; }
