@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
-
+using System.Drawing.Printing;
+using iTextSharp.text.pdf;
+using PdfiumViewer;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -1456,5 +1458,75 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerFamiliaDesdeCabecera")]
+        public async Task<IActionResult> getObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerFamiliaDesdeCabecera(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFechasTenido")]
+        public async Task<IActionResult> patchActualizarFechasTenido([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Fec = valores.Tip_Fec
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFechasTenido(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost("print")]
+        public IActionResult Print([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Archivo vacío");
+
+            try
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    ms.Position = 0;
+
+                    using (var document = PdfiumViewer.PdfDocument.Load(ms))
+                    {
+                        using (var printDocument = document.CreatePrintDocument(PdfiumViewer.PdfPrintMode.ShrinkToMargin))
+                        {
+                            printDocument.PrinterSettings.PrinterName = @"\\192.168.7.7\Planeamiento A3";
+                            //192.168.6.11
+                            printDocument.Print();
+                        }
+                    }
+                }
+
+                return Ok(new { success = true, message = "PDF enviado a la impresora" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, error = ex.Message });
+            }
+        }
     }
 }

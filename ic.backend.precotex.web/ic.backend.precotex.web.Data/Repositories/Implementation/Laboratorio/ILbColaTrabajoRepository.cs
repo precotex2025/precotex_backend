@@ -148,7 +148,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta);
         Task<(int Codigo, string Mensaje)> ReformularPartida(Lb_ColTra_Det valores);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoEntregaProduccion(Lb_Seg_Formulacion_Color valores);
-
+        Task<IEnumerable<Lb_ColTra_Det>?> ObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec);
+        Task<(int Codigo, string Mensaje)> ActualizarFechasTenido(Lb_AgrOpc_Colorantes valores);
 
     }
 }
