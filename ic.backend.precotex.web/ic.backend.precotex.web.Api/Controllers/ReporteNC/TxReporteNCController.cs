@@ -148,14 +148,20 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
 
                     switch (parametros.Cod_Planta_Tg)
                     {
+                        case "1":
+                            value = "997";
+                            break;
+                        case "2":
+                            value = "997";
+                            break;
                         case "4":
                             value = "998";
                             break;
-                        case "1":
-                            value = "+51986714372";
-                            break;
                         case "5":
-                            value = "+51986714372";
+                            value = "997";
+                            break;
+                        case "13":
+                            value = "997";
                             break;
                         default:
                             value = "999";
@@ -165,17 +171,17 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                      //= parametros.Cod_Planta_Tg == "4" ? "998" : "999";
 
                     //ASIGNAR CODIGO DE GRUPO
-                    if(value.Length == 12)
-                    {
-                        var body = await _waliChatService.EnviarMensajePhoneAsync(value, mensajeWsp);
-                    }
-                    else
-                    {
+                    //if(value.Length == 12)
+                    //{
+                    //    var body = await _waliChatService.EnviarMensajePhoneAsync(value, mensajeWsp);
+                    //}
+                    //else
+                    //{
                         sCodigoGruposWathsApp = _configuration.GetSection("WaliChat").GetValue<string>(value)!;
 
                         //ENVIAR MENSAJE
                         var body = await _waliChatService.EnviarMensajeAsync(sCodigoGruposWathsApp, mensajeWsp);
-                    }
+                    //}
                     
                 }
 

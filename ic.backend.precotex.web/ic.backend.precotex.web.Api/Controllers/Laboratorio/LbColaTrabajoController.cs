@@ -8,6 +8,7 @@ using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using System.Drawing.Printing;
 using iTextSharp.text.pdf;
 using PdfiumViewer;
+using System.Diagnostics;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -1496,6 +1497,39 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        //[HttpPost("print")]
+        //public IActionResult Print([FromForm] IFormFile file)
+        //{
+        //    if (file == null || file.Length == 0)
+        //        return BadRequest("Archivo vacío");
+
+        //    try
+        //    {
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            file.CopyTo(ms);
+        //            ms.Position = 0;
+
+        //            using (var document = PdfiumViewer.PdfDocument.Load(ms))
+        //            {
+        //                using (var printDocument = document.CreatePrintDocument(PdfiumViewer.PdfPrintMode.ShrinkToMargin))
+        //                {
+        //                    printDocument.PrinterSettings.PrinterName = @"\\192.168.7.7\Laboratorio";
+        //                    //192.168.6.11
+        //                    printDocument.Print();
+        //                }
+        //            }
+        //        }
+
+        //        return Ok(new { success = true, message = "PDF enviado a la impresora" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { success = false, error = ex.Message, stack = ex.StackTrace });
+        //    }
+        //}
+
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost("print")]
         public IActionResult Print([FromForm] IFormFile file)
@@ -1505,28 +1539,44 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
             try
             {
-                using (var ms = new MemoryStream())
+                var tempPath = Path.GetTempFileName() + ".pdf";
+                using (var fs = new FileStream(tempPath, FileMode.Create))
                 {
-                    file.CopyTo(ms);
-                    ms.Position = 0;
-
-                    using (var document = PdfiumViewer.PdfDocument.Load(ms))
-                    {
-                        using (var printDocument = document.CreatePrintDocument(PdfiumViewer.PdfPrintMode.ShrinkToMargin))
-                        {
-                            printDocument.PrinterSettings.PrinterName = @"\\192.168.7.7\Planeamiento A3";
-                            //192.168.6.11
-                            printDocument.Print();
-                        }
-                    }
+                    file.CopyTo(fs);
                 }
 
-                return Ok(new { success = true, message = "PDF enviado a la impresora" });
+                var printerName = @"\\\\192.168.7.7\\Planeamiento A3";
+                //var printerName = "Planeamiento A3 en \\\\192.168.7.7";
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = @"C:\Tools\PDFtoPrinter.exe",
+                    Arguments = $"\"{tempPath}\" \"{printerName}\"",
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+
+                Process.Start(psi);
+
+                return Ok(new { success = true, message = "Reporte enviado a la impresora de red" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { success = false, error = ex.Message });
+                return StatusCode(500, new { success = false, error = ex.Message, stack = ex.StackTrace });
             }
         }
+
+        [HttpGet("printers")]
+        public IActionResult GetPrinters()
+        {
+            var printers = new List<string>();
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                printers.Add(printer);
+            }
+            return Ok(printers);
+        }
+
+
     }
 }
