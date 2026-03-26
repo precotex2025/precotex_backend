@@ -81,9 +81,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             COLA AUTOLAB
         */
-        Task<IEnumerable<Lb_ColTra_Det>?> ListarColaAutolab();
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarColaAutolab(string Usr_Cod);
         Task<(int Codigo, string Mensaje)> EnviarADispensado(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
-        Task<IEnumerable<Lb_ColTra_Det>?> ListarDispensado();
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarDispensado(string Usr_Cod);
 
         /*
             AHIBAS 
@@ -98,8 +98,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> EnviarAutolab(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<(int Codigo, string Mensaje)> AgregarAuxiliaresHojaFormulacion(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
         Task<(int Codigo, string Mensaje)> LlenarTextoFinal(Lb_AgrOpc_Colorantes _lbAgrOpcColorante);
-        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado();
-        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido();
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod);
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod);
         Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo);
@@ -139,6 +139,17 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
 
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
 
+
+
+
+
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec);
+        Task<(int Codigo, string Mensaje)> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores);
+        Task<IEnumerable<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta);
+        Task<(int Codigo, string Mensaje)> ReformularPartida(Lb_ColTra_Det valores);
+        Task<(int Codigo, string Mensaje)> ActualizarEstadoEntregaProduccion(Lb_Seg_Formulacion_Color valores);
+        Task<IEnumerable<Lb_ColTra_Det>?> ObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec);
+        Task<(int Codigo, string Mensaje)> ActualizarFechasTenido(Lb_AgrOpc_Colorantes valores);
 
     }
 }

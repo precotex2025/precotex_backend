@@ -17,5 +17,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Login
         public string? Empresa { get; set; }
         public string? Tip_Trabajador { get; set; }
         public string? Cod_Trabajador { get; set; }
+        
+        //SE AGREGO PARA VALIDAR ACCESO DE ROL
+        public string? Resultado { get; set; }
     }
 }

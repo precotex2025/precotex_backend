@@ -12,5 +12,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Login
     {
         Task<ServiceResponseList<Tx_Login>?> GetUsuarioHabilitado(string Cod_Usuario);
         Task<ServiceResponseList<Tx_Login>?> GetUsuarioWeb(string Cod_Usuario);
+        Task<ServiceResponseList<Tx_Login>?> ValidaAccesoRol(string Ruta, int Cod_Rol);
     }
 }

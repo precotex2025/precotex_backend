@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
-
+using System.Drawing.Printing;
+using iTextSharp.text.pdf;
+using PdfiumViewer;
+using System.Diagnostics;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -410,9 +413,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarColaAutolab")]
-        public async Task<IActionResult> getListarColaAutolab()
+        public async Task<IActionResult> getListarColaAutolab(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarColaAutolab();
+            var result = await _LbColaTrabajoService.ListarColaAutolab(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -448,9 +451,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarDispensado")]
-        public async Task<IActionResult> getListarDispensado()
+        public async Task<IActionResult> getListarDispensado(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarDispensado();
+            var result = await _LbColaTrabajoService.ListarDispensado(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -611,9 +614,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonado")]
-        public async Task<IActionResult> getListarJabonado()
+        public async Task<IActionResult> getListarJabonado(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarJabonado();
+            var result = await _LbColaTrabajoService.ListarJabonado(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -626,9 +629,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadoExcluido")]
-        public async Task<IActionResult> ListarJabonadoExcluido()
+        public async Task<IActionResult> ListarJabonadoExcluido(string Usr_Cod)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadoExcluido();
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluido(Usr_Cod);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1358,6 +1361,221 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerUltimoCorrelativo")]
+        public async Task<IActionResult> getObtenerUltimoCorrelativo(string Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerUltimoCorrelativo(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("postAgregarOpcionAjustada")]
+        public async Task<IActionResult> postAgregarOpcionAjustada([FromBody] Lb_AgrOpc_Colorantes parametros)
+        {
+            Lb_AgrOpc_Colorantes value = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = parametros.Corr_Carta,
+                Sec = parametros.Sec,
+                Correlativo = parametros.Correlativo,
+                Col_Cod = parametros.Col_Cod,
+                Por_Ini = parametros.Por_Ini,
+                Por_Aju = parametros.Por_Aju,
+                Por_Fin = parametros.Por_Fin,
+                Correlativo_Nuevo = parametros.Correlativo_Nuevo         
+            };
+
+            var result = await _LbColaTrabajoService.AgregarOpcionAjustada(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerPartidasAgrupadas")]
+        public async Task<IActionResult> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta)
+        {
+            var result = await _LbColaTrabajoService.ObtenerPartidasAgrupadas(Usr_Cod, Corr_Carta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchReformularPartida")]
+        public async Task<IActionResult> patchReformularPartida([FromBody] Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det value = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+            };
+
+            var result = await _LbColaTrabajoService.ReformularPartida(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarEstadoEntregaProduccion")]
+        public async Task<IActionResult> patchActualizarEstadoEntregaProduccion([FromBody] Lb_Seg_Formulacion_Color valores)
+        {
+            Lb_Seg_Formulacion_Color value = new Lb_Seg_Formulacion_Color
+            {
+                Cod_OrdTra = valores.Cod_OrdTra,
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoEntregaProduccion(value);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerFamiliaDesdeCabecera")]
+        public async Task<IActionResult> getObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec)
+        {
+            var result = await _LbColaTrabajoService.ObtenerFamiliaDesdeCabecera(Corr_Carta, Sec);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFechasTenido")]
+        public async Task<IActionResult> patchActualizarFechasTenido([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Fec = valores.Tip_Fec
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFechasTenido(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        //[HttpPost("print")]
+        //public IActionResult Print([FromForm] IFormFile file)
+        //{
+        //    if (file == null || file.Length == 0)
+        //        return BadRequest("Archivo vacío");
+
+        //    try
+        //    {
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            file.CopyTo(ms);
+        //            ms.Position = 0;
+
+        //            using (var document = PdfiumViewer.PdfDocument.Load(ms))
+        //            {
+        //                using (var printDocument = document.CreatePrintDocument(PdfiumViewer.PdfPrintMode.ShrinkToMargin))
+        //                {
+        //                    printDocument.PrinterSettings.PrinterName = @"\\192.168.7.7\Laboratorio";
+        //                    //192.168.6.11
+        //                    printDocument.Print();
+        //                }
+        //            }
+        //        }
+
+        //        return Ok(new { success = true, message = "PDF enviado a la impresora" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { success = false, error = ex.Message, stack = ex.StackTrace });
+        //    }
+        //}
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost("print")]
+        public IActionResult Print([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Archivo vacío");
+
+            try
+            {
+                var tempPath = Path.GetTempFileName() + ".pdf";
+                using (var fs = new FileStream(tempPath, FileMode.Create))
+                {
+                    file.CopyTo(fs);
+                }
+
+                var printerName = @"\\\\192.168.7.7\\Planeamiento A3";
+                //var printerName = "Planeamiento A3 en \\\\192.168.7.7";
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = @"C:\Tools\PDFtoPrinter.exe",
+                    Arguments = $"\"{tempPath}\" \"{printerName}\"",
+                    CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+
+                Process.Start(psi);
+
+                return Ok(new { success = true, message = "Reporte enviado a la impresora de red" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, error = ex.Message, stack = ex.StackTrace });
+            }
+        }
+
+        [HttpGet("printers")]
+        public IActionResult GetPrinters()
+        {
+            var printers = new List<string>();
+            foreach (string printer in System.Drawing.Printing.PrinterSettings.InstalledPrinters)
+            {
+                printers.Add(printer);
+            }
+            return Ok(printers);
+        }
 
 
     }

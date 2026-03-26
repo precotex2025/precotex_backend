@@ -60,6 +60,23 @@ namespace ic.backend.precotex.web.Data.Repositories.Login
             }
         }
 
+        public async Task<IEnumerable<Tx_Login>?> ValidaAccesoRol(string Ruta, int Cod_Rol)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Ruta", Ruta);
+                parametros.Add("@Cod_Rol", Cod_Rol);
+                var result = await connection.QueryAsync<Tx_Login>(
+                        "[SEGURIDAD].[dbo].[PA_SG_ROL_OPCIONv2_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
 
     }
 }

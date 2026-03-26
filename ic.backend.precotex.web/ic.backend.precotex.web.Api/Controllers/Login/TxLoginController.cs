@@ -47,5 +47,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Login
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getValidaAccesoRol")]
+        public async Task<IActionResult> getValidaAccesoRol(string Ruta, int Cod_Rol)
+        {
+            var result = await _txLoginService.ValidaAccesoRol(Ruta, Cod_Rol);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
