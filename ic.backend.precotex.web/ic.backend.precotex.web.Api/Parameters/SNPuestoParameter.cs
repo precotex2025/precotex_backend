@@ -7,12 +7,12 @@
         public string? Codigo_Sede { get; set; }
         public string? Denominacion { get; set; }
         public string? Codigo_Nivel_Riesgo { get; set; }
-        public string? Validacion_Periodica { get; set; }
+        public bool Validacion_Periodica { get; set; }
         public string? Puesto_Descripcion { get; set; }
         public string? Puesto_Funciones { get; set; }
         public string? Puesto_Requisitos { get; set; }
         public string? Puesto_Caracteristicas { get; set; }
-        public string? Caracteristicas_Visible { get; set; }
+        public bool Caracteristicas_Visible { get; set; }
         public string? Flg_Activo { get; set; }
         public string? Cod_Usuario { get; set; }
         public string? Accion { get; set; }
