@@ -105,5 +105,20 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
+        //LISTAR CENTRO DE COSTOS
+        public async Task<IEnumerable<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Centro_Costo>(
+                    "[dbo].[PA_Tx_Cotizaciones_Centro_Costo_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
     }
 }
