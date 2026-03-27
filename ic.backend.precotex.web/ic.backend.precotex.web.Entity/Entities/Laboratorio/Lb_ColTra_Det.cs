@@ -50,6 +50,13 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Procedencia { get; set; }
         public string? Fec_Ent { get; set; }
         public string? Familia { get; set; }
+        public decimal? Ph_Des { get; set; }
+        public int? Tip_Fij { get; set; }
+        public int? Fijado { get; set; }
+        public string? Descarga { get; set; }
+        public decimal? Car_Gr { get; set; }
+        public int? Nro_Tubo_Jab { get; set; }
+        public int? Ahi_Id_Jab { get; set; }
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         

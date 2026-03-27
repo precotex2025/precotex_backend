@@ -489,7 +489,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Ahi_Id = parametros.Ahi_Id,
-                Nro_Tubo = parametros.Nro_Tubo
+                Nro_Tubo = parametros.Nro_Tubo,
+                Tip_Carga = parametros.Tip_Carga
             };
 
             var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);
@@ -1487,6 +1488,44 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             };
 
             var result = await _LbColaTrabajoService.ActualizarFechasTenido(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerFijadosTipo")]
+        public async Task<IActionResult> getObtenerFijadosTipo()
+        {
+            var result = await _LbColaTrabajoService.ObtenerFijadosTipo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFijadoTipo")]
+        public async Task<IActionResult> patchActualizarFijadoTipo([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Fij = valores.Tip_Fij
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFijadoTipo(parametros);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;

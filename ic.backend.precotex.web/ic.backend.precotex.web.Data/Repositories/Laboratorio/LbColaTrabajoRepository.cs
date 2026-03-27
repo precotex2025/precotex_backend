@@ -755,6 +755,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Ahi_Id", _lbAgrOpcColorante.Ahi_Id);
                 parametros.Add("@Nro_Tubo", _lbAgrOpcColorante.Nro_Tubo);
+                parametros.Add("@Tip_Carga", _lbAgrOpcColorante.Tip_Carga);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -2482,6 +2483,66 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
                         "[dbo].[PA_Lb_Colorantes_WB_U0008]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        //OBTENER TIPOS DE FIJADO
+        public async Task<IEnumerable<Lb_Fijados_Tipo>?> ObtenerFijadosTipo()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                var result = await connection.QueryAsync<Lb_Fijados_Tipo>(
+                    "[dbo].[PA_Lb_Fijados_Tipo_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        //ACTUALIZAR EL TIPO DE FIJADO
+        public async Task<(int Codigo, string Mensaje)> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", valores.Corr_Carta);
+                parametros.Add("@Sec", valores.Sec);
+                parametros.Add("@Correlativo", valores.Correlativo);
+                parametros.Add("@Tip_Fij", valores.Tip_Fij);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0009]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
