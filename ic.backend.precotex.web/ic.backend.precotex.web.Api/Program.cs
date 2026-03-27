@@ -115,11 +115,19 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
+<<<<<<< HEAD
 
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
+=======
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
+>>>>>>> 5c864a52e7bbc30a657e96eeda84ec0946ea86f7
 
         /*PRODUCCION*/
 
@@ -177,6 +185,8 @@ builder.Services.AddScoped<ISNSedeService, SNSedeService>();
 builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
 builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 builder.Services.AddScoped<IMaeTabService, MaeTabService>();
+builder.Services.AddScoped<ISNPuestoService, SNPuestoService>();
+builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -216,6 +226,8 @@ builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
 builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
 builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
+builder.Services.AddScoped<ISNPuestoRepository, SNPuestoRepository>();
+builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
 #endregion
 
 

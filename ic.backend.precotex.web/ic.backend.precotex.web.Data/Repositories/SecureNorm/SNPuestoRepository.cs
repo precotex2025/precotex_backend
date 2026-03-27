@@ -60,13 +60,13 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@Codigo_Sede", sN_Puesto.Codigo_Sede);
                 parametros.Add("@Denominacion", sN_Puesto.Denominacion);
                 parametros.Add("@Codigo_Nivel_Riesgo", sN_Puesto.Codigo_Nivel_Riesgo);
-                parametros.Add("@Validacion_Periodica", sN_Puesto.Validacion_Periodica);
+                parametros.Add("@Validacion_Periodica", sN_Puesto.Validacion_Periodica, DbType.Int32);
 
                 parametros.Add("@Puesto_Descripcion", sN_Puesto.Puesto_Descripcion);
                 parametros.Add("@Puesto_Funciones", sN_Puesto.Puesto_Funciones);
                 parametros.Add("@Puesto_Requisitos", sN_Puesto.Puesto_Requisitos);
                 parametros.Add("@Puesto_Caracteristicas", sN_Puesto.Puesto_Caracteristicas);
-                parametros.Add("@Caracteristicas_Visible", sN_Puesto.Caracteristicas_Visible);
+                parametros.Add("@Caracteristicas_Visible", sN_Puesto.Caracteristicas_Visible, DbType.Int32);
 
                 parametros.Add("@Flg_Activo", sN_Puesto.Flg_Activo);
                 parametros.Add("@Cod_Usuario", sN_Puesto.Cod_Usuario);

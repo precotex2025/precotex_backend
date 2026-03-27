@@ -27,12 +27,12 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Codigo_Sede = parametros.Codigo_Sede ?? "",
                 Denominacion = parametros.Denominacion ?? "",
                 Codigo_Nivel_Riesgo = parametros.Codigo_Nivel_Riesgo ?? "",
-                Validacion_Periodica = parametros.Validacion_Periodica ?? "",
+                Validacion_Periodica = parametros.Validacion_Periodica,
                 Puesto_Descripcion = parametros.Puesto_Descripcion ?? "",
                 Puesto_Funciones = parametros.Puesto_Funciones ?? "",
                 Puesto_Requisitos = parametros.Puesto_Requisitos ?? "",
                 Puesto_Caracteristicas = parametros.Puesto_Caracteristicas ?? "",
-                Caracteristicas_Visible = parametros.Caracteristicas_Visible ?? "",
+                Caracteristicas_Visible = parametros.Caracteristicas_Visible,
                 Flg_Activo = parametros.Flg_Activo ?? "",
                 Cod_Usuario = parametros.Cod_Usuario ?? ""
             };
@@ -50,9 +50,9 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
 
         [HttpGet]
         [Route("getListadoPuesto")]
-        public async Task<IActionResult> getListadoPuesto(string sCodigo_Organizacion, string sCodigo_Sede, string sCodigo_Nivel_Riesgo)
+        public async Task<IActionResult> getListadoPuesto(string? sCodigo_Organizacion, string? sCodigo_Sede, string? sCodigo_Nivel_Riesgo)
         {
-            var result = await _sNPuestoService.Listado(sCodigo_Organizacion!, sCodigo_Sede!, sCodigo_Nivel_Riesgo!);
+            var result = await _sNPuestoService.Listado(sCodigo_Organizacion! ?? "", sCodigo_Sede! ?? "", sCodigo_Nivel_Riesgo! ?? "");
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
