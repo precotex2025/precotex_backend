@@ -439,12 +439,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             foreach (var datos in DatosGenerales)
             {
                 datos.Colorantes = rutas
-                 .Where(r =>
-                     r.Corr_Carta == datos.Corr_Carta &&
-                     r.Sec == datos.Sec &&
-                     r.correlativo == datos.Correlativo
-                 )
-                 .ToList();
+                .Where(r =>
+                    r.Corr_Carta == datos.Corr_Carta &&
+                    r.Sec == datos.Sec &&
+                    r.correlativo == datos.Correlativo
+                )
+                .ToList();
 
             }
             return DatosGenerales;
@@ -2558,6 +2558,60 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        public async Task<(int Codigo, string Mensaje)> ActualizarEstadoCargaAhiba(Lb_Ahibas valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Ahi_Id", valores.Ahi_Id);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Ahibas_WB_U0002]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+
+                var result = await connection.QueryAsync<Lb_ColTra_Det>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

@@ -1605,6 +1605,41 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             }
         }
 
+        [HttpPatch]
+        [Route("patchActualizarEstadoCargaAhiba")]
+        public async Task<IActionResult> patchActualizarEstadoCargaAhiba([FromBody] Lb_Ahibas valores)
+        {
+            Lb_Ahibas parametros = new Lb_Ahibas
+            {
+                Ahi_Id = valores.Ahi_Id
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoCargaAhiba(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonadoExcluidoDescarga")]
+        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }    
+
         [HttpGet("printers")]
         public IActionResult GetPrinters()
         {
@@ -1615,7 +1650,5 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             }
             return Ok(printers);
         }
-
-
     }
 }
