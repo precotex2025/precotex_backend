@@ -23,7 +23,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
         [HttpGet]
         [Route("getListarProcesosExportacion")]
-        public async Task<IActionResult> getListarProcesosExportacion(string Pro_Cen_Cos)
+        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos)
         {
             var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos);
             if (result!.Success)
@@ -81,5 +81,19 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListaCentroCosto")]
+        public async Task<IActionResult> getListaCentroCosto()
+        {
+            var result = await _txCotizacionesService.ListaCentroCosto();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+            
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }
