@@ -23,7 +23,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(string Pro_Cen_Cos)
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
