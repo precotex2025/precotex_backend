@@ -4,6 +4,7 @@ using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
+using Microsoft.Graph.Models.TermStore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1831,5 +1832,101 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        //ANALISIS DELTA
+        public async Task<ServiceResponseList<Lb_Analisis_Delta_01>?> AnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = new ServiceResponseList<Lb_Analisis_Delta_01>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.AnalisisDelta01_ObtieneDatosxPartida(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> AnalisisDelta02_CombosGrles(string? sTipo, string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.AnalisisDelta02_CombosGrles(sTipo, sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Analisis_Delta_06>?> AnalisisDelta06_ObtieneMuestraStandar(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = new ServiceResponseList<Lb_Analisis_Delta_06>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.AnalisisDelta06_ObtieneMuestraStandar(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Analisis_Delta_Dispatched_Items>?> AnalisisDelta_ObtienePartidaDespachadas(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = new ServiceResponseList<Lb_Analisis_Delta_Dispatched_Items>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.AnalisisDelta_ObtienePartidaDespachadas(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

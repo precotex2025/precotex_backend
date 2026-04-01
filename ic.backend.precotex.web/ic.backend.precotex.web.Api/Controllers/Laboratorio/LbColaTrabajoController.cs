@@ -1577,6 +1577,67 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return Ok(printers);
         }
 
+        //ANALISIS DELTA
+        [HttpGet]
+        [Route("getAnalisisDelta01_ObtieneDatosxPartida")]
+        public async Task<IActionResult> getAnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = await _LbColaTrabajoService.AnalisisDelta01_ObtieneDatosxPartida(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getAnalisisDelta02_CombosGrles")]
+        public async Task<IActionResult> getAnalisisDelta02_CombosGrles(string? sTipo, string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = await _LbColaTrabajoService.AnalisisDelta02_CombosGrles(sTipo, sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getAnalisisDelta06_ObtieneMuestraStandar")]
+        public async Task<IActionResult> getAnalisisDelta06_ObtieneMuestraStandar(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = await _LbColaTrabajoService.AnalisisDelta06_ObtieneMuestraStandar(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getAnalisisDelta_ObtienePartidaDespachadas")]
+        public async Task<IActionResult> getAnalisisDelta_ObtienePartidaDespachadas(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
+        {
+            var result = await _LbColaTrabajoService.AnalisisDelta_ObtienePartidaDespachadas(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
 
     }
 }
