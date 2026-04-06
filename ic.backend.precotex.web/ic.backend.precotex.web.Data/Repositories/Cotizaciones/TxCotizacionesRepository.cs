@@ -42,6 +42,26 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones>(
+                    "[dbo].[PA_Tx_Cotizaciones_Procesos_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }   
+        }
+
         //LISTAR RUTAS POR COD TELA
         public async Task<IEnumerable<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela)
         {
@@ -119,6 +139,5 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 return result;
             }
         }
-
     }
 }

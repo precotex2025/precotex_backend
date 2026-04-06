@@ -151,6 +151,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<ServiceResponse<int>> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
-
+        Task<ServiceResponseList<Lb_Previos>?> ListarPrevios();
+        Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores);
     }
 }

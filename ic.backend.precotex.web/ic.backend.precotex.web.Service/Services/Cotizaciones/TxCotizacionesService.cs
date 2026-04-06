@@ -46,6 +46,30 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListarProcesosExportacionFooter(Pro_Cen_Cos);
+                if(result == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion nocontrolada" + ex.Message;
+                return result;
+            }
+        }
+
         //LISTAR RUTAS POR COD TELA
         public async Task<ServiceResponseList<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela) 
         {

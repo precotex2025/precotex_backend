@@ -1929,5 +1929,54 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_Previos>?> ListarPrevios()
+        {
+            var result = new ServiceResponseList<Lb_Previos>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarPrevios();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ActualizarPrevio(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }

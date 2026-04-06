@@ -36,7 +36,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 await connection.OpenAsync();
 
                 var parametros = new DynamicParameters();
-                
+
                 parametros.Add("@Fec_Ini", Fec_Ini);
                 parametros.Add("@Fec_Fin", Fec_Fin);
                 parametros.Add("@Flg_Est_Lab", Flg_Est_Lab);
@@ -123,7 +123,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     }
                 }
 
-                
+
 
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
@@ -314,7 +314,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //INSERTAR DATOS DE OPCION
-        public async Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes) 
+        public async Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -344,7 +344,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sod_Por", lb_AgrOpc_Colorantes.Sod_Por);
                 parametros.Add("@Familia", lb_AgrOpc_Colorantes.Familia);
                 parametros.Add("@Cambio", lb_AgrOpc_Colorantes.Cambio);
-                
+
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
@@ -384,7 +384,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
-        
+
         //CARGAR DATOS VENTANA INFORME SDC 
         public async Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec)
         {
@@ -457,7 +457,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                
+
                 var result = await connection.QueryAsync<Lb_Ahibas>(
                     "[dbo].[PA_Lb_Ahibas_WB_S0001]"
                     , commandType: CommandType.StoredProcedure
@@ -479,7 +479,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Corr_Carta", lb_AgrOpc_Colorantes.Corr_Carta);
                 parametros.Add("@Sec", lb_AgrOpc_Colorantes.Sec);
                 parametros.Add("@Correlativo", lb_AgrOpc_Colorantes.Correlativo);
-                
+
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
@@ -504,7 +504,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return (Codigo, mensaje);
             }
         }
-        
+
         //ELIMINAR OPCION AGREGADA
         public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
         {
@@ -581,7 +581,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                
+
                 var parameters = new DynamicParameters();
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
@@ -1018,7 +1018,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        
+
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -1073,7 +1073,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             var quimicos = await multi.ReadAsync<Quimicos>();
             //CUARTO SELECT PARA LOS COLORANTES
             var colorantes = await multi.ReadAsync<Colorantes>();
-           
+
             foreach (var datos in DatosGenerales)
             {
                 //AUXILIARES
@@ -1084,7 +1084,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                         a.correlativo == datos.Correlativo
                     )
                     .ToList();
-                
+
                 datos.Quimicos = quimicos
                     .Where(q =>
                         q.Corr_Carta == datos.Corr_Carta &&
@@ -2244,7 +2244,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
-        
+
         //COGER DATOS DE PRODUCCION
         public async Task<IEnumerable<Lb_Seg_Formulacion_Color>?> ObtenerDatosProduccion(string Flg_Est_Lab, DateTime Fec_Ini, DateTime Fec_Fin, string Usr_Cod)
         {
@@ -2288,7 +2288,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
-        
+
         //REGISTRAR MOSQUITO
         public async Task<(int Codigo, string Mensaje)> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores)
         {
@@ -2611,6 +2611,60 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Previos>?> ListarPrevios()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_Previos>(
+                    "[dbo].[PA_Lb_Previos_WB_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", valores.Corr_Carta);
+                parametros.Add("@Sec", valores.Sec);
+                parametros.Add("@Previo", valores.Previo);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_U0003]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
             }
         }
     }

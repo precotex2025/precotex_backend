@@ -151,5 +151,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
+        Task<IEnumerable<Lb_Previos>?> ListarPrevios();
+        Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
     }
 }

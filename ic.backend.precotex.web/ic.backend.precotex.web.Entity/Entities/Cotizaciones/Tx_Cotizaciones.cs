@@ -18,5 +18,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public double? Pro_Tot  {get; set;}
         public double? Pro_Aju  {get; set;}
         public double? Pro_Cotizacion { get; set; } 
+        public string? Pro_Tip { get; set; }
+        public double? Pro_Tot_Com { get; set; }
+        public double? Pro_Por { get; set; }
     }
 }

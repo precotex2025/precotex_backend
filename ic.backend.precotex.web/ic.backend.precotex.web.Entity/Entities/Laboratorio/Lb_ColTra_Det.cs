@@ -57,6 +57,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Car_Gr { get; set; }
         public int? Nro_Tubo_Jab { get; set; }
         public int? Ahi_Id_Jab { get; set; }
+        public decimal? Ph_Neu { get; set; }
+        public int? Previo { get; set; }
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         

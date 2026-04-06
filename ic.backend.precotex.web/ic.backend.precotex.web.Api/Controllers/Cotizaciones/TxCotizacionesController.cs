@@ -37,6 +37,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
         }
 
         [HttpGet]
+        [Route("getListarProcesosExportacionFooter")]
+        public async Task<IActionResult> getListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            var result = await _txCotizacionesService.ListarProcesosExportacionFooter(Pro_Cen_Cos);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+            
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
         [Route("getRutaXCodTela")]
         public async Task<IActionResult> getRutaXCodTela(string Cod_Tela)
         {

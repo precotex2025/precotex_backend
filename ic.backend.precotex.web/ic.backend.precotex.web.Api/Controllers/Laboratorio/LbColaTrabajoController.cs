@@ -1638,7 +1638,44 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
-        }    
+        }
+
+        [HttpGet]
+        [Route("getListarPrevios")]
+        public async Task<IActionResult> getListarPrevios()
+        {
+            var result = await _LbColaTrabajoService.ListarPrevios();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarPrevio")]
+        public async Task<IActionResult> patchActualizarPrevio([FromBody] Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det parametros = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Previo = valores.Previo
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarPrevio(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
         [HttpGet("printers")]
         public IActionResult GetPrinters()
