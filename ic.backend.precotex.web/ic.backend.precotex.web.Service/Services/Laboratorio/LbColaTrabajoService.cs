@@ -330,12 +330,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             HOJA DE FORMULACION
         */
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarGridHojaFormulacion(Corr_Carta, Sec);
+                var resultData = await _lbColaTrabajoRepository.CargarGridHojaFormulacion(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -1974,6 +1974,54 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             {
                 result.Success = false;
                 result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia)
+        {
+            var result = new ServiceResponseList<Lb_Tipo_tenido>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarTiposTenido(Familia);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerUltimoCorrelativoXTipoTenido(Corr_Carta, Sec, Tip_Ten);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
                 return result;
             }
         }

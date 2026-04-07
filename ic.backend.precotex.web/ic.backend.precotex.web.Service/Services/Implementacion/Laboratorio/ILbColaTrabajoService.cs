@@ -45,7 +45,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
              HOJA DE FORMULACION
         */
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponse<int>> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo);
         Task<ServiceResponseList<Lb_Colorantes>?> ListarColorantesAgregarOpcion();
@@ -153,5 +153,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
         Task<ServiceResponseList<Lb_Previos>?> ListarPrevios();
         Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores);
+        Task<ServiceResponseList<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
     }
 }

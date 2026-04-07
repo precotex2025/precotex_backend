@@ -43,7 +43,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         */
         //Task<Lb_Informe_SDC?> CargarInformeSDC(int Corr_Carta, int Sec);
         Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec);
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
             JABONADOS
@@ -153,5 +153,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
         Task<IEnumerable<Lb_Previos>?> ListarPrevios();
         Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
+        Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
     }
 }

@@ -419,16 +419,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //CARGAR DATOS GRILLA HOJA FORMULACION
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
             var parametros = new DynamicParameters();
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
+            parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
-                "[dbo].[PA_Lb_Colorantes_WB_S0001]"
+                //"[dbo].[PA_Lb_Colorantes_WB_S0001]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -2665,6 +2667,44 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Familia", Familia);
+
+                var result = await connection.QueryAsync<Lb_Tipo_tenido>(
+                    "[dbo].[PA_Lb_Tipo_Tenido_WB_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+                parametros.Add("@Tip_Ten", Tip_Ten);
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_S0010]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
             }
         }
     }

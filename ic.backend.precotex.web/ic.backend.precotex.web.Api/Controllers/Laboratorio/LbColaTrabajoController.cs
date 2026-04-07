@@ -271,9 +271,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarGridHojaFormulacion")]
-        public async Task<IActionResult> getCargarGridHojaFormulacion(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarGridHojaFormulacion(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.CargarGridHojaFormulacion(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1670,6 +1670,36 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarTiposTenido")]
+        public async Task<IActionResult> getListarTiposTenido(string Familia)
+        {
+            var result = await _LbColaTrabajoService.ListarTiposTenido(Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerUltimoCorrelativoXTipoTenido")]
+        public async Task<IActionResult> getObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = await _LbColaTrabajoService.ObtenerUltimoCorrelativoXTipoTenido(Corr_Carta, Sec, Tip_Ten);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
 
