@@ -9,10 +9,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones
 {
     public interface ITxCotizacionesRepository
     {
-        Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(string Pro_Cen_Cos);
-
+        Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos);
+        Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos);
         Task<IEnumerable<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela);
         Task<IEnumerable<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta);
         Task<IEnumerable<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela);
+        Task<IEnumerable<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto();
     }
 }

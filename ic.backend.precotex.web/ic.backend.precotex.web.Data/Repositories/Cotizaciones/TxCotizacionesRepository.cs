@@ -23,7 +23,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(string Pro_Cen_Cos)
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -40,6 +40,26 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 );
                 return result;
             }
+        }
+
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones>(
+                    "[dbo].[PA_Tx_Cotizaciones_Procesos_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }   
         }
 
         //LISTAR RUTAS POR COD TELA
@@ -105,5 +125,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
+        //LISTAR CENTRO DE COSTOS
+        public async Task<IEnumerable<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Centro_Costo>(
+                    "[dbo].[PA_Tx_Cotizaciones_Centro_Costo_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
     }
 }

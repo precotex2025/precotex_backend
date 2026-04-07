@@ -177,8 +177,6 @@ builder.Services.AddScoped<ISNSedeService, SNSedeService>();
 builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
 builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 builder.Services.AddScoped<IMaeTabService, MaeTabService>();
-builder.Services.AddScoped<ISNPuestoService, SNPuestoService>();
-builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -218,8 +216,6 @@ builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
 builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
 builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
-builder.Services.AddScoped<ISNPuestoRepository, SNPuestoRepository>();
-builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
 #endregion
 
 

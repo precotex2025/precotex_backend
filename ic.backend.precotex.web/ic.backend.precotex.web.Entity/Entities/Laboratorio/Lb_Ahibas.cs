@@ -12,5 +12,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Ahi_Des { get; set; }
         public int? Ahi_Pos_Can { get; set; }
         public string? Ahi_Est_Pro { get; set; }
+        public string? Ahi_Est_Carga { get; set; }
     }
 }

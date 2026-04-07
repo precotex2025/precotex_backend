@@ -43,7 +43,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         */
         //Task<Lb_Informe_SDC?> CargarInformeSDC(int Corr_Carta, int Sec);
         Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec);
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
             JABONADOS
@@ -140,9 +140,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
 
 
-
-
-
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> AgregarOpcionAjustada(Lb_AgrOpc_Colorantes valores);
         Task<IEnumerable<Lb_Partidas_Agrupadas>?> ObtenerPartidasAgrupadas(string Usr_Cod, string Corr_Carta);
@@ -156,5 +153,13 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<ComboGral>?> AnalisisDelta02_CombosGrles(string? sTipo, string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
         Task<IEnumerable<Lb_Analisis_Delta_06>?> AnalisisDelta06_ObtieneMuestraStandar(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
         Task<IEnumerable<Lb_Analisis_Delta_Dispatched_Items>?> AnalisisDelta_ObtienePartidaDespachadas(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<IEnumerable<Lb_Fijados_Tipo>?> ObtenerFijadosTipo();
+        Task<(int Codigo, string Mensaje)> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
+        Task<(int Codigo, string Mensaje)> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
+        Task<IEnumerable<Lb_Previos>?> ListarPrevios();
+        Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
+        Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
     }
 }

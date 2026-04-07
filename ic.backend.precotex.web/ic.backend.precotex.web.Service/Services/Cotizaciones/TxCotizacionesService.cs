@@ -22,7 +22,7 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             _txCotizacionesRepository = txCotizacionesRepository;
         }
 
-        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(string Pro_Cen_Cos)
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos)
         {
             var result = new ServiceResponseList<Tx_Cotizaciones>();
             try
@@ -42,6 +42,30 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             catch (Exception ex)
             {
                 result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListarProcesosExportacionFooter(Pro_Cen_Cos);
+                if(result == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion nocontrolada" + ex.Message;
                 return result;
             }
         }
@@ -103,6 +127,30 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             {
                 var resultData = await _txCotizacionesRepository.ListaTelas(Cod_Tela);
                 if(resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto()
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Centro_Costo>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaCentroCosto();
+                if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
                     result.Message = "No existe información";

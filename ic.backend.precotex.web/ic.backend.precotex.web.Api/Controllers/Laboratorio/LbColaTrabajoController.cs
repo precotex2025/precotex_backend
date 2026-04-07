@@ -271,9 +271,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarGridHojaFormulacion")]
-        public async Task<IActionResult> getCargarGridHojaFormulacion(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarGridHojaFormulacion(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.CargarGridHojaFormulacion(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -489,7 +489,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Ahi_Id = parametros.Ahi_Id,
-                Nro_Tubo = parametros.Nro_Tubo
+                Nro_Tubo = parametros.Nro_Tubo,
+                Tip_Carga = parametros.Tip_Carga
             };
 
             var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);
@@ -1497,6 +1498,44 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerFijadosTipo")]
+        public async Task<IActionResult> getObtenerFijadosTipo()
+        {
+            var result = await _LbColaTrabajoService.ObtenerFijadosTipo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFijadoTipo")]
+        public async Task<IActionResult> patchActualizarFijadoTipo([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Fij = valores.Tip_Fij
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFijadoTipo(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         //[ApiExplorerSettings(IgnoreApi = true)]
         //[HttpPost("print")]
         //public IActionResult Print([FromForm] IFormFile file)
@@ -1564,6 +1603,108 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             {
                 return StatusCode(500, new { success = false, error = ex.Message, stack = ex.StackTrace });
             }
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarEstadoCargaAhiba")]
+        public async Task<IActionResult> patchActualizarEstadoCargaAhiba([FromBody] Lb_Ahibas valores)
+        {
+            Lb_Ahibas parametros = new Lb_Ahibas
+            {
+                Ahi_Id = valores.Ahi_Id
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoCargaAhiba(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarJabonadoExcluidoDescarga")]
+        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod)
+        {
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarPrevios")]
+        public async Task<IActionResult> getListarPrevios()
+        {
+            var result = await _LbColaTrabajoService.ListarPrevios();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarPrevio")]
+        public async Task<IActionResult> patchActualizarPrevio([FromBody] Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det parametros = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Previo = valores.Previo
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarPrevio(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarTiposTenido")]
+        public async Task<IActionResult> getListarTiposTenido(string Familia)
+        {
+            var result = await _LbColaTrabajoService.ListarTiposTenido(Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerUltimoCorrelativoXTipoTenido")]
+        public async Task<IActionResult> getObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = await _LbColaTrabajoService.ObtenerUltimoCorrelativoXTipoTenido(Corr_Carta, Sec, Tip_Ten);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
         }
 
         [HttpGet("printers")]
