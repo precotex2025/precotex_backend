@@ -2500,27 +2500,35 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         //ANALISIS DELTA
         public async Task<IEnumerable<Lb_Analisis_Delta_01>?> AnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                await connection.OpenAsync();
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
 
-                var parametros = new DynamicParameters();
+                    var parametros = new DynamicParameters();
 
-                parametros.Add("@Tipo", "1");
-                parametros.Add("@Cod_OrdTra", sCod_OrdTra);
-                parametros.Add("@Cod_Tela", sCod_Tela);
-                parametros.Add("@Cod_Color", sCod_Color);
-                parametros.Add("@Text_Cod_Muestra", sText_Cod_Muestra);
-                parametros.Add("@StandardId", iStandardId);
-                parametros.Add("@Cod_Usuario", sCod_Usuario);
+                    parametros.Add("@Tipo", "1");
+                    parametros.Add("@Cod_OrdTra", sCod_OrdTra);
+                    parametros.Add("@Cod_Tela", sCod_Tela);
+                    parametros.Add("@Cod_Color", sCod_Color);
+                    parametros.Add("@Text_Cod_Muestra", sText_Cod_Muestra);
+                    parametros.Add("@StandardId", iStandardId);
+                    parametros.Add("@Cod_Usuario", sCod_Usuario);
 
-                var result = await connection.QueryAsync<Lb_Analisis_Delta_01>(
-                    "[dbo].[DC_Muestra_Historia_Partida]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-                return result;
+                    var result = await connection.QueryAsync<Lb_Analisis_Delta_01>(
+                        "[dbo].[DC_Muestra_Historia_Partida]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                        );
+                    return result;
+                }
             }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
 

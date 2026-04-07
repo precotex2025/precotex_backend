@@ -1581,7 +1581,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         [HttpGet]
         [Route("getAnalisisDelta01_ObtieneDatosxPartida")]
         public async Task<IActionResult> getAnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario)
-        {
+       {
             var result = await _LbColaTrabajoService.AnalisisDelta01_ObtieneDatosxPartida(sCod_OrdTra, sCod_Tela, sCod_Color, sText_Cod_Muestra, iStandardId, sCod_Usuario);
             if (result!.Success)
             {

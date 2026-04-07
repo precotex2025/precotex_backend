@@ -10,6 +10,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     {
 
         //BLOQUE #1
+        public int Num_Bloque { get; set; }
         public int SampleId { get; set; }
         public string? Receta { get; set; }
         public string? Partida { get; set; }
@@ -20,6 +21,22 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Maquina { get; set; }
         public string? Lote_Hilado { get; set; }
         public DateTime Fec_Fin_Teñido { get; set; }
+
+
+        //BLOQUE #3
+        public decimal CIE_DL{ get; set; }
+        public decimal CIE_DA { get; set; }
+        public decimal CIE_DB { get; set; }
+        public decimal CMC_DE_2_1 { get; set; }
+        public decimal FOR_DL { get; set; }
+        public decimal FOR_DA { get; set; }
+        public decimal FOR_DB { get; set; }
+        public decimal FOR_DE_2_1 { get; set; }
+
+
+        //BLOQUE #4
+        public string? Especularidad { get; set; }
+        public string? Filtro_UV { get; set; }
 
         /*
          
