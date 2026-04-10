@@ -38,6 +38,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Especularidad { get; set; }
         public string? Filtro_UV { get; set; }
 
+        //BLOQUE #5
+        public string? Calificacion_Tono { get; set; }
+        public string? Observacion { get; set; }
+
         /*
          
 
