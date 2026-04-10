@@ -34,9 +34,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<IEnumerable<Lg_Item>?> CargarComboBoxItem();
         Task<(int Codigo, string Mensaje)> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
-        Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo);
+        Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
         Task<IEnumerable<Lb_Colorantes>?> ListarColorantesAgregarOpcion();
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
 
         /*
             INFORMACION SDC
@@ -49,7 +49,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             JABONADOS
         */
         Task<IEnumerable<Lb_Jabonados>?> ListarJabonados();
-        Task<IEnumerable<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia);
+        Task<IEnumerable<Lb_Jabonados>?>ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo);
         Task<IEnumerable<Lb_Jabonados>?> ListarJabonadoMantenimiento();
         Task<(int Codigo, string Mensaje)> RegistrarJabonado(Lb_Jabonados _lb_Jabonados);
         Task<(int Codigo, string Mensaje)> ModificarJabonado(Lb_Jabonados _lb_Jabonados);
@@ -63,7 +63,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             FIJADOS
         */
         Task<IEnumerable<Lb_Fijados>?> ListarFijados();
-        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia);
+        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo);
         Task<IEnumerable<Lb_Fijados>?> ListarFijadosMantenimiento();
         Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados);
         Task<(int Codigo, string Mensaje)> ModificarFijado(Lb_Fijados _lb_Fijados);
@@ -76,7 +76,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             CARBONATO Y SODA 
         */
-        Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con);
+        Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo);
 
         /*
             COLA AUTOLAB
@@ -101,8 +101,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod);
         Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod);
         Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
 
 
 
@@ -155,5 +155,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
+        Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
     }
 }

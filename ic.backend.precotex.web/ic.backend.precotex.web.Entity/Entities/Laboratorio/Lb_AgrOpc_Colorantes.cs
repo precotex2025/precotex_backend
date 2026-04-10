@@ -57,6 +57,14 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Des { get; set; }
         public string? Antipilling { get; set; }
         public string? Tip_Ten { get; set; }
+        public decimal? Ant_Red { get; set; }
+        public decimal? Ant_Red_Aju { get; set; }
+        public decimal? Agu_Oxi { get; set; }
+        public decimal? Ruc_Gr { get; set; }
+        public int? Cur_Ten { get; set; }
+        public decimal? Hel_Gr { get; set; }
+        public decimal? Hid_Gr { get; set; }
+        public decimal? Aci_Ace { get; set; }
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }

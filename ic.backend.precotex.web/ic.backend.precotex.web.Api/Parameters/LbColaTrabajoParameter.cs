@@ -27,6 +27,8 @@
         public int? Cur_Ten { get; set; }
         public string? Usr_Cod { get; set; }
         public string? Cod_OrdTra { get; set; }
+        public int? Cur_Ten_Dis { get; set; }
+        public string? Familia { get; set;}
     }
 
     public class LbColaTrabajoParameter_Colorantes

@@ -381,12 +381,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //ELIMINAR OPCION AGREGADA
-        public async Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponse<int>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData.Codigo > 0)
                 {
                     result.Success = true;
@@ -454,12 +454,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
             var result = new ServiceResponseList<Lb_Jabonados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonadosCalculado(Colorante_Total, Familia);
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadosCalculado(Colorante_Total,Familia, Tipo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -502,12 +502,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
             var result = new ServiceResponseList<Lb_Fijados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia);
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -526,12 +526,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo)
         {
             var result = new ServiceResponseList<Lb_Colorantes_Componentes_Extra>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con);
+                var resultData = await _lbColaTrabajoRepository.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con, Tipo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -876,12 +876,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -900,12 +900,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -947,12 +947,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.ListarIngresoManual(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2008,6 +2008,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             try
             {
                 var resultData = await _lbColaTrabajoRepository.ObtenerUltimoCorrelativoXTipoTenido(Corr_Carta, Sec, Tip_Ten);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = new ServiceResponseList<Lb_Curvas>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerCurvaReactivoDisperso(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

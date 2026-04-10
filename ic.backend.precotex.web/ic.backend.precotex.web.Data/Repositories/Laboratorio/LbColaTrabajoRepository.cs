@@ -81,6 +81,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     parametros.Add("@Corr_Carta", lbColaTrabajoDet.Corr_Carta);
                     parametros.Add("@Sec", lbColaTrabajoDet.Sec);
                     parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Cur_Ten_Dis", lbColaTrabajoDet.Cur_Ten_Dis);
+                    parametros.Add("@Familia", lbColaTrabajoDet.Familia);
                     parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
                     parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -104,6 +106,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     parametros.Add("@Cod_OrdTra", lbColaTrabajoDet.Cod_OrdTra);
                     parametros.Add("@Sec", lbColaTrabajoDet.Sec);
                     parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Familia", lbColaTrabajoDet.Familia);
                     parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
                     parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -285,6 +288,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Flg_Est_Autolab", _lbAgrOpcColorante.Flg_Est_Autolab);
+                parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -344,6 +348,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sod_Por", lb_AgrOpc_Colorantes.Sod_Por);
                 parametros.Add("@Familia", lb_AgrOpc_Colorantes.Familia);
                 parametros.Add("@Cambio", lb_AgrOpc_Colorantes.Cambio);
+                parametros.Add("@Ant_Red", lb_AgrOpc_Colorantes.Ant_Red);
+                parametros.Add("@Ant_Red_Aju", lb_AgrOpc_Colorantes.Ant_Red_Aju);
+                parametros.Add("@Agu_Oxi", lb_AgrOpc_Colorantes.Agu_Oxi);
+                parametros.Add("@Ruc_Gr", lb_AgrOpc_Colorantes.Ruc_Gr);
+                parametros.Add("@Tip_Ten", lb_AgrOpc_Colorantes.Tip_Ten);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -354,7 +363,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0001]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -508,7 +517,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //ELIMINAR OPCION AGREGADA
-        public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<(int Codigo, string Mensaje)> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -520,6 +529,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Corr_Carta", Corr_Carta);
                 parametros.Add("@Sec", Sec);
                 parametros.Add("@Correlativo", Correlativo);
+                parametros.Add("@Tip_Ten", Tip_Ten);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -578,7 +588,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<IEnumerable<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -587,6 +597,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var parameters = new DynamicParameters();
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
+                parameters.Add("@Tipo", Tipo);
 
                 var result = await connection.QueryAsync<Lb_Jabonados>(
                     "[dbo].[PA_Lb_Jabonados_Detalle_S0001]"
@@ -614,7 +625,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -623,6 +634,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var parameters = new DynamicParameters();
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
+                parameters.Add("@Tipo", Tipo);
 
                 var result = await connection.QueryAsync<Lb_Fijados>(
                     "[dbo].[PA_Lb_Fijados_Detalle_S0001]"
@@ -637,7 +649,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             CARBONATO Y SODA
         */
 
-        public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -647,6 +659,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
                 parameters.Add("@Com_Cod_Con", Com_Cod_Con);
+                parameters.Add("@Tipo", Tipo);
 
                 var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Extra>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Valores_S0001]"
@@ -694,6 +707,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Posicion", _lbAgrOpcColorante.Posicion);
+                parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -758,6 +772,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Ahi_Id", _lbAgrOpcColorante.Ahi_Id);
                 parametros.Add("@Nro_Tubo", _lbAgrOpcColorante.Nro_Tubo);
                 parametros.Add("@Tip_Carga", _lbAgrOpcColorante.Tip_Carga);
+                parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -821,6 +836,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Tip_Ph", lb_ColTra_Det.Tip_Ph);
                 parametros.Add("@JabonadoIndex", lb_ColTra_Det.JabonadoIndex);
                 parametros.Add("@Ph_Val", lb_ColTra_Det.Ph_Val);
+                parametros.Add("@Tip_Ten", lb_ColTra_Det.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -904,6 +920,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Familia", _lbAgrOpcColorante.Familia);
                 parametros.Add("@Cambio", _lbAgrOpcColorante.Cambio);
                 parametros.Add("@Procedencia", _lbAgrOpcColorante.ProcedenciaHardCodeada);
+                parametros.Add("@Cur_Ten", _lbAgrOpcColorante.Cur_Ten);
+                parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -1021,7 +1039,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
 
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -1029,6 +1047,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
             parametros.Add("@Correlativo", Correlativo);
+            parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
                 "[dbo].[PA_Lb_Colorantes_WB_S0002]"
@@ -1053,7 +1072,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             return DatosGenerales;
         }
 
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -1061,6 +1080,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
             parametros.Add("@Correlativo", Correlativo);
+            parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
                 "[dbo].[PA_Lb_Colorantes_WB_S0003]"
@@ -1128,7 +1148,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -1138,6 +1158,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Corr_Carta", Corr_Carta);
                 parametros.Add("@Sec", Sec);
                 parametros.Add("@Correlativo", Correlativo);
+                parametros.Add("@Tip_Ten", Tip_Ten);
 
                 var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
                     "[dbo].[PA_Lb_Colorantes_WB_S0004]"
@@ -2472,6 +2493,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", valores.Sec);
                 parametros.Add("@Correlativo", valores.Correlativo);
                 parametros.Add("@Tip_Fec", valores.Tip_Fec);
+                parametros.Add("@Tip_Ten", valores.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -2532,6 +2554,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", valores.Sec);
                 parametros.Add("@Correlativo", valores.Correlativo);
                 parametros.Add("@Tip_Fij", valores.Tip_Fij);
+                parametros.Add("@Tip_Ten", valores.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -2686,7 +2709,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 );
                 return result;
             }
-        }
+        }        
 
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
@@ -2701,6 +2724,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
                     "[dbo].[PA_Lb_Colorantes_WB_S0010]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+        public async Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+                parametros.Add("@Tip_Ten", Tip_Ten);
+
+                var result = await connection.QueryAsync<Lb_Curvas>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0010]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );

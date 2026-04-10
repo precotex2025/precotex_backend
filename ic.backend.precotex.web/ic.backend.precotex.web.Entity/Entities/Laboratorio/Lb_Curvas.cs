@@ -20,6 +20,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
         public string? Codigo { get; set; }
         public string? Descripcion { get; set; }
+        public string? Tipo { get; set; }
 
     }
 }
