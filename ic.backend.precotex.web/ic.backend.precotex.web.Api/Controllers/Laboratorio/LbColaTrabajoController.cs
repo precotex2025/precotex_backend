@@ -164,7 +164,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Flg_Est_Lab = parametros.Flg_Est_Lab
+                Flg_Est_Lab = parametros.Flg_Est_Lab,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarEstadoDeColorTricomia(_lbAgrOpcColorante);
@@ -1347,9 +1348,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTENER RELACION BANO, VOLUMEN, PESO
         [HttpGet]
         [Route("getObtenerTrio")]
-        public async Task<IActionResult> getObtenerTrio(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
