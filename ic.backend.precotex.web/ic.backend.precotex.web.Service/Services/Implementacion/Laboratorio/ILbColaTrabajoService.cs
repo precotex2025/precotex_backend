@@ -147,6 +147,12 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ActualizarEstadoEntregaProduccion(Lb_Seg_Formulacion_Color valores);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec);
         Task<ServiceResponse<int>> ActualizarFechasTenido(Lb_AgrOpc_Colorantes valores);
+
+        //ANALISIS DELTA
+        Task<ServiceResponseList<Lb_Analisis_Delta_01>?> AnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<ServiceResponseList<ComboGral>?> AnalisisDelta02_CombosGrles(string? sTipo, string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<ServiceResponseList<Lb_Analisis_Delta_06>?> AnalisisDelta06_ObtieneMuestraStandar(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<ServiceResponseList<Lb_Analisis_Delta_Dispatched_Items>?> AnalisisDelta_ObtienePartidaDespachadas(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
         Task<ServiceResponseList<Lb_Fijados_Tipo>?> ObtenerFijadosTipo();
         Task<ServiceResponse<int>> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<ServiceResponse<int>> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);

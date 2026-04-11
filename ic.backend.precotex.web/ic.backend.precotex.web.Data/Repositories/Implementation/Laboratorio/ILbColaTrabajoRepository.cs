@@ -147,6 +147,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> ActualizarEstadoEntregaProduccion(Lb_Seg_Formulacion_Color valores);
         Task<IEnumerable<Lb_ColTra_Det>?> ObtenerFamiliaDesdeCabecera(string Corr_Carta, int Sec);
         Task<(int Codigo, string Mensaje)> ActualizarFechasTenido(Lb_AgrOpc_Colorantes valores);
+
+        //ANALISIS DELTA
+        Task<IEnumerable<Lb_Analisis_Delta_01>?> AnalisisDelta01_ObtieneDatosxPartida(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<IEnumerable<ComboGral>?> AnalisisDelta02_CombosGrles(string? sTipo, string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<IEnumerable<Lb_Analisis_Delta_06>?> AnalisisDelta06_ObtieneMuestraStandar(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
+        Task<IEnumerable<Lb_Analisis_Delta_Dispatched_Items>?> AnalisisDelta_ObtienePartidaDespachadas(string? sCod_OrdTra, string? sCod_Tela, string? sCod_Color, string? sText_Cod_Muestra, int? iStandardId, string? sCod_Usuario);
         Task<IEnumerable<Lb_Fijados_Tipo>?> ObtenerFijadosTipo();
         Task<(int Codigo, string Mensaje)> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
