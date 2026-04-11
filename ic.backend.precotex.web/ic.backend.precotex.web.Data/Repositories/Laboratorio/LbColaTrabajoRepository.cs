@@ -106,6 +106,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     parametros.Add("@Cod_OrdTra", lbColaTrabajoDet.Cod_OrdTra);
                     parametros.Add("@Sec", lbColaTrabajoDet.Sec);
                     parametros.Add("@Cur_Ten", lbColaTrabajoDet.Cur_Ten);
+                    parametros.Add("@Cur_Ten_Dis", lbColaTrabajoDet.Cur_Ten_Dis);
                     parametros.Add("@Familia", lbColaTrabajoDet.Familia);
                     parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
 
