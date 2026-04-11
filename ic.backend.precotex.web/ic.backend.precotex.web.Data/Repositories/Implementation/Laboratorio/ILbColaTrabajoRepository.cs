@@ -137,7 +137,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             OBTENER RELACION BANO, VOLUMEN, PESO
         */
 
-        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten);
 
 
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativo(string Corr_Carta, int Sec);

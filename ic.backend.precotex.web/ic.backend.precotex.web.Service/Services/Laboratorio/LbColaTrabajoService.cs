@@ -1612,12 +1612,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ObtenerTrio(Corr_Carta, Sec);
+                var resultData = await _lbColaTrabajoRepository.ObtenerTrio(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

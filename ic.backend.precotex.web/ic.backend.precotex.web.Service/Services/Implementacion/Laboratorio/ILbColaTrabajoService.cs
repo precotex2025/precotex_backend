@@ -107,7 +107,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod);
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
 
 
@@ -136,7 +136,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             OBTENER RELACION BANO, VOLUMEN, PESO
         */
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten);
 
 
 

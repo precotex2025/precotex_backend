@@ -247,6 +247,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Sec", _lbAgrOpcColorante.Sec);
                 parametros.Add("@Correlativo", _lbAgrOpcColorante.Correlativo);
                 parametros.Add("@Flg_Est_Lab", _lbAgrOpcColorante.Flg_Est_Lab);
+                parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -2248,7 +2249,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
 
         //OBTENER RELACION BANO, VOLUMEN, PESO
-        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec)
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2258,6 +2259,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 parametros.Add("@Corr_Carta", Corr_Carta);
                 parametros.Add("@Sec", Sec);
+                parametros.Add("@Tip_Ten", Tip_Ten);
 
                 var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
                     "[dbo].[PA_Lb_Colorantes_WB_S0005]"
