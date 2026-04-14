@@ -62,6 +62,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Ph_Neu { get; set; }
         public int? Previo { get; set; }
         public string? Tip_Ten { get; set; }
+        public string? Neutralizado { get; set; }
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         
