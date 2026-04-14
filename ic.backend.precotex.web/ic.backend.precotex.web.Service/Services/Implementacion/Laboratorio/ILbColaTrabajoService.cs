@@ -119,7 +119,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             REPORTE   
         */
-        Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
             COMPONENTES EXTRA   

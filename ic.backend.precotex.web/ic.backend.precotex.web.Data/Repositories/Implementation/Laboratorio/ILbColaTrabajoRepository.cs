@@ -117,7 +117,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         /*
             REPORTE 
         */
-        Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo);
+        Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten);
 
 
         /*

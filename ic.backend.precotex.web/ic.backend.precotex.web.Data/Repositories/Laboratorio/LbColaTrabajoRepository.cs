@@ -1220,14 +1220,14 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         //    return infoPrincipal;
         //}
 
-        public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten)
         {
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
             var parametros = new DynamicParameters();
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
-            parametros.Add("@Correlativo", Correlativo);
+            parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
                 "[dbo].[PA_LB_CARTACOL_DG_S0003]",
