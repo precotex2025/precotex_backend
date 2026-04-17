@@ -2567,7 +2567,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Tipo", "6");
+                parametros.Add("@Tipo", (sCod_OrdTra == null ? "D" : "6"));
                 parametros.Add("@Cod_OrdTra", sCod_OrdTra);
                 parametros.Add("@Cod_Tela", sCod_Tela);
                 parametros.Add("@Cod_Color", sCod_Color);
@@ -2592,7 +2592,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Tipo", "7");
+                parametros.Add("@Tipo", (sCod_OrdTra == null ? "X" : "7"));
                 parametros.Add("@Cod_OrdTra", sCod_OrdTra);
                 parametros.Add("@Cod_Tela", sCod_Tela);
                 parametros.Add("@Cod_Color", sCod_Color);

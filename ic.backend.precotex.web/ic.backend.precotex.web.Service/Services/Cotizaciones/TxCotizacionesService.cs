@@ -1,12 +1,15 @@
 ﻿using ic.backend.precotex.web.Data.Repositories.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Cotizaciones;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
+using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +25,12 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             _txCotizacionesRepository = txCotizacionesRepository;
         }
 
-        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos)
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
             var result = new ServiceResponseList<Tx_Cotizaciones>();
             try
             {
-                var resultData = await _txCotizacionesRepository.ListarProcesosExportacion(Pro_Cen_Cos);
+                var resultData = await _txCotizacionesRepository.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -164,6 +167,65 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             catch (Exception ex)
             {
                 result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ProcesoCotizacion(Tx_Cotizaciones_Cab tx_Cotizaciones_Cab, List<Tx_Cotizaciones_Det> detalle, string sTipoTransac)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ProcesoCotizacion(tx_Cotizaciones_Cab, detalle, sTipoTransac);
+                if (resultData.Codigo > 0)
+                {
+                    result.Message = resultData.Mensaje;
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+
+                    return result;
+                }
+
+                result.Message = resultData.Mensaje;
+                result.Success = false;
+                return result;
+
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ValidaColorExiste(Cod_Color);
+                if (result == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información, para el Codigo de color {" + Cod_Color + "}, en consulta";
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion nocontrolada" + ex.Message;
                 return result;
             }
         }
