@@ -216,7 +216,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
                         new
                         {
                             pCod_Partida = pCod_Partida,
-                            pUsr = pUsr
+                            pUsuario = pUsr
                         },
                         commandType: System.Data.CommandType.StoredProcedure
                     );
@@ -227,6 +227,7 @@ namespace ic.backend.precotex.web.Data.Repositories.RegistroPartidaParihuela
             catch (SqlException sqlEx)
             {
                 // Lanza una excepción personalizada o estándar para que el controlador lo maneje
+                Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
                 throw; // new ApplicationException($"Error en SQL Server: {sqlEx.Message}", sqlEx);
             }
 
