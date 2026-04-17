@@ -234,6 +234,7 @@ namespace ic.backend.precotex.web.Data.Repositories.ReporteNC
                 parametros.Add("@Rep_Id", tx_ReporteNC.Rep_Id);
                 parametros.Add("@Rep_Est", tx_ReporteNC.Rep_Est);
                 parametros.Add("@Rep_DetObs", tx_ReporteNC.Rep_DetObs);
+                parametros.Add("@Rep_Usr_Sub", tx_ReporteNC.Rep_Usr_Sub);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
