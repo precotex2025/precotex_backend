@@ -29,6 +29,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Ref_Com  { get; set; }
         public string? Lote  { get; set; }
         public string? Obs { get; set; }
+        public string? Familia { get; set; }
 
 
     }
