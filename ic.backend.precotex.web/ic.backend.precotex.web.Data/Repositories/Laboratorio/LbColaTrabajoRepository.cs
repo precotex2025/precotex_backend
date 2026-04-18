@@ -414,6 +414,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             var sdcList = (await multi.ReadAsync<Lb_Informe_SDC>()).ToList();
             var rutas = await multi.ReadAsync<(string CodSDC, string Descripcion)>();
             var solidez = await multi.ReadAsync<(string CodSDC, string DESCRIPCION)>();
+            //var luz = await multi.ReadAsync<(string CodSDC, string Descripcion)>();
+
+            var luz = multi.IsConsumed ? Enumerable.Empty<Luz>()
+                                        : await multi.ReadAsync<Luz>();
 
             foreach (var sdc in sdcList)
             {
@@ -424,6 +428,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 sdc.Solidez = solidez
                     .Where(s => s.CodSDC == sdc.Corr_Carta)
                     .Select(s => s.DESCRIPCION);
+
+                sdc.Luz = luz
+                    .Where(l => l.Corr_Carta == sdc.Corr_Carta)
+                    .ToList();
+                    // .Where(l => l.CodSDC == sdc.Corr_Carta)
+                    // .Select(l => l.Descripcion);
             }
 
             return sdcList;
@@ -2334,6 +2344,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Por_Aju", valores.Por_Aju);
                 parametros.Add("@Por_Fin", valores.Por_Fin);
                 parametros.Add("@Correlativo_Nuevo", valores.Correlativo_Nuevo);
+                parametros.Add("@Tip_Ten", valores.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
