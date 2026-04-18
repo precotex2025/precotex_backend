@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Lote_Hilado { get; set; }
         public DateTime Fec_Fin_Teñido { get; set; }
 
+        //BLOQUE #2
+        public string? Nom_Colorante_1 { get; set; }
+        public decimal Can_Colorante_1 { get; set; }
+        public decimal Por_Colorante_1 { get; set; }
+        public int Num_Orden { get; set; }
 
         //BLOQUE #3
         public decimal CIE_DL{ get; set; }
@@ -33,7 +39,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal FOR_DB { get; set; }
         public decimal FOR_DE_2_1 { get; set; }
 
-
         //BLOQUE #4
         public string? Especularidad { get; set; }
         public string? Filtro_UV { get; set; }
@@ -41,6 +46,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         //BLOQUE #5
         public string? Calificacion_Tono { get; set; }
         public string? Observacion { get; set; }
+
+        
 
         /*
          

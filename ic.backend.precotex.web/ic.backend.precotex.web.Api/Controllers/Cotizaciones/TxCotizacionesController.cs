@@ -1,4 +1,7 @@
-﻿using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
+﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Entity.Entities.Cotizaciones;
+using ic.backend.precotex.web.Entity.Entities.Memorandum;
+using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
 using ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones;
 using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
@@ -23,9 +26,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
         [HttpGet]
         [Route("getListarProcesosExportacion")]
-        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos)
+        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
-            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos);
+            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -110,5 +113,49 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpPost]
+        [Route("postProcesoCotizacion")]
+        public async Task<IActionResult> postProcesoCotizacion([FromBody] CotizacionesParameter parameters)
+        {
+            Tx_Cotizaciones_Cab _Coti = new Tx_Cotizaciones_Cab
+            {
+               IdCotizacion_Cab = parameters.IdCotizacion_Cab,
+               Pro_Id  = parameters.Pro_Id,
+               Cen_Cos_Cod  = parameters.Cen_Cos_Cod,
+               Cod_Tipo  = parameters.Cod_Tipo,
+               Cod_Cliente_Tex  = parameters.Cod_Cliente_Tex,
+               Cod_Tela  = parameters.Cod_Tela,
+               Cod_Ruta  = parameters.Cod_Ruta,
+               Cod_Color  = parameters.Cod_Color,
+               Flg_Estatus  = parameters.Flg_Estatus,
+               Usu_Registro = parameters.Usu_Registro
+            };
+            var result = await _txCotizacionesService.ProcesoCotizacion(_Coti, parameters.Detalles!, parameters.Accion!);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getValidaColorExiste")]
+        public async Task<IActionResult> getValidaColorExiste(string Cod_Color)
+        {
+            var result = await _txCotizacionesService.ValidaColorExiste(Cod_Color);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }

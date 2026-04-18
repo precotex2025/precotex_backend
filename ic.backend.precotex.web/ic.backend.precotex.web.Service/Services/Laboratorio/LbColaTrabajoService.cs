@@ -1870,6 +1870,8 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 {
                     result.Success = true;
                     result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
                 }
                 result.Success = true;
                 result.Message = "Completado con éxito";
