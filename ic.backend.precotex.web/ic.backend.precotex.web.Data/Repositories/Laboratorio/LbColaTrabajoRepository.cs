@@ -405,6 +405,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
             parametros.Add("@Tip_Ten", Tip_Ten);
+            
             using var multi = await connection.QueryMultipleAsync(
                 "[dbo].[PA_LB_CARTACOL_DG_S0002]"
                 , parametros
