@@ -304,12 +304,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             INFORMACION SDC
         */
-        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_Informe_SDC>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarInformeSDC(Corr_Carta, Sec);
+                var resultData = await _lbColaTrabajoRepository.CargarInformeSDC(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

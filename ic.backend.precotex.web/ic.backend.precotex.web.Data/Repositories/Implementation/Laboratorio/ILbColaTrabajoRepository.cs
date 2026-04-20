@@ -42,7 +42,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             INFORMACION SDC
         */
         //Task<Lb_Informe_SDC?> CargarInformeSDC(int Corr_Carta, int Sec);
-        Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec);
+        Task<IEnumerable<Lb_Informe_SDC>> CargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*

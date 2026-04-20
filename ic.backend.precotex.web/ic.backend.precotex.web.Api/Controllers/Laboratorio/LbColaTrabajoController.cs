@@ -265,9 +265,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarInformeSDC")]
-        public async Task<IActionResult> getCargarInformeSDC(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarInformeSDC(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.CargarInformeSDC(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

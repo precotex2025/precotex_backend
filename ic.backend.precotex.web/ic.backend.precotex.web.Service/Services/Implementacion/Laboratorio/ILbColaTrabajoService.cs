@@ -40,7 +40,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             INFORMACION SDC 
         */
-        Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec);
+        Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
              HOJA DE FORMULACION
