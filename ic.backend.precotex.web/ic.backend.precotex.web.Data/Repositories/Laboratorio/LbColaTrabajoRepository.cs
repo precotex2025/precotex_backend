@@ -405,7 +405,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Corr_Carta", Corr_Carta);
             parametros.Add("@Sec", Sec);
             parametros.Add("@Tip_Ten", Tip_Ten);
-            
             using var multi = await connection.QueryMultipleAsync(
                 "[dbo].[PA_LB_CARTACOL_DG_S0002]"
                 , parametros
@@ -935,6 +934,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Procedencia", _lbAgrOpcColorante.ProcedenciaHardCodeada);
                 parametros.Add("@Cur_Ten", _lbAgrOpcColorante.Cur_Ten);
                 parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -952,7 +953,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 }
                 catch (SqlException ex)
                 {
-
+                    Console.WriteLine("SQL Error: " + ex.Message);
                 }
 
                 var Codigo = parametros.Get<int>("@Codigo");

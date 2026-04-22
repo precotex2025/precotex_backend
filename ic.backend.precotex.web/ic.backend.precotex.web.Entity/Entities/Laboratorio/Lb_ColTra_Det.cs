@@ -63,6 +63,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int? Previo { get; set; }
         public string? Tip_Ten { get; set; }
         public string? Neutralizado { get; set; }
+        public string? Fij_Tip_Des { get; set; }
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         
