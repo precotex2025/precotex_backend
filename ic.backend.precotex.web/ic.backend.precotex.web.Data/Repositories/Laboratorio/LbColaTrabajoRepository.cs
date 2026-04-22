@@ -2873,5 +2873,49 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        public async Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Corr_Carta", valores.Corr_Carta);
+                parametros.Add("@Sec", valores.Sec);
+                parametros.Add("@Correlativo", valores.Correlativo);
+                parametros.Add("@Tip_Ten", valores.Tip_Ten);
+                parametros.Add("@Nro_Dsf", valores.Nro_Dsf);
+                parametros.Add("@Est_Dsf", valores.Est_Dsf);
+
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                //PARAMETROS SALIDA
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    //EJECUTAR EL STORED PROCEDURE
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0010]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
     }
 }

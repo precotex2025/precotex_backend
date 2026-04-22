@@ -1811,6 +1811,30 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchActualizarEstadoDosificacion")]
+        public async Task<IActionResult> patchActualizarEstadoDosificacion([FromBody]Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det parametros = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Ten = valores.Tip_Ten,
+                Nro_Dsf = valores.Nro_Dsf,
+                Est_Dsf = valores.Est_Dsf
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarEstadoDosificacion(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
     }
 }

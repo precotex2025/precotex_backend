@@ -2153,5 +2153,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ActualizarEstadoDosificacion(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
     }
 }

@@ -64,6 +64,12 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Tip_Ten { get; set; }
         public string? Neutralizado { get; set; }
         public string? Fij_Tip_Des { get; set; }
+        public string? dosificacion1Estado { get; set; }
+        public string? dosificacion2Estado { get; set; }
+        public string? dosificacion3Estado { get; set; }
+        public int? Nro_Dsf { get; set; }
+        public string? Est_Dsf { get; set; }
+        
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         
