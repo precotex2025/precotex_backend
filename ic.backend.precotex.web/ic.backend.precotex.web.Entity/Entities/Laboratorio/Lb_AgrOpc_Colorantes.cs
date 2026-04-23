@@ -65,6 +65,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal? Hel_Gr { get; set; }
         public decimal? Hid_Gr { get; set; }
         public decimal? Aci_Ace { get; set; }
+        public decimal? Fij_Can { get; set; }
         /***************************/
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }

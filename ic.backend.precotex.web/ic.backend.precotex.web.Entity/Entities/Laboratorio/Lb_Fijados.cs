@@ -21,6 +21,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? item { get; set; }
         public string? descripcion { get; set; }
         public string? usuario { get; set; }
+        public string? Fij_Can { get; set; }
     }
 
     public class Lb_Fijados_Detalle

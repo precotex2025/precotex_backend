@@ -355,6 +355,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Agu_Oxi", lb_AgrOpc_Colorantes.Agu_Oxi);
                 parametros.Add("@Ruc_Gr", lb_AgrOpc_Colorantes.Ruc_Gr);
                 parametros.Add("@Tip_Ten", lb_AgrOpc_Colorantes.Tip_Ten);
+                parametros.Add("@Fij_Can", lb_AgrOpc_Colorantes.Fij_Can);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -2917,5 +2918,26 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return (Codigo, mensaje);
             }
         }
+
+        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cod", Pro_Cod);
+                parametros.Add("@Corr_Carta", Corr_Carta);
+
+                var result = await connection.QueryAsync<Lb_Curvas>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Curvas_Tenido_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
     }
 }

@@ -31,6 +31,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Lote  { get; set; }
         public string? Obs { get; set; }
         public string? Familia { get; set; }
+        public int? Pre_Id { get; set; }
+
 
 
     }

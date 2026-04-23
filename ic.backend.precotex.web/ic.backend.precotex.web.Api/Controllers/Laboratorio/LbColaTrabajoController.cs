@@ -234,7 +234,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Ant_Red_Aju = parametros.Ant_Red_Aju,
                 Agu_Oxi = parametros.Agu_Oxi,
                 Ruc_Gr = parametros.Ruc_Gr,
-                Tip_Ten = parametros.Tip_Ten
+                Tip_Ten = parametros.Tip_Ten,
+                Fij_Can = parametros.Fij_Can
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -1836,5 +1837,19 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListarCurvasV2")]
+        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        {
+            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

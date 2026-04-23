@@ -163,5 +163,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
         Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
+        Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
     }
 }

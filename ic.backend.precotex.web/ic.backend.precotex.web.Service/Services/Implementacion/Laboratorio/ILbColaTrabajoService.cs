@@ -163,5 +163,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponseList<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
+        Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
     }
 }
