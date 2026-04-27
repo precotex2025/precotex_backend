@@ -69,6 +69,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? dosificacion3Estado { get; set; }
         public int? Nro_Dsf { get; set; }
         public string? Est_Dsf { get; set; }
+        public DateTime? Fec_Ini_Tenido { get; set; }
+        public DateTime? Fec_Fin_Tenido { get; set; }
+        public DateTime? Fec_Ini_Tenido_2 { get; set; }
+        public DateTime? Fec_Fin_Tenido_2 { get; set; }
+
         
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }

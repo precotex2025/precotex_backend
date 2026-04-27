@@ -63,7 +63,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             FIJADOS
         */
         Task<IEnumerable<Lb_Fijados>?> ListarFijados();
-        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo);
+        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color);
         Task<IEnumerable<Lb_Fijados>?> ListarFijadosMantenimiento();
         Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados);
         Task<(int Codigo, string Mensaje)> ModificarFijado(Lb_Fijados _lb_Fijados);
@@ -164,5 +164,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
         Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
+        Task<(int Codigo, string Mensaje)> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores);
     }
 }

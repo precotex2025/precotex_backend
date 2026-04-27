@@ -393,9 +393,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarFijadosCalculado")]
-        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
+        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
         {
-            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo);
+            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1845,6 +1845,27 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFechasTenido_2")]
+        public async Task<IActionResult> patchActualizarFechasTenido_2([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Ahi_Id = valores.Ahi_Id,
+                Tip_Fec = valores.Tip_Fec
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFechasTenido_2(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
 

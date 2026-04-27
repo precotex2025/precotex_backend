@@ -638,7 +638,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -648,6 +648,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
                 parameters.Add("@Tipo", Tipo);
+                parameters.Add("@Cod_Color", Cod_Color);
 
                 var result = await connection.QueryAsync<Lb_Fijados>(
                     "[dbo].[PA_Lb_Fijados_Detalle_S0001]"
@@ -2939,5 +2940,41 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        public async Task<(int Codigo, string Mensaje)> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                //PARAMETROS ENTRADA
+                parametros.Add("@Ahi_Id", valores.Ahi_Id);
+                parametros.Add("@Tip_Fec", valores.Tip_Fec);
+                parametros.Add("@Codigo", 0);
+                parametros.Add("@sMsj", "");
+
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+
+                try
+                {
+                    connection.Execute(
+                        "[dbo].[PA_Lb_Colorantes_WB_U0011]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                }
+                catch (SqlException ex)
+                {
+
+                }
+
+                var Codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+                return (Codigo, mensaje);
+            }
+        }
     }
 }

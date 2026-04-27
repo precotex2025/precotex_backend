@@ -503,12 +503,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
         {
             var result = new ServiceResponseList<Lb_Fijados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo);
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2198,6 +2198,31 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             catch (Exception ex)
             {
                 result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ActualizarFechasTenido_2(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
                 return result;
             }
         }
