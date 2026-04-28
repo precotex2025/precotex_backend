@@ -26,9 +26,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
         [HttpGet]
         [Route("getListarProcesosExportacion")]
-        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
+        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string? Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
-            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
+            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -147,6 +147,66 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
         public async Task<IActionResult> getValidaColorExiste(string Cod_Color)
         {
             var result = await _txCotizacionesService.ValidaColorExiste(Cod_Color);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaUnidadNegocio")]
+        public async Task<IActionResult> getListaUnidadNegocio()
+        {
+            var result = await _txCotizacionesService.ListaUnidadNegocio();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaIntensidad")]
+        public async Task<IActionResult> getListaIntensidad(int Id_Unidad_NegocioKey)
+        {
+            var result = await _txCotizacionesService.ListaIntensidad(Id_Unidad_NegocioKey);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaHiladoxTela")]
+        public async Task<IActionResult> getListaHiladoxTela(string Cod_Tela)
+        {
+            var result = await _txCotizacionesService.ListaHiladoxTela(Cod_Tela);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaUnidadNegocioTipo")]
+        public async Task<IActionResult> getListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
+        {
+            var result = await _txCotizacionesService.ListaUnidadNegocioTipo(Id_Unidad_NegocioKey);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

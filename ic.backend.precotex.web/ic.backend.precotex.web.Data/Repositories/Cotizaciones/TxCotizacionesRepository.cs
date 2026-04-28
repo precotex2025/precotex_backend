@@ -251,5 +251,79 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 return result;
             }
         }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaUnidadNegocio_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaIntensidad_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_HilosTel>(
+                    "[dbo].[PA_Tx_ListaHilado_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaUnidadNegocioTipo_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
     }
 }

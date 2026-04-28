@@ -229,5 +229,106 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocio()
+        {
+
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaUnidadNegocio();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaIntensidad(Id_Unidad_NegocioKey);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela)
+        {
+            var result = new ServiceResponseList<Tx_HilosTel>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaHiladoxTela(Cod_Tela);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaUnidadNegocioTipo(Id_Unidad_NegocioKey);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

@@ -19,5 +19,9 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones
         Task<ServiceResponseList<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto();
         Task<ServiceResponse<int>> ProcesoCotizacion(Tx_Cotizaciones_Cab tx_Cotizaciones_Cab, List<Tx_Cotizaciones_Det> detalle, string sTipoTransac);
         Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color);
+        Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocio();
+        Task<ServiceResponseList<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey);
+        Task<ServiceResponseList<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela);
+        Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey);
     }
 }
