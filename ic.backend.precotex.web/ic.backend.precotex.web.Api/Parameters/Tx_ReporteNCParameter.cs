@@ -30,5 +30,6 @@
         public string? Niv_Rgo_Des { get; set; }
         public string? Responsable { get; set; }
         public string? Are_Des { get; set; }
+        public string? Rep_Usr_Sub { get; set; }
     }
 }

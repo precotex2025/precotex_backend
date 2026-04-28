@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 {
@@ -29,7 +30,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public IEnumerable<Colorantes_Reporte>? Colorantes_Reporte  { get; set; }
         public IEnumerable<Ruta_Reporte>? Ruta_Reporte              { get; set; }
         public IEnumerable<Solidez_Reporte>? Solidez_Reporte        { get; set; }
-
         public decimal? Kgs_Prod                                    { get; set; }
         public decimal? R_B_Prod                                    { get; set; }
         public string? Maquina                                      { get; set; }
@@ -37,7 +37,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? TipoPartida                                  { get; set; }
         public string? Cod_Color                                    { get; set; }
         public string? PartidasAgrupadas                            { get; set; }
-
+        public string? Familia                                      { get; set; }
+        public string? Pro_Des                                      { get; set; }
+        public decimal? Rel_Ban                                     { get; set; }
+        public string? Descarga                                     { get; set; }
     }
 
     public class Colorantes_Reporte

@@ -71,8 +71,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta ?? "",
                 Sec = parametros.Sec ?? 0,
                 Cur_Ten = parametros.Cur_Ten ?? 0,
+                Cur_Ten_Dis = parametros.Cur_Ten_Dis ?? 0,
                 Usr_Cod = parametros.Usr_Cod ?? "",
-                Cod_OrdTra = parametros.Cod_OrdTra ?? ""
+                Cod_OrdTra = parametros.Cod_OrdTra ?? "",
+                Familia = parametros.Familia ?? ""
             };
 
             var result = await _LbColaTrabajoService.RegistrarDetalleColorSDC(_lbColaTrabajoDet);
@@ -162,7 +164,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Flg_Est_Lab = parametros.Flg_Est_Lab
+                Flg_Est_Lab = parametros.Flg_Est_Lab,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarEstadoDeColorTricomia(_lbAgrOpcColorante);
@@ -185,7 +188,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Flg_Est_Autolab = parametros.Flg_Est_Autolab
+                Flg_Est_Autolab = parametros.Flg_Est_Autolab,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarEstadoDeColorTricomiaAutolab(_lbAgrOpcColorante);
@@ -225,10 +229,16 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sod_Gr = parametros.Sod_Gr,
                 Sod_Por = parametros.Sod_Por,
                 Familia = parametros.Familia,
-                Cambio = parametros.Cambio
+                Cambio = parametros.Cambio,
+                Ant_Red = parametros.Ant_Red,
+                Ant_Red_Aju = parametros.Ant_Red_Aju,
+                Agu_Oxi = parametros.Agu_Oxi,
+                Ruc_Gr = parametros.Ruc_Gr,
+                Tip_Ten = parametros.Tip_Ten,
+                Fij_Can = parametros.Fij_Can
             };
 
-            var result = await _LbColaTrabajoService.AgregarOpcionColorante(parametros);
+            var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
@@ -256,9 +266,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarInformeSDC")]
-        public async Task<IActionResult> getCargarInformeSDC(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getCargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarInformeSDC(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.CargarInformeSDC(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -308,9 +318,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpDelete]
         [Route("deleteEliminarOpcionColorante")]
-        public async Task<IActionResult> deleteEliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> deleteEliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
+            var result = await _LbColaTrabajoService.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo, Tip_Ten);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
@@ -353,9 +363,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadosCalculado")]
-        public async Task<IActionResult> getListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<IActionResult> getListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadosCalculado(Colorante_Total, Familia);
+            var result = await _LbColaTrabajoService.ListarJabonadosCalculado(Colorante_Total, Familia, Tipo);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -383,9 +393,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarFijadosCalculado")]
-        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
         {
-            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia);
+            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -398,9 +408,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarCarbonatoSodaCalculado")]
-        public async Task<IActionResult> getListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        public async Task<IActionResult> getListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo)
         {
-            var result = await _LbColaTrabajoService.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con);
+            var result = await _LbColaTrabajoService.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con, Tipo);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -435,7 +445,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = parametros.Corr_Carta,
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
-                Posicion = parametros.Posicion
+                Posicion = parametros.Posicion,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.EnviarADispensado(_lbAgrOpcColorante);
@@ -490,7 +501,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Correlativo = parametros.Correlativo,
                 Ahi_Id = parametros.Ahi_Id,
                 Nro_Tubo = parametros.Nro_Tubo,
-                Tip_Carga = parametros.Tip_Carga
+                Tip_Carga = parametros.Tip_Carga,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.CargarAahiba(_lbAgrOpcColorante);
@@ -530,7 +542,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Correlativo = parametros.Correlativo,
                 Tip_Ph = parametros.Tip_Ph,
                 JabonadoIndex = parametros.JabonadoIndex,
-                Ph_Val = parametros.Ph_Val
+                Ph_Val = parametros.Ph_Val,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarPH(_lbColTraDet);
@@ -577,7 +590,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Correlativo = parametros.Correlativo,
                 Familia = parametros.Familia,
                 Cambio = parametros.Cambio,
-                ProcedenciaHardCodeada = parametros.ProcedenciaHardCodeada
+                ProcedenciaHardCodeada = parametros.ProcedenciaHardCodeada,
+                Cur_Ten = parametros.Cur_Ten,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.AgregarAuxiliaresHojaFormulacion(_lbAgrOpcColorante);
@@ -660,9 +675,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarColoranteParaCopiar")]
-        public async Task<IActionResult> getCargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo);
+            var result = await _LbColaTrabajoService.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -675,9 +690,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarColoranteParaDetalle")]
-        public async Task<IActionResult> getCargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo);
+            var result = await _LbColaTrabajoService.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -705,9 +720,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarIngresoManual")]
-        public async Task<IActionResult> getListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
+            var result = await _LbColaTrabajoService.ListarIngresoManual(Corr_Carta, Sec, Correlativo, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -720,9 +735,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getCargarDatosReporte")]
-        public async Task<IActionResult> getCargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<IActionResult> getCargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.CargarDatosReporte(Corr_Carta, Sec, Correlativo);
+            var result = await _LbColaTrabajoService.CargarDatosReporte(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1334,9 +1349,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         //OBTENER RELACION BANO, VOLUMEN, PESO
         [HttpGet]
         [Route("getObtenerTrio")]
-        public async Task<IActionResult> getObtenerTrio(string Corr_Carta, int Sec)
+        public async Task<IActionResult> getObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec);
+            var result = await _LbColaTrabajoService.ObtenerTrio(Corr_Carta, Sec, Tip_Ten);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1390,7 +1405,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Por_Ini = parametros.Por_Ini,
                 Por_Aju = parametros.Por_Aju,
                 Por_Fin = parametros.Por_Fin,
-                Correlativo_Nuevo = parametros.Correlativo_Nuevo         
+                Correlativo_Nuevo = parametros.Correlativo_Nuevo,
+                Tip_Ten = parametros.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionAjustada(value);
@@ -1484,7 +1500,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = valores.Corr_Carta,
                 Sec = valores.Sec,
                 Correlativo = valores.Correlativo,
-                Tip_Fec = valores.Tip_Fec
+                Tip_Fec = valores.Tip_Fec,
+                Tip_Ten = valores.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarFechasTenido(parametros);
@@ -1522,7 +1539,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Corr_Carta = valores.Corr_Carta,
                 Sec = valores.Sec,
                 Correlativo = valores.Correlativo,
-                Tip_Fij = valores.Tip_Fij
+                Tip_Fij = valores.Tip_Fij,
+                Tip_Ten = valores.Tip_Ten
             };
 
             var result = await _LbColaTrabajoService.ActualizarFijadoTipo(parametros);
@@ -1707,6 +1725,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerCurvaReactivoDisperso")]
+        public async Task<IActionResult> getObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = await _LbColaTrabajoService.ObtenerCurvaReactivoDisperso(Corr_Carta, Sec, Tip_Ten);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         [HttpGet("printers")]
         public IActionResult GetPrinters()
         {
@@ -1779,6 +1812,65 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPatch]
+        [Route("patchActualizarEstadoDosificacion")]
+        public async Task<IActionResult> patchActualizarEstadoDosificacion([FromBody]Lb_ColTra_Det valores)
+        {
+            Lb_ColTra_Det parametros = new Lb_ColTra_Det
+            {
+                Corr_Carta = valores.Corr_Carta,
+                Sec = valores.Sec,
+                Correlativo = valores.Correlativo,
+                Tip_Ten = valores.Tip_Ten,
+                Nro_Dsf = valores.Nro_Dsf,
+                Est_Dsf = valores.Est_Dsf
+            };
 
+            var result = await _LbColaTrabajoService.ActualizarEstadoDosificacion(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarCurvasV2")]
+        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        {
+            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchActualizarFechasTenido_2")]
+        public async Task<IActionResult> patchActualizarFechasTenido_2([FromBody] Lb_AgrOpc_Colorantes valores)
+        {
+            Lb_AgrOpc_Colorantes parametros = new Lb_AgrOpc_Colorantes
+            {
+                Ahi_Id = valores.Ahi_Id,
+                Tip_Fec = valores.Tip_Fec
+            };
+
+            var result = await _LbColaTrabajoService.ActualizarFechasTenido_2(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

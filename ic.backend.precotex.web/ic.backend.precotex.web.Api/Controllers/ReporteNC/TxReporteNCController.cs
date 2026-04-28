@@ -349,7 +349,8 @@ namespace ic.backend.precotex.web.Api.Controllers.ReporteNC
                 Rep_DetObs  = parametros.Rep_DetObs,
                 Imagenes    = parametros.Imagenes,
                 imgnombre   = parametros.imgnombre,
-                Img_Fam     = parametros.Img_Fam
+                Img_Fam     = parametros.Img_Fam,
+                Rep_Usr_Sub = parametros.Rep_Usr_Sub
 
             };
 

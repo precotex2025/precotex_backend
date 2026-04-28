@@ -35,26 +35,26 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         */
         Task<ServiceResponse<int>> AgregarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
         Task<ServiceResponseList<Lg_Item>?> CargarComboBoxItem();
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
 
         /*
             INFORMACION SDC 
         */
-        Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec);
+        Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
              HOJA DE FORMULACION
         */
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarGridHojaFormulacion(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponse<int>> CopiarOpcionColorante(Lb_AgrOpc_Colorantes lb_AgrOpc_Colorantes);
-        Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
         Task<ServiceResponseList<Lb_Colorantes>?> ListarColorantesAgregarOpcion();
 
         /*
             JABONADOS 
         */
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonados();
-        Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia);
+        Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo);
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadoMantenimiento();
         Task<ServiceResponse<int>> RegistrarJabonado(Lb_Jabonados lb_Jabonados);
         Task<ServiceResponse<int>> ModificarJabonado(Lb_Jabonados lb_Jabonados);
@@ -68,7 +68,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             FIJADOS
         */
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijados();
-        Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia);
+        Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color);
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosMantenimiento();
         Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados);
         Task<ServiceResponse<int>> ModificarFijado(Lb_Fijados lb_Fijados);
@@ -81,7 +81,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             CARBONATO Y SODA 
         */
-        Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con);
+        Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo);
 
         /*
             COLA AUTOLAB
@@ -107,8 +107,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonado(string Usr_Cod);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluido(string Usr_Cod);
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarFamiliasProceso();
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo);
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten);
 
 
         /*
@@ -119,7 +119,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             REPORTE   
         */
-        Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo);
+        Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten);
 
         /*
             COMPONENTES EXTRA   
@@ -136,7 +136,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         /*
             OBTENER RELACION BANO, VOLUMEN, PESO
         */
-        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec);
+        Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten);
 
 
 
@@ -161,5 +161,9 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<ServiceResponseList<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
+        Task<ServiceResponseList<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
+        Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
+        Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
+        Task<ServiceResponse<int>> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores);
     }
 }

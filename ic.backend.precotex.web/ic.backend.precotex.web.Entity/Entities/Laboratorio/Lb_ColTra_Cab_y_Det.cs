@@ -27,5 +27,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Flg_Est_Lab { get; set; }
         public string? Tipo { get; set; }
         public string? Cod_Ruta { get; set; }
+        public string? Familia { get; set; }
     }
 }

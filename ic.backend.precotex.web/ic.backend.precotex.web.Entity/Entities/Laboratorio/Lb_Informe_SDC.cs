@@ -15,6 +15,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Com_Comer { get; set; } 
         public IEnumerable<string>? Ruta { get; set; }
         public IEnumerable<string>? Solidez { get; set; }
+        public IEnumerable<Luz>? Luz { get; set; }
 
         //PRODUCCION
         public string? Cur_Ten  { get; set; }
@@ -29,6 +30,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Ref_Com  { get; set; }
         public string? Lote  { get; set; }
         public string? Obs { get; set; }
+        public string? Familia { get; set; }
+        public int? Pre_Id { get; set; }
+
 
 
     }
@@ -42,6 +46,12 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     public class Solidez
     {
         public int? CodSDC { get; set; }
+        public string? Descripcion { get; set; }
+    }
+
+    public class Luz
+    {
+        public string? Corr_Carta { get; set; }
         public string? Descripcion { get; set; }
     }
 }

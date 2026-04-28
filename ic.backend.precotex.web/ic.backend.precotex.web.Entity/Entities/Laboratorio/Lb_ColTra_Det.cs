@@ -30,6 +30,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cur_Des { get; set; }
         public string? Usr_Cod { get; set; }
         public decimal? Sod_Gr { get; set; }
+        public int? Cur_Ten_Dis { get; set; }
+
 
         //OTROS CAMPOS 
         public string? Jab_Des { get; set; }
@@ -59,6 +61,20 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int? Ahi_Id_Jab { get; set; }
         public decimal? Ph_Neu { get; set; }
         public int? Previo { get; set; }
+        public string? Tip_Ten { get; set; }
+        public string? Neutralizado { get; set; }
+        public string? Fij_Tip_Des { get; set; }
+        public string? dosificacion1Estado { get; set; }
+        public string? dosificacion2Estado { get; set; }
+        public string? dosificacion3Estado { get; set; }
+        public int? Nro_Dsf { get; set; }
+        public string? Est_Dsf { get; set; }
+        public DateTime? Fec_Ini_Tenido { get; set; }
+        public DateTime? Fec_Fin_Tenido { get; set; }
+        public DateTime? Fec_Ini_Tenido_2 { get; set; }
+        public DateTime? Fec_Fin_Tenido_2 { get; set; }
+
+        
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         

@@ -40,6 +40,7 @@ namespace ic.backend.precotex.web.Entity.Entities.ReporteNC
         public string? Cla_Des { get; set; }
         public string? Resp_Nom { get; set; }
         public string? Est_Id { get; set; }
+        public string? Rep_Usr_Sub { get; set; }
 
     }
 }

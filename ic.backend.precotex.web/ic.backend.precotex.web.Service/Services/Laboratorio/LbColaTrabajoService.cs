@@ -304,12 +304,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         /*
             INFORMACION SDC
         */
-        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_Informe_SDC>?> CargarInformeSDC(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_Informe_SDC>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarInformeSDC(Corr_Carta, Sec);
+                var resultData = await _lbColaTrabajoRepository.CargarInformeSDC(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -382,12 +382,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
         }
 
         //ELIMINAR OPCION AGREGADA
-        public async Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponse<int>> EliminarOpcionColorante(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponse<int>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.EliminarOpcionColorante(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData.Codigo > 0)
                 {
                     result.Success = true;
@@ -455,12 +455,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo)
         {
             var result = new ServiceResponseList<Lb_Jabonados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonadosCalculado(Colorante_Total, Familia);
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadosCalculado(Colorante_Total,Familia, Tipo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -503,12 +503,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia)
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
         {
             var result = new ServiceResponseList<Lb_Fijados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia);
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -527,12 +527,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con)
+        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Extra>?> ListarCarbonatoSodaCalculado(decimal Colorante_Total, string Familia, int Com_Cod_Con, string Tipo)
         {
             var result = new ServiceResponseList<Lb_Colorantes_Componentes_Extra>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con);
+                var resultData = await _lbColaTrabajoRepository.ListarCarbonatoSodaCalculado(Colorante_Total, Familia, Com_Cod_Con, Tipo);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -877,12 +877,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaCopiar(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaCopiar(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -901,12 +901,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> CargarColoranteParaDetalle(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.CargarColoranteParaDetalle(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -948,12 +948,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ListarIngresoManual(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarIngresoManual(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.ListarIngresoManual(Corr_Carta, Sec, Correlativo, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -972,12 +972,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, int Correlativo)
+        public async Task<ServiceResponseList<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_Reporte>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarDatosReporte(Corr_Carta, Sec, Correlativo);
+                var resultData = await _lbColaTrabajoRepository.CargarDatosReporte(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -1612,12 +1612,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec)
+        public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerTrio(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ObtenerTrio(Corr_Carta, Sec);
+                var resultData = await _lbColaTrabajoRepository.ObtenerTrio(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2129,5 +2129,102 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = new ServiceResponseList<Lb_Curvas>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerCurvaReactivoDisperso(Corr_Carta, Sec, Tip_Ten);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ActualizarEstadoDosificacion(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        {
+            var result = new ServiceResponseList<Lb_Curvas>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarCurvasV2(Pro_Cod, Corr_Carta);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ActualizarFechasTenido_2(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
     }
 }
