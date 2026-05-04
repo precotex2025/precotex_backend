@@ -1872,5 +1872,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getObtenerPermisoUsuario")]
+        public async Task<IActionResult> getObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
+        {
+            var result = await _LbColaTrabajoService.ObtenerPermisoUsuario(Usr_Cod, Acc_Rut);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

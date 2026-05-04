@@ -15,6 +15,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 		public string? Flg_Activo { get; set; }
         public string? Tip_Trabajador { get; set; }
 		public string? Cod_Trabajador { get; set; }
+        public string? Acc_Cod { get; set; }
+        public string? Acc_Rut { get; set; }
+        public string? Permitido { get; set; }
 
 
     }

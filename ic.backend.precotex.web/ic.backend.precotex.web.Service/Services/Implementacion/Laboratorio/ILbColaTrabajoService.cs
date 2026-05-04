@@ -165,5 +165,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
         Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
         Task<ServiceResponse<int>> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores);
+        Task<ServiceResponseList<Lb_Usuarios>?> ObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut);
     }
 }
