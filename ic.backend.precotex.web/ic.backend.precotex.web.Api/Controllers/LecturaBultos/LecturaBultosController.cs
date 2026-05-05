@@ -1,3 +1,4 @@
+using ic.backend.precotex.web.Entity;
 using ic.backend.precotex.web.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,58 @@ namespace MyApp.Namespace
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarMovimientos")]
+        public async Task<IActionResult> ListarMovimientos(string? Num_MovStk, string? Cod_Almacen, DateTime? Fec_MovStk)
+        {
+            var result = await _service.ListarMovimientos(Num_MovStk ?? "", Cod_Almacen ?? "", Fec_MovStk);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarBultos")]
+        public async Task<IActionResult> ListarBultos(string? Num_MovStk, string? Cod_Almacen)
+        {
+            var result = await _service.ListarBultos(Num_MovStk ?? "", Cod_Almacen ?? "");
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchLecturarBulto")]
+        public async Task<IActionResult> LecturarBulto([FromBody] Lg_Bultos valores)
+        {
+            Lg_Bultos parametros = new Lg_Bultos
+            {
+                Num_MovStk = valores.Num_MovStk,
+                Cod_Almacen = valores.Cod_Almacen,
+                Num_Corre = valores.Num_Corre
+            };
+
+            var result = await _service.LecturarBulto(parametros);
+            if (result.Success)
+            {
+                result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
 

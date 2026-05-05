@@ -36,4 +36,79 @@ public class LecturaBultosService: ILecturaBultosService
             return result;
         }
     }
+
+    public async Task<ServiceResponseList<Lg_LecturaBultos>?> ListarMovimientos(string? Num_MovStk, string? Cod_Almacen, DateTime? Fec_MovStk)
+    {
+        var result = new ServiceResponseList<Lg_LecturaBultos>();
+        try
+        {
+            var resultData = await _repository.ListarMovimientos(Num_MovStk, Cod_Almacen, Fec_MovStk);
+            if (resultData == null || !resultData.Any())
+            {
+                result.Success = true;
+                result.Message = "No existe información";
+            }
+            result.Success = true;
+            result.Message = "Completado con éxito";
+            result.Elements = resultData.ToList();
+            result.TotalElements = resultData.ToList().Count();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.Message = "Excepción no controlada " + ex.Message;
+            return result;
+        }
+    }
+
+    public async Task<ServiceResponseList<Lg_Bultos>?> ListarBultos(string? Num_MovStk, string? Cod_Almacen)
+    {
+        var result = new ServiceResponseList<Lg_Bultos>();
+        try
+        {
+            var resultData = await _repository.ListarBultos(Num_MovStk, Cod_Almacen);
+            if (resultData == null || !resultData.Any())
+            {
+                result.Success = true;
+                result.Message = "No existe información";
+            }
+            result.Success = true;
+            result.Message = "Completado con éxito";
+            result.Elements = resultData.ToList();
+            result.TotalElements = resultData.ToList().Count();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            result.Message = "Excepción no controlada " + ex.Message;
+            return result;
+        }
+    }
+
+    public async Task<ServiceResponse<int>> LecturarBulto(Lg_Bultos valores)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _repository.LecturarBulto(valores);
+                if (resultData.Codigo > 0)
+                {
+                    result.Success = true;
+                    result.Message = resultData.Mensaje;
+                    result.CodeTransacc = resultData.Codigo;
+                    return result;
+                }
+                result.Success = false;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Error inesperado " + ex.Message;
+                return result;
+            }
+        }
+
+
 }
