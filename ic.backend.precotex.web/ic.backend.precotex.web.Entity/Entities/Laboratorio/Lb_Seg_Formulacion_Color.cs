@@ -20,5 +20,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Partidas { get; set; }
         public DateTime? Fecha_AsignaAnalista { get; set; }
         public string? Flg_Estandar { get; set; }
+        public string? Usr_Cod { get; set;}
     }
 }

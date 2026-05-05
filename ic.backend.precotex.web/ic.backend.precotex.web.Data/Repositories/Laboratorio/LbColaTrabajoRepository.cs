@@ -611,6 +611,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Colorante_Total", Colorante_Total);
                 parameters.Add("@Familia", Familia);
                 parameters.Add("@Tipo", Tipo);
+                //parameters.Add("@Cambio", Cambio);
 
                 var result = await connection.QueryAsync<Lb_Jabonados>(
                     "[dbo].[PA_Lb_Jabonados_Detalle_S0001]"
@@ -2858,7 +2859,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
         }
         public async Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))                                                                               
             {
                 await connection.OpenAsync();
 
@@ -2974,6 +2975,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var Codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
                 return (Codigo, mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Usuarios>?> ObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Usr_Cod", Usr_Cod);
+                parametros.Add("@Acc_Rut", Acc_Rut);
+
+                var result = await connection.QueryAsync<Lb_Usuarios>(
+                    "[dbo].[PA_Lb_Usuarios_WB_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
             }
         }
     }

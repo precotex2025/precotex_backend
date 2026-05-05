@@ -165,5 +165,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
         Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
         Task<(int Codigo, string Mensaje)> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores);
+        Task<IEnumerable<Lb_Usuarios>?> ObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut);
     }
 }

@@ -95,6 +95,8 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.AgendaTelefonica;
 using ic.backend.precotex.web.Data.Repositories.AgendaTelefonica;
 using ic.backend.precotex.web.Service.Services.Implementacion.AgendaTelefonica;
 using ic.backend.precotex.web.Service.Services.AgendaTelefonica;
+using ic.backend.precotex.web.Service;
+using ic.backend.precotex.web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -178,6 +180,7 @@ builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
 builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 builder.Services.AddScoped<IMaeTabService, MaeTabService>();
 builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
+builder.Services.AddScoped<ILecturaBultosService, LecturaBultosService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -218,6 +221,8 @@ builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
 builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
 builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
+builder.Services.AddScoped<ILecturaBultosRepository, LecturaBultosRepository>();
+
 #endregion
 
 

@@ -2226,5 +2226,29 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Lb_Usuarios>?> ObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
+        {
+            var result = new ServiceResponseList<Lb_Usuarios>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerPermisoUsuario(Usr_Cod, Acc_Rut);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }
