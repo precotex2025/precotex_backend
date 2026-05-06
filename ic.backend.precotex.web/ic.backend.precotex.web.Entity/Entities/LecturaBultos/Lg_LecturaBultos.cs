@@ -5,6 +5,7 @@ public class Lg_LecturaBultos
     public DateTime? Fec_MovStk { get; set; }
     public string? Num_MovStk { get; set; }
     public int? Can_Bulto { get; set; }
+    public int? Can_Lecturado { get; set; }
     public decimal? Peso_Neto { get; set; }
     public string? Flg_Lecturado { get; set; }
 }

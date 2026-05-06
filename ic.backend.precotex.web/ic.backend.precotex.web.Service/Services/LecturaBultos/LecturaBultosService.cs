@@ -37,12 +37,12 @@ public class LecturaBultosService: ILecturaBultosService
         }
     }
 
-    public async Task<ServiceResponseList<Lg_LecturaBultos>?> ListarMovimientos(string? Num_MovStk, string? Cod_Almacen, DateTime? Fec_MovStk)
+    public async Task<ServiceResponseList<Lg_LecturaBultos>?> ListarMovimientos(string? Cod_Almacen, string? Num_MovStk, string? Fec_MovStk, string? Flg_Pendiente)
     {
         var result = new ServiceResponseList<Lg_LecturaBultos>();
         try
         {
-            var resultData = await _repository.ListarMovimientos(Num_MovStk, Cod_Almacen, Fec_MovStk);
+            var resultData = await _repository.ListarMovimientos(Cod_Almacen, Num_MovStk, Fec_MovStk, Flg_Pendiente);
             if (resultData == null || !resultData.Any())
             {
                 result.Success = true;

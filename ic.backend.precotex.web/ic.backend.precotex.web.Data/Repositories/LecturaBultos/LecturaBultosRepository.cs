@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ic.backend.precotex.web.Entity;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace ic.backend.precotex.web.Data;
 
@@ -32,16 +33,25 @@ public class LecturaBultosRepository: ILecturaBultosRepository
     }
 
     //LISTAR NOVIMIENTOS
-    public async Task<IEnumerable<Lg_LecturaBultos>?> ListarMovimientos(string? Num_MovStk, string? Cod_Almacen, DateTime? Fec_MovStk)
+    public async Task<IEnumerable<Lg_LecturaBultos>?> ListarMovimientos(string? Cod_Almacen, string? Num_MovStk, string? Fec_MovStk, string? Flg_Pendiente)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             await connection.OpenAsync();
             
             var parametros = new DynamicParameters();
-            parametros.Add("@Num_MovStk", Num_MovStk);
             parametros.Add("@Cod_Almacen", Cod_Almacen);
-            parametros.Add("@Fec_MovStk", Fec_MovStk);
+            parametros.Add("@Num_MovStk", Num_MovStk);
+            if (!string.IsNullOrEmpty(Fec_MovStk))
+            {
+                var fecha = DateTime.ParseExact(Fec_MovStk, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                parametros.Add("@Fec_MovStk", fecha);
+            }
+            else
+            {
+                parametros.Add("@Fec_MovStk", null);
+            }
+            parametros.Add("@Flg_Pendiente", Flg_Pendiente);
 
             var result = await connection.QueryAsync<Lg_LecturaBultos>(
                 "[dbo].[PA_Lg_MoviStk_S0001]"

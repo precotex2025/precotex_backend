@@ -33,9 +33,9 @@ namespace MyApp.Namespace
 
         [HttpGet]
         [Route("getListarMovimientos")]
-        public async Task<IActionResult> ListarMovimientos(string? Num_MovStk, string? Cod_Almacen, DateTime? Fec_MovStk)
+        public async Task<IActionResult> ListarMovimientos(string? Cod_Almacen, string? Num_MovStk, string? Fec_MovStk, string? Flg_Pendiente)
         {
-            var result = await _service.ListarMovimientos(Num_MovStk ?? "", Cod_Almacen ?? "", Fec_MovStk);
+            var result = await _service.ListarMovimientos(Cod_Almacen ?? "", Num_MovStk ?? "", Fec_MovStk, Flg_Pendiente ?? "N");
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
