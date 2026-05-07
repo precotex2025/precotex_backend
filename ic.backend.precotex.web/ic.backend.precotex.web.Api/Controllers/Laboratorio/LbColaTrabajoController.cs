@@ -1887,5 +1887,50 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getEnviarAutolabModoGet")]
+        public async Task<IActionResult> EnviarAutolabModoGet()
+        {
+            var result = await _LbColaTrabajoService.EnviarAutolabModoGet();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerCantidadGrupos")]
+        public async Task<IActionResult> ObtenerCantidadGrupos()
+        {
+            var result = await _LbColaTrabajoService.ObtenerCantidadGrupos();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getAsignarGrupos")]
+        public async Task<IActionResult> AsignarGrupos()
+        {
+            var result = await _LbColaTrabajoService.AsignarGrupos();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

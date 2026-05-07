@@ -166,5 +166,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta);
         Task<(int Codigo, string Mensaje)> ActualizarFechasTenido_2(Lb_AgrOpc_Colorantes valores);
         Task<IEnumerable<Lb_Usuarios>?> ObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut);
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> EnviarAutolabModoGet();
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerCantidadGrupos();
+        Task<IEnumerable<Lb_AgrOpc_Colorantes>?> AsignarGrupos();
     }
 }

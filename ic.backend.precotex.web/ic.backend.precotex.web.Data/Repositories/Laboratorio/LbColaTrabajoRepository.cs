@@ -906,11 +906,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                         "[dbo].[PA_Lb_Colorantes_WB_U0005]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
+                        , commandTimeout: 600
                     );
                 }
                 catch (SqlException ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
 
                 var Codigo = parametros.Get<int>("@Codigo");
@@ -2990,6 +2991,55 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 var result = await connection.QueryAsync<Lb_Usuarios>(
                     "[dbo].[PA_Lb_Usuarios_WB_S0002]"
                     , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
+
+        //ENVIAR A AUTOLAB COMO GET
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> EnviarAutolabModoGet()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_U0005]"
+                    , commandType: CommandType.StoredProcedure
+                    , commandTimeout: 600
+                );
+
+                return result;
+            }
+        }
+
+        //OBTENER LA CANTIDAD DE GRUPOS EN LB_COLORANTES_WB_UNIDO
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerCantidadGrupos()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_Unido_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
+
+        //ASIGNAR GRUPOS
+        public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> AsignarGrupos()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<Lb_AgrOpc_Colorantes>(
+                    "[dbo].[PA_Lb_Colorantes_WB_Unido_U0001]"
                     , commandType: CommandType.StoredProcedure
                 );
 
