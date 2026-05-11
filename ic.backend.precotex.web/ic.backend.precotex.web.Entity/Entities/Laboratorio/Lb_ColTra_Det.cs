@@ -77,6 +77,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
+        public string? Partidas { get; set; }
         
     }
 }

@@ -109,6 +109,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                     parametros.Add("@Cur_Ten_Dis", lbColaTrabajoDet.Cur_Ten_Dis);
                     parametros.Add("@Familia", lbColaTrabajoDet.Familia);
                     parametros.Add("@Usr_Cod", lbColaTrabajoDet.Usr_Cod);
+                    parametros.Add("@Partidas", lbColaTrabajoDet.Partidas);
 
                     parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);

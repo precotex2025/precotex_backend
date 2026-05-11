@@ -74,7 +74,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Cur_Ten_Dis = parametros.Cur_Ten_Dis ?? 0,
                 Usr_Cod = parametros.Usr_Cod ?? "",
                 Cod_OrdTra = parametros.Cod_OrdTra ?? "",
-                Familia = parametros.Familia ?? ""
+                Familia = parametros.Familia ?? "",
+                Partidas = parametros.Partidas ?? ""
             };
 
             var result = await _LbColaTrabajoService.RegistrarDetalleColorSDC(_lbColaTrabajoDet);
