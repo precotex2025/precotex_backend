@@ -42,6 +42,7 @@ public class LecturaBultosRepository: ILecturaBultosRepository
             var parametros = new DynamicParameters();
             parametros.Add("@Cod_Almacen", Cod_Almacen);
             parametros.Add("@Num_MovStk", Num_MovStk);
+
             if (!string.IsNullOrEmpty(Fec_MovStk))
             {
                 var fecha = DateTime.ParseExact(Fec_MovStk, "dd/MM/yyyy", CultureInfo.InvariantCulture);

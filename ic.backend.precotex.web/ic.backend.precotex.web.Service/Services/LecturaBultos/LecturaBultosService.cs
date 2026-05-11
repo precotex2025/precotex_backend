@@ -99,6 +99,7 @@ public class LecturaBultosService: ILecturaBultosService
                     return result;
                 }
                 result.Success = false;
+                result.CodeTransacc = resultData.Codigo;
                 result.Message = resultData.Mensaje;
                 return result;
             }

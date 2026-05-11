@@ -56,7 +56,6 @@ namespace MyApp.Namespace
                 result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
-
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
@@ -81,6 +80,16 @@ namespace MyApp.Namespace
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            // if (result.CodeResult == 0)
+            // {
+            //     return BadRequest(result.Message);
+            // }
+            // else
+            // {
+            //     result.CodeResult = StatusCodes.Status400BadRequest;
+            //     return BadRequest(result);
+            // }
+            
         }
     }
 }
