@@ -41,6 +41,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Pro_Des                                      { get; set; }
         public decimal? Rel_Ban                                     { get; set; }
         public string? Descarga                                     { get; set; }
+        public string? Lote_Hilado                                  { get; set; }
     }
 
     public class Colorantes_Reporte
