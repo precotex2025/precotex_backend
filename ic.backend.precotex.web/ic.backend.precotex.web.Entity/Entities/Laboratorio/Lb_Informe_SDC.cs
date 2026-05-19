@@ -33,6 +33,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Familia { get; set; }
         public int? Pre_Id { get; set; }
 
+        public string? Cod_OrdTra_Ref	 { get; set; }
+        public string? Tela_Ref { get; set; }
+        public string? Rel_Ban_Ref { get; set; }
+        public string? Lote_Ref { get; set; }
+
 
 
     }
