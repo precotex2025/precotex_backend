@@ -330,5 +330,83 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaColoresXCliente(string Cod_Cliente)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaColoresXCliente(Cod_Cliente);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_PreciosColor>?> ListaPrecioXColor(string Cod_Color)
+        {
+            var result = new ServiceResponseList<Tx_PreciosColor>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaPrecioXColor(Cod_Color);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaRecetasAntipilling()
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaRecetasAntipilling();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

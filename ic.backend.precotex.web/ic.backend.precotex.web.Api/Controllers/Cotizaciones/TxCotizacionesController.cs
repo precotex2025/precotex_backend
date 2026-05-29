@@ -217,5 +217,50 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListaColoresXCliente")]
+        public async Task<IActionResult> getListaColoresXCliente(string Cod_Cliente)
+        {
+            var result = await _txCotizacionesService.ListaColoresXCliente(Cod_Cliente);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaPrecioXColor")]
+        public async Task<IActionResult> getListaPrecioXColor(string Cod_Color)
+        {
+            var result = await _txCotizacionesService.ListaPrecioXColor(Cod_Color);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaRecetasAntipilling")]
+        public async Task<IActionResult> getListaRecetasAntipilling()
+        {
+            var result = await _txCotizacionesService.ListaRecetasAntipilling();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }
