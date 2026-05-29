@@ -22,6 +22,14 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public double? Pro_Cotizacion { get; set; }
         public double? Pro_Por { get; set; }
         public string? Pro_Tip { get; set; }
+        public int? Nivel { get; set; }
+        public int? Cod_Subtotal { get; set; }
+        public string? Cod_Proceso_Tex { get; set; }
+        public string? Cod_ProcesoPadre { get; set; }
+        public string? Cod_SubProceso { get; set; }
+        public int? ParteEntera { get; set; }
+        public int? ParteDecimal { get; set; }
+        public string? Observacion { get; set; }
 
 
     }

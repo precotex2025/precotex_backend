@@ -173,36 +173,61 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
 
                     // Parámetro tabla para N detalles
                     var dtDetalles = new DataTable();
-                    dtDetalles.Columns.Add("Pro_Cen_Cos", typeof(int));
+                    //dtDetalles.Columns.Add("Pro_Cen_Cos", typeof(int));
                     dtDetalles.Columns.Add("Pro_Hover", typeof(string));
-                    dtDetalles.Columns.Add("Pro_Des", typeof(string));
+                    //dtDetalles.Columns.Add("Pro_Des", typeof(string));
                     dtDetalles.Columns.Add("Pro_Factor", typeof(int));
                     dtDetalles.Columns.Add("Pro_Cos_Kg", typeof(decimal));
                     dtDetalles.Columns.Add("Pro_Tot", typeof(decimal));
+                    dtDetalles.Columns.Add("Pro_Tot_Com", typeof(decimal));
                     dtDetalles.Columns.Add("Pro_Aju", typeof(decimal));
                     dtDetalles.Columns.Add("Pro_Cotizacion", typeof(decimal));
-                    dtDetalles.Columns.Add("Pro_Tip", typeof(string));
-                    dtDetalles.Columns.Add("Pro_Tot_Com", typeof(decimal));
                     dtDetalles.Columns.Add("Pro_Por", typeof(decimal));
-                    dtDetalles.Columns.Add("Flg_Estatus", typeof(string));
-                    dtDetalles.Columns.Add("Usu_Registro", typeof(string));
+                    dtDetalles.Columns.Add("Pro_Tip", typeof(string));
+                    //Nuevos Campos
+                    dtDetalles.Columns.Add("Observacion", typeof(string));
+                    dtDetalles.Columns.Add("Nivel", typeof(string));
+                    dtDetalles.Columns.Add("cod_Subtotal", typeof(int));
+                    dtDetalles.Columns.Add("parteEntera", typeof(int));
+                    dtDetalles.Columns.Add("parteDecimal", typeof(int));
+                    dtDetalles.Columns.Add("isParent", typeof(bool));
+                    dtDetalles.Columns.Add("isChild", typeof(bool));
+                    dtDetalles.Columns.Add("tieneHijos", typeof(bool));
+                    dtDetalles.Columns.Add("cod_ProcesoPadre", typeof(string));
+                    dtDetalles.Columns.Add("cod_Proceso_Tex", typeof(string));
+                    dtDetalles.Columns.Add("Cod_SubProceso", typeof(string));
+
+                    //dtDetalles.Columns.Add("Flg_Estatus", typeof(string));
+                    //dtDetalles.Columns.Add("Usu_Registro", typeof(string));
 
                     foreach (var det in detalle)
                     {
                         dtDetalles.Rows.Add(
-                            det.Pro_Cen_Cos,
+                            //det.Pro_Cen_Cos,
                             det.Pro_Hover,
-                            det.Pro_Des,
+                            //det.Pro_Des,
                             det.Pro_Factor,
                             det.Pro_Cos_Kg,
                             det.Pro_Tot,
+                            det.Pro_Tot_Com,
                             det.Pro_Aju,
                             det.Pro_Cotizacion,
-                            det.Pro_Tip,
-                            det.Pro_Tot_Com,
                             det.Pro_Por,
-                            det.Flg_Estatus,
-                            det.Usu_Registro
+                            det.Pro_Tip,
+                            //Nuevos Campos
+                            det.Observacion,
+                            det.Nivel,
+                            det.cod_Subtotal,
+                            det.parteEntera,
+                            det.parteDecimal,
+                            det.isParent,
+                            det.isChild,
+                            det.tieneHijos,
+                            det.cod_ProcesoPadre,
+                            det.cod_Proceso_Tex,
+                            det.Cod_SubProceso
+                            //det.Flg_Estatus,
+                            //det.Usu_Registro
                         );
                     }
 
@@ -248,6 +273,134 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                     , commandType: CommandType.StoredProcedure
                     );
 
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaUnidadNegocio_S0001]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaIntensidad_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_HilosTel>(
+                    "[dbo].[PA_Tx_ListaHilado_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ListaUnidadNegocioTipo_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaColoresXCliente(string Cod_Cliente)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Cliente", Cod_Cliente);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_ObtieneCodigoColorXCliente]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Cod_Color)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Color", Cod_Color);
+
+                var result = await connection.QueryAsync<Tx_PreciosColor>(
+                    "[dbo].[sp_ListaPrecioXColor]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_ListaRecetas_Antipilling]"
+                    , commandType: CommandType.StoredProcedure
+                    );
                 return result;
             }
         }
