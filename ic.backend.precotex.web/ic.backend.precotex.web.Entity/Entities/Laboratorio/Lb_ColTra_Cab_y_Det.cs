@@ -29,5 +29,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cod_Ruta { get; set; }
         public string? Familia { get; set; }
         public string? Partidas { get; set; }
+        public string? Partida_Agrupada_Tinto { get; set; }
     }
 }

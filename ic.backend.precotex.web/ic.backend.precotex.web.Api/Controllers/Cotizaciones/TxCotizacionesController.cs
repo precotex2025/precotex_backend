@@ -128,6 +128,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
                Cod_Tela  = parameters.Cod_Tela,
                Cod_Ruta  = parameters.Cod_Ruta,
                Cod_Color  = parameters.Cod_Color,
+               Cod_RecetaAcabado = parameters.Cod_RecetaAcabado,
                Flg_Estatus  = parameters.Flg_Estatus,
                Usu_Registro = parameters.Usu_Registro
             };

@@ -168,6 +168,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                     cmd.Parameters.AddWithValue("@Cod_Tela", tx_Cotizaciones_Cab.Cod_Tela);
                     cmd.Parameters.AddWithValue("@Cod_Ruta", tx_Cotizaciones_Cab.Cod_Ruta);
                     cmd.Parameters.AddWithValue("@Cod_Color", tx_Cotizaciones_Cab.Cod_Color);
+                    cmd.Parameters.AddWithValue("@Cod_RecetaAcabado", tx_Cotizaciones_Cab.Cod_RecetaAcabado);
+                    
                     cmd.Parameters.AddWithValue("@Flg_Estatus", tx_Cotizaciones_Cab.Flg_Estatus);
                     cmd.Parameters.AddWithValue("@Usu_Registro", tx_Cotizaciones_Cab.Usu_Registro);
 

@@ -13,6 +13,7 @@ namespace ic.backend.precotex.web.Api.Parameters
         public string? Cod_Tela { get; set; } = string.Empty;
         public string? Cod_Ruta { get; set; } = string.Empty;
         public string? Cod_Color { get; set; } = string.Empty;
+        public string? Cod_RecetaAcabado { get; set; } = string.Empty;
         public string? Flg_Estatus { get; set; } = string.Empty;
         public string Usu_Registro { get; set; } = string.Empty;
         public string? Accion { get; set; }

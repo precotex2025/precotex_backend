@@ -16,6 +16,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public string? Cod_Tela { get; set; } = string.Empty;
         public string? Cod_Ruta { get; set; } = string.Empty;
         public string? Cod_Color { get; set; } = string.Empty;
+        public string? Cod_RecetaAcabado { get; set; } = string.Empty;
         public string? Flg_Estatus { get; set; } = string.Empty;
         public DateTime Fec_Registro { get; set; }
         public string Usu_Registro { get; set; } = string.Empty;
