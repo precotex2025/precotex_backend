@@ -2322,5 +2322,30 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario)
+        {
+            var result = new ServiceResponseList<Lb_Estado_Dispensado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.VerificarEstadoDispensado(sTipo, sCodUsuario);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

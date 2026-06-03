@@ -3047,5 +3047,24 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        public async Task<IEnumerable<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new DynamicParameters();
+                parametros.Add("@Tipo", sTipo);
+                parametros.Add("@Cod_Usuario", sCodUsuario);
+
+                var result = await connection.QueryAsync<Lb_Estado_Dispensado>(
+                    "[dbo].[Lb_Man_Proceso_Dispensado]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+        }
     }
 }
