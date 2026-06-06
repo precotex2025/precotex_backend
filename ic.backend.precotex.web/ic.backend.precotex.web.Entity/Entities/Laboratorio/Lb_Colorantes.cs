@@ -13,6 +13,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Col_Des { get; set; }
         public string? Col_Cod_Org { get; set; }
         public decimal? Col_Ini { get; set; }
+        public int id_familia_receta { get; set; }//Nuevo
         public int? Col_Flg_Status { get; set; }
 
     }

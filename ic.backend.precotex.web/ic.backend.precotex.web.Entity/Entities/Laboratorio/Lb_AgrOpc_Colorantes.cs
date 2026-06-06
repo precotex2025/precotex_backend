@@ -74,7 +74,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
         public IEnumerable<Quimicos>? Quimicos { get; set; }
-        
     }
 
     public class Auxiliares
@@ -115,6 +114,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int? id_secuencia { get; set; }
         public int? correlativo { get; set; }
         public int? Ingreso_Manual { get; set; }
+        public int? Orden { get; set; } //Nuevo: HMedina
     }
 
 
