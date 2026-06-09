@@ -2032,12 +2032,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Previos>?> ListarPrevios()
+        public async Task<ServiceResponseList<Lb_Previos>?> ListarPrevios(string Pro_Cod)
         {
             var result = new ServiceResponseList<Lb_Previos>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarPrevios();
+                var resultData = await _lbColaTrabajoRepository.ListarPrevios(Pro_Cod);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

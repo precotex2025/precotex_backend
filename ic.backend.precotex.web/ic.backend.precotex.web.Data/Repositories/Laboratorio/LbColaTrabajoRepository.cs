@@ -2768,14 +2768,18 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Previos>?> ListarPrevios()
+        public async Task<IEnumerable<Lb_Previos>?> ListarPrevios(string Pro_Cod)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
+                var parametros = new DynamicParameters();
+                parametros.Add("@Pro_Des", Pro_Cod);
+
                 var result = await connection.QueryAsync<Lb_Previos>(
                     "[dbo].[PA_Lb_Previos_WB_S0001]"
+                    , parametros
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;

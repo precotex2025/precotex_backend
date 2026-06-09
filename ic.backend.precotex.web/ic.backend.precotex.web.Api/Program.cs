@@ -117,14 +117,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-
-        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-
+        /*
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        */
 
         /*PRODUCCION*/
-
+        
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -133,7 +133,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-
+        
     }); 
 });
 
@@ -181,6 +181,8 @@ builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 builder.Services.AddScoped<IMaeTabService, MaeTabService>();
 builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
 builder.Services.AddScoped<ILecturaBultosService, LecturaBultosService>();
+builder.Services.AddScoped<ITjSeguimientoSaldoHiloService, TjSeguimientoSaldoHiloService>();
+
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -222,6 +224,8 @@ builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
 builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
 builder.Services.AddScoped<ILecturaBultosRepository, LecturaBultosRepository>();
+builder.Services.AddScoped<ITjSeguimientoSaldoHiloRepository, TjSeguimientoSaldoHiloRepository>();
+
 
 #endregion
 

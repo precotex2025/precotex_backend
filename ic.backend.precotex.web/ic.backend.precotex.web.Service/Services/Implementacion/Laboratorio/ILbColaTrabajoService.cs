@@ -51,7 +51,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_Colorantes>?> ListarColorantesAgregarOpcion();
 
         /*
-            JABONADOS 
+            JABONADOS
         */
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonados();
         Task<ServiceResponseList<Lb_Jabonados>?> ListarJabonadosCalculado(decimal Colorante_Total, string Familia, string Tipo);
@@ -157,7 +157,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<int>> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<ServiceResponse<int>> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
         Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
-        Task<ServiceResponseList<Lb_Previos>?> ListarPrevios();
+        Task<ServiceResponseList<Lb_Previos>?> ListarPrevios(string Pro_Cod);
         Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<ServiceResponseList<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
