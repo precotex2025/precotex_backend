@@ -263,5 +263,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getValidaExistenciaHistorialxColor")]
+        public async Task<IActionResult> getValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
+        {
+            var result = await _txCotizacionesService.ValidaExistenciaHistorialxColor(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color, Cod_Receta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }

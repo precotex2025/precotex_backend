@@ -406,5 +406,30 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 return result;
             }
         }
+
+        public async Task<IEnumerable<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+                parametros.Add("@Cod_Tipo", Tipo);
+                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
+                parametros.Add("@Cod_recetaAcabado", Cod_Receta == null ? "" : Cod_Receta);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Cab>(
+                        "[dbo].[sp_ValidaExistenciaHistorialxColor]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

@@ -408,5 +408,31 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Cab>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ValidaExistenciaHistorialxColor(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, Cod_Receta);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

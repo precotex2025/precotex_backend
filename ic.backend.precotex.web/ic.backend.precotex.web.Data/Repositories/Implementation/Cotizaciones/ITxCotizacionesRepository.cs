@@ -26,6 +26,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones
         Task<IEnumerable<ComboGral>?> ListaColoresXCliente(string Cod_Cliente);
         Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Cod_Color);
         Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling();
+        Task<IEnumerable<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta);
 
     }
 }
