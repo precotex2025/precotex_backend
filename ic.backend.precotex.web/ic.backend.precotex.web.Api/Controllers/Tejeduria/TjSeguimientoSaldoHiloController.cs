@@ -40,9 +40,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Tejeduria
 
         [HttpGet]
         [Route("getListaOT_Terminada")]
-        public async Task<IActionResult> getListaOT_Terminada(DateTime Fecha, string Flg_Pendiente)
+        public async Task<IActionResult> getListaOT_Terminada(DateTime Fecha, DateTime Fecha_Fin, string Flg_Pendiente)
         {
-            var result = await _tjSeguimientoSaldoHiloService.ListaOT_Terminada(Fecha, Flg_Pendiente);
+            var result = await _tjSeguimientoSaldoHiloService.ListaOT_Terminada(Fecha, Fecha_Fin, Flg_Pendiente);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

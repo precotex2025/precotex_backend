@@ -51,12 +51,12 @@ namespace ic.backend.precotex.web.Service.Services.Tejeduria
             }
         }
 
-        public async Task<ServiceResponseList<tj_Muestra_OT_Terminada>?> ListaOT_Terminada(DateTime Fecha, string Flg_Pendiente)
+        public async Task<ServiceResponseList<tj_Muestra_OT_Terminada>?> ListaOT_Terminada(DateTime Fecha, DateTime Fecha_Fin, string Flg_Pendiente)
         {
             var result = new ServiceResponseList<tj_Muestra_OT_Terminada>();
             try
             {
-                var resultData = await _tjSeguimientoSaldoHiloRepository.ListaOT_Terminada(Fecha, Flg_Pendiente);
+                var resultData = await _tjSeguimientoSaldoHiloRepository.ListaOT_Terminada(Fecha, Fecha_Fin, Flg_Pendiente);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

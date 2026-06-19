@@ -44,14 +44,15 @@ namespace ic.backend.precotex.web.Data.Repositories.Tejeduria
             }
         }
 
-        public async Task<IEnumerable<tj_Muestra_OT_Terminada>?> ListaOT_Terminada(DateTime Fecha, string Flg_Pendiente)
+        public async Task<IEnumerable<tj_Muestra_OT_Terminada>?> ListaOT_Terminada(DateTime Fecha, DateTime Fecha_Fin, string Flg_Pendiente)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
                 var parametros = new
                 {
-                    Fecha = Fecha,
+                    FechaInicio = Fecha,
+                    FechaFin = Fecha_Fin,
                     Flg_Pendiente = Flg_Pendiente
                 };
 
