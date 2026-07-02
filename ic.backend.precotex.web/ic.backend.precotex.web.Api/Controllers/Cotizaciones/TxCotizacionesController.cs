@@ -26,9 +26,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
         [HttpGet]
         [Route("getListarProcesosExportacion")]
-        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string? Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
+        public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string? Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
-            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color);
+            var result = await _txCotizacionesService.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color, precio, tiempo, IdCotizacion_Cab);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -120,17 +120,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
         {
             Tx_Cotizaciones_Cab _Coti = new Tx_Cotizaciones_Cab
             {
-               IdCotizacion_Cab = parameters.IdCotizacion_Cab,
-               Pro_Id  = parameters.Pro_Id,
-               Cen_Cos_Cod  = parameters.Cen_Cos_Cod,
-               Cod_Tipo  = parameters.Cod_Tipo,
-               Cod_Cliente_Tex  = parameters.Cod_Cliente_Tex,
-               Cod_Tela  = parameters.Cod_Tela,
-               Cod_Ruta  = parameters.Cod_Ruta,
-               Cod_Color  = parameters.Cod_Color,
-               Cod_RecetaAcabado = parameters.Cod_RecetaAcabado,
-               Flg_Estatus  = parameters.Flg_Estatus,
-               Usu_Registro = parameters.Usu_Registro
+                IdCotizacion_Cab = parameters.IdCotizacion_Cab,
+                Pro_Id = parameters.Pro_Id,
+                Cen_Cos_Cod = parameters.Cen_Cos_Cod,
+                Cod_Tipo = parameters.Cod_Tipo,
+                Cod_Cliente_Tex = parameters.Cod_Cliente_Tex,
+                Cod_Tela = parameters.Cod_Tela,
+                Cod_Ruta = parameters.Cod_Ruta,
+                Cod_Color = parameters.Cod_Color,
+                Cod_RecetaAcabado = parameters.Cod_RecetaAcabado,
+                Tiempo_Referencia = parameters.Tiempo_Referencia,   //NUEVOS PARAMETROS
+                Precio_Referencia = parameters.Precio_Referencia,   //NUEVOS PARAMETROS
+                SDC_Referencia = parameters.SDC_Referencia,         //NUEVOS PARAMETROS
+                Flg_Estatus = parameters.Flg_Estatus,
+                Usu_Registro = parameters.Usu_Registro
             };
             var result = await _txCotizacionesService.ProcesoCotizacion(_Coti, parameters.Detalles!, parameters.Accion!);
             if (result.Success)
@@ -235,9 +238,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
         [HttpGet]
         [Route("getListaPrecioXColor")]
-        public async Task<IActionResult> getListaPrecioXColor(string Cod_Color)
+        public async Task<IActionResult> getListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
-            var result = await _txCotizacionesService.ListaPrecioXColor(Cod_Color);
+            var result = await _txCotizacionesService.ListaPrecioXColor(Tipo_Busqueda, Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

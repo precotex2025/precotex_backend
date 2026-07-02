@@ -118,8 +118,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             REPORTE 
         */
         Task<IEnumerable<Lb_Reporte>?> CargarDatosReporte(string Corr_Carta, int Sec, string Tip_Ten);
-
-
+        Task<IEnumerable<Colorantes_Reporte>?> CargarDatosReporteTrico(string Corr_Carta, int Sec, string Tip_Ten);
+        Task<IEnumerable<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta);
         /*
             COMPONENTES EXTRA Y COMPONENTES EXTRA VALORES
         */

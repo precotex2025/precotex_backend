@@ -25,7 +25,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -39,6 +39,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 parametros.Add("@Cod_Tela", Cod_Tela);
                 parametros.Add("@Cod_Ruta", Cod_Ruta);
                 parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
+                //Nuevos Parametros
+                parametros.Add("@p_Precio", precio);
+                parametros.Add("@p_Tiempo", tiempo);
+                parametros.Add("@IdCotizacion_Cab", IdCotizacion_Cab);
 
                 var result = await connection.QueryAsync<Tx_Cotizaciones>(
                         "[dbo].[PA_Tx_Cotizaciones_Procesos_S0001]"
@@ -169,7 +173,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                     cmd.Parameters.AddWithValue("@Cod_Ruta", tx_Cotizaciones_Cab.Cod_Ruta);
                     cmd.Parameters.AddWithValue("@Cod_Color", tx_Cotizaciones_Cab.Cod_Color);
                     cmd.Parameters.AddWithValue("@Cod_RecetaAcabado", tx_Cotizaciones_Cab.Cod_RecetaAcabado);
-                    
+                    cmd.Parameters.AddWithValue("@Tiempo_Referencia", tx_Cotizaciones_Cab.Tiempo_Referencia);//Nuevo parametro
+                    cmd.Parameters.AddWithValue("@Precio_Referencia", tx_Cotizaciones_Cab.Precio_Referencia);//Nuevo parametro
+                    cmd.Parameters.AddWithValue("@SDC_Referencia", tx_Cotizaciones_Cab.SDC_Referencia);//Nuevo parametro
+
                     cmd.Parameters.AddWithValue("@Flg_Estatus", tx_Cotizaciones_Cab.Flg_Estatus);
                     cmd.Parameters.AddWithValue("@Usu_Registro", tx_Cotizaciones_Cab.Usu_Registro);
 
@@ -373,7 +380,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
-        public async Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Cod_Color)
+        public async Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -381,7 +388,13 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
 
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Cod_Color", Cod_Color);
+                parametros.Add("@Tipo_Busqueda", Tipo_Busqueda);
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+                parametros.Add("@Cod_Tipo", Tipo);
+                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
 
                 var result = await connection.QueryAsync<Tx_PreciosColor>(
                     "[dbo].[sp_ListaPrecioXColor]"

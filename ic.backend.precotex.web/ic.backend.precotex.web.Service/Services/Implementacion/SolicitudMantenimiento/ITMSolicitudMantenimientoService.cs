@@ -21,6 +21,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMante
         Task<ServiceResponse<int>> AvanzaEstadoSolicitudMantenimiento(string sCodUsuario, string sCodSolicitud, string sObservaciones, string sDatosLider);
         Task<ServiceResponse<int>> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac);
         Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud);
+        Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ReporteSolicitudMantenimiento(DateTime FecIni, DateTime FecFin, string codEstado);
 
     }
 }

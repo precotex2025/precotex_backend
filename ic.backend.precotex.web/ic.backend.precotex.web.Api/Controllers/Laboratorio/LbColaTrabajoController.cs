@@ -749,6 +749,36 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getCargarDatosReporteTrico")]
+        public async Task<IActionResult> getCargarDatosReporteTrico(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = await _LbColaTrabajoService.CargarDatosReporteTrico(Corr_Carta, Sec, Tip_Ten);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getCargarDatosReportePH")]
+        public async Task<IActionResult> getCargarDatosReportePH(string Corr_Carta)
+        {
+            var result = await _LbColaTrabajoService.CargarDatosReportePH(Corr_Carta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
 
         /***********************************************MANTENIMIENTOS**************************************************/
 

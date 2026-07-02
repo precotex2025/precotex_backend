@@ -78,6 +78,17 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         //PRODUCCION
         public string? Cod_OrdTra { get; set; }
         public string? Partidas { get; set; }
+
+        //NUEVOS CAMPOS
+        public string? Ahi_Des { get; set; }
+
+        //NUEVOS CAMPOS REPORTE 
+        public int Maq_Nro_Tubo { get; set; }
+        public string? Maq_Ahi_Des { get; set; }
+        public int Jab_Nro_Tubo { get; set; }
+        public string? Jab_Ahi_Des { get; set; }
+        //NUEVO CAMPO 
+        public DateTime? Fec_Env_Autolab { get; set; }
         
     }
 }

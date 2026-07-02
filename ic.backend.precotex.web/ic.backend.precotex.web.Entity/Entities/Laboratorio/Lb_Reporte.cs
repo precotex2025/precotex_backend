@@ -43,6 +43,17 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Descarga                                     { get; set; }
         public string? Lote_Hilado                                  { get; set; }
         public string? Partida_Agrupada_Tinto                       { get; set; }
+        public decimal?        Rel_Ban_Sige { get; set; } //Nuevo
+        public decimal         Pes_Mue { get; set; }      //Nuevo
+        public string? Flg_Est_Lab { get; set; } //Nuevo
+
+        /*CAMPOS NUEVOS MOSTRAR CAMPOS INI EN EL REPORTE*/
+
+        //public decimal ? Ph_Ini { get; set; }
+        public decimal ? Ph_Fin { get; set; }
+        public decimal ? Ph_Jab { get; set; }
+        public decimal? Ph_Des { get; set; }
+
     }
 
     public class Colorantes_Reporte
@@ -55,6 +66,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int? id_secuencia                { get; set; }
         public int? Correlativo                 { get; set; }
         public int? Ingreso_Manual              { get; set; }
+
+        //Campos nuevos
+        public double? Por_Ini { get; set; }
+        public double? Por_Aju { get; set; }
+        public string? Procedencia { get; set; }
     }
 
     public class Ruta_Reporte
@@ -67,5 +83,15 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
     {
         public string? Corr_Carta               { get; set; }
         public string? Descripcion              { get; set; }
+    }
+
+    public class Reporte_ph
+    {
+        public decimal? Ph_Ini { get; set; }
+        public decimal? Ph_Fin { get; set; }
+        public decimal? Ph_Jab { get; set; }
+        public decimal? Ph_Des { get; set; }
+        public decimal? Ph_Jab2 { get; set; }
+        public decimal? Ph_Jab3 { get; set; }
     }
 }

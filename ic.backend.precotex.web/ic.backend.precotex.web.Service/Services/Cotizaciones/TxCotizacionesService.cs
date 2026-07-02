@@ -25,12 +25,12 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             _txCotizacionesRepository = txCotizacionesRepository;
         }
 
-        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
             var result = new ServiceResponseList<Tx_Cotizaciones>();
             try
             {
-                var resultData = await _txCotizacionesRepository.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
+                var resultData = await _txCotizacionesRepository.ListarProcesosExportacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, precio, tiempo, IdCotizacion_Cab);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -357,12 +357,12 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
-        public async Task<ServiceResponseList<Tx_PreciosColor>?> ListaPrecioXColor(string Cod_Color)
+        public async Task<ServiceResponseList<Tx_PreciosColor>?> ListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
         {
             var result = new ServiceResponseList<Tx_PreciosColor>();
             try
             {
-                var resultData = await _txCotizacionesRepository.ListaPrecioXColor(Cod_Color);
+                var resultData = await _txCotizacionesRepository.ListaPrecioXColor(Tipo_Busqueda, Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

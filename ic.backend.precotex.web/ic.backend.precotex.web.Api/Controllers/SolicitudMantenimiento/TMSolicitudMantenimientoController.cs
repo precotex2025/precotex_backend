@@ -291,9 +291,20 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
             return Ok(1);
         }
 
+        [HttpGet]
+        [Route("getReporteSolicitudMantenimiento")]
+        public async Task<IActionResult> getReporteSolicitudMantenimiento([FromQuery] DateTime FecIni, DateTime FecFin, string codEstado)
+        {
+            var result = await _tMSolicitudMantenimientoService.ReporteSolicitudMantenimiento(FecIni, FecFin, codEstado);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
-
-
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
         public class AlertaRequest 
         { 

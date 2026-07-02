@@ -242,5 +242,27 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
                 return result;
             }
         }
+
+        public async Task<IEnumerable<TM_Solicitud_Mantenimiento>?> ReporteSolicitudMantenimiento(DateTime FecIni, DateTime FecFin, string codEstado)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    FEC_INICIO = FecIni,
+                    FEC_FIN = FecFin,
+                    COD_ESTADO_MANT = codEstado
+                };
+
+                var result = await connection.QueryAsync<TM_Solicitud_Mantenimiento>(
+                     "[dbo].[SP_Reporte_Solicitudes_Mantenimiento]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
     }
 }

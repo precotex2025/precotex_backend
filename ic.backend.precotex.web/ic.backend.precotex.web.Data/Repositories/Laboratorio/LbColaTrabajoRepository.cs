@@ -3070,5 +3070,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        public async Task<IEnumerable<Colorantes_Reporte>?> CargarDatosReporteTrico(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Tip_Ten", Tip_Ten);
+
+                var result = await connection.QueryAsync<Colorantes_Reporte>(
+                    "[dbo].[PA_LB_CARTACOL_DG_S0003_Tricomia]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+
+                var result = await connection.QueryAsync<Reporte_ph>(
+                    "[dbo].[PA_LB_CARTACOL_DG_S1001]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@ using ic.backend.precotex.web.Service.Services.Implementacion.RegistroPartidaPar
 using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using System.Drawing.Printing;
 using static ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento.TMSolicitudMantenimientoController;
 
@@ -212,6 +213,54 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             }
 
             return File(response.Element, "image/png");
+        }
+
+        [HttpPost]
+        [Route("postImprimirReporteLabDip")]
+        public IActionResult postImprimirReporteLabDip(IFormFile reporte)
+        {
+            if (reporte == null || reporte.Length == 0)
+                return BadRequest("No se recibió archivo.");
+
+            using var stream = reporte.OpenReadStream();
+            using var image = System.Drawing.Image.FromStream(stream);
+
+            PrintDocument pd = new PrintDocument();
+            pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Planeamiento";
+
+            pd.PrintPage += (sender, e) =>
+            {
+                Rectangle area = new Rectangle(
+                    0,
+                    0,
+                    e.PageBounds.Width,
+                    e.PageBounds.Height);
+
+                float ratioImagen = (float)image.Width / image.Height;
+                float ratioArea = (float)area.Width / area.Height;
+
+                int width, height;
+
+                if (ratioImagen > ratioArea)
+                {
+                    width = area.Width;
+                    height = (int)(width / ratioImagen);
+                }
+                else
+                {
+                    height = area.Height;
+                    width = (int)(height * ratioImagen);
+                }
+
+                int x = (area.Width - width) / 2;
+                int y = (area.Height - height) / 2;
+
+                e.Graphics.DrawImage(image, x, y, width, height);
+            };
+
+            pd.Print();
+
+            return Ok("Reporte enviado a la impresora.");
         }
 
         #region SET VALORES

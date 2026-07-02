@@ -2347,5 +2347,53 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Colorantes_Reporte>?> CargarDatosReporteTrico(string Corr_Carta, int Sec, string Tip_Ten)
+        {
+            var result = new ServiceResponseList<Colorantes_Reporte>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.CargarDatosReporteTrico(Corr_Carta, Sec, Tip_Ten);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta)
+        {
+            var result = new ServiceResponseList<Reporte_ph>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.CargarDatosReportePH(Corr_Carta);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
     }
 }

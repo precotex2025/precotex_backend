@@ -12,5 +12,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public int TIEMPO { get; set; }
         public decimal PREC_TINTO { get; set; }
         public decimal PREC_ACABADO { get; set; }
+        public int IDCOTIZACION_CAB { get; set; }
+        public string? IDRECETALABPROD { get; set; }
     }
 }
