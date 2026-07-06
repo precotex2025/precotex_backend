@@ -21,5 +21,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public DateTime? Fecha_AsignaAnalista { get; set; }
         public string? Flg_Estandar { get; set; }
         public string? Usr_Cod { get; set;}
+
+        /*Campos nuevos*/
+        public DateTime? Fec_Ape { get; set; }
+        public DateTime? Fec_Ent { get; set; }
     }
 }

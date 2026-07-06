@@ -74,6 +74,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public IEnumerable<Colorantes>? Colorantes { get; set; }
         public IEnumerable<Auxiliares>? Auxiliares { get; set; }
         public IEnumerable<Quimicos>? Quimicos { get; set; }
+
+        public string? Msg_Alerta { get; set; }
     }
 
     public class Auxiliares
