@@ -133,7 +133,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-        
+       
     }); 
 });
 
@@ -182,6 +182,8 @@ builder.Services.AddScoped<IMaeTabService, MaeTabService>();
 builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
 builder.Services.AddScoped<ILecturaBultosService, LecturaBultosService>();
 builder.Services.AddScoped<ITjSeguimientoSaldoHiloService, TjSeguimientoSaldoHiloService>();
+builder.Services.AddScoped<ITjSolicitudDevolucionAuditoriaService, TjSolicitudDevolucionAuditoriaService>();
+
 
 
 //Inyection Repository
@@ -225,7 +227,7 @@ builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
 builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
 builder.Services.AddScoped<ILecturaBultosRepository, LecturaBultosRepository>();
 builder.Services.AddScoped<ITjSeguimientoSaldoHiloRepository, TjSeguimientoSaldoHiloRepository>();
-
+builder.Services.AddScoped<ITjSolicitudDevolucionAuditoriaRepository, TjSolicitudDevolucionAuditoriaRepository>();
 
 #endregion
 
