@@ -224,9 +224,14 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
 
             using var stream = reporte.OpenReadStream();
             using var image = System.Drawing.Image.FromStream(stream);
+            string printerName = _configuration["Impresoras:Laboratorio"];
 
             PrintDocument pd = new PrintDocument();
+            //pd.PrinterSettings.PrinterName = @printerName;
+            //pd.PrinterSettings.PrinterName = @"Planeamiento";
             pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Planeamiento";
+
+            pd.DefaultPageSettings.Landscape = true;
 
             pd.PrintPage += (sender, e) =>
             {
