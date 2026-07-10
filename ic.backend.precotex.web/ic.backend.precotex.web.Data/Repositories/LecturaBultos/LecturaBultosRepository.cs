@@ -33,7 +33,7 @@ public class LecturaBultosRepository: ILecturaBultosRepository
     }
 
     //LISTAR NOVIMIENTOS
-    public async Task<IEnumerable<Lg_LecturaBultos>?> ListarMovimientos(string? Cod_Almacen, string? Num_MovStk, string? Fec_MovStk, string? Flg_Pendiente)
+    public async Task<IEnumerable<Lg_LecturaBultos>?> ListarMovimientos(string? Cod_Almacen, string? Num_MovStk, string? Fec_MovStk, string? Flg_Pendiente, string? Area)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
@@ -42,7 +42,7 @@ public class LecturaBultosRepository: ILecturaBultosRepository
             var parametros = new DynamicParameters();
             parametros.Add("@Cod_Almacen", Cod_Almacen);
             parametros.Add("@Num_MovStk", Num_MovStk);
-
+            
             if (!string.IsNullOrEmpty(Fec_MovStk))
             {
                 var fecha = DateTime.ParseExact(Fec_MovStk, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -53,6 +53,7 @@ public class LecturaBultosRepository: ILecturaBultosRepository
                 parametros.Add("@Fec_MovStk", null);
             }
             parametros.Add("@Flg_Pendiente", Flg_Pendiente);
+            parametros.Add("@Area", Area);
 
             var result = await connection.QueryAsync<Lg_LecturaBultos>(
                 "[dbo].[PA_Lg_MoviStk_S0001]"
