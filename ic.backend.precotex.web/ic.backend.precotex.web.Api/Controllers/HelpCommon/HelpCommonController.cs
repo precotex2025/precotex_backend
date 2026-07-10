@@ -227,9 +227,9 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             string printerName = _configuration["Impresoras:Laboratorio"];
 
             PrintDocument pd = new PrintDocument();
-            //pd.PrinterSettings.PrinterName = @printerName;
+            pd.PrinterSettings.PrinterName = @printerName;
             //pd.PrinterSettings.PrinterName = @"Planeamiento";
-            pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Planeamiento";
+            //pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Autolab";
 
             pd.DefaultPageSettings.Landscape = true;
 

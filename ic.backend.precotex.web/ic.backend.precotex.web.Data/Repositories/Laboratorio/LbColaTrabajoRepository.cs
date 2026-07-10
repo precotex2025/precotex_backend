@@ -3091,7 +3091,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta)
+        public async Task<IEnumerable<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta, int Sec, string Tip_Ten)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -3099,9 +3099,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Tip_Ten", Tip_Ten);
 
                 var result = await connection.QueryAsync<Reporte_ph>(
-                    "[dbo].[PA_LB_CARTACOL_DG_S1001]"
+                    "[dbo].[PA_LB_CARTACOL_DG_S1001_hm]"
                     , parameters
                     , commandType: CommandType.StoredProcedure
                 );

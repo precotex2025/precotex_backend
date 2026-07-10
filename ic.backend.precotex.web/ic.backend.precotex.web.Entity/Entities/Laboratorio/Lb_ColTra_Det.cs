@@ -89,6 +89,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Jab_Ahi_Des { get; set; }
         //NUEVO CAMPO 
         public DateTime? Fec_Env_Autolab { get; set; }
-        
+        public DateTime? Fec_Teorico_Inicio_Tenido { get; set; }
+        public DateTime? Fecha_AsignaAnalista { get; set; }
+
     }
 }

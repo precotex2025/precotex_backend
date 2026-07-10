@@ -2372,12 +2372,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta)
+        public async Task<ServiceResponseList<Reporte_ph>?> CargarDatosReportePH(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Reporte_ph>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.CargarDatosReportePH(Corr_Carta);
+                var resultData = await _lbColaTrabajoRepository.CargarDatosReportePH(Corr_Carta, Sec, Tip_Ten);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
