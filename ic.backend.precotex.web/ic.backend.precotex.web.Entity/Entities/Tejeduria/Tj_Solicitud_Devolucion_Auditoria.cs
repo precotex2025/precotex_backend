@@ -21,6 +21,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Tejeduria
         public string? OT { get; set; }
         public string? OC { get; set; }
         public string? Tipo { get; set; }
+
+        public decimal? Peso_Bruto { get; set; }
+        public decimal? Peso_Neto { get; set; }
+        public decimal? Can_Conos { get; set; }
+
     }
 
     public class Tj_Muestra_Solicitud_Devolucion_Bultos
