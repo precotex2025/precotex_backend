@@ -8,6 +8,7 @@ public class Lg_LecturaBultos
     public int? Can_Lecturado { get; set; }
     public decimal? Peso_Neto { get; set; }
     public string? Flg_Lecturado { get; set; }
+    public string? Area { get; set; }
 }
 
 public class Lg_LecturaBultos_Almacenes
