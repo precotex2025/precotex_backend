@@ -4,6 +4,7 @@ public class Lg_LecturaBultos
 {
     public DateTime? Fec_MovStk { get; set; }
     public string? Num_MovStk { get; set; }
+    public string? Maquina { get; set; }
     public int? Can_Bulto { get; set; }
     public int? Can_Lecturado { get; set; }
     public decimal? Peso_Neto { get; set; }
@@ -26,4 +27,5 @@ public class Lg_Bultos
     public DateTime? Fec_Registro { get; set; }
     public string? Cod_Usuario { get; set; }
     public string? Flg_Lecturado { get; set; }
+    public string? Cod_Usuario_Lectura { get; set; }
 }
