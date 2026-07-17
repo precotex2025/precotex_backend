@@ -2,6 +2,7 @@
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento;
+using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMantenimiento;
 using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
 using ic.backend.precotex.web.Service.Services.WallyChat;
@@ -13,6 +14,7 @@ using Microsoft.Graph.Models;
 using Org.BouncyCastle.Asn1.Crmf;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 using ZXing;
 using static iTextSharp.text.pdf.AcroFields;
 using static Org.BouncyCastle.Math.EC.ECCurve;
@@ -305,6 +307,112 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getNotificacionIncidenciaMantenimiento")]
+        public async Task<IActionResult> getNotificacionIncidenciaMantenimiento()
+        {
+            var result = await _tMSolicitudMantenimientoService.NotificacionIncidenciaMantenimiento();
+            if (result != null && result.Success)
+            {
+                // result.Elements ya es List<TM_Notificacion_Incidencia>
+                var mensaje = BuildTextMessage(
+                    result.Elements?.ToList() ?? new List<TM_Notificacion_Incidencia>());
+                var area = "008";
+                var grupoId = _configuration[$"WaliChat:{area}"];
+                var body = await _waliChatService.EnviarMensajeAsync(grupoId!, mensaje);
+
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result ??= new ServiceResponseList<TM_Notificacion_Incidencia>();
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        private const char PadChar = '\u00A0'; // non-breaking space
+
+        private static string Pad(string text, int width)
+        {
+            if (string.IsNullOrEmpty(text)) text = string.Empty;
+            return text.Length >= width
+                ? text.Substring(0, width)
+                : text + new string(PadChar, width - text.Length);
+        }
+
+
+        public static string BuildTextMessage(List<TM_Notificacion_Incidencia> incidencias)
+        {
+            if (incidencias == null || incidencias.Count == 0)
+                return "✅ No se registraron incidencias el día de hoy.";
+
+            var fecha = incidencias.First().Fecha.ToString("dd/MM/yyyy");
+            var ordenadas = incidencias
+                .OrderBy(i => i.Area!)
+                .ThenBy(i => i.Maquina!.Trim())
+                .ToList();
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"*📋 Reporte de Incidencias — {fecha}*");
+            sb.AppendLine();
+
+            const int wMaquina = 10;
+            const int wArea = 8;
+            const int wTurno = 4;
+            const int wInc = 4;
+
+            sb.AppendLine("```");
+            sb.AppendLine(Pad("MAQUINA", wMaquina) + Pad("AREA", wArea) + Pad("TUR", wTurno) + Pad("INC", wInc) + "HRS");
+            sb.AppendLine(new string('-', wMaquina + wArea + wTurno + wInc + 3));
+
+            foreach (var item in ordenadas)
+            {
+                var maquina = item.Maquina!.Trim();
+
+                // Turno abreviado a 1 letra para ganar espacio (N=Noche, D=Dia)
+                var turno = item.Turno!.Trim().ToUpper() switch
+                {
+                    "NOCHE" => "N",
+                    "DIA" => "D",
+                    _ => item.Turno!.Trim().Substring(0, 1)
+                };
+
+                sb.AppendLine(
+                    Pad(maquina, wMaquina) +
+                    Pad(item.Area ?? "", wArea) +
+                    Pad(turno, wTurno) +
+                    Pad(item.Numero_Incidencia.ToString(), wInc) +
+                    item.Horas_Paro_Maquina);
+            }
+            sb.AppendLine("```");
+            sb.AppendLine();
+
+            // Resumen
+            var totalMaquinas = incidencias.Count;
+            var totalIncidencias = incidencias.Sum(i => i.Numero_Incidencia);
+            var totalHoras = incidencias.Sum(i => i.Horas_Paro_Maquina);
+            var maquinasConParo = incidencias.Count(i => i.Horas_Paro_Maquina > 0);
+
+            sb.AppendLine($"🔧 *Máquinas reportadas:* {totalMaquinas}");
+            sb.AppendLine($"⚠️ *Total incidencias:* {totalIncidencias}");
+            sb.AppendLine($"⏱️ *Total horas de paro:* {totalHoras}");
+
+            if (maquinasConParo > 0)
+            {
+                sb.AppendLine($"🛑 *Máquinas con paro:* {maquinasConParo}");
+                sb.AppendLine();
+                sb.AppendLine("*Detalle de paros:*");
+                foreach (var item in ordenadas.Where(i => i.Horas_Paro_Maquina > 0))
+                {
+                    sb.AppendLine($"• {item.Maquina!.Trim()} ({item.Area}) — {item.Horas_Paro_Maquina}h");
+                }
+            }
+
+            return sb.ToString();
+        }
+
 
         public class AlertaRequest 
         { 

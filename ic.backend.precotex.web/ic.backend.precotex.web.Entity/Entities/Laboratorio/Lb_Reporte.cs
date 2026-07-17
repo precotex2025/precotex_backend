@@ -54,6 +54,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public decimal ? Ph_Jab { get; set; }
         public decimal? Ph_Des { get; set; }
 
+        public decimal? Ph_Neu { get; set; }
+        public string? Neutralizado { get; set; }
+        public string? Des_Colorante_Optico { get; set; }
+
     }
 
     public class Colorantes_Reporte

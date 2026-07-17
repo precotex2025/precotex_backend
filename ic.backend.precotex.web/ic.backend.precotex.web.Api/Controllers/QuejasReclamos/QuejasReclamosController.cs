@@ -337,10 +337,10 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
 
         [HttpPost]
         [Route("postAvanzaEstadoReclamo")]
-        public async Task<IActionResult> postAvanzaEstadoReclamo([FromBody] int iId)
+        public async Task<IActionResult> postAvanzaEstadoReclamo([FromBody] AvanzaReclamoParameter avanzaReclamoParameter)
         {
 
-            var result = await _IClientes.AvanzaEstadoReclamo(iId);
+            var result = await _IClientes.AvanzaEstadoReclamo(avanzaReclamoParameter.sTipo, avanzaReclamoParameter.iId);
             if (result.Success)
             {
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;

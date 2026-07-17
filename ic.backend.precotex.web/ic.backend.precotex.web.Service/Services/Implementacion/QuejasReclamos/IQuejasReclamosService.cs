@@ -29,7 +29,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.QuejasReclamos
         Task<ServiceResponseList<UnidadNegocioDto>?> ListaUnidadNegocio();
 
         Task<ServiceResponseList<AreasDto>?> ListaAreasCalidad();
-        Task<ServiceResponse<int>> AvanzaEstadoReclamo(int iId);
+        Task<ServiceResponse<int>> AvanzaEstadoReclamo(string sTipo, int iIdId);
         Task<ServiceResponse<int>> ProcesoConfirmarReclamo(string sNroCaso, string sNombreArchivoCalidad, string sObservacionCalidad, string sCodAreaResponsableCalidad, string sCod_Usuario);
 
         Task<ServiceResponseList<ReclamoTipoConsecuenciaDto>?> ListaTipoConsecuencia();

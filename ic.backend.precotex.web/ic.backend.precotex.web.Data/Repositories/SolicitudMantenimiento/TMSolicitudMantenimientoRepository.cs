@@ -264,5 +264,20 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
                 return result;
             }
         }
+
+        public async Task<IEnumerable<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<TM_Notificacion_Incidencia>(
+                     "[dbo].[SP_NotificacionIncidenciasMantenimiento]"
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
     }
 }
