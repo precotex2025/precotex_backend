@@ -96,6 +96,7 @@ public class LecturaBultosRepository: ILecturaBultosRepository
             parametros.Add("@Num_MovStk", valores.Num_MovStk);  
             parametros.Add("@Cod_Almacen", valores.Cod_Almacen);
             parametros.Add("@Num_Corre", valores.Num_Corre);
+            parametros.Add("@Cod_Usuario", valores.Cod_Usuario);
             parametros.Add("@Codigo", 0);
             parametros.Add("@sMsj", "");
 

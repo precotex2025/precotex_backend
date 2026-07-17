@@ -68,7 +68,8 @@ namespace MyApp.Namespace
             {
                 Num_MovStk = valores.Num_MovStk,
                 Cod_Almacen = valores.Cod_Almacen,
-                Num_Corre = valores.Num_Corre
+                Num_Corre = valores.Num_Corre,
+                Cod_Usuario = valores.Cod_Usuario
             };
 
             var result = await _service.LecturarBulto(parametros);
