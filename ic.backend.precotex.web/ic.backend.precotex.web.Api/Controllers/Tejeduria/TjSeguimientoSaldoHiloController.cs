@@ -20,25 +20,6 @@ namespace ic.backend.precotex.web.Api.Controllers.Tejeduria
         }
 
         [HttpGet]
-        [Route("getListaOT_Programada")]
-        public async Task<IActionResult> getListaOT_Programada(string? Cod_OrdProv, string? Cod_HilTel)
-        {
-            if (Cod_HilTel == null)
-            {
-                Cod_HilTel = "";
-            }
-            var result = await _tjSeguimientoSaldoHiloService.ListaOT_Programada(Cod_OrdProv!, Cod_HilTel!);
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
-
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
-
-        [HttpGet]
         [Route("getListaOT_Terminada")]
         public async Task<IActionResult> getListaOT_Terminada(DateTime Fecha, DateTime Fecha_Fin, string Flg_Pendiente)
         {
@@ -52,6 +33,25 @@ namespace ic.backend.precotex.web.Api.Controllers.Tejeduria
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getListaOT_Programada")]
+        public async Task<IActionResult> getListaOT_Programada(string? Cod_OrdProv, string? Tit_Hilado)
+        {
+            if (Tit_Hilado == null)
+            {
+                Tit_Hilado = "";
+            }
+            var result = await _tjSeguimientoSaldoHiloService.ListaOT_Programada(Cod_OrdProv!, Tit_Hilado!);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }               
 
         [HttpPost]
         [Route("postProceso")]
