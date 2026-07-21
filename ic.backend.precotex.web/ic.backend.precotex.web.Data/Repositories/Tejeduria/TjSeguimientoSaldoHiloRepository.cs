@@ -23,27 +23,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Tejeduria
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<tj_Muestra_OT_Programada>?> ListaOT_Programada(string Cod_OrdProv, string Cod_HilTel)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                var parametros = new
-                {
-                    Cod_OrdProv = Cod_OrdProv,
-                    Cod_HilTel = Cod_HilTel
-                };
-
-                var result = await connection.QueryAsync<tj_Muestra_OT_Programada>(
-                     "[dbo].[Tj_Muestra_OT_Programadas]"
-                     , parametros
-                     , commandType: System.Data.CommandType.StoredProcedure
-                 );
-
-                return result;
-            }
-        }
-
         public async Task<IEnumerable<tj_Muestra_OT_Terminada>?> ListaOT_Terminada(DateTime Fecha, DateTime Fecha_Fin, string Flg_Pendiente)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -65,6 +44,27 @@ namespace ic.backend.precotex.web.Data.Repositories.Tejeduria
                 return result;
             }
         }
+
+        public async Task<IEnumerable<tj_Muestra_OT_Programada>?> ListaOT_Programada(string Cod_OrdProv, string Tit_Hilado)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Cod_OrdProv = Cod_OrdProv,
+                    Tit_Hilado = Tit_Hilado
+                };
+
+                var result = await connection.QueryAsync<tj_Muestra_OT_Programada>(
+                     "[dbo].[Tj_Muestra_OT_Programadas]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }              
 
         public async Task<(int Codigo, string Mensaje)> Proceso(tj_seguimiento_saldo_hilo_tela tj_Seguimiento_Saldo_Hilo_Tela, string sTipoTransac)
         {
