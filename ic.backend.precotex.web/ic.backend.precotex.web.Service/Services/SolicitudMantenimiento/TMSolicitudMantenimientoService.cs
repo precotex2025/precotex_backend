@@ -276,12 +276,12 @@ namespace ic.backend.precotex.web.Service.Services.SolicitudMantenimiento
             }
         }
 
-        public async Task<ServiceResponseList<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento()
+        public async Task<ServiceResponseList<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento(string? sArea)
         {
             var result = new ServiceResponseList<TM_Notificacion_Incidencia>();
             try
             {
-                var resultData = await _tMSolicitudMantenimientoRepository.NotificacionIncidenciaMantenimiento();
+                var resultData = await _tMSolicitudMantenimientoRepository.NotificacionIncidenciaMantenimiento(sArea);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

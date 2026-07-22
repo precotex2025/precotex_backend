@@ -22,7 +22,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.SolicitudMante
         Task<ServiceResponse<int>> ProcesoMntoTiempoManMquina(TM_Tiempo_Mantenimiento tM_Tiempo_Mantenimiento, string sTipoTransac);
         Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ObtieneInformacionSolicitudMantenimientoByNumero(string sCodSolicitud);
         Task<ServiceResponseList<TM_Solicitud_Mantenimiento>?> ReporteSolicitudMantenimiento(DateTime FecIni, DateTime FecFin, string codEstado);
-        Task<ServiceResponseList<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento();
+        Task<ServiceResponseList<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento(string? sArea);
 
     }
 }

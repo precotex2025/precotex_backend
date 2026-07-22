@@ -265,14 +265,19 @@ namespace ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento
             }
         }
 
-        public async Task<IEnumerable<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento()
+        public async Task<IEnumerable<TM_Notificacion_Incidencia>?> NotificacionIncidenciaMantenimiento(string? sArea)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
+                var parametros = new
+                {
+                   COD_AREA = sArea
+                };
 
                 var result = await connection.QueryAsync<TM_Notificacion_Incidencia>(
                      "[dbo].[SP_NotificacionIncidenciasMantenimiento]"
+                     , parametros
                      , commandType: System.Data.CommandType.StoredProcedure
                  );
 

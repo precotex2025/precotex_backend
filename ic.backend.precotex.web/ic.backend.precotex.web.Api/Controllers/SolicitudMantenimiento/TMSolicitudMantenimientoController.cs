@@ -312,9 +312,9 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 
         [HttpGet]
         [Route("getNotificacionIncidenciaMantenimiento")]
-        public async Task<IActionResult> getNotificacionIncidenciaMantenimiento()
+        public async Task<IActionResult> getNotificacionIncidenciaMantenimiento(string? sArea)
         {
-            var result = await _tMSolicitudMantenimientoService.NotificacionIncidenciaMantenimiento();
+            var result = await _tMSolicitudMantenimientoService.NotificacionIncidenciaMantenimiento(sArea);
             if (result != null && result.Success)
             {
                 string? rutaArchivo = null;
@@ -344,8 +344,8 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                     await System.IO.File.WriteAllBytesAsync(rutaArchivo, imagenPng);
                     string imageURL = "https://gestion.precotex.com:444/ubicaciones/api/TxRetiroRepuestos/getImagenDesdeBackEnd?imageId=" + nombreArchivo;
 
-                    var area = "008";
-                    var grupoId = _configuration[$"WaliChat:{area}"];
+                    //var area = "008";
+                    var grupoId = _configuration[$"WaliChat:{sArea!.Trim()}"];
                     //var body = await _waliChatService.EnviarMensajeAsync(grupoId!, mensaje);
                     await _waliChatService.EnviarMensajeImageAsync(grupoId!, "", imageURL, false);
 
@@ -507,13 +507,19 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 .ThenBy(i => i.Maquina!.Trim())
                 .ToList();
 
+            string sDesArea = incidencias[0].Area!.ToString().Trim();
+            //var fecha = ordenadas.Count > 0
+            //    ? ordenadas.First().Fecha.ToString("dd/MM/yyyy")
+            //    : DateTime.Now.ToString("dd/MM/yyyy");
+
             var fecha = ordenadas.Count > 0
                 ? ordenadas.First().Fecha.ToString("dd/MM/yyyy")
-                : DateTime.Now.ToString("dd/MM/yyyy");
+                : DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy");
 
             // ---- Layout base (en puntos lógicos; se escala 2x al final) ----
             const int scale = 2;
-            float[] colWidths = { 180, 150, 130, 100, 110, 140 }; // + columna ESTADO
+            //float[] colWidths = { 180, 150, 130, 100, 110, 140 }; // + columna ESTADO
+            float[] colWidths = { 150, 210, 90, 100, 110, 150 }; // MAQUINA, AREA, TURNO, INC., HORAS, ESTADO
             float width = colWidths.Sum();
             const int margin = 30;
             const int headerHeight = 110;
@@ -553,7 +559,9 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
                 canvas.DrawRect(new SKRect(0, headerHeight - 4, totalWidth, headerHeight), accentBar);
 
             using (var titlePaint = new SKPaint { Color = ColorHeaderText, IsAntialias = true })
-                canvas.DrawText("REPORTE DE INCIDENCIAS DE MANTENIMIENTO", margin, 52, fontTitle, titlePaint);
+                canvas.DrawText("REPORTE DE INCIDENCIAS DE " + sDesArea, margin, 52, fontTitle, titlePaint);
+            //canvas.DrawText("REPORTE DE INCIDENCIAS DE TINTORERIA", margin, 52, fontTitle, titlePaint);
+            //canvas.DrawText("REPORTE DE INCIDENCIAS DE MANTENIMIENTO", margin, 52, fontTitle, titlePaint);
             using (var subtitlePaint = new SKPaint { Color = ColorHeaderSubtext, IsAntialias = true })
                 canvas.DrawText($"Fecha: {fecha}  ·  Generado automáticamente", margin, 88, fontSubtitle, subtitlePaint);
 
@@ -748,13 +756,19 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
         //    canvas.DrawText(text, textX, textY, font, paint);
         //}
 
+
         private static void DrawCellText(SKCanvas canvas, SKFont font, SKPaint paint, string text, float cellX, float cellY, float cellWidth, float cellHeight, bool rightAlign)
         {
             const float padding = 16;
             float maxTextWidth = cellWidth - padding * 2;
 
-            while (paint.MeasureText(text) > maxTextWidth && text.Length > 1)
-                text = text.Substring(0, text.Length - 1);
+            if (paint.MeasureText(text) > maxTextWidth)
+            {
+                const string ellipsis = "…";
+                while (text.Length > 1 && paint.MeasureText(text + ellipsis) > maxTextWidth)
+                    text = text.Substring(0, text.Length - 1);
+                text += ellipsis;
+            }
 
             float textWidth = paint.MeasureText(text);
             float textY = cellY + cellHeight / 2f + 6;
@@ -762,6 +776,21 @@ namespace ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento
 
             canvas.DrawText(text, textX, textY, font, paint);
         }
+
+        //private static void DrawCellText(SKCanvas canvas, SKFont font, SKPaint paint, string text, float cellX, float cellY, float cellWidth, float cellHeight, bool rightAlign)
+        //{
+        //    const float padding = 16;
+        //    float maxTextWidth = cellWidth - padding * 2;
+
+        //    while (paint.MeasureText(text) > maxTextWidth && text.Length > 1)
+        //        text = text.Substring(0, text.Length - 1);
+
+        //    float textWidth = paint.MeasureText(text);
+        //    float textY = cellY + cellHeight / 2f + 6;
+        //    float textX = rightAlign ? cellX + cellWidth - padding - textWidth : cellX + padding;
+
+        //    canvas.DrawText(text, textX, textY, font, paint);
+        //}
 
 
         public class AlertaRequest 
