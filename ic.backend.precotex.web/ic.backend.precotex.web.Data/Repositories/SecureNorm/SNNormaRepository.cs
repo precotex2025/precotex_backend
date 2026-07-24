@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +54,10 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@Accion", sTipoTransac);
                 parametros.Add("@CodigoReg", sN_Norma.Codigo_Norma);
                 parametros.Add("@Norma", sN_Norma.Norma);
+                parametros.Add("@Categoria", sN_Norma.Categoria);
+                parametros.Add("@FechaVencimiento", sN_Norma.FechaVencimiento);
+                parametros.Add("@FechaAuditoria", sN_Norma.FechaAuditoria);
+                parametros.Add("@Estado", sN_Norma.Estado);
                 parametros.Add("@Descripcion", sN_Norma.Descripcion);
                 parametros.Add("@Flg_Activo", sN_Norma.Flg_Activo);
                 parametros.Add("@Cod_Usuario", sN_Norma.Cod_Usuario);

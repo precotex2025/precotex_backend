@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
@@ -100,7 +100,10 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                         commandType: CommandType.StoredProcedure
                     );
                 }
-                catch (Exception ex) { }
+                catch (Exception ex) 
+                { 
+                    return (0, ex.Message);
+                }
 
                 //Obtener los valores de salida
                 var codigo = parametros.Get<int>("@Codigo");

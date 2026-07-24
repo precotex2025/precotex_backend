@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +10,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
     {
         public string Codigo_Documentos_Controlados { get; set; } = null!; // CHAR(3), PK
         public int Codigo_Proceso { get; set; }
+        public string? Nombre_Proceso { get; set; }
         public string Codigo_Carpeta_Control { get; set; } = null!;
         public string Codigo_Normas { get; set; } = null!;
         public string Codigo_Tiempo_Conservacion { get; set; } = null!;

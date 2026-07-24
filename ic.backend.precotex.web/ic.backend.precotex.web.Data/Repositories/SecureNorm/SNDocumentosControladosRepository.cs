@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
@@ -96,23 +96,25 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
                 // Parametros de SQL
                 parametros.Add("@Accion", sTipoTransac);
-                parametros.Add("@Codigo_Documentos_Controlados", sN_Documentos_Controlados.Codigo_Documentos_Controlados);
-                parametros.Add("@Codigo_Carpeta_Control", sN_Documentos_Controlados.Codigo_Carpeta_Control);
-                parametros.Add("@Codigo_Norma", sN_Documentos_Controlados.Codigo_Normas);
-                parametros.Add("@Codigo_Tiempo_Conservacion", sN_Documentos_Controlados.Codigo_Tiempo_Conservacion);
-                parametros.Add("@Codigo_Tipo_Descarga", sN_Documentos_Controlados.Codigo_Tipo_Descarga);
-                parametros.Add("@Denominacion", sN_Documentos_Controlados.Denominacion);
+                parametros.Add("@Codigo_Documentos_Controlados", sN_Documentos_Controlados.Codigo_Documentos_Controlados ?? "");
+                parametros.Add("@Codigo_Proceso", (sN_Documentos_Controlados.Codigo_Proceso <= 0 ? 1 : sN_Documentos_Controlados.Codigo_Proceso).ToString().PadLeft(3, '0'));
+                parametros.Add("@Codigo_Carpeta_Control", string.IsNullOrEmpty(sN_Documentos_Controlados.Codigo_Carpeta_Control) ? "001" : sN_Documentos_Controlados.Codigo_Carpeta_Control);
+                parametros.Add("@Codigo_Normas", sN_Documentos_Controlados.Codigo_Normas ?? "");
+                parametros.Add("@Codigo_Tiempo_Conservacion", sN_Documentos_Controlados.Codigo_Tiempo_Conservacion ?? "");
+                parametros.Add("@Codigo_Tipo_Descarga", sN_Documentos_Controlados.Codigo_Tipo_Descarga ?? "");
+                parametros.Add("@Denominacion", sN_Documentos_Controlados.Denominacion ?? "");
 
-                parametros.Add("@Codigo_Documento", sN_Documentos_Controlados.Codigo_Documento);
-                parametros.Add("@Version_Documento", sN_Documentos_Controlados.Version_Documento);
-                parametros.Add("@Ruta_Adjunto", sN_Documentos_Controlados.Ruta_Adjunto);
-                parametros.Add("@Descripcion", sN_Documentos_Controlados.Descripcion);
-                parametros.Add("@bRegistroAsociado", sN_Documentos_Controlados.bRegistroAsociado, DbType.Int32);
-                parametros.Add("@bRequiereRevision", sN_Documentos_Controlados.bRequiereRevision, DbType.Int32);
-                parametros.Add("@Flg_Estado", sN_Documentos_Controlados.Flg_Estado);
+                parametros.Add("@Codigo_Documento", sN_Documentos_Controlados.Codigo_Documento ?? "");
+                parametros.Add("@Version_Documento", sN_Documentos_Controlados.Version_Documento ?? "");
+                parametros.Add("@Ruta_Adjunto", sN_Documentos_Controlados.Ruta_Adjunto ?? "");
+                parametros.Add("@Descripcion", sN_Documentos_Controlados.Descripcion ?? "");
+                parametros.Add("@bRegistroAsociado", sN_Documentos_Controlados.bRegistroAsociado == true ? 1 : 0);
+                parametros.Add("@bRequiereRevision", sN_Documentos_Controlados.bRequiereRevision == true ? 1 : 0);
+                parametros.Add("@Flg_Estado", sN_Documentos_Controlados.Flg_Estado ?? "Vigente");
+                parametros.Add("@Fec_Vencimiento", sN_Documentos_Controlados.Fec_Vencimiento);
 
-                parametros.Add("@Flg_Activo", sN_Documentos_Controlados.Flg_Activo);
-                parametros.Add("@Cod_Usuario", sN_Documentos_Controlados.Cod_Usuario);
+                parametros.Add("@Flg_Activo", sN_Documentos_Controlados.Flg_Activo == true ? 1 : 0);
+                parametros.Add("@Cod_Usuario", string.IsNullOrEmpty(sN_Documentos_Controlados.Cod_Usuario) ? "SISTEMAS" : sN_Documentos_Controlados.Cod_Usuario);
 
                 // Parámetros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);

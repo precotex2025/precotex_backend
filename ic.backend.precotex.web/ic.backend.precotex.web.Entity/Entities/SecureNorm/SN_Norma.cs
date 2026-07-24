@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +10,10 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
     {
         public string? Codigo_Norma { get; set; }
         public string? Norma { get; set; }
+        public string? Categoria { get; set; }
+        public DateTime? FechaVencimiento { get; set; }
+        public DateTime? FechaAuditoria { get; set; }
+        public string? Estado { get; set; }
         public string? Descripcion { get; set; }
         public string? Flg_Activo { get; set; }
         public string? Cod_Usuario { get; set; }

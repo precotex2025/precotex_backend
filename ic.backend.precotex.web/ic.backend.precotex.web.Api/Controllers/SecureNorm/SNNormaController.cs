@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
@@ -27,6 +27,10 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             {
                 Codigo_Norma = parametros.Codigo_Norma ?? "",
                 Norma = parametros.Norma ?? "",
+                Categoria = parametros.Categoria ?? "",
+                FechaVencimiento = parametros.FechaVencimiento,
+                FechaAuditoria = parametros.FechaAuditoria,
+                Estado = parametros.Estado ?? "",
                 Descripcion = parametros.Descripcion ?? "",
                 Flg_Activo = parametros.Flg_Activo ?? "",
                 Cod_Usuario = parametros.Cod_Usuario ?? ""

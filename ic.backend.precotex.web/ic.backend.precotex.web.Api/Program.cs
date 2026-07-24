@@ -1,4 +1,8 @@
 using ic.backend.precotex.web.Api.Controllers.Tintoreria;
+using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Service.Services.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using ic.backend.precotex.web.Data.Repositories.Almacen;
 using ic.backend.precotex.web.Data.Repositories.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Data.Repositories.CalificacionRollosFinal;
@@ -117,14 +121,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-        /*
+        
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
-        */
+
 
         /*PRODUCCION*/
-        
+        /*
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -133,7 +137,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-       
+        */
     }); 
 });
 
@@ -177,12 +181,25 @@ builder.Services.AddScoped<ISNOrganizacionService, SNOrganizacionService>();
 builder.Services.AddScoped<IGenerateImageDinamycService, GenerateImageDinamycService>();
 builder.Services.AddScoped<ISNSedeService, SNSedeService>();
 builder.Services.AddScoped<ISNProcesoService, SNProcesoService>();
+builder.Services.AddScoped<ISNDocumentosControladosService, SNDocumentosControladosService>();
+builder.Services.AddScoped<ISNPuestoService, SNPuestoService>();
+builder.Services.AddScoped<ISNPermisoService, SNPermisoService>();
+builder.Services.AddScoped<ISNIndicadorService, SNIndicadorService>();
+builder.Services.AddScoped<ISNMejoraService, SNMejoraService>();
 builder.Services.AddScoped<ICnAgendaService, CnAgendaService>();
 builder.Services.AddScoped<IMaeTabService, MaeTabService>();
 builder.Services.AddScoped<IPrimeraPartidaService, PrimeraPartidaService>();
 builder.Services.AddScoped<ILecturaBultosService, LecturaBultosService>();
 builder.Services.AddScoped<ITjSeguimientoSaldoHiloService, TjSeguimientoSaldoHiloService>();
 builder.Services.AddScoped<ITjSolicitudDevolucionAuditoriaService, TjSolicitudDevolucionAuditoriaService>();
+builder.Services.AddScoped<ISNAuditoriaService, SNAuditoriaService>();
+builder.Services.AddScoped<ISNNoConformidadService, SNNoConformidadService>();
+builder.Services.AddScoped<ISNObjetivoService, SNObjetivoService>();
+builder.Services.AddScoped<ISNRiesgoService, SNRiesgoService>();
+builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
+builder.Services.AddScoped<ISNManualService, SNManualService>();
+
+
 
 
 
@@ -222,12 +239,23 @@ builder.Services.AddScoped<ISNOrganizacionRepository, SNOrganizacionRepository>(
 builder.Services.AddScoped<ITxPersonasRepository, TxPersonasRepository>();
 builder.Services.AddScoped<ISNSedeRepository, SNSedeRepository>();
 builder.Services.AddScoped<ISNProcesoRepository, SNProcesoRepository>();
+builder.Services.AddScoped<ISNDocumentosControladosRepository, SNDocumentosControladosRepository>();
+builder.Services.AddScoped<ISNPuestoRepository, SNPuestoRepository>();
+builder.Services.AddScoped<ISNPermisoRepository, SNPermisoRepository>();
+builder.Services.AddScoped<ISNIndicadorRepository, SNIndicadorRepository>();
+builder.Services.AddScoped<ISNMejoraRepository, SNMejoraRepository>();
 builder.Services.AddScoped<ICnAgendaRepository, CnAgendaRepository>();
 builder.Services.AddScoped<IMaeTabRepository, MaeTabRepository>();
 builder.Services.AddScoped<IPrimeraPartidaRepository, PrimeraPartidaRepository>();
 builder.Services.AddScoped<ILecturaBultosRepository, LecturaBultosRepository>();
 builder.Services.AddScoped<ITjSeguimientoSaldoHiloRepository, TjSeguimientoSaldoHiloRepository>();
 builder.Services.AddScoped<ITjSolicitudDevolucionAuditoriaRepository, TjSolicitudDevolucionAuditoriaRepository>();
+builder.Services.AddScoped<ISNAuditoriaRepository, SNAuditoriaRepository>();
+builder.Services.AddScoped<ISNNoConformidadRepository, SNNoConformidadRepository>();
+builder.Services.AddScoped<ISNObjetivoRepository, SNObjetivoRepository>();
+builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
+builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
+builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
 
 #endregion
 

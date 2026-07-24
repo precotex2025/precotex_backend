@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using ic.backend.precotex.web.Service.Services.SecureNorm;
@@ -23,6 +23,10 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
         [Route("postProcesoMntoSedes")]
         public async Task<IActionResult> postProcesoMntoSedes([FromBody] SNSedeParameter parametros)
         {
+            if (parametros.Flg_Activo == "S" || parametros.Flg_Activo == "s") parametros.Flg_Activo = "1";
+            if (parametros.Flg_Activo == "N" || parametros.Flg_Activo == "n") parametros.Flg_Activo = "0";
+            if (parametros.Codigo_Organizacion == "ORG-0001" || string.IsNullOrEmpty(parametros.Codigo_Organizacion)) parametros.Codigo_Organizacion = "001";
+
             SN_Sede sede = new SN_Sede
             {
      
@@ -54,6 +58,8 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
         [Route("getListadoSedes")]
         public async Task<IActionResult> getListadoSedes(string sCodigoOrganizacion, string? sEstado)
         {
+            if (sEstado == "S" || sEstado == "s") sEstado = "1";
+            
             var result = await _sNSedeService.Listado(sCodigoOrganizacion!, sEstado!);
             if (result!.Success)
             {
