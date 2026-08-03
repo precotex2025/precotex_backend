@@ -1676,9 +1676,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadoExcluidoDescarga")]
-        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod);
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod, FecIni, FecFin);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

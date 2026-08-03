@@ -2750,7 +2750,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2758,9 +2758,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parametros = new DynamicParameters();
                 parametros.Add("@Usr_Cod", Usr_Cod);
+                parametros.Add("@FechaInicio", FecIni);
+                parametros.Add("@FechaFin", FecFin);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_hm]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );

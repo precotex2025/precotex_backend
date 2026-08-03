@@ -92,5 +92,20 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public DateTime? Fec_Teorico_Inicio_Tenido { get; set; }
         public DateTime? Fecha_AsignaAnalista { get; set; }
 
+        //CAMPOS DE FECHAS DE JABONADOS
+        public DateTime? Fecha_Jabonado_Inicio_1 { get; set; }
+        public DateTime? Fecha_Jabonado_Fin_1 { get; set; }
+        public DateTime? Fecha_Jabonado_Inicio_2 { get; set; }
+        public DateTime? Fecha_Jabonado_Fin_2 { get; set; }
+        public string? Proceso_Des { get; set; }
+
+        public int Jab_Nro_Tubo_2 { get; set; }
+        public string? Jab_Ahi_Des_2 { get; set; }
+        public int Jab_Nro_Tubo_3 { get; set; }
+        public string? Jab_Ahi_Des_3 { get; set; }
+
+        public string? Nombre_Cliente { get; set; }
+        public string? Nombre_Analista { get; set; }
+
     }
 }

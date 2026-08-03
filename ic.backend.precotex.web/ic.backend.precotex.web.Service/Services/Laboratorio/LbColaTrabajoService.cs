@@ -2008,12 +2008,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluidoDescarga(Usr_Cod);
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluidoDescarga(Usr_Cod, FecIni, FecFin);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
