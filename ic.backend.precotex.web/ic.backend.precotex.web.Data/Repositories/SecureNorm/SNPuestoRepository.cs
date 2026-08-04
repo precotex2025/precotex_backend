@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
@@ -55,21 +55,21 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
                 // Parametros de SQL
                 parametros.Add("@Accion", sTipoTransac);
-                parametros.Add("@Codigo_Puesto", sN_Puesto.Codigo_Puesto);
-                parametros.Add("@Codigo_Organizacion", sN_Puesto.Codigo_Organizacion);
-                parametros.Add("@Codigo_Sede", sN_Puesto.Codigo_Sede);
-                parametros.Add("@Denominacion", sN_Puesto.Denominacion);
-                parametros.Add("@Codigo_Nivel_Riesgo", sN_Puesto.Codigo_Nivel_Riesgo);
-                parametros.Add("@Validacion_Periodica", sN_Puesto.Validacion_Periodica, DbType.Int32);
+                parametros.Add("@Codigo_Puesto", sN_Puesto.Codigo_Puesto ?? "");
+                parametros.Add("@Codigo_Organizacion", string.IsNullOrEmpty(sN_Puesto.Codigo_Organizacion) ? "001" : sN_Puesto.Codigo_Organizacion);
+                parametros.Add("@Codigo_Sede", string.IsNullOrEmpty(sN_Puesto.Codigo_Sede) ? "001" : sN_Puesto.Codigo_Sede);
+                parametros.Add("@Denominacion", sN_Puesto.Denominacion ?? "");
+                parametros.Add("@Codigo_Nivel_Riesgo", sN_Puesto.Codigo_Nivel_Riesgo ?? "Operativo");
+                parametros.Add("@Validacion_Periodica", sN_Puesto.Validacion_Periodica == true ? 1 : 0, DbType.Int32);
 
-                parametros.Add("@Puesto_Descripcion", sN_Puesto.Puesto_Descripcion);
-                parametros.Add("@Puesto_Funciones", sN_Puesto.Puesto_Funciones);
-                parametros.Add("@Puesto_Requisitos", sN_Puesto.Puesto_Requisitos);
-                parametros.Add("@Puesto_Caracteristicas", sN_Puesto.Puesto_Caracteristicas);
-                parametros.Add("@Caracteristicas_Visible", sN_Puesto.Caracteristicas_Visible, DbType.Int32);
+                parametros.Add("@Puesto_Descripcion", sN_Puesto.Puesto_Descripcion ?? "");
+                parametros.Add("@Puesto_Funciones", sN_Puesto.Puesto_Funciones ?? "");
+                parametros.Add("@Puesto_Requisitos", sN_Puesto.Puesto_Requisitos ?? "");
+                parametros.Add("@Puesto_Caracteristicas", sN_Puesto.Puesto_Caracteristicas ?? "");
+                parametros.Add("@Caracteristicas_Visible", sN_Puesto.Caracteristicas_Visible == true ? 1 : 0, DbType.Int32);
 
-                parametros.Add("@Flg_Activo", sN_Puesto.Flg_Activo);
-                parametros.Add("@Cod_Usuario", sN_Puesto.Cod_Usuario);
+                parametros.Add("@Flg_Activo", sN_Puesto.Flg_Activo == "0" ? 0 : 1, DbType.Int32);
+                parametros.Add("@Cod_Usuario", string.IsNullOrEmpty(sN_Puesto.Cod_Usuario) ? "SISTEMAS" : sN_Puesto.Cod_Usuario);
 
                 // Parámetros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);

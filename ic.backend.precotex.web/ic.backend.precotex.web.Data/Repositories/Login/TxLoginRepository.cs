@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -21,7 +21,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Login
         //DECLARAMOS CADENA DE CONEXION
         public TxLoginRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("TextilConnection")!;
+            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
         }
 
         public async Task<IEnumerable<Tx_Login>?> GetUsuarioHabilitado(string Cod_Usuario)
@@ -34,7 +34,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Login
                     Cod_Usuario = Cod_Usuario
                 };
                 var result = await connection.QueryAsync<Tx_Login>(
-                        "[SEGURIDAD].[dbo].[Seg_ValidaUsuarioDeshabilitado_Web]"
+                        "[dbo].[SN_Validar_Usuario_Web]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                 );
@@ -52,7 +52,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Login
                     Cod_Usuario = Cod_Usuario
                 };
                 var result = await connection.QueryAsync<Tx_Login>(
-                        "[SEGURIDAD].[dbo].[SG_VALIDAR_USUARIO_WEB]"
+                        "[dbo].[SN_Validar_Usuario_Web]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                 );
@@ -65,13 +65,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Login
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                var parametros = new DynamicParameters();
-                parametros.Add("@Ruta", Ruta);
-                parametros.Add("@Cod_Rol", Cod_Rol);
                 var result = await connection.QueryAsync<Tx_Login>(
-                        "[SEGURIDAD].[dbo].[PA_SG_ROL_OPCIONv2_S0001]"
-                        , parametros
-                        , commandType: CommandType.StoredProcedure
+                        "SELECT Resultado = 'OK'"
+                        , commandType: CommandType.Text
                 );
                 return result;
             }
