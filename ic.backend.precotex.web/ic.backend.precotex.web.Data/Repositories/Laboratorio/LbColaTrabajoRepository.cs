@@ -3112,5 +3112,19 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        public async Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[USP_LB_JABONADOS_CONCENTRACION_OBTENER]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
     }
 }

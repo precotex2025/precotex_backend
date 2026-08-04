@@ -1979,5 +1979,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getJabonadosConcentracion_ListaCombo")]
+        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo(sFamilia, sTipTen, dValorPH);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

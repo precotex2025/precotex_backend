@@ -171,5 +171,6 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerCantidadGrupos();
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> AsignarGrupos();
         Task<ServiceResponseList<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario);
+        Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH);
     }
 }
