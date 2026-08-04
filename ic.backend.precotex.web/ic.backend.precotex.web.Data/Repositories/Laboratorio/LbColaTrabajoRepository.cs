@@ -3103,7 +3103,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Tip_Ten", Tip_Ten);
 
                 var result = await connection.QueryAsync<Reporte_ph>(
-                    "[dbo].[PA_LB_CARTACOL_DG_S1001_hm]"
+                    "[dbo].[PA_LB_CARTACOL_DG_S1001]"
                     , parameters
                     , commandType: CommandType.StoredProcedure
                 );

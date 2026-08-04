@@ -486,7 +486,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> AvanzaEstadoReclamo(int iId)
+        public async Task<(int Codigo, string Mensaje)> AvanzaEstadoReclamo(string sTipo, int iId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -496,6 +496,7 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
 
                 // Parametros de SQL
                 parametros.Add("@Id", iId);
+                parametros.Add("@Tipo", sTipo);
                 // Parámetros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);

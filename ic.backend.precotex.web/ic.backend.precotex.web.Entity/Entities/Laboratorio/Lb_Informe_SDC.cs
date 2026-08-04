@@ -37,7 +37,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Tela_Ref { get; set; }
         public string? Rel_Ban_Ref { get; set; }
         public string? Lote_Ref { get; set; }
-
+        public string? des_Colorante_Optico { get; set; }
 
 
     }

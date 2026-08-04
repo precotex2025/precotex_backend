@@ -29,7 +29,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamo
         Task<IEnumerable<ArticuloDto>?> BuscarPorPartida(string partida);
         Task<IEnumerable<UnidadNegocioDto>?> ListaUnidadNegocio();
         Task<IEnumerable<AreasDto>?> ListaAreasCalidad();
-        Task<(int Codigo, string Mensaje)> AvanzaEstadoReclamo(int iId);
+        Task<(int Codigo, string Mensaje)> AvanzaEstadoReclamo(string sTipo, int iId);
         Task<(int Codigo, string Mensaje)> ProcesoConfirmarReclamo(string sNroCaso, string sNombreArchivoCalidad, string sObservacionCalidad, string sCodAreaResponsableCalidad, string sCod_Usuario);
 
         Task<IEnumerable<ReclamoTipoConsecuenciaDto>?> ListaTipoConsecuencia();

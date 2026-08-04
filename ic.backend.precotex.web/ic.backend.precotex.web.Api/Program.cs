@@ -126,7 +126,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
-
         /*PRODUCCION*/
         /*
         policy.WithOrigins(
@@ -138,11 +137,7 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
         */
-    }); 
 });
-
-#region INYECTION DEPENDECY
-
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
 
 //Inyection Services

@@ -350,12 +350,12 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             }
         }
 
-        public async Task<ServiceResponse<int>> AvanzaEstadoReclamo(int iId)
+        public async Task<ServiceResponse<int>> AvanzaEstadoReclamo(string sTipo, int iId)
         {
             var result = new ServiceResponse<int>();
             try
             {
-                var resultData = await _txtIQuejasReclamos.AvanzaEstadoReclamo(iId);
+                var resultData = await _txtIQuejasReclamos.AvanzaEstadoReclamo(sTipo, iId);
                 if (resultData.Codigo > 0)
                 {
                     result.Message = resultData.Mensaje;
