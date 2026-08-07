@@ -342,35 +342,16 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
 
                 pd.PrintPage += (sender, e) =>
                 {
-                    RectangleF printableArea = e.PageSettings.PrintableArea;
-                    Rectangle area = new Rectangle(
-                        (int)printableArea.X,
-                        (int)printableArea.Y,
-                        (int)printableArea.Width,
-                        (int)printableArea.Height
-                    );
+                    // MarginBounds lo calcula .NET en software (PageBounds - Margins),
+                    // a diferencia de e.PageSettings.PrintableArea que algunos drivers
+                    // devuelven sin rotar, causando imagen chica y pegada a la esquina.
+                    Rectangle area = e.MarginBounds;
 
-                    float ratioImagen = (float)image.Width / image.Height;
-                    float ratioArea = (float)area.Width / area.Height;
-
-                    int width, height;
-                    if (ratioImagen > ratioArea)
-                    {
-                        width = area.Width;
-                        height = (int)(width / ratioImagen);
-                    }
-                    else
-                    {
-                        height = area.Height;
-                        width = (int)(height * ratioImagen);
-                    }
-
-                    int x = area.X + ((area.Width - width) / 2);
-                    int y = area.Y + ((area.Height - height) / 2);
-
+                    // Estira la imagen para ocupar toda la hoja (sin mantener
+                    // proporción), tal como se ve en el reporte HTML de origen.
                     e.Graphics.InterpolationMode =
                         System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    e.Graphics.DrawImage(image, new Rectangle(x, y, width, height));
+                    e.Graphics.DrawImage(image, area);
                 };
 
                 pd.Print();
