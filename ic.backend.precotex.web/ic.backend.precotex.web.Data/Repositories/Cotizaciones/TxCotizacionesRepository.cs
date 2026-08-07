@@ -1,16 +1,9 @@
 ﻿using Dapper;
-using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ic.backend.precotex.web.Entity.Entities.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
-using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Entity.Entities;
 
 namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
@@ -24,6 +17,73 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
         {
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_UnidadNegocio_Listar]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_ListaRecetas_Antipilling]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ValidaColorExiste(string Cod_Color)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Color", Cod_Color);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[PA_Tx_ValidaColorExiste_S0001]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
@@ -266,39 +326,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> ValidaColorExiste(string Cod_Color)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
+        
 
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Cod_Color", Cod_Color);
-
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[PA_Tx_ValidaColorExiste_S0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[PA_Tx_ListaUnidadNegocio_S0001]"
-                    , commandType: CommandType.StoredProcedure
-                    );
-                return result;
-            }
-        }
+        
 
         public async Task<IEnumerable<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
         {
@@ -406,19 +436,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[sp_ListaRecetas_Antipilling]"
-                    , commandType: CommandType.StoredProcedure
-                    );
-                return result;
-            }
-        }
+        
 
         public async Task<IEnumerable<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
         {

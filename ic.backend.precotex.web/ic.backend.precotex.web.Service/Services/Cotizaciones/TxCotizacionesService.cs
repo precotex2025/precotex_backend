@@ -25,6 +25,95 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             _txCotizacionesRepository = txCotizacionesRepository;
         }
 
+        public async Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocio()
+        {
+
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaUnidadNegocio();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ListaRecetasAntipilling()
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaRecetasAntipilling();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ValidaColorExiste(Cod_Color);
+                if (result == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información, para el Codigo de color {" + Cod_Color + "}, en consulta";
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepcion nocontrolada" + ex.Message;
+                return result;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
             var result = new ServiceResponseList<Tx_Cotizaciones>();
@@ -205,55 +294,9 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
-        public async Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color)
-        {
-            var result = new ServiceResponseList<ComboGral>();
-            try
-            {
-                var resultData = await _txCotizacionesRepository.ValidaColorExiste(Cod_Color);
-                if (result == null || !resultData.Any())
-                {
-                    result.Success = true;
-                    result.Message = "No existe información, para el Codigo de color {" + Cod_Color + "}, en consulta";
-                    return result;
-                }
-                result.Success = true;
-                result.Message = "Completado con éxito";
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Message = "Excepcion nocontrolada" + ex.Message;
-                return result;
-            }
-        }
+        
 
-        public async Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocio()
-        {
-
-            var result = new ServiceResponseList<ComboGral>();
-            try
-            {
-                var resultData = await _txCotizacionesRepository.ListaUnidadNegocio();
-                if (resultData == null || !resultData.Any())
-                {
-                    result.Success = true;
-                    result.Message = "No existe información";
-                }
-                result.Success = true;
-                result.Message = "Completado con éxito";
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Message = "Excepción no controlada " + ex.Message;
-                return result;
-            }
-        }
+        
 
         public async Task<ServiceResponseList<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
         {
@@ -383,31 +426,7 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
-        public async Task<ServiceResponseList<ComboGral>?> ListaRecetasAntipilling()
-        {
-            var result = new ServiceResponseList<ComboGral>();
-            try
-            {
-                var resultData = await _txCotizacionesRepository.ListaRecetasAntipilling();
-                if (resultData == null || !resultData.Any())
-                {
-                    result.Success = true;
-                    result.Message = "No existe información";
-                    result.Elements = null;
-                    return result;
-                }
-                result.Success = true;
-                result.Message = "Completado con éxito";
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Message = "Excepción no controlada " + ex.Message;
-                return result;
-            }
-        }
+        
 
         public async Task<ServiceResponseList<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
         {

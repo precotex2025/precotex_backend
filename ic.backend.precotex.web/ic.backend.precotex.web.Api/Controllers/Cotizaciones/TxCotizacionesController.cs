@@ -25,6 +25,76 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
         }
 
         [HttpGet]
+        [Route("getListaUnidadNegocio")]
+        public async Task<IActionResult> getListaUnidadNegocio()
+        {
+            var result = await _txCotizacionesService.ListaUnidadNegocio();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaRecetasAntipilling")]
+        public async Task<IActionResult> getListaRecetasAntipilling()
+        {
+            var result = await _txCotizacionesService.ListaRecetasAntipilling();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getValidaColorExiste")]
+        public async Task<IActionResult> getValidaColorExiste(string Cod_Color)
+        {
+            var result = await _txCotizacionesService.ValidaColorExiste(Cod_Color);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet]
         [Route("getListarProcesosExportacion")]
         public async Task<IActionResult> getListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string? Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
@@ -146,35 +216,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
-        [HttpGet]
-        [Route("getValidaColorExiste")]
-        public async Task<IActionResult> getValidaColorExiste(string Cod_Color)
-        {
-            var result = await _txCotizacionesService.ValidaColorExiste(Cod_Color);
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
+        
 
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
-
-        [HttpGet]
-        [Route("getListaUnidadNegocio")]
-        public async Task<IActionResult> getListaUnidadNegocio()
-        {
-            var result = await _txCotizacionesService.ListaUnidadNegocio();
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
-
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
+        
 
         [HttpGet]
         [Route("getListaIntensidad")]
@@ -251,20 +295,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
-        [HttpGet]
-        [Route("getListaRecetasAntipilling")]
-        public async Task<IActionResult> getListaRecetasAntipilling()
-        {
-            var result = await _txCotizacionesService.ListaRecetasAntipilling();
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
-
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
+        
 
         [HttpGet]
         [Route("getValidaExistenciaHistorialxColor")]

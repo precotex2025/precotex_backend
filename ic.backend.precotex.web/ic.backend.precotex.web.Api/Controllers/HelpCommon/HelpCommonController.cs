@@ -215,6 +215,83 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             return File(response.Element, "image/png");
         }
 
+        //[HttpPost]
+        //[Route("postImprimirReporteLabDip")]
+        //public IActionResult postImprimirReporteLabDip(IFormFile reporte)
+        //{
+        //    if (reporte == null || reporte.Length == 0)
+        //        return BadRequest("No se recibió archivo.");
+
+        //    using var stream = reporte.OpenReadStream();
+        //    using var image = System.Drawing.Image.FromStream(stream);
+        //    //string printerName = _configuration["Impresoras:Laboratorio"];
+        //    string printerName = _configuration["Impresoras:Planeamiento"];
+
+        //    PrintDocument pd = new PrintDocument();
+        //    pd.PrinterSettings.PrinterName = @printerName;
+        //    //pd.PrinterSettings.PrinterName = @"Planeamiento";
+        //    //pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Autolab";
+
+        //    pd.DefaultPageSettings.Landscape = true;
+
+        //    pd.PrintPage += (sender, e) =>
+        //    {
+        //        Rectangle area = new Rectangle(
+        //            0,
+        //            0,
+        //            e.PageBounds.Width,
+        //            e.PageBounds.Height);
+
+        //        float ratioImagen = (float)image.Width / image.Height;
+        //        float ratioArea = (float)area.Width / area.Height;
+
+        //        int width, height;
+
+        //        if (ratioImagen > ratioArea)
+        //        {
+        //            width = area.Width;
+        //            height = (int)(width / ratioImagen);
+        //        }
+        //        else
+        //        {
+        //            height = area.Height;
+        //            width = (int)(height * ratioImagen);
+        //        }
+
+        //        int x = (area.Width - width) / 2;
+        //        int y = (area.Height - height) / 2;
+
+        //        e.Graphics.DrawImage(image, x, y, width, height);
+        //    };
+
+        //    pd.Print();
+
+        //    return Ok("Reporte enviado a la impresora.");
+        //}
+
+
+        [HttpPost]
+        [Route("postImprimirReporteLocal")]
+        public IActionResult postImprimirReporteLocal(IFormFile reporte)
+        {
+            if (reporte == null || reporte.Length == 0)
+                return BadRequest("No se recibió archivo.");
+
+
+            var ruta = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                $"reporte_{DateTime.Now:yyyyMMdd_HHmmss}.png"
+            );
+
+
+            using (var fileStream = new FileStream(ruta, FileMode.Create))
+            {
+                reporte.CopyTo(fileStream);
+            }
+
+            return Ok("Reporte enviado a la impresora.");
+        }
+
         [HttpPost]
         [Route("postImprimirReporteLabDip")]
         public IActionResult postImprimirReporteLabDip(IFormFile reporte)
@@ -222,50 +299,107 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             if (reporte == null || reporte.Length == 0)
                 return BadRequest("No se recibió archivo.");
 
-            using var stream = reporte.OpenReadStream();
-            using var image = System.Drawing.Image.FromStream(stream);
-            string printerName = _configuration["Impresoras:Laboratorio"];
-
-            PrintDocument pd = new PrintDocument();
-            pd.PrinterSettings.PrinterName = @printerName;
-            //pd.PrinterSettings.PrinterName = @"Planeamiento";
-            //pd.PrinterSettings.PrinterName = @"\\192.168.7.7\Autolab";
-
-            pd.DefaultPageSettings.Landscape = true;
-
-            pd.PrintPage += (sender, e) =>
+            try
             {
-                Rectangle area = new Rectangle(
-                    0,
-                    0,
-                    e.PageBounds.Width,
-                    e.PageBounds.Height);
+                using var stream = reporte.OpenReadStream();
 
-                float ratioImagen = (float)image.Width / image.Height;
-                float ratioArea = (float)area.Width / area.Height;
+                // 1. Detectar formato — log para diagnóstico
+                string fileName = reporte.FileName?.ToLower() ?? "";
+                string contentType = reporte.ContentType?.ToLower() ?? "";
+                Console.WriteLine($"Archivo: {fileName}, ContentType: {contentType}, Size: {reporte.Length}");
 
-                int width, height;
+                // 2. Si necesitas seguir con System.Drawing por ahora,
+                //    al menos convierte formatos no soportados:
+                using var ms = new MemoryStream();
+                stream.CopyTo(ms);
+                ms.Position = 0;
 
-                if (ratioImagen > ratioArea)
+                System.Drawing.Image image;
+                try
                 {
-                    width = area.Width;
-                    height = (int)(width / ratioImagen);
+                    image = System.Drawing.Image.FromStream(ms);
                 }
-                else
+                catch (Exception ex)
                 {
-                    height = area.Height;
-                    width = (int)(height * ratioImagen);
+                    return BadRequest($"Formato de imagen no soportado: {contentType}. " +
+                                      $"Archivo: {fileName}. Error: {ex.Message}");
                 }
 
-                int x = (area.Width - width) / 2;
-                int y = (area.Height - height) / 2;
+                // 3. Corregir orientación EXIF
+                FixExifOrientation(image);
 
-                e.Graphics.DrawImage(image, x, y, width, height);
-            };
+                // ... resto del código de impresión igual ...
 
-            pd.Print();
+                string printerName = _configuration["Impresoras:Planeamiento"];
+                using PrintDocument pd = new PrintDocument();
+                pd.PrinterSettings.PrinterName = printerName;
 
-            return Ok("Reporte enviado a la impresora.");
+                if (!pd.PrinterSettings.IsValid)
+                    return BadRequest("La impresora configurada no es válida.");
+
+                pd.DefaultPageSettings.Landscape = true;
+                pd.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+
+                pd.PrintPage += (sender, e) =>
+                {
+                    RectangleF printableArea = e.PageSettings.PrintableArea;
+                    Rectangle area = new Rectangle(
+                        (int)printableArea.X,
+                        (int)printableArea.Y,
+                        (int)printableArea.Width,
+                        (int)printableArea.Height
+                    );
+
+                    float ratioImagen = (float)image.Width / image.Height;
+                    float ratioArea = (float)area.Width / area.Height;
+
+                    int width, height;
+                    if (ratioImagen > ratioArea)
+                    {
+                        width = area.Width;
+                        height = (int)(width / ratioImagen);
+                    }
+                    else
+                    {
+                        height = area.Height;
+                        width = (int)(height * ratioImagen);
+                    }
+
+                    int x = area.X + ((area.Width - width) / 2);
+                    int y = area.Y + ((area.Height - height) / 2);
+
+                    e.Graphics.InterpolationMode =
+                        System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    e.Graphics.DrawImage(image, new Rectangle(x, y, width, height));
+                };
+
+                pd.Print();
+                image.Dispose();
+                return Ok("Reporte enviado a la impresora.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al procesar imagen: {ex.Message}");
+            }
+        }
+
+        // Aplica la rotación indicada por EXIF
+        private void FixExifOrientation(System.Drawing.Image image)
+        {
+            const int EXIF_ORIENTATION = 0x0112;
+            if (!image.PropertyIdList.Contains(EXIF_ORIENTATION)) return;
+
+            var prop = image.GetPropertyItem(EXIF_ORIENTATION);
+            int orientation = BitConverter.ToUInt16(prop.Value, 0);
+
+            switch (orientation)
+            {
+                case 3: image.RotateFlip(RotateFlipType.Rotate180FlipNone); break;
+                case 6: image.RotateFlip(RotateFlipType.Rotate90FlipNone); break;
+                case 8: image.RotateFlip(RotateFlipType.Rotate270FlipNone); break;
+            }
+
+            image.RemovePropertyItem(EXIF_ORIENTATION);
         }
 
         #region SET VALORES
