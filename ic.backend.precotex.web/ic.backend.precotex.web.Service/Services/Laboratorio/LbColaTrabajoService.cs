@@ -2008,12 +2008,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
             var result = new ServiceResponseList<Lb_ColTra_Det>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluidoDescarga(Usr_Cod);
+                var resultData = await _lbColaTrabajoRepository.ListarJabonadoExcluidoDescarga(Usr_Cod, FecIni, FecFin);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2378,6 +2378,54 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             try
             {
                 var resultData = await _lbColaTrabajoRepository.CargarDatosReportePH(Corr_Carta, Sec, Tip_Ten);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = new ServiceResponseList<ComboGral>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.JabonadosConcentracion_ListaCombo(sFamilia, sTipTen, dValorPH);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        {
+            var result = new ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
