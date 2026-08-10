@@ -25,6 +25,159 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_UnidadNegocio_Listar]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_ListaRecetas_Antipilling]"
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ValidaColorExiste(string Cod_Color)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Color", Cod_Color);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_Lb_Color_Buscar]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_TipoUnidadNegocio_Listar]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Telas>(
+                    "[dbo].[sp_Tx_Tela_Buscar]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@cod_tela", Cod_Tela);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas>(
+                        "[dbo].[sp_Tx_Ruta_Tela_Cabecera_Buscar]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> ListaColoresXCliente(string Cod_Cliente)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Cod_Cliente", Cod_Cliente);
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[sp_ObtieneCodigoColorXCliente]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Tipo_Busqueda", Tipo_Busqueda);
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+                parametros.Add("@Cod_Tipo", Tipo);
+                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
+
+                var result = await connection.QueryAsync<Tx_PreciosColor>(
+                    "[dbo].[sp_ListaPrecioXColor]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -49,104 +202,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                         , parametros
                         , commandType: CommandType.StoredProcedure
                 );
-                return result;
-            }
-        }
-
-        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
-        {
-            using(var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
-
-                var result = await connection.QueryAsync<Tx_Cotizaciones>(
-                    "[dbo].[PA_Tx_Cotizaciones_Procesos_S0002]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                );
-
-                return result;
-            }   
-        }
-
-        //LISTAR RUTAS POR COD TELA
-        public async Task<IEnumerable<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@cod_tela", Cod_Tela);
-
-                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas>(
-                        "[dbo].[tx_sm_muestra_Tela_DatTecnicos_cabecera]"
-                        , parametros
-                        , commandType: CommandType.StoredProcedure
-                    );
-                return result;
-            }   
-        }
-
-        //LISTAR PROCESOS POR RUTA
-        public async Task<IEnumerable<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Cod_Tela", Cod_Tela);
-                parametros.Add("@Cod_Ruta", Cod_Ruta);
-
-                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas_Detalle>(
-                        "[dbo].[PA_BuscarRutaTextilDetV1_S0001]"
-                        , parametros
-                        , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        //LISTAR CODIGO Y DESCRIPCION DE TELA
-        public async Task<IEnumerable<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Cod_Tela", Cod_Tela);
-
-                var result = await connection.QueryAsync<Tx_Cotizaciones_Telas>(
-                    "[dbo].[PA_Tx_Tela_S0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        //LISTAR CENTRO DE COSTOS
-        public async Task<IEnumerable<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var result = await connection.QueryAsync<Tx_Cotizaciones_Centro_Costo>(
-                    "[dbo].[PA_Tx_Cotizaciones_Centro_Costo_S0001]"
-                    , commandType: CommandType.StoredProcedure
-                    );
                 return result;
             }
         }
@@ -235,8 +290,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                             det.cod_ProcesoPadre,
                             det.cod_Proceso_Tex,
                             det.Cod_SubProceso
-                            //det.Flg_Estatus,
-                            //det.Usu_Registro
+                        //det.Flg_Estatus,
+                        //det.Usu_Registro
                         );
                     }
 
@@ -262,11 +317,68 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             catch (Exception ex)
             {
                 // Captura cualquier error y devuelve un resultado controlado
-                return (-1, $"Error en ProcesoCotizacion: { ex.Message }");
+                return (-1, $"Error en ProcesoCotizacion: {ex.Message}");
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> ValidaColorExiste(string Cod_Color)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos)
+        {
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                
+                var parametros = new DynamicParameters();
+
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones>(
+                    "[dbo].[PA_Tx_Cotizaciones_Procesos_S0002]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }   
+        }
+
+        //LISTAR PROCESOS POR RUTA
+        public async Task<IEnumerable<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -274,31 +386,41 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
 
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@Cod_Color", Cod_Color);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
 
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[PA_Tx_ValidaColorExiste_S0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Rutas_Detalle>(
+                        "[dbo].[PA_BuscarRutaTextilDetV1_S0001]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
                     );
 
                 return result;
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocio()
+        
+
+        //LISTAR CENTRO DE COSTOS
+        public async Task<IEnumerable<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[PA_Tx_ListaUnidadNegocio_S0001]"
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Centro_Costo>(
+                    "[dbo].[PA_Tx_Cotizaciones_Centro_Costo_S0001]"
                     , commandType: CommandType.StoredProcedure
                     );
                 return result;
             }
         }
+
+        
+
+        
+
+        
 
         public async Task<IEnumerable<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey)
         {
@@ -340,85 +462,13 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
+        
 
-                var parametros = new DynamicParameters();
+        
 
-                parametros.Add("@Id_Unidad_NegocioKey", Id_Unidad_NegocioKey);
+        
 
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[PA_Tx_ListaUnidadNegocioTipo_S0001]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        public async Task<IEnumerable<ComboGral>?> ListaColoresXCliente(string Cod_Cliente)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Cod_Cliente", Cod_Cliente);
-
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[sp_ObtieneCodigoColorXCliente]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        public async Task<IEnumerable<Tx_PreciosColor>?> ListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var parametros = new DynamicParameters();
-
-                parametros.Add("@Tipo_Busqueda", Tipo_Busqueda);
-                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
-                parametros.Add("@Cod_Tipo", Tipo);
-                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
-                parametros.Add("@Cod_Tela", Cod_Tela);
-                parametros.Add("@Cod_Ruta", Cod_Ruta);
-                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
-
-                var result = await connection.QueryAsync<Tx_PreciosColor>(
-                    "[dbo].[sp_ListaPrecioXColor]"
-                    , parametros
-                    , commandType: CommandType.StoredProcedure
-                    );
-
-                return result;
-            }
-        }
-
-        public async Task<IEnumerable<ComboGral>?> ListaRecetasAntipilling()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var result = await connection.QueryAsync<ComboGral>(
-                    "[dbo].[sp_ListaRecetas_Antipilling]"
-                    , commandType: CommandType.StoredProcedure
-                    );
-                return result;
-            }
-        }
+        
 
         public async Task<IEnumerable<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta)
         {

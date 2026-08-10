@@ -121,7 +121,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularApp", policy =>
     {
         /*DESARROLLO*/
-        
+
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
@@ -137,6 +137,7 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
         */
+    });        
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
 
@@ -195,9 +196,6 @@ builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
 builder.Services.AddScoped<ISNManualService, SNManualService>();
 
 
-
-
-
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
@@ -251,9 +249,6 @@ builder.Services.AddScoped<ISNObjetivoRepository, SNObjetivoRepository>();
 builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
 builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
-
-#endregion
-
 
 
 
