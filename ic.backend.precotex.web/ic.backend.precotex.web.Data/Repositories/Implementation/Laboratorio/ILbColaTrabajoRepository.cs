@@ -172,6 +172,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> AsignarGrupos();
         Task<IEnumerable<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario);
         Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH);
+        Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
+
 
     }
 }
