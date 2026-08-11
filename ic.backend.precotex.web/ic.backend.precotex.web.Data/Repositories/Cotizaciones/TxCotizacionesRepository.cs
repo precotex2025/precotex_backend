@@ -1,16 +1,9 @@
 ﻿using Dapper;
-using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ic.backend.precotex.web.Entity.Entities.Cotizaciones;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Cotizaciones;
-using ic.backend.precotex.web.Entity.Entities.Memorandum;
 using ic.backend.precotex.web.Entity.Entities;
 
 namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
