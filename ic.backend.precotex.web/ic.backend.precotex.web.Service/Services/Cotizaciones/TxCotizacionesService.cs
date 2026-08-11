@@ -284,7 +284,36 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
             }
         }
 
+        public async Task<ServiceResponse<Tx_Cotizaciones_Cab>?> ObtenerNuevoCorrelativoVersion(int Id_Unidad_NegocioKey, string Cod_Tipo_Orden_tinto, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia)
+        {
+            var result = new ServiceResponse<Tx_Cotizaciones_Cab>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ObtenerNuevoCorrelativoVersion(Id_Unidad_NegocioKey, Cod_Tipo_Orden_tinto, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia);
+                if (resultData == null)
+                {
+                    result.Success = false;
+                    result.CodeResult = 404;
+                    result.Message = "No existe información.";
+                    return result;
+                }
 
+                result.Success = true;
+                result.CodeResult = 200;
+                result.Message = "Completado con éxito.";
+                result.Element = resultData;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.CodeResult = 500;
+                result.Message = "Excepción no controlada: " + ex.Message;
+
+                return result;
+            }
+        }
 
 
 

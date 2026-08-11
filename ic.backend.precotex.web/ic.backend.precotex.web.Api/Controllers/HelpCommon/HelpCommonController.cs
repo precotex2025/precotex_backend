@@ -10,6 +10,7 @@ using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using static ic.backend.precotex.web.Api.Controllers.SolicitudMantenimiento.TMSolicitudMantenimientoController;
 
@@ -264,6 +265,101 @@ namespace ic.backend.precotex.web.Api.Controllers.HelpCommon
             };
 
             pd.Print();
+
+            return Ok("Reporte enviado a la impresora.");
+        }
+
+        [HttpPost]
+        [Route("postImprimirReporteLaboratorio")]
+        public IActionResult postImprimirReporteLaboratorio(IFormFile reporte, [FromQuery] bool estirar = true)
+        {
+            if (reporte == null || reporte.Length == 0)
+                return BadRequest("No se recibió archivo.");
+
+            // Copiar a memoria: Image.FromStream necesita el stream vivo durante todo el Print()
+            using var ms = new MemoryStream();
+            reporte.CopyTo(ms);
+            ms.Position = 0;
+
+            using var image = System.Drawing.Image.FromStream(ms);
+
+            string printerName = _configuration["Impresoras:Planeamiento"];
+
+            using var pd = new PrintDocument();
+            pd.PrinterSettings.PrinterName = printerName;
+
+            if (!pd.PrinterSettings.IsValid)
+                return BadRequest($"La impresora '{printerName}' no es válida o no está disponible.");
+
+            pd.DocumentName = "Reporte LabDip";
+            pd.DefaultPageSettings.Landscape = true;
+            pd.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+            pd.OriginAtMargins = false;   // origen = esquina del área imprimible
+
+            // Usar la mayor resolución que soporte el driver
+            var mejorResolucion = pd.PrinterSettings.PrinterResolutions
+                .Cast<PrinterResolution>()
+                .Where(r => r.X > 0)
+                .OrderByDescending(r => r.X)
+                .FirstOrDefault();
+            if (mejorResolucion != null)
+                pd.DefaultPageSettings.PrinterResolution = mejorResolucion;
+
+            pd.PrintPage += (sender, e) =>
+            {
+                var ps = e.PageSettings;
+
+                // BUG conocido de System.Drawing: PrintableArea no se rota
+                // cuando Landscape = true → hay que intercambiar los valores
+                RectangleF printable = ps.PrintableArea;
+                if (ps.Landscape)
+                    printable = new RectangleF(
+                        printable.Y, printable.X,
+                        printable.Height, printable.Width);
+
+                e.Graphics.PageUnit = GraphicsUnit.Display;   // 1/100 de pulgada
+
+                // Calidad de reescalado (sin esto el texto sale dentado)
+                e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+                e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
+
+                float areaW = printable.Width;
+                float areaH = printable.Height;
+                float x, y, w, h;
+
+                if (estirar)
+                {
+                    // Equivale a object-fit: fill → idéntico al flujo HTML
+                    x = 0; y = 0; w = areaW; h = areaH;
+                }
+                else
+                {
+                    // Equivale a object-fit: contain → conserva proporción y centra
+                    float ratioImg = (float)image.Width / image.Height;
+                    float ratioArea = areaW / areaH;
+
+                    if (ratioImg > ratioArea) { w = areaW; h = areaW / ratioImg; }
+                    else { h = areaH; w = areaH * ratioImg; }
+
+                    x = (areaW - w) / 2f;
+                    y = (areaH - h) / 2f;
+                }
+
+                e.Graphics.DrawImage(image, x, y, w, h);
+
+                e.HasMorePages = false;   // ← garantiza UNA SOLA HOJA
+            };
+
+            try
+            {
+                pd.Print();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al imprimir: {ex.Message}");
+            }
 
             return Ok("Reporte enviado a la impresora.");
         }

@@ -165,9 +165,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             Tx_Cotizaciones_Cab _Coti = new Tx_Cotizaciones_Cab
             {
                 IdCotizacion_Cab = parameters.IdCotizacion_Cab,
-                Pro_Id = parameters.Pro_Id,
-                Cen_Cos_Cod = parameters.Cen_Cos_Cod,
-                Cod_Tipo = parameters.Cod_Tipo,
+                Num_Cotizacion = parameters.Num_Cotizacion,
+                Num_Version = parameters.Num_Version,
+                Id_Unidad_NegocioKey = parameters.Id_Unidad_NegocioKey,
+                Cod_Tipo_Orden_tinto = parameters.Cod_Tipo_Orden_tinto,
                 Cod_Cliente_Tex = parameters.Cod_Cliente_Tex,
                 Cod_Tela = parameters.Cod_Tela,
                 Cod_Ruta = parameters.Cod_Ruta,
@@ -190,7 +191,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerNuevoCorrelativoVersion")]
+        public async Task<IActionResult> getObtenerNuevoCorrelativoVersion(int Id_Unidad_NegocioKey, string Cod_Tipo_Orden_tinto, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia)
+        {
+            var result = await _txCotizacionesService.ObtenerNuevoCorrelativoVersion(Id_Unidad_NegocioKey, Cod_Tipo_Orden_tinto, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
 
 
