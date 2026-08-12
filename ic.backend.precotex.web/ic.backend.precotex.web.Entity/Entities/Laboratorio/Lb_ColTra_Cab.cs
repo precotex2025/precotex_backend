@@ -22,5 +22,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Cod_Ruta { get; set; }
         public string? Entregado { get; set; }
         public string? Usr_Cod { get; set; }
+        public string? Nom_Usuario { get; set; }
     }
 }

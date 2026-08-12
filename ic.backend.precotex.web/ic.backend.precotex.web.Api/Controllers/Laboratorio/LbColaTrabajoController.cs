@@ -236,7 +236,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Agu_Oxi = parametros.Agu_Oxi,
                 Ruc_Gr = parametros.Ruc_Gr,
                 Tip_Ten = parametros.Tip_Ten,
-                Fij_Can = parametros.Fij_Can
+                Fij_Can = parametros.Fij_Can,
+                //Nuevo Campos
+                Id_Concentracion = parametros.Id_Concentracion,
+                Fij_Tip_Id = parametros.Fij_Tip_Id
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -1982,9 +1985,24 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getJabonadosConcentracion_ListaCombo")]
-        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo()
         {
-            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo(sFamilia, sTipTen, dValorPH);
+            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerJabonadosConcentracion")]
+        public async Task<IActionResult> getObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = await _LbColaTrabajoService.ObtenerJabonadosConcentracion(sFamilia, sTipTen, dValorPH);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

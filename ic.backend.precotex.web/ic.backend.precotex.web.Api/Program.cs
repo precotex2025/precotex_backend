@@ -145,6 +145,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
 
+#region
 //Inyection Services
 builder.Services.AddScoped<ITxBultoHiladoService, TxBultoHiladoService>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoService, TxBultoHiladoGrupoService>();

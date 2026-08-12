@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,6 +67,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? dosificacion1Estado { get; set; }
         public string? dosificacion2Estado { get; set; }
         public string? dosificacion3Estado { get; set; }
+        public string? sodaEstado { get; set; }
         public int? Nro_Dsf { get; set; }
         public string? Est_Dsf { get; set; }
         public DateTime? Fec_Ini_Tenido { get; set; }

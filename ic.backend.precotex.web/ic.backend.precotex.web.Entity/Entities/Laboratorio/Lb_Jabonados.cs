@@ -34,6 +34,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Flg_Status { get; set; }
         public decimal? Jab_Ran_Ini_Org { get; set; }
         public string? Familia_Org { get; set; }
+        //Nuevo campo
+        public int Id_Concentracion { get; set; }
     }
     
 }
