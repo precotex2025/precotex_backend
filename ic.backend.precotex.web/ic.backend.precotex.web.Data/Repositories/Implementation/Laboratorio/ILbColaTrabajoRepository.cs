@@ -161,6 +161,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Previos>?> ListarPrevios(string Pro_Cod);
         Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<IEnumerable<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
         Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);

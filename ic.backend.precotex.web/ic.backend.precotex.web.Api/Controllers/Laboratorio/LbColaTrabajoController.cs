@@ -1745,6 +1745,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        [Route("getObtenerTipoOrdenOrdta")]
+        public async Task<IActionResult> getObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTipoOrdenOrdta(Cod_Ordtra);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
         [Route("getObtenerUltimoCorrelativoXTipoTenido")]
         public async Task<IActionResult> getObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {

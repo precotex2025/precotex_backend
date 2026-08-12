@@ -2105,6 +2105,31 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = new ServiceResponseList<Lb_TipoOrden>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerTipoOrdenOrdta(Cod_Ordtra);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
@@ -2450,54 +2475,6 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             try
             {
                 var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
-                if (resultData == null || !resultData.Any())
-                {
-                    result.Success = true;
-                    result.Message = "No existe información";
-                }
-                result.Success = true;
-                result.Message = "Completado con éxito";
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Message = "Excepción no controlada " + ex.Message;
-                return result;
-            }
-        }
-
-        public async Task<ServiceResponseList<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario)
-        {
-            var result = new ServiceResponseList<Lb_MuestraColoranteOptico>();
-            try
-            {
-                var resultData = await _lbColaTrabajoRepository.ListarColorantesOpticos(Cod_Usuario);
-                if (resultData == null || !resultData.Any())
-                {
-                    result.Success = true;
-                    result.Message = "No existe información";
-                }
-                result.Success = true;
-                result.Message = "Completado con éxito";
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Message = "Excepción no controlada " + ex.Message;
-                return result;
-            }
-        }
-
-        public async Task<ServiceResponseList<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec)
-        {
-            var result = new ServiceResponseList<Lb_MuestraColoranteOptico_Historial>();
-            try
-            {
-                var resultData = await _lbColaTrabajoRepository.ObtenerHistorialColorantesOpticos(Corr_Carta, Sec);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;

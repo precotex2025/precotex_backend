@@ -2849,7 +2849,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 );
                 return result;
             }
-        }        
+        }
+
+        public async Task<IEnumerable<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Ordtra", Cod_Ordtra);
+
+                var result = await connection.QueryAsync<Lb_TipoOrden>(
+                    "[dbo].[Lb_MuestraTipoOrdenOrdta]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
 
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
