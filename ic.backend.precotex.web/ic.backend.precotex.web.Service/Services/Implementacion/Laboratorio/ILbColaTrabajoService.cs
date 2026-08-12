@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Entity.Entities;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Service.common;
 using System;

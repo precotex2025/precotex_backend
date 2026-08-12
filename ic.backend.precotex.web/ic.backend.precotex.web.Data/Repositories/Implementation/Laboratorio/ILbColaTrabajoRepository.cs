@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Entity.Entities;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using System;
 using System.Collections.Generic;
@@ -174,7 +174,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo();
         Task<IEnumerable<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH);
         Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
-
+        Task<IEnumerable<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario);
+        Task<IEnumerable<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec);
 
     }
 }
