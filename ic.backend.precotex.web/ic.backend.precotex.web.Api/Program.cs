@@ -137,9 +137,11 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
         */
+    });
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
 
+#region
 //Inyection Services
 builder.Services.AddScoped<ITxBultoHiladoService, TxBultoHiladoService>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoService, TxBultoHiladoGrupoService>();
