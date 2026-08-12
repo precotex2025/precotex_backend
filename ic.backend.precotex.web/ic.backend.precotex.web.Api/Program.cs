@@ -101,6 +101,10 @@ using ic.backend.precotex.web.Service.Services.Implementacion.AgendaTelefonica;
 using ic.backend.precotex.web.Service.Services.AgendaTelefonica;
 using ic.backend.precotex.web.Service;
 using ic.backend.precotex.web.Data;
+using ic.backend.precotex.web.Service.Services.Implementacion.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Service.Services.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Data.Repositories.Administracion.AccesoUsuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,12 +126,12 @@ builder.Services.AddCors(options =>
     {
         /*DESARROLLO*/
         
-        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-              .AllowAnyHeader()                     // Permitir cualquier encabezado
-              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
+        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
 
         /*PRODUCCION*/
-        /*
+
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -136,7 +140,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-        */
+
     });
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
@@ -195,8 +199,7 @@ builder.Services.AddScoped<ISNObjetivoService, SNObjetivoService>();
 builder.Services.AddScoped<ISNRiesgoService, SNRiesgoService>();
 builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
 builder.Services.AddScoped<ISNManualService, SNManualService>();
-
-
+builder.Services.AddScoped<IAccesoUsuarioService, AccesoUsuarioService>();
 
 
 
@@ -253,10 +256,7 @@ builder.Services.AddScoped<ISNObjetivoRepository, SNObjetivoRepository>();
 builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
 builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
-
-#endregion
-
-
+builder.Services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
 
 
 var app = builder.Build();
