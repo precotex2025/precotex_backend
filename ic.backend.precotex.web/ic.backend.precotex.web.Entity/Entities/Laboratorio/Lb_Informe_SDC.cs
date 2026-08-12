@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +38,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Rel_Ban_Ref { get; set; }
         public string? Lote_Ref { get; set; }
         public string? des_Colorante_Optico { get; set; }
+        public string? Cod_Colorante_Optico { get; set; }
+        public decimal? Can_Colorante_Optico { get; set; }
 
 
     }
