@@ -163,6 +163,7 @@ builder.Services.AddScoped<ITxUsuarioSedeService, TxUsuarioSedeService>();
 builder.Services.AddScoped<ITxProcesoColgadorRegistroService, TxProcesoColgadorRegistroService>();
 builder.Services.AddScoped<IHelpCommonService, HelpCommonService>();
 builder.Services.AddScoped<ITxUbicacionColgadorService, TxUbicacionColgadorService>();
+builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
 builder.Services.AddScoped<ICalificacionRollosFinalService, SCalificacionRolloFinal>();
 builder.Services.AddScoped<IPartidaQRService, PartidaQRService>();
 builder.Services.AddScoped<ITxProcesoMemorandumService, TxProcesoMemorandumService>();
@@ -200,8 +201,6 @@ builder.Services.AddScoped<ISNRiesgoService, SNRiesgoService>();
 builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
 builder.Services.AddScoped<ISNManualService, SNManualService>();
 builder.Services.AddScoped<IAccesoUsuarioService, AccesoUsuarioService>();
-
-
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -256,8 +255,8 @@ builder.Services.AddScoped<ISNObjetivoRepository, SNObjetivoRepository>();
 builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
 builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
-builder.Services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
-
+builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
+#endregion
 
 var app = builder.Build();
 
