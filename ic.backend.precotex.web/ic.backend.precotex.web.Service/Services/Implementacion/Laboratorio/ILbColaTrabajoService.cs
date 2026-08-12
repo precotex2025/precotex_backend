@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Entity.Entities;
+using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Service.common;
 using System;
@@ -173,6 +173,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario);
         Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH);
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
-        
+        Task<ServiceResponseList<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario);
+        Task<ServiceResponseList<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec);
+
     }
 }

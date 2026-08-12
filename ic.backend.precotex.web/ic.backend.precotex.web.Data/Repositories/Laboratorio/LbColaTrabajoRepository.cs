@@ -1,4 +1,4 @@
-﻿using ic.backend.precotex.web.Entity.Entities.Laboratorio;
+using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -2800,6 +2800,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Corr_Carta", valores.Corr_Carta);
                 parametros.Add("@Sec", valores.Sec);
                 parametros.Add("@Previo", valores.Previo);
+                parametros.Add("@des_Colorante_Optico", valores.des_Colorante_Optico);
+                parametros.Add("@Cod_Colorante_Optico", valores.Cod_Colorante_Optico);
+                parametros.Add("@Can_Colorante_Optico", valores.Can_Colorante_Optico);
+                parametros.Add("@Usr_Cod", valores.Usr_Cod);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
 
@@ -3138,6 +3142,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Cotizacion>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Cotizacion]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Cod_Usuario", Cod_Usuario);
+
+                var result = await connection.QueryAsync<Lb_MuestraColoranteOptico>(
+                    "[dbo].[Lb_MuestraColoranteOptico_Orgatex]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+
+                var result = await connection.QueryAsync<Lb_MuestraColoranteOptico_Historial>(
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_Bitacora_S0001]"
                     , parameters
                     , commandType: CommandType.StoredProcedure
                 );
