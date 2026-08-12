@@ -126,12 +126,13 @@ builder.Services.AddCors(options =>
     {
         /*DESARROLLO*/
         
-        //policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
-        //      .AllowAnyHeader()                     // Permitir cualquier encabezado
-        //      .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
+              .AllowAnyHeader()                     // Permitir cualquier encabezado
+              .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        
 
         /*PRODUCCION*/
-
+        /*
         policy.WithOrigins(
         "http://192.168.1.36",
         "https://192.168.1.36",
@@ -140,7 +141,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-
+        */
     });
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
@@ -257,7 +258,7 @@ builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
 builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
 builder.Services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
-
+#endregion
 
 var app = builder.Build();
 
