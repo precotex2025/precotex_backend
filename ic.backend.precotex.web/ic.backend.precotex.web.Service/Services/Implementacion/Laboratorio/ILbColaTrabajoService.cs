@@ -179,5 +179,14 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
 
         Task<ServiceResponseList<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario);
         Task<ServiceResponseList<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec);
+
+		#region HISTORIAL
+        Task<ServiceResponseList<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra);
+        #endregion
+
+        #region PARTIDAS VINCULADAS
+        Task<ServiceResponseList<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo);
+        Task<ServiceResponse<ImagenPartidaVinculadaEntity>> ObtenerImagenPartidaVinculada(string ruta);
+        #endregion
     }
 }

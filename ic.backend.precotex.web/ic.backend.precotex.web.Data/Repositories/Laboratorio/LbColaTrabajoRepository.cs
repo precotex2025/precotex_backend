@@ -3228,5 +3228,86 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+		public async Task<IEnumerable<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Cod_Ordtra", Cod_Ordtra);
+
+                var result = await connection.QueryAsync<HistorialColorPartidasEntity>(
+                    "[dbo].[Ti_Muestra_Historial_Color_Partida]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Cod_Ordtra", Cod_Ordtra);
+                parameters.Add("@Tipo", Tipo);
+
+                var result = await connection.QueryAsync<PartidasVinculadasEntity>(
+                    "[dbo].[Ti_Muestra_Partida_Vinculada]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<ImagenPartidaVinculadaEntity?> ObtenerImagenPartidaVinculada(string ruta)
+        {
+            if (!EsImagenValida(ruta))
+            {
+                return null;
+            }
+                
+            if (!File.Exists(ruta))
+            {
+                return null;
+            }
+
+            var info = new FileInfo(ruta);
+            var bytes = await File.ReadAllBytesAsync(ruta);
+
+            return new ImagenPartidaVinculadaEntity
+            {
+                Contenido = bytes,
+                ContentType = MimeTypes[info.Extension],
+                LastModified = new DateTimeOffset(info.LastWriteTimeUtc),
+                ETag = $"\"{info.LastWriteTimeUtc.Ticks:x}-{info.Length:x}\""
+            };
+        }
+
+        private static bool EsImagenValida(string ruta)
+        {
+            if (!ruta.StartsWith(@"\\"))
+            {
+                return false; 
+            }
+            var extension = Path.GetExtension(ruta);
+            return MimeTypes.ContainsKey(extension);
+        }
+
+        private static readonly Dictionary<string, string> MimeTypes =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            [".jpg"] = "image/jpeg",
+            [".jpeg"] = "image/jpeg",
+            [".png"] = "image/png",
+            [".gif"] = "image/gif",
+            [".bmp"] = "image/bmp",
+            [".webp"] = "image/webp"
+        };
     }
 }
