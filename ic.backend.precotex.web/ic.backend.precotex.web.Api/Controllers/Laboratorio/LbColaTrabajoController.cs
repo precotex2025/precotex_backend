@@ -1,4 +1,4 @@
-using ic.backend.precotex.web.Service.common;
+﻿using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -1715,11 +1715,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             {
                 Corr_Carta = valores.Corr_Carta,
                 Sec = valores.Sec,
-                Previo = valores.Previo,
-                des_Colorante_Optico = valores.des_Colorante_Optico,
-                Cod_Colorante_Optico = valores.Cod_Colorante_Optico,
-                Can_Colorante_Optico = valores.Can_Colorante_Optico,
-                Usr_Cod = valores.Usr_Cod
+                Previo = valores.Previo
             };
 
             var result = await _LbColaTrabajoService.ActualizarPrevio(parametros);
@@ -1738,6 +1734,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         public async Task<IActionResult> getListarTiposTenido(string Familia)
         {
             var result = await _LbColaTrabajoService.ListarTiposTenido(Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerTipoOrdenOrdta")]
+        public async Task<IActionResult> getObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTipoOrdenOrdta(Cod_Ordtra);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2032,34 +2043,5 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
-        [HttpGet]
-        [Route("getListarColorantesOpticos")]
-        public async Task<IActionResult> getListarColorantesOpticos(string Cod_Usuario)
-        {
-            var result = await _LbColaTrabajoService.ListarColorantesOpticos(Cod_Usuario);
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
-
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
-
-        [HttpGet]
-        [Route("getObtenerHistorialColorantesOpticos")]
-        public async Task<IActionResult> getObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec)
-        {
-            var result = await _LbColaTrabajoService.ObtenerHistorialColorantesOpticos(Corr_Carta, Sec);
-            if (result!.Success)
-            {
-                result.CodeResult = StatusCodes.Status200OK;
-                return Ok(result);
-            }
-
-            result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
-        }
     }
 }

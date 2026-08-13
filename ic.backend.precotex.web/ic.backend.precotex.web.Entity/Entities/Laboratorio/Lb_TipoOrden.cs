@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 {
-    public class Lb_MuestraColoranteOptico
+    public class Lb_TipoOrden
     {
-        public string? Cod_Item { get; set; }
-        public string? Des_Item { get; set; }
-        public string? UM { get; set; }
+        public string? Resultado { get; set; }
     }
 }
