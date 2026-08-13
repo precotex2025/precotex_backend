@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,6 +67,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? dosificacion1Estado { get; set; }
         public string? dosificacion2Estado { get; set; }
         public string? dosificacion3Estado { get; set; }
+        public string? sodaEstado { get; set; }
         public int? Nro_Dsf { get; set; }
         public string? Est_Dsf { get; set; }
         public DateTime? Fec_Ini_Tenido { get; set; }
@@ -91,6 +92,23 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public DateTime? Fec_Env_Autolab { get; set; }
         public DateTime? Fec_Teorico_Inicio_Tenido { get; set; }
         public DateTime? Fecha_AsignaAnalista { get; set; }
+
+        //CAMPOS DE FECHAS DE JABONADOS
+        public DateTime? Fecha_Jabonado_Inicio_1 { get; set; }
+        public DateTime? Fecha_Jabonado_Fin_1 { get; set; }
+        public DateTime? Fecha_Jabonado_Inicio_2 { get; set; }
+        public DateTime? Fecha_Jabonado_Fin_2 { get; set; }
+        public string? Proceso_Des { get; set; }
+
+        public int Jab_Nro_Tubo_2 { get; set; }
+        public string? Jab_Ahi_Des_2 { get; set; }
+        public int Jab_Nro_Tubo_3 { get; set; }
+        public string? Jab_Ahi_Des_3 { get; set; }
+
+        public string? Nombre_Cliente { get; set; }
+        public string? Nombre_Analista { get; set; }
+        public string? Des_Concentracion { get; set; }
+        
 
     }
 }

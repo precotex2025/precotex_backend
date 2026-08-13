@@ -236,7 +236,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Agu_Oxi = parametros.Agu_Oxi,
                 Ruc_Gr = parametros.Ruc_Gr,
                 Tip_Ten = parametros.Tip_Ten,
-                Fij_Can = parametros.Fij_Can
+                Fij_Can = parametros.Fij_Can,
+                //Nuevo Campos
+                Id_Concentracion = parametros.Id_Concentracion,
+                Fij_Tip_Id = parametros.Fij_Tip_Id
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -1676,9 +1679,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarJabonadoExcluidoDescarga")]
-        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<IActionResult> getListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
-            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod);
+            var result = await _LbColaTrabajoService.ListarJabonadoExcluidoDescarga(Usr_Cod, FecIni, FecFin);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1731,6 +1734,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         public async Task<IActionResult> getListarTiposTenido(string Familia)
         {
             var result = await _LbColaTrabajoService.ListarTiposTenido(Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerTipoOrdenOrdta")]
+        public async Task<IActionResult> getObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTipoOrdenOrdta(Cod_Ordtra);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1979,5 +1997,51 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getJabonadosConcentracion_ListaCombo")]
+        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo()
+        {
+            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerJabonadosConcentracion")]
+        public async Task<IActionResult> getObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = await _LbColaTrabajoService.ObtenerJabonadosConcentracion(sFamilia, sTipTen, dValorPH);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerProcesosColorantesComponenteCotizacion")]
+        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        {
+            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
     }
 }

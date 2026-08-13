@@ -157,10 +157,11 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_Fijados_Tipo>?> ObtenerFijadosTipo();
         Task<ServiceResponse<int>> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<ServiceResponse<int>> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
-        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
+        Task<ServiceResponseList<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin);
         Task<ServiceResponseList<Lb_Previos>?> ListarPrevios(string Pro_Cod);
         Task<ServiceResponse<int>> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<ServiceResponseList<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<ServiceResponseList<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra);
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponseList<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<ServiceResponse<int>> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
@@ -171,5 +172,10 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerCantidadGrupos();
         Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> AsignarGrupos();
         Task<ServiceResponseList<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario);
+        Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo();
+        Task<ServiceResponseList<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH);
+
+        Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
+
     }
 }

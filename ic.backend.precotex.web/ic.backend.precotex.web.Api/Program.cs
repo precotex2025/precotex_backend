@@ -101,6 +101,10 @@ using ic.backend.precotex.web.Service.Services.Implementacion.AgendaTelefonica;
 using ic.backend.precotex.web.Service.Services.AgendaTelefonica;
 using ic.backend.precotex.web.Service;
 using ic.backend.precotex.web.Data;
+using ic.backend.precotex.web.Service.Services.Implementacion.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Service.Services.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Administracion.AccesoUsuario;
+using ic.backend.precotex.web.Data.Repositories.Administracion.AccesoUsuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -125,8 +129,10 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:4200")  // Especifica el origen permitido
               .AllowAnyHeader()                     // Permitir cualquier encabezado
               .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.)
+        
 
         /*PRODUCCION*/
+<<<<<<< HEAD
 
         //policy.WithOrigins(
         //"http://192.168.1.36",
@@ -137,10 +143,23 @@ builder.Services.AddCors(options =>
         //.AllowAnyHeader()                     // Permitir cualquier encabezado
         //.AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
 
+=======
+        /*
+        policy.WithOrigins(
+        "http://192.168.1.36",
+        "https://192.168.1.36",
+        "https://gestion.precotex.com",
+        "https://gestion.precotex.com:444"
+        )  // Especifica el origen permitido
+        .AllowAnyHeader()                     // Permitir cualquier encabezado
+        .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
+        */
+>>>>>>> origin
     });
 });
 builder.Services.AddHttpClient<TiProcesosTintoreriaController>();
 
+#region
 //Inyection Services
 builder.Services.AddScoped<ITxBultoHiladoService, TxBultoHiladoService>();
 builder.Services.AddScoped<ITxBultoHiladoGrupoService, TxBultoHiladoGrupoService>();
@@ -158,6 +177,7 @@ builder.Services.AddScoped<ITxUsuarioSedeService, TxUsuarioSedeService>();
 builder.Services.AddScoped<ITxProcesoColgadorRegistroService, TxProcesoColgadorRegistroService>();
 builder.Services.AddScoped<IHelpCommonService, HelpCommonService>();
 builder.Services.AddScoped<ITxUbicacionColgadorService, TxUbicacionColgadorService>();
+builder.Services.AddScoped<ILbColaTrabajoService, LbColaTrabajoService>();
 builder.Services.AddScoped<ICalificacionRollosFinalService, SCalificacionRolloFinal>();
 builder.Services.AddScoped<IPartidaQRService, PartidaQRService>();
 builder.Services.AddScoped<ITxProcesoMemorandumService, TxProcesoMemorandumService>();
@@ -194,10 +214,7 @@ builder.Services.AddScoped<ISNObjetivoService, SNObjetivoService>();
 builder.Services.AddScoped<ISNRiesgoService, SNRiesgoService>();
 builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
 builder.Services.AddScoped<ISNManualService, SNManualService>();
-
-
-
-
+builder.Services.AddScoped<IAccesoUsuarioService, AccesoUsuarioService>();
 
 //Inyection Repository
 builder.Services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
@@ -252,9 +269,15 @@ builder.Services.AddScoped<ISNObjetivoRepository, SNObjetivoRepository>();
 builder.Services.AddScoped<ISNRiesgoRepository, SNRiesgoRepository>();
 builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 builder.Services.AddScoped<ISNManualRepository, SNManualRepository>();
+<<<<<<< HEAD
 
 
 
+=======
+builder.Services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
+builder.Services.AddScoped<ILbColaTrabajoRepository, LbColaTrabajoRepository>();
+#endregion
+>>>>>>> origin
 
 var app = builder.Build();
 

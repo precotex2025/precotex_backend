@@ -358,6 +358,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Tip_Ten", lb_AgrOpc_Colorantes.Tip_Ten);
                 parametros.Add("@Fij_Can", lb_AgrOpc_Colorantes.Fij_Can);
 
+                parametros.Add("@Id_Concentracion", lb_AgrOpc_Colorantes.Id_Concentracion);
+                parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
+
+
+
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
@@ -2750,7 +2755,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod)
+        public async Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2758,9 +2763,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parametros = new DynamicParameters();
                 parametros.Add("@Usr_Cod", Usr_Cod);
+                parametros.Add("@FechaInicio", FecIni);
+                parametros.Add("@FechaFin", FecFin);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_hm]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -2842,7 +2849,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 );
                 return result;
             }
-        }        
+        }
+
+        public async Task<IEnumerable<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Ordtra", Cod_Ordtra);
+
+                var result = await connection.QueryAsync<Lb_TipoOrden>(
+                    "[dbo].[Lb_MuestraTipoOrdenOrdta]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
 
         public async Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
@@ -3104,6 +3129,58 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var result = await connection.QueryAsync<Reporte_ph>(
                     "[dbo].[PA_LB_CARTACOL_DG_S1001]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[USP_LB_JABONADOS_CONCENTRACION_ACTIVOS]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Familia", sFamilia);
+                parameters.Add("@Tip_Ten", sTipTen);
+                parameters.Add("@ValorPH", dValorPH);
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Detalle>(
+                    "[dbo].[USP_LB_JABONADOS_CONCENTRACION_OBTENER]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+
+                var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Cotizacion>(
+                    "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Cotizacion]"
                     , parameters
                     , commandType: CommandType.StoredProcedure
                 );

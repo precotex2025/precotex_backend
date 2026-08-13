@@ -156,11 +156,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_Fijados_Tipo>?> ObtenerFijadosTipo();
         Task<(int Codigo, string Mensaje)> ActualizarFijadoTipo(Lb_AgrOpc_Colorantes valores);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoCargaAhiba(Lb_Ahibas valores);
-        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod);
+        Task<IEnumerable<Lb_ColTra_Det>?> ListarJabonadoExcluidoDescarga(string Usr_Cod, DateTime FecIni, DateTime FecFin);
         //Task<IEnumerable<Lb_Previos>?> ListarPrevios();
         Task<IEnumerable<Lb_Previos>?> ListarPrevios(string Pro_Cod);
         Task<(int Codigo, string Mensaje)> ActualizarPrevio(Lb_ColTra_Det valores);
         Task<IEnumerable<Lb_Tipo_tenido>?> ListarTiposTenido(string Familia);
+        Task<IEnumerable<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra);
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten);
         Task<IEnumerable<Lb_Curvas>?> ObtenerCurvaReactivoDisperso(string Corr_Carta, int Sec, string Tip_Ten);
         Task<(int Codigo, string Mensaje)> ActualizarEstadoDosificacion(Lb_ColTra_Det valores);
@@ -171,5 +172,10 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> ObtenerCantidadGrupos();
         Task<IEnumerable<Lb_AgrOpc_Colorantes>?> AsignarGrupos();
         Task<IEnumerable<Lb_Estado_Dispensado>?> VerificarEstadoDispensado(string sTipo, string sCodUsuario);
+        Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo();
+        Task<IEnumerable<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH);
+        Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
+
+
     }
 }
