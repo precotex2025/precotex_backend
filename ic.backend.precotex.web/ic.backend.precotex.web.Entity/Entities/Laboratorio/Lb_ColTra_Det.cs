@@ -82,6 +82,9 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
 
         //NUEVOS CAMPOS
         public string? Ahi_Des { get; set; }
+        public string? des_Colorante_Optico { get; set; }
+        public string? Cod_Colorante_Optico { get; set; }
+        public decimal? Can_Colorante_Optico { get; set; }
 
         //NUEVOS CAMPOS REPORTE 
         public int Maq_Nro_Tubo { get; set; }

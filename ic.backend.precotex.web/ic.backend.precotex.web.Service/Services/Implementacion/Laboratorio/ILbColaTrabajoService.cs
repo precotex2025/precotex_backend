@@ -177,5 +177,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
 
         Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta);
 
+        Task<ServiceResponseList<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario);
+        Task<ServiceResponseList<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec);
     }
 }
