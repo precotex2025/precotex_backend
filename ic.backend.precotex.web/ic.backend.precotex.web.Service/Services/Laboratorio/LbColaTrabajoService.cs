@@ -2540,6 +2540,94 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+		
+		public async Task<ServiceResponseList<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra)
+        {
+            var result = new ServiceResponseList<HistorialColorPartidasEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerHistorialColorPartidas(Cod_Ordtra);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo)
+        {
+            var result = new ServiceResponseList<PartidasVinculadasEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarPartidasVinculadas(Cod_Ordtra, Tipo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<ImagenPartidaVinculadaEntity>> ObtenerImagenPartidaVinculada(string ruta)
+        {
+            var result = new ServiceResponse<ImagenPartidaVinculadaEntity>();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(ruta))
+                {
+                    result.Success = false;
+                    result.CodeResult = 400;
+                    result.Message = "La ruta de la imagen es obligatoria.";
+                    return result;
+                }
+
+                var resultData = await _lbColaTrabajoRepository.ObtenerImagenPartidaVinculada(ruta.Trim());
+
+                if (resultData == null)
+                {
+                    result.Success = false;
+                    result.CodeResult = 404;
+                    result.Message = "No se encontró la imagen.";
+                    return result;
+                }
+
+                result.Success = true;
+                result.CodeResult = 200;
+                result.Element = resultData;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.CodeResult = 500;
+                result.Message = "Error inesperado " + ex.Message;
+
+                return result;
+            }
+        }
 
     }
 }

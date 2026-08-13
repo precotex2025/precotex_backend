@@ -178,5 +178,14 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<IEnumerable<Lb_MuestraColoranteOptico>?> ListarColorantesOpticos(string Cod_Usuario);
         Task<IEnumerable<Lb_MuestraColoranteOptico_Historial>?> ObtenerHistorialColorantesOpticos(string Corr_Carta, int Sec);
 
+		#region HISTORIAL
+        Task<IEnumerable<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra);
+        #endregion
+
+        #region PARTIDAS VINCULADAS
+        Task<IEnumerable<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo);
+        Task<ImagenPartidaVinculadaEntity?> ObtenerImagenPartidaVinculada(string ruta);
+        #endregion
+
     }
 }
