@@ -358,6 +358,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Tip_Ten", lb_AgrOpc_Colorantes.Tip_Ten);
                 parametros.Add("@Fij_Can", lb_AgrOpc_Colorantes.Fij_Can);
 
+                parametros.Add("@Id_Concentracion", lb_AgrOpc_Colorantes.Id_Concentracion);
+                parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
+
+
+
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
@@ -3117,14 +3122,34 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        public async Task<IEnumerable<ComboGral>?> JabonadosConcentracion_ListaCombo()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 var result = await connection.QueryAsync<ComboGral>(
+                    "[dbo].[USP_LB_JABONADOS_CONCENTRACION_ACTIVOS]"
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Familia", sFamilia);
+                parameters.Add("@Tip_Ten", sTipTen);
+                parameters.Add("@ValorPH", dValorPH);
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Detalle>(
                     "[dbo].[USP_LB_JABONADOS_CONCENTRACION_OBTENER]"
+                    , parameters
                     , commandType: CommandType.StoredProcedure
                 );
                 return result;
@@ -3185,5 +3210,104 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 return result;
             }
         }
+
+        public async Task<IEnumerable<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Cod_Ordtra", Cod_Ordtra);
+
+                var result = await connection.QueryAsync<Lb_TipoOrden>(
+                    "[dbo].[Lb_MuestraTipoOrdenOrdta]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+		public async Task<IEnumerable<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Cod_Ordtra", Cod_Ordtra);
+
+                var result = await connection.QueryAsync<HistorialColorPartidasEntity>(
+                    "[dbo].[Ti_Muestra_Historial_Color_Partida]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Cod_Ordtra", Cod_Ordtra);
+                parameters.Add("@Tipo", Tipo);
+
+                var result = await connection.QueryAsync<PartidasVinculadasEntity>(
+                    "[dbo].[Ti_Muestra_Partida_Vinculada]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        public async Task<ImagenPartidaVinculadaEntity?> ObtenerImagenPartidaVinculada(string ruta)
+        {
+            if (!EsImagenValida(ruta))
+            {
+                return null;
+            }
+                
+            if (!File.Exists(ruta))
+            {
+                return null;
+            }
+
+            var info = new FileInfo(ruta);
+            var bytes = await File.ReadAllBytesAsync(ruta);
+
+            return new ImagenPartidaVinculadaEntity
+            {
+                Contenido = bytes,
+                ContentType = MimeTypes[info.Extension],
+                LastModified = new DateTimeOffset(info.LastWriteTimeUtc),
+                ETag = $"\"{info.LastWriteTimeUtc.Ticks:x}-{info.Length:x}\""
+            };
+        }
+
+        private static bool EsImagenValida(string ruta)
+        {
+            if (!ruta.StartsWith(@"\\"))
+            {
+                return false; 
+            }
+            var extension = Path.GetExtension(ruta);
+            return MimeTypes.ContainsKey(extension);
+        }
+
+        private static readonly Dictionary<string, string> MimeTypes =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            [".jpg"] = "image/jpeg",
+            [".jpeg"] = "image/jpeg",
+            [".png"] = "image/png",
+            [".gif"] = "image/gif",
+            [".bmp"] = "image/bmp",
+            [".webp"] = "image/webp"
+        };
     }
 }

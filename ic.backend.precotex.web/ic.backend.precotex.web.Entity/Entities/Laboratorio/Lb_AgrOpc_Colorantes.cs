@@ -76,6 +76,13 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public IEnumerable<Quimicos>? Quimicos { get; set; }
 
         public string? Msg_Alerta { get; set; }
+
+        //Nuevos campos
+        public int Id_Concentracion { get; set; }
+        public int Fij_Tip_Id { get; set; }
+        public string? Des_Concentracion { get; set; }
+        public string? Tipo_Fijado_Desccripcion { get; set; }
+
     }
 
     public class Auxiliares

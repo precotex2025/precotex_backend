@@ -1,4 +1,4 @@
-using ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio;
+﻿using ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities.RetiroRepuestos;
@@ -2105,6 +2105,31 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+        public async Task<ServiceResponseList<Lb_TipoOrden>?> ObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = new ServiceResponseList<Lb_TipoOrden>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerTipoOrdenOrdta(Cod_Ordtra);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
         public async Task<ServiceResponseList<Lb_AgrOpc_Colorantes>?> ObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
             var result = new ServiceResponseList<Lb_AgrOpc_Colorantes>();
@@ -2396,12 +2421,36 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        public async Task<ServiceResponseList<ComboGral>?> JabonadosConcentracion_ListaCombo()
         {
             var result = new ServiceResponseList<ComboGral>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.JabonadosConcentracion_ListaCombo(sFamilia, sTipTen, dValorPH);
+                var resultData = await _lbColaTrabajoRepository.JabonadosConcentracion_ListaCombo();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Detalle>?> ObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Detalle>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerJabonadosConcentracion(sFamilia, sTipTen, dValorPH);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2491,5 +2540,94 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+		
+		public async Task<ServiceResponseList<HistorialColorPartidasEntity>?> ObtenerHistorialColorPartidas(string Cod_Ordtra)
+        {
+            var result = new ServiceResponseList<HistorialColorPartidasEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerHistorialColorPartidas(Cod_Ordtra);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo)
+        {
+            var result = new ServiceResponseList<PartidasVinculadasEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ListarPartidasVinculadas(Cod_Ordtra, Tipo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<ImagenPartidaVinculadaEntity>> ObtenerImagenPartidaVinculada(string ruta)
+        {
+            var result = new ServiceResponse<ImagenPartidaVinculadaEntity>();
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(ruta))
+                {
+                    result.Success = false;
+                    result.CodeResult = 400;
+                    result.Message = "La ruta de la imagen es obligatoria.";
+                    return result;
+                }
+
+                var resultData = await _lbColaTrabajoRepository.ObtenerImagenPartidaVinculada(ruta.Trim());
+
+                if (resultData == null)
+                {
+                    result.Success = false;
+                    result.CodeResult = 404;
+                    result.Message = "No se encontró la imagen.";
+                    return result;
+                }
+
+                result.Success = true;
+                result.CodeResult = 200;
+                result.Element = resultData;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.CodeResult = 500;
+                result.Message = "Error inesperado " + ex.Message;
+
+                return result;
+            }
+        }
+
     }
 }

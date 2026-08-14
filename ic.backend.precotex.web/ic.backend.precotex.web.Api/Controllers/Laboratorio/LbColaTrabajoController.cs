@@ -1,14 +1,20 @@
-using ic.backend.precotex.web.Service.common;
+﻿using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
+using System;
+using System.Collections.Generic;
 using System.Drawing.Printing;
+using System.IO;
+using Microsoft.Net.Http.Headers;
 using iTextSharp.text.pdf;
 using PdfiumViewer;
 using System.Diagnostics;
+using ZXing;
+using ic.backend.precotex.web.Service.Services.Laboratorio;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -236,7 +242,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Agu_Oxi = parametros.Agu_Oxi,
                 Ruc_Gr = parametros.Ruc_Gr,
                 Tip_Ten = parametros.Tip_Ten,
-                Fij_Can = parametros.Fij_Can
+                Fij_Can = parametros.Fij_Can,
+                //Nuevo Campos
+                Id_Concentracion = parametros.Id_Concentracion,
+                Fij_Tip_Id = parametros.Fij_Tip_Id
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -1746,6 +1755,21 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        [Route("getObtenerTipoOrdenOrdta")]
+        public async Task<IActionResult> getObtenerTipoOrdenOrdta(string Cod_Ordtra)
+        {
+            var result = await _LbColaTrabajoService.ObtenerTipoOrdenOrdta(Cod_Ordtra);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
         [Route("getObtenerUltimoCorrelativoXTipoTenido")]
         public async Task<IActionResult> getObtenerUltimoCorrelativoXTipoTenido(string Corr_Carta, int Sec, string Tip_Ten)
         {
@@ -1986,9 +2010,24 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getJabonadosConcentracion_ListaCombo")]
-        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo(string sFamilia, string sTipTen, decimal dValorPH)
+        public async Task<IActionResult> getJabonadosConcentracion_ListaCombo()
         {
-            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo(sFamilia, sTipTen, dValorPH);
+            var result = await _LbColaTrabajoService.JabonadosConcentracion_ListaCombo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getObtenerJabonadosConcentracion")]
+        public async Task<IActionResult> getObtenerJabonadosConcentracion(string sFamilia, string sTipTen, decimal dValorPH)
+        {
+            var result = await _LbColaTrabajoService.ObtenerJabonadosConcentracion(sFamilia, sTipTen, dValorPH);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2043,5 +2082,67 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+		
+		[HttpGet]
+        [Route("getObtenerHistorialColorPartidas")]
+        public async Task<IActionResult> getObtenerHistorialColorPartidas(string Cod_Ordtra)
+        {
+            var result = await _LbColaTrabajoService.ObtenerHistorialColorPartidas(Cod_Ordtra);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListarPartidasVinculadas")]
+        public async Task<IActionResult> getListarPartidasVinculadas(string Cod_Ordtra, string Tipo)
+        {
+            var result = await _LbColaTrabajoService.ListarPartidasVinculadas(Cod_Ordtra, Tipo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getImagenPartidaVinculada")]
+        public async Task<IActionResult> GetImagenPartidaVinculada(string ruta)
+        {
+            var result = await _LbColaTrabajoService.ObtenerImagenPartidaVinculada(ruta);
+
+            if (!result.Success || result.Element == null)
+            {
+                return result.CodeResult switch
+                {
+                    400 => BadRequest(result.Message),
+                    404 => NotFound(result.Message),
+                    _ => StatusCode(500, result.Message)
+                };
+            }
+
+            var imagen = result.Element;
+
+            Response.Headers.CacheControl = "private, no-cache";
+
+            return File(
+                imagen.Contenido,
+                imagen.ContentType,
+                lastModified: imagen.LastModified,
+                entityTag: new EntityTagHeaderValue(imagen.ETag));
+        }
+
+
+
+
+
     }
 }
