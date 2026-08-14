@@ -11,21 +11,35 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Cotizaciones
 {
     public interface ITxCotizacionesService
     {
-        Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab);
-        Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos);
-        Task<ServiceResponseList<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela);
-        Task<ServiceResponseList<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta);
-        Task<ServiceResponseList<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela);
-        Task<ServiceResponseList<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto();
-        Task<ServiceResponse<int>> ProcesoCotizacion(Tx_Cotizaciones_Cab tx_Cotizaciones_Cab, List<Tx_Cotizaciones_Det> detalle, string sTipoTransac);
-        Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color);
         Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocio();
-        Task<ServiceResponseList<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey);
-        Task<ServiceResponseList<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela);
+        Task<ServiceResponseList<ComboGral>?> ListaRecetasAntipilling();
+        Task<ServiceResponseList<ComboGral>?> ValidaColorExiste(string Cod_Color);
         Task<ServiceResponseList<ComboGral>?> ListaUnidadNegocioTipo(int Id_Unidad_NegocioKey);
+        Task<ServiceResponseList<Tx_Cotizaciones_Telas>?> ListaTelas(string Cod_Tela);
+        Task<ServiceResponseList<Tx_Cotizaciones_Rutas>?> RutaXCodTela(string Cod_Tela);
         Task<ServiceResponseList<ComboGral>?> ListaColoresXCliente(string Cod_Cliente);
         Task<ServiceResponseList<Tx_PreciosColor>?> ListaPrecioXColor(string Tipo_Busqueda, int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color);
-        Task<ServiceResponseList<ComboGral>?> ListaRecetasAntipilling();
+        Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, decimal precio, int tiempo, int IdCotizacion_Cab);
+        Task<ServiceResponse<int>> ProcesoCotizacion(Tx_Cotizaciones_Cab tx_Cotizaciones_Cab, List<Tx_Cotizaciones_Det> detalle, string sTipoTransac);
+        Task<ServiceResponse<Tx_Cotizaciones_Cab>?> ObtenerNuevoCorrelativoVersion(int Id_Unidad_NegocioKey, string Cod_Tipo_Orden_tinto, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Task<ServiceResponseList<Tx_Cotizaciones>?> ListarProcesosExportacionFooter(int Pro_Cen_Cos);
+        Task<ServiceResponseList<Tx_Cotizaciones_Rutas_Detalle>?> RutaXCodTelaDetalle(string Cod_Tela, string Cod_Ruta);
+        Task<ServiceResponseList<Tx_Cotizaciones_Centro_Costo>?> ListaCentroCosto();
+        Task<ServiceResponseList<ComboGral>?> ListaIntensidad(int Id_Unidad_NegocioKey);
+        Task<ServiceResponseList<Tx_HilosTel>?> ListaHiladoxTela(string Cod_Tela);
         Task<ServiceResponseList<Tx_Cotizaciones_Cab>?> ValidaExistenciaHistorialxColor(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? Cod_Receta);
     }
 }

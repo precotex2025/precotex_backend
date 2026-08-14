@@ -10,9 +10,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
     {
         public int IdCotizacion_Det { get; set; }
         public int IdCotizacion_Cab { get; set; }
-        //public int? Pro_Cen_Cos { get; set; }
         public string? Pro_Hover { get; set; }
-        //public string? Pro_Des { get; set; }
         public int? Pro_Factor { get; set; }
         public decimal? Pro_Cos_Kg { get; set; }
         public decimal? Pro_Tot { get; set; }
@@ -21,8 +19,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public decimal? Pro_Cotizacion { get; set; }
         public decimal? Pro_Por { get; set; }
         public string? Pro_Tip { get; set; }
-
-        //Nuevos Campos
         public string? Observacion { get; set; }
         public int? Nivel { get; set; }
         public int? cod_Subtotal { get; set; }
@@ -34,15 +30,11 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public string? cod_ProcesoPadre { get; set; }
         public string? cod_Proceso_Tex { get; set; }
         public string? Cod_SubProceso { get; set; }
-
-
-        //Campos de Bitacora
         public string Flg_Estatus { get; set; } = string.Empty;
         public DateTime Fec_Registro { get; set; }
         public string Usu_Registro { get; set; } = string.Empty;
         public DateTime? Fec_Modifica { get; set; }
         public string? Usu_Modifica { get; set; }
         public string? Cod_Equipo { get; set; }
-        // Relación con detalles
     }
 }
