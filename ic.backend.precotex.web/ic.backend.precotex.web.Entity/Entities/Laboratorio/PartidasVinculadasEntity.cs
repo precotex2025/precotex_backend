@@ -19,6 +19,7 @@
         public string Lista_Primer_ModoProceso { get; set; } = string.Empty;
         public string Obs_Calidad { get; set; } = string.Empty;
         public string Icono1 { get; set; } = string.Empty;
+        public string? Des_Motivo_Levantamiento { get; set; }
 
     }
 }
