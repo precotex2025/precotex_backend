@@ -18,6 +18,7 @@
         public string? Des_Resultado_Cal_Fabricard { get; set; }
         public string? Cod_Ordtra_Tejeduria { get; set; }
         public string? Lote_Hilado { get; set; }
+        public string? Des_Motivo_Levantamiento {  get; set; }
 
     }
 }
