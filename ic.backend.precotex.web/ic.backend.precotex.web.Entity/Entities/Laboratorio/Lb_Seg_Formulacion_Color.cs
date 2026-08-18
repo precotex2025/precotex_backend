@@ -26,5 +26,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public DateTime? Fec_Ape { get; set; }
         public DateTime? Fec_Ent { get; set; }
         public string? Nom_Usuario { get; set; }
+        public string? Usr_Cod_Ape { get; set; }
+        public string? Usr_Cod_Ent { get; set; }
     }
 }
