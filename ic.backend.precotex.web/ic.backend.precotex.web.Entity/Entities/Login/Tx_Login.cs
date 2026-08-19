@@ -20,7 +20,5 @@ namespace ic.backend.precotex.web.Entity.Entities.Login
         
         //SE AGREGO PARA VALIDAR ACCESO DE ROL
         public string? Resultado { get; set; }
-
-        public string? Token { get; set; }
     }
 }
