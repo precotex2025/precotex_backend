@@ -1,6 +1,8 @@
+using ic.backend.precotex.web.Api.Security;
 using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
 using ic.backend.precotex.web.Service.Services.Implementacion.Login;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace ic.backend.precotex.web.Api.Controllers.Login
     public class TxLoginController : ControllerBase
     {
         public readonly ITxLoginService _txLoginService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public TxLoginController(ITxLoginService txLoginService)
+        public TxLoginController(ITxLoginService txLoginService, IJwtTokenService jwtTokenService)
         {
             _txLoginService = txLoginService;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpGet]
@@ -24,6 +28,12 @@ namespace ic.backend.precotex.web.Api.Controllers.Login
             var result = await _txLoginService.GetUsuarioHabilitado(Cod_Usuario);
             if (result!.Success)
             {
+                var usuario = result.Elements?.FirstOrDefault();
+                if (usuario != null)
+                {
+                    usuario.Token = _jwtTokenService.GenerateToken(Cod_Usuario, usuario.Cod_Rol);
+                }
+
                 result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
@@ -33,12 +43,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Login
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("getGetUsuarioWeb")]
         public async Task<IActionResult> GetUsuarioWeb(string Cod_Usuario)
         {
             var result = await _txLoginService.GetUsuarioWeb(Cod_Usuario);
             if (result!.Success)
             {
+                var usuario = result.Elements?.FirstOrDefault();
+                if (usuario != null)
+                {
+                    usuario.Token = _jwtTokenService.GenerateToken(Cod_Usuario, usuario.Cod_Rol);
+                }
+
+
                 result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
