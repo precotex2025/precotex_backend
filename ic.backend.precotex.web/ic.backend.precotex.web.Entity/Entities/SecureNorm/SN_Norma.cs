@@ -15,6 +15,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public DateTime? FechaAuditoria { get; set; }
         public string? Estado { get; set; }
         public string? Descripcion { get; set; }
+        public string? Observaciones { get; set; }
         public string? Flg_Activo { get; set; }
         public string? Cod_Usuario { get; set; }
         public DateTime? Fec_Registro { get; set; }
