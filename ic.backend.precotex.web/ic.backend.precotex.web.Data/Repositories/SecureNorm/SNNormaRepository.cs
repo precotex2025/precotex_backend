@@ -59,6 +59,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@FechaAuditoria", sN_Norma.FechaAuditoria);
                 parametros.Add("@Estado", sN_Norma.Estado);
                 parametros.Add("@Descripcion", sN_Norma.Descripcion);
+                parametros.Add("@Observaciones", sN_Norma.Observaciones);
                 parametros.Add("@Flg_Activo", sN_Norma.Flg_Activo);
                 parametros.Add("@Cod_Usuario", sN_Norma.Cod_Usuario);
 

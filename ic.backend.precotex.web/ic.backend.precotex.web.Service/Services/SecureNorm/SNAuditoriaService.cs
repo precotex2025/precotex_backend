@@ -81,5 +81,69 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<SN_Auditoria_Ejecucion>?> ListadoEjecucion(string sFiltro)
+        {
+            var result = new ServiceResponseList<SN_Auditoria_Ejecucion>();
+            try
+            {
+                var resultData = await _sNAuditoriaRepository.ListadoEjecucion(sFiltro);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = new System.Collections.Generic.List<SN_Auditoria_Ejecucion>();
+                    result.TotalElements = 0;
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción: " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ProcesoMntoEjecucion(SN_Auditoria_Ejecucion ejecucion, string sTipoTransac)
+        {
+            var result = new ServiceResponse<int>();
+            try
+            {
+                var resultData = await _sNAuditoriaRepository.ProcesoMntoEjecucion(ejecucion, sTipoTransac);
+
+                if (resultData.Codigo == 1)
+                {
+                    result.Success = true;
+                    result.CodeTransacc = resultData.Codigo;
+                    result.Message = resultData.Mensaje;
+                    return result;
+                }
+
+                result.Success = false;
+                result.CodeTransacc = resultData.Codigo;
+                result.Message = resultData.Mensaje;
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción: " + ex.Message;
+                return result;
+            }
+        }
     }
 }
