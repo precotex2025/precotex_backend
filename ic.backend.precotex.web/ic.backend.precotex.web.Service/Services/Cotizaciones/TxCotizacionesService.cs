@@ -510,5 +510,89 @@ namespace ic.backend.precotex.web.Service.Services.Cotizaciones
                 return result;
             }
         }
+
+
+
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones_Cab>?> ListaCabecerasCotizacion(int Pro_Cen_Cos, string Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones_Cab>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaCabecerasCotizacion(Pro_Cen_Cos, Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListaDetalleCotizacionXVersion(int IdCotizacion_Cab, int Num_Version)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaDetalleCotizacionXVersion(IdCotizacion_Cab, Num_Version);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Tx_Cotizaciones>?> ListaDetalleCotizacionXFiltros(int Pro_Cen_Cos, string Cod_Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string SDC_Referencia, decimal precio, int tiempo)
+        {
+            var result = new ServiceResponseList<Tx_Cotizaciones>();
+            try
+            {
+                var resultData = await _txCotizacionesRepository.ListaDetalleCotizacionXFiltros(Pro_Cen_Cos, Cod_Tipo, Cod_Cliente_Tex, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia, precio, tiempo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    result.Elements = null;
+                    return result;
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+  
+
     }
 }

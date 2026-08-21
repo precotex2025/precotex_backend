@@ -21,6 +21,8 @@ namespace ic.backend.precotex.web.Api.Parameters
         public string? Flg_Estatus { get; set; } = string.Empty;
         public string Usu_Registro { get; set; } = string.Empty;
         public string? Accion { get; set; }
+        public int Cen_Cos_Cod { get; set; }
+        public string? Cod_Tipo { get; set; }
         public List<Tx_Cotizaciones_Det>? Detalles { get; set; }
     }
 }

@@ -156,6 +156,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+            return BadRequest(result);
         }
 
         [HttpPost]
@@ -167,8 +168,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
                 IdCotizacion_Cab = parameters.IdCotizacion_Cab,
                 Num_Cotizacion = parameters.Num_Cotizacion,
                 Num_Version = parameters.Num_Version,
-                Id_Unidad_NegocioKey = parameters.Id_Unidad_NegocioKey,
-                Cod_Tipo_Orden_tinto = parameters.Cod_Tipo_Orden_tinto,
+                Id_Unidad_NegocioKey = parameters.Cen_Cos_Cod,
+                Cod_Tipo_Orden_tinto = parameters.Cod_Tipo,
                 Cod_Cliente_Tex = parameters.Cod_Cliente_Tex,
                 Cod_Tela = parameters.Cod_Tela,
                 Cod_Ruta = parameters.Cod_Ruta,
@@ -346,6 +347,55 @@ namespace ic.backend.precotex.web.Api.Controllers.Cotizaciones
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getListaCabecerasCotizacion")]
+        public async Task<IActionResult> getListaCabecerasCotizacion(int Id_Unidad_NegocioKey, string Cod_Tipo_Orden_tinto, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia)
+        {
+            var result = await _txCotizacionesService.ListaCabecerasCotizacion(Id_Unidad_NegocioKey, Cod_Tipo_Orden_tinto, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaDetalleCotizacionXVersion")]
+        public async Task<IActionResult> getListaDetalleCotizacionXVersion(int IdCotizacion_Cab, int Num_Version)
+        {
+            var result = await _txCotizacionesService.ListaDetalleCotizacionXVersion(IdCotizacion_Cab, Num_Version);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaDetalleCotizacionXFiltros")]
+        public async Task<IActionResult> getListaDetalleCotizacionXFiltros(int Id_Unidad_NegocioKey, string Cod_Tipo_Orden_tinto, string? Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia, decimal Precio_Referencia, int Tiempo_Referencia)
+        {
+            var result = await _txCotizacionesService.ListaDetalleCotizacionXFiltros(Id_Unidad_NegocioKey, Cod_Tipo_Orden_tinto, Cod_Cliente_Tex!, Cod_Tela, Cod_Ruta, Cod_Color, SDC_Referencia, Precio_Referencia, Tiempo_Referencia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+
+
 
     }
 }

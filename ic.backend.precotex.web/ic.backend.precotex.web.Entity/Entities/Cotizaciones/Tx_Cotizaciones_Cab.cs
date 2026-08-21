@@ -22,6 +22,15 @@ namespace ic.backend.precotex.web.Entity.Entities.Cotizaciones
         public DateTime? Fec_Modifica { get; set; }
         public string? Usu_Modifica { get; set; }
         public string? Cod_Equipo { get; set; }
+
+        #region Cotizaciones Versiones
+
+        public string? Unidad_Descripcion { get; set; } = string.Empty;
+        public string? TipoUnidad_Descripcion { get; set; } = string.Empty;
+        public string? Cliente_Descripcion { get; set; } = string.Empty;
+
+        #endregion
+
         public List<Tx_Cotizaciones_Det> Detalles { get; set; } = new List<Tx_Cotizaciones_Det>();
     }
 }

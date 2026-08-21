@@ -192,7 +192,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
             try
             {
                 using (var conn = new SqlConnection(_connectionString))
-                using (var cmd = new SqlCommand("PA_Tx_CotizacionesCab_S0001", conn))
+                using (var cmd = new SqlCommand("Tx_Cotizaciones_Mant", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@Accion", sTipoTransac);
@@ -567,5 +567,97 @@ namespace ic.backend.precotex.web.Data.Repositories.Cotizaciones
                 return result;
             }
         }
+
+        #region ListaCabecerasCotizacion
+
+        public async Task<IEnumerable<Tx_Cotizaciones_Cab>?> ListaCabecerasCotizacion(int Pro_Cen_Cos, string Cod_Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+                parametros.Add("@Tipo", Cod_Tipo);
+                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
+                parametros.Add("@SDC_Referencia", SDC_Referencia == null ? "" : SDC_Referencia);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones_Cab>(
+                        "[dbo].[Tx_Cotizaciones_Cab_Listar]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region ListaDetalleCotizacionXVersion
+
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListaDetalleCotizacionXVersion(int IdCotizacion_Cab, int Num_Version)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@IdCotizacion_Cab", IdCotizacion_Cab);
+                parametros.Add("@Num_Version", Num_Version);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones>(
+                        "[dbo].[Tx_Cotizaciones_ListaDetalleCotizacionXVersion]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region ListaDetalleCotizacionXFiltros
+
+        public async Task<IEnumerable<Tx_Cotizaciones>?> ListaDetalleCotizacionXFiltros(int Pro_Cen_Cos, string Cod_Tipo, string Cod_Cliente_Tex, string Cod_Tela, string Cod_Ruta, string? Cod_Color, string? SDC_Referencia, decimal precio, int tiempo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Pro_Cen_Cos", Pro_Cen_Cos);
+                parametros.Add("@Tipo", Cod_Tipo);
+                parametros.Add("@Cod_Cliente_Tex", Cod_Cliente_Tex);
+                parametros.Add("@Cod_Tela", Cod_Tela);
+                parametros.Add("@Cod_Ruta", Cod_Ruta);
+                parametros.Add("@Cod_Color", Cod_Color == null ? "" : Cod_Color);
+                parametros.Add("@SDC_Referencia", SDC_Referencia == null ? "" : SDC_Referencia);
+                parametros.Add("@p_Precio", precio);
+                parametros.Add("@p_Tiempo", tiempo);
+
+                var result = await connection.QueryAsync<Tx_Cotizaciones>(
+                        "[dbo].[Tx_Cotizaciones_ListaDetalleCotizacionXFiltros]"
+                        , parametros
+                        , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
     }
 }
