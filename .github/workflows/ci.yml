@@ -1,0 +1,32 @@
+name: CI Backend
+
+on:
+  # Ramas de trabajo de los desarrolladores
+  push:
+    branches:
+      - 'feature-**'
+      - 'dev-**'
+  # Integracion
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore ic.backend.precotex.web/ic.backend.precotex.web.sln
+
+      - name: Build
+        run: dotnet build ic.backend.precotex.web/ic.backend.precotex.web.sln --no-restore -c Release
