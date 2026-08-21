@@ -32,6 +32,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 FechaAuditoria = parametros.FechaAuditoria,
                 Estado = parametros.Estado ?? "",
                 Descripcion = parametros.Descripcion ?? "",
+                Observaciones = parametros.Observaciones ?? "",
                 Flg_Activo = parametros.Flg_Activo ?? "",
                 Cod_Usuario = parametros.Cod_Usuario ?? ""
             };

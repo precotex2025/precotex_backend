@@ -10,6 +10,7 @@ namespace ic.backend.precotex.web.Api.Parameters
         public DateTime? FechaAuditoria { get; set; }
         public string? Estado { get; set; }
         public string? Descripcion { get; set; }
+        public string? Observaciones { get; set; }
         public string? Flg_Activo { get; set; }
         public string? Cod_Usuario { get; set; }
         public string? Accion { get; set; }
