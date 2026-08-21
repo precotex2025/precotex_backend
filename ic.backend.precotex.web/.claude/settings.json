@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Bash(sqlcmd:*)",
+      "Bash(osql:*)",
+      "Bash(bcp:*)",
+      "Bash(dotnet ef:*)",
+      "Bash(dotnet tool install:* dotnet-ef*)",
+      "PowerShell(Invoke-Sqlcmd:*)",
+      "PowerShell(sqlcmd:*)",
+      "PowerShell(osql:*)",
+      "PowerShell(bcp:*)",
+      "PowerShell(dotnet ef:*)",
+      "Read(**/appsettings.json)",
+      "Read(**/appsettings.*.json)",
+      "Read(**/launchSettings.json)",
+      "Edit(**/appsettings.json)",
+      "Edit(**/appsettings.*.json)",
+      "Write(**/appsettings.json)",
+      "Write(**/appsettings.*.json)"
+    ],
+    "ask": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(git reset:*)",
+      "Bash(gh pr create:*)",
+      "PowerShell(git commit:*)",
+      "PowerShell(git push:*)",
+      "PowerShell(git merge:*)",
+      "PowerShell(git reset:*)",
+      "Bash(dotnet add package:*)",
+      "PowerShell(dotnet add package:*)"
+    ],
+    "allow": [
+      "Bash(dotnet build:*)",
+      "Bash(dotnet restore:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "PowerShell(dotnet build:*)",
+      "PowerShell(dotnet restore:*)",
+      "PowerShell(git status:*)",
+      "PowerShell(git diff:*)",
+      "PowerShell(git log:*)",
+      "PowerShell(git branch:*)"
+    ]
+  }
+}
