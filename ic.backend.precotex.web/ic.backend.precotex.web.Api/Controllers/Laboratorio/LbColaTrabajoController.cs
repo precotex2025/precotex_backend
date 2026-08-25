@@ -22,7 +22,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LbColaTrabajoController : ControllerBase
     {
         public readonly ILbColaTrabajoService _LbColaTrabajoService;
@@ -719,7 +719,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("getGetUsuarioWeb")]
         public async Task<IActionResult> getGetUsuarioWeb(string Cod_Usuario)
         {
@@ -1945,7 +1945,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("getObtenerPermisoUsuario")]
         public async Task<IActionResult> getObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
         {
