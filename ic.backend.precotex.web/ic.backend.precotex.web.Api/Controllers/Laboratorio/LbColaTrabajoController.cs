@@ -15,18 +15,23 @@ using PdfiumViewer;
 using System.Diagnostics;
 using ZXing;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
+using ic.backend.precotex.web.Api.Security;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LbColaTrabajoController : ControllerBase
     {
         public readonly ILbColaTrabajoService _LbColaTrabajoService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public LbColaTrabajoController(ILbColaTrabajoService LbColaTrabajoService)
+        public LbColaTrabajoController(ILbColaTrabajoService LbColaTrabajoService, IJwtTokenService jwtTokenService)
         {
             _LbColaTrabajoService = LbColaTrabajoService;
+            _jwtTokenService = jwtTokenService;
         }
 
         /*
@@ -714,12 +719,19 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("getGetUsuarioWeb")]
         public async Task<IActionResult> getGetUsuarioWeb(string Cod_Usuario)
         {
             var result = await _LbColaTrabajoService.GetUsuarioWeb(Cod_Usuario);
             if (result!.Success)
             {
+                var usuario = result.Elements?.FirstOrDefault();
+                if (usuario != null)
+                {
+                    usuario.Token = _jwtTokenService.GenerateToken(Cod_Usuario, null);
+                }
+
                 result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
@@ -1933,6 +1945,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("getObtenerPermisoUsuario")]
         public async Task<IActionResult> getObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
         {
