@@ -68,7 +68,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
             FIJADOS
         */
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijados();
-        Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color);
+        Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta);
         Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosMantenimiento();
         Task<ServiceResponse<int>> RegistrarFijado(Lb_Fijados lb_Fijados);
         Task<ServiceResponse<int>> ModificarFijado(Lb_Fijados lb_Fijados);

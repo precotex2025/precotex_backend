@@ -15,6 +15,7 @@ using PdfiumViewer;
 using System.Diagnostics;
 using ZXing;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
+using Microsoft.Graph.Models.TermStore;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -403,9 +404,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarFijadosCalculado")]
-        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Num_SDC, int Num_Sec, string TipoReceta)
         {
-            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
+            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color, Num_SDC, Num_Sec, TipoReceta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
