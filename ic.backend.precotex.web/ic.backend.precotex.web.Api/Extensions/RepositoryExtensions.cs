@@ -98,6 +98,7 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
             services.AddScoped<ISNManualRepository, SNManualRepository>();
             services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
+            services.AddScoped<IUbicacionesRepository, UbicacionesRepository>();
 
             return services;
         }
