@@ -603,7 +603,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Cambio = parametros.Cambio,
                 ProcedenciaHardCodeada = parametros.ProcedenciaHardCodeada,
                 Cur_Ten = parametros.Cur_Ten,
-                Tip_Ten = parametros.Tip_Ten
+                Tip_Ten = parametros.Tip_Ten,
+                Cod_Usuario_Correlativo = parametros.Cod_Usuario_Correlativo
             };
 
             var result = await _LbColaTrabajoService.AgregarAuxiliaresHojaFormulacion(_lbAgrOpcColorante);
