@@ -47,6 +47,36 @@ namespace ic.backend.precotex.web.Api.Controllers.Tintoreria
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getListaAgrupamientosDelDia")]
+        public async Task<IActionResult> getListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo)
+        {
+            var result = await _IUbicacionesService.ListaAgrupamientosDelDia(Fec_Creacion, Codigo_Barra_Grupo);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getListaDetalleBultosAgrupados")]
+        public async Task<IActionResult> getListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento)
+        {
+            var result = await _IUbicacionesService.ListaDetalleBultosAgrupados(Cod_Almacen, Id_Agrupamiento);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
         #region SET VALORES
         private Ubicaciones.InsertarBultoGrupo setDataInsertarBultoGrupo(UbicacionesInsertarBultoGrupoParameter parameters)
         {

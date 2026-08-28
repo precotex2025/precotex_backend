@@ -34,5 +34,31 @@ namespace ic.backend.precotex.web.Entity.Entities.Tintoreria
             public string? Cod_Usuario { get; set; }
         }
 
+        public class ListaAgrupamientosDelDia
+        {
+            public int Id_Agrupamiento { get; set; }
+            public string? Codigo_Barra_Grupo { get; set; }
+            public int Cantidad_Bultos { get; set; }
+            public int Capacidad_Maxima { get; set; }
+            public string? Flg_Status { get; set; }
+            public string? Estado_Descripcion { get; set; }
+            public string? Cod_Usuario { get; set; }
+            public DateTime? Fec_Creacion { get; set; }
+        }
+
+        public class ListaDetalleBultosAgrupados
+        {
+            public int Id_Bulto { get; set; }                  // Identificador del bulto
+            public int Num_Corre { get; set; }                 // Correlativo del bulto
+            public string? Cod_Item { get; set; }              // Código interno del ítem
+            public string? Producto { get; set; }              // Nombre del producto
+            public string? Lote { get; set; }                  // Número de lote
+            public decimal? Peso_Neto { get; set; }            // Peso sin envase
+            public string? Flg_Status { get; set; }            // Estado del bulto
+            public string? Codigo_Barra_Grupo { get; set; }    // Código de barra del agrupamiento
+            public string? Codigo_Ubicacion { get; set; }      // Ubicación física
+            public DateTime? Fecha_Vinculacion { get; set; }   // Fecha de vinculación al grupo
+        }
+
     }
 }

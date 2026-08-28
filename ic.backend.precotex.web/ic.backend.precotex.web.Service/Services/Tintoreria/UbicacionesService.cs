@@ -79,5 +79,65 @@ namespace ic.backend.precotex.web.Service.Services.Tintoreria
                 return result;
             }
         }
+
+        public async Task<ServiceResponseList<Ubicaciones.ListaAgrupamientosDelDia>?> ListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo)
+        {
+            var result = new ServiceResponseList<Ubicaciones.ListaAgrupamientosDelDia>();
+            try
+            {
+                var resultData = await _ubicacionesRepository.ListaAgrupamientosDelDia(Fec_Creacion, Codigo_Barra_Grupo);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento)
+        {
+            var result = new ServiceResponseList<Ubicaciones.ListaDetalleBultosAgrupados>();
+            try
+            {
+                var resultData = await _ubicacionesRepository.ListaDetalleBultosAgrupados(Cod_Almacen, Id_Agrupamiento);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                return result;
+            }
+        }
     }
 }

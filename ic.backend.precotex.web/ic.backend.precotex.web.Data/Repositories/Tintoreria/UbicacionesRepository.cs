@@ -2,6 +2,7 @@ using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Tintoreria;
 using ic.backend.precotex.web.Entity.Entities.Tintoreria;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -65,6 +66,48 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                 var mensaje = parametros.Get<string>("@sMsj");
 
                 return (codigo, mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<Ubicaciones.ListaAgrupamientosDelDia>?> ListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Fec_Creacion = Fec_Creacion,
+                    Codigo_Barra_Grupo = Codigo_Barra_Grupo
+                };
+
+                var result = await connection.QueryAsync<Ubicaciones.ListaAgrupamientosDelDia>(
+                     "[dbo].[Tx_Listar_Agrupamientos_Del_Dia_Multialmacen]"
+                     , parametros
+                     , commandType: CommandType.StoredProcedure
+                 );
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Cod_Almacen = Cod_Almacen,
+                    Id_Agrupamiento = Id_Agrupamiento
+                };
+
+                var result = await connection.QueryAsync<Ubicaciones.ListaDetalleBultosAgrupados>(
+                     "[dbo].[Tx_Obtener_Detalle_Bultos_Agrupados]"
+                     , parametros
+                     , commandType: CommandType.StoredProcedure
+                 );
+
+                return result;
             }
         }
     }
