@@ -63,7 +63,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
             FIJADOS
         */
         Task<IEnumerable<Lb_Fijados>?> ListarFijados();
-        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color);
+        Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta);
         Task<IEnumerable<Lb_Fijados>?> ListarFijadosMantenimiento();
         Task<(int Codigo, string Mensaje)> RegistrarFijado(Lb_Fijados _lb_Fijados);
         Task<(int Codigo, string Mensaje)> ModificarFijado(Lb_Fijados _lb_Fijados);

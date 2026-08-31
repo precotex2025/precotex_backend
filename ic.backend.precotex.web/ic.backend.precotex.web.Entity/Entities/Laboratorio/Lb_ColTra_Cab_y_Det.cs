@@ -30,5 +30,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Familia { get; set; }
         public string? Partidas { get; set; }
         public string? Partida_Agrupada_Tinto { get; set; }
+        public string? Partida_Bano_Ciego { get; set; }
     }
 }

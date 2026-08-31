@@ -503,12 +503,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta)
         {
             var result = new ServiceResponseList<Lb_Fijados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color, Corr_Carta, Sec, TipoReceta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
