@@ -8,8 +8,9 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Tintoreria
     public interface IUbicacionesService
     {
         Task<ServiceResponseList<Ubicaciones.ListaBultoUbicaciones>?> ListaBultoUbicaciones(string? Cod_Almacen, string? Cod_Item);
-        Task<ServiceResponse<int>> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones);
+        Task<ServiceResponse<Ubicaciones.GrupoCreadoResponseDto>> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones);
         Task<ServiceResponseList<Ubicaciones.ListaAgrupamientosDelDia>?> ListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo);
         Task<ServiceResponseList<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento);
+
     }
 }

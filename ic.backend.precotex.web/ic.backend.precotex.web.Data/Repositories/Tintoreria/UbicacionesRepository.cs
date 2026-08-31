@@ -40,7 +40,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones)
+        public async Task<(int Codigo, string Mensaje, string CodigoBarraGrupo)> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -56,16 +56,38 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
-                await connection.ExecuteAsync(
-                    "[dbo].[Tx_Insertar_Bulto_Grupo_Multialmacen]",
-                    parametros,
-                    commandType: CommandType.StoredProcedure
-                );
+                string codigoBarraGrupo = null;
 
+                // ACCIÓN 'C' (Creación): Devuelve un ResultSet (SELECT), usamos QueryFirstOrDefaultAsync
+                if (ubicaciones.Accion == "C")
+                {
+                    var resultado = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                        "[dbo].[Tx_Insertar_Bulto_Grupo_Multialmacen]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    if (resultado != null)
+                    {
+                        // Mapeamos la columna 'Codigo_Barra_Grupo' que devuelve el SELECT del procedimiento
+                        codigoBarraGrupo = resultado.Codigo_Barra_Grupo;
+                    }
+                }
+                // ACCIONES 'I' o 'D' (Vincular/Desvincular): No devuelven ResultSet, usamos ExecuteAsync
+                else
+                {
+                    await connection.ExecuteAsync(
+                        "[dbo].[Tx_Insertar_Bulto_Grupo_Multialmacen]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure
+                    );
+                }
+
+                // Recuperamos los parámetros de salida al finalizar la ejecución
                 var codigo = parametros.Get<int>("@Codigo");
                 var mensaje = parametros.Get<string>("@sMsj");
 
-                return (codigo, mensaje);
+                return (codigo!, mensaje!, codigoBarraGrupo!);
             }
         }
 

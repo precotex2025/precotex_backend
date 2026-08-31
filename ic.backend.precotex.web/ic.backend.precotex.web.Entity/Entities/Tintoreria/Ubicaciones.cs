@@ -34,6 +34,12 @@ namespace ic.backend.precotex.web.Entity.Entities.Tintoreria
             public string? Cod_Usuario { get; set; }
         }
 
+        public class GrupoCreadoResponseDto
+        {
+            public int IdAgrupamiento { get; set; }
+            public string? CodigoBarraGrupo { get; set; }
+        }
+
         public class ListaAgrupamientosDelDia
         {
             public int Id_Agrupamiento { get; set; }

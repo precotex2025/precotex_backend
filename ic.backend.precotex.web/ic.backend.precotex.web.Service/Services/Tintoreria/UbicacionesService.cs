@@ -6,6 +6,7 @@ using System;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using static ic.backend.precotex.web.Entity.Entities.Tintoreria.Ubicaciones;
 
 namespace ic.backend.precotex.web.Service.Services.Tintoreria
 {
@@ -47,22 +48,31 @@ namespace ic.backend.precotex.web.Service.Services.Tintoreria
             }
         }
 
-        public async Task<ServiceResponse<int>> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones)
+        public async Task<ServiceResponse<Ubicaciones.GrupoCreadoResponseDto>> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones)
         {
-            var result = new ServiceResponse<int>();
+            var result = new ServiceResponse<Ubicaciones.GrupoCreadoResponseDto>();
             try
             {
-                var resultData = await _ubicacionesRepository.InsertarBultoGrupo(ubicaciones);
-                if (resultData.Codigo > 0)
+                // 1. Desempaquetamos la tupla de 3 valores que viene del repositorio dapper
+                var (codigo, mensaje, codigoBarraGrupo) = await _ubicacionesRepository.InsertarBultoGrupo(ubicaciones);
+
+                if (codigo > 0)
                 {
-                    result.Message = resultData.Mensaje;
+                    result.Message = mensaje;
                     result.Success = true;
-                    result.CodeTransacc = resultData.Codigo;
+                    result.CodeTransacc = codigo; // Conservamos el ID numérico si tu servicio lo mapea en cabecera
+
+                    // 2. Encapsulamos los datos en el DTO de respuesta dentro de la propiedad 'Data' de tu ServiceResponse
+                    result.Element = new GrupoCreadoResponseDto
+                    {
+                        IdAgrupamiento = codigo,
+                        CodigoBarraGrupo = codigoBarraGrupo // Aquí viaja el "G00000000142" o null si fue vinculación
+                    };
 
                     return result;
                 }
 
-                result.Message = resultData.Mensaje;
+                result.Message = mensaje;
                 result.Success = false;
                 return result;
             }
@@ -74,7 +84,7 @@ namespace ic.backend.precotex.web.Service.Services.Tintoreria
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Message = "Ocurrio una excepción: " + ex.Message;
                 result.Success = false;
                 return result;
             }
