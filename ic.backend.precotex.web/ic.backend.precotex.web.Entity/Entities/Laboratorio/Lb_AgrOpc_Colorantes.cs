@@ -82,6 +82,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int Fij_Tip_Id { get; set; }
         public string? Des_Concentracion { get; set; }
         public string? Tipo_Fijado_Desccripcion { get; set; }
+        public string? Cod_Usuario_Correlativo { get; set; }
 
     }
 

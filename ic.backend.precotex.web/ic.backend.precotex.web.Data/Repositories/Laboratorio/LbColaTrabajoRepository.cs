@@ -645,7 +645,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -656,6 +656,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Familia", Familia);
                 parameters.Add("@Tipo", Tipo);
                 parameters.Add("@Cod_Color", Cod_Color);
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@TipoReceta", TipoReceta);
 
                 var result = await connection.QueryAsync<Lb_Fijados>(
                     "[dbo].[PA_Lb_Fijados_Detalle_S0001]"
@@ -946,6 +949,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
+                parametros.Add("@Usr_Cod", _lbAgrOpcColorante.Cod_Usuario_Correlativo);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
