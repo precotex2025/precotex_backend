@@ -361,7 +361,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Id_Concentracion", lb_AgrOpc_Colorantes.Id_Concentracion);
                 parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
 
-
+                parametros.Add("@Aci_Ace", lb_AgrOpc_Colorantes.Aci_Ace);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -372,7 +372,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -458,7 +458,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
             using var multi = await connection.QueryMultipleAsync(
                 //"[dbo].[PA_Lb_Colorantes_WB_S0001]"
-                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2_JCF]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -960,7 +960,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0003]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
