@@ -362,6 +362,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
 
                 parametros.Add("@Aci_Ace", lb_AgrOpc_Colorantes.Aci_Ace);
+                parametros.Add("@Fel_Gr", lb_AgrOpc_Colorantes.Fel_Gr);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
