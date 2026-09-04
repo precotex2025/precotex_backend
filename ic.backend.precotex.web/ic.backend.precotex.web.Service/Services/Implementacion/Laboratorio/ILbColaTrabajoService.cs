@@ -188,5 +188,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponseList<PartidasVinculadasEntity>?> ListarPartidasVinculadas(string Cod_Ordtra, string Tipo);
         Task<ServiceResponse<ImagenPartidaVinculadaEntity>> ObtenerImagenPartidaVinculada(string ruta);
         #endregion
+
+        Task<ServiceResponse<CotizacionColorantesDetalleEntity>> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
     }
 }

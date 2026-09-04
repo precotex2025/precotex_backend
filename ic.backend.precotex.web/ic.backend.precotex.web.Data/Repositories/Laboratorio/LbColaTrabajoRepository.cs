@@ -15,6 +15,7 @@ using Microsoft.Graph.Models.TermStore;
 using System.ComponentModel;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
 using Microsoft.Graph.Models;
+using System.Data.Common;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -361,7 +362,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Id_Concentracion", lb_AgrOpc_Colorantes.Id_Concentracion);
                 parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
 
-
+                parametros.Add("@Aci_Ace", lb_AgrOpc_Colorantes.Aci_Ace);
+                parametros.Add("@Fel_Gr", lb_AgrOpc_Colorantes.Fel_Gr);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -372,7 +374,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -458,7 +460,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
             using var multi = await connection.QueryMultipleAsync(
                 //"[dbo].[PA_Lb_Colorantes_WB_S0001]"
-                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2_JCF]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -960,7 +962,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0003]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -3313,5 +3315,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             [".bmp"] = "image/bmp",
             [".webp"] = "image/webp"
         };
+
+
+        public async Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Correlativo", 0);
+                parameters.Add("@Tip_Ten", "");
+                parameters.Add("@Tip_Receta", Tip_Receta);
+
+                using var multi = await connection.QueryMultipleAsync(
+                    "[dbo].[PA_Lb_Colorantes_WB_Cotizacion]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+
+
+                var resultado = new CotizacionColorantesDetalleEntity
+                {
+                    Colorante = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Descarga = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Fijado = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado1 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado2 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList()
+                };
+
+                return resultado;
+            }
+        }
+
+
+
+
     }
 }

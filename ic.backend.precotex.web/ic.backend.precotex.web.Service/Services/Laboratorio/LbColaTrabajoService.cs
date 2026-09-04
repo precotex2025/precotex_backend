@@ -2629,5 +2629,38 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
+
+        public async Task<ServiceResponse<CotizacionColorantesDetalleEntity>> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            var result = new ServiceResponse<CotizacionColorantesDetalleEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerCotizacionColorantes(Corr_Carta, Sec, Tip_Receta);
+
+                if (resultData == null)
+                {
+                    result.Success = false;
+                    result.Message = "No existe información";
+                    result.Element = new CotizacionColorantesDetalleEntity();
+                    result.CodeTransacc = 0;
+                    return result;
+                }
+
+                result.Success = true;
+                result.Message = "Operacion exitosa.";
+                result.Element = resultData;
+                result.CodeTransacc = 1;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Excepción no controlada " + ex.Message;           
+                return result;
+            }
+
+        }
+
     }
 }

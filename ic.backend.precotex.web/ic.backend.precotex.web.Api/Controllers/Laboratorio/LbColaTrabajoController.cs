@@ -251,7 +251,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Fij_Can = parametros.Fij_Can,
                 //Nuevo Campos
                 Id_Concentracion = parametros.Id_Concentracion,
-                Fij_Tip_Id = parametros.Fij_Tip_Id
+                Fij_Tip_Id = parametros.Fij_Tip_Id,
+                Aci_Ace = parametros.Aci_Ace,
+                Fel_Gr = parametros.Fel_Gr,
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -2155,7 +2157,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 entityTag: new EntityTagHeaderValue(imagen.ETag));
         }
 
+        [HttpGet]
+        [Route("getObtenerCotizacionColorantes")]
+        public async Task<IActionResult> getObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            var result = await _LbColaTrabajoService.ObtenerCotizacionColorantes(Corr_Carta, Sec, Tip_Receta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
 
 
