@@ -7,6 +7,12 @@ using ic.backend.precotex.web.Api.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
+using ic.backend.precotex.web.Service.Services.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.Calidad;
+using ic.backend.precotex.web.Service.Services.Calidad;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +77,7 @@ builder.Services.AddCors(options =>
         )  // Especifica el origen permitido
         .AllowAnyHeader()                     // Permitir cualquier encabezado
         .AllowAnyMethod();                   // Permitir cualquier m�todo (GET, POST, etc.) 
-       
+        
     });
 });
 
@@ -96,6 +102,12 @@ builder.Services.Configure<FormOptions>(options =>
 // ========================================
 
 builder.Services.AddApplication();
+
+builder.Services.AddScoped<ISNReqLegalService, SNReqLegalService>();
+builder.Services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
+
+builder.Services.AddScoped<NoConformidadesRepository>();
+builder.Services.AddScoped<INoConformidadesService, NoConformidadesService>();
 
 builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
 

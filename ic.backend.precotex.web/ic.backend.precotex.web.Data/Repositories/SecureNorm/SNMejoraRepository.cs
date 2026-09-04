@@ -54,6 +54,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Responsable", sN_Mejora.Responsable);
                 parametros.Add("@p_Fecha_Inicio", sN_Mejora.Fecha_Inicio);
                 parametros.Add("@p_Fecha_Fin_Estimada", sN_Mejora.Fecha_Fin_Estimada);
+                parametros.Add("@p_Fecha_Fin", sN_Mejora.Fecha_Fin);
                 parametros.Add("@p_Estado", sN_Mejora.Estado);
                 parametros.Add("@p_Sede", sN_Mejora.Sede);
                 parametros.Add("@p_Herramienta", sN_Mejora.Herramienta);

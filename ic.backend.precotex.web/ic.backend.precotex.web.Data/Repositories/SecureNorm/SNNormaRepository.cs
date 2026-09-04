@@ -79,7 +79,8 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 catch (Exception ex) { }
 
                 //Obtener los valores de salida
-                var codigo = parametros.Get<int>("@Codigo");
+                var objCodigo = parametros.Get<dynamic>("@Codigo");
+                int codigo = (objCodigo != null && objCodigo != DBNull.Value) ? Convert.ToInt32(objCodigo) : 0;
                 var mensaje = parametros.Get<string>("@sMsj");
 
                 return (codigo, mensaje);
