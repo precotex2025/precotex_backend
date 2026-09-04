@@ -187,5 +187,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<ImagenPartidaVinculadaEntity?> ObtenerImagenPartidaVinculada(string ruta);
         #endregion
 
+        Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
+
+
     }
 }

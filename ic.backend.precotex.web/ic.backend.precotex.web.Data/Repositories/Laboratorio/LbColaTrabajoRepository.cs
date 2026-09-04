@@ -15,6 +15,7 @@ using Microsoft.Graph.Models.TermStore;
 using System.ComponentModel;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
 using Microsoft.Graph.Models;
+using System.Data.Common;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -3314,5 +3315,43 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             [".bmp"] = "image/bmp",
             [".webp"] = "image/webp"
         };
+
+
+        public async Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Correlativo", 0);
+                parameters.Add("@Tip_Ten", "");
+                parameters.Add("@Tip_Receta", Tip_Receta);
+
+                using var multi = await connection.QueryMultipleAsync(
+                    "[dbo].[PA_Lb_Colorantes_WB_Cotizacion]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+
+
+                var resultado = new CotizacionColorantesDetalleEntity
+                {
+                    Colorante = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Descarga = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Fijado = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado1 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado2 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList()
+                };
+
+                return resultado;
+            }
+        }
+
+
+
+
     }
 }
