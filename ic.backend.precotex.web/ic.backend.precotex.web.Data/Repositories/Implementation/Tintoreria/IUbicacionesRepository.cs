@@ -7,9 +7,11 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Tintoreria
 {
     public interface IUbicacionesRepository
     {
-        Task<IEnumerable<Ubicaciones.ListaBultoUbicaciones>?> ListaBultoUbicaciones(string? Cod_Almacen, string? Cod_Item);
+        Task<IEnumerable<Ubicaciones.ListaBultoUbicaciones>?> ListaBultoUbicaciones(string? Cod_Almacen, string? Codigo_Barra_Grupo);
         Task<(int Codigo, string Mensaje, string CodigoBarraGrupo)> InsertarBultoGrupo(Ubicaciones.InsertarBultoGrupo ubicaciones);
+        Task<(int Codigo, string Mensaje)> UbicarGrupoOBulto(Ubicaciones.UbicarGrupoOBulto ubicaciones);
         Task<IEnumerable<Ubicaciones.ListaAgrupamientosDelDia>?> ListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo);
-        Task<IEnumerable<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento);
+        Task<IEnumerable<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento, string? Codigo_Barra_Grupo);
+        Task<Ubicaciones.ConsultaKardexPda?> ConsultaKardexPda(string? Cod_Almacen, string? Codigo_Escaneado);
     }
 }

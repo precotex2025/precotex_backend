@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
@@ -19,7 +20,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<Ubicaciones.ListaBultoUbicaciones>?> ListaBultoUbicaciones(string? Cod_Almacen, string? Cod_Item)
+        public async Task<IEnumerable<Ubicaciones.ListaBultoUbicaciones>?> ListaBultoUbicaciones(string? Cod_Almacen, string? Codigo_Barra_Grupo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -27,7 +28,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                 var parametros = new
                 {
                     Cod_Almacen = Cod_Almacen,
-                    Cod_Item = Cod_Item
+                    Codigo_Barra_Grupo = Codigo_Barra_Grupo
                 };
 
                 var result = await connection.QueryAsync<Ubicaciones.ListaBultoUbicaciones>(
@@ -91,6 +92,36 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
             }
         }
 
+        public async Task<(int Codigo, string Mensaje)> UbicarGrupoOBulto(Ubicaciones.UbicarGrupoOBulto ubicaciones)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+                parametros.Add("@Accion", ubicaciones.Accion);
+                parametros.Add("@Id_Agrupamiento", ubicaciones.Id_Agrupamiento);
+                parametros.Add("@Num_Corre", ubicaciones.Num_Corre);
+                parametros.Add("@Codigo_Ubicacion_Dest", ubicaciones.Codigo_Ubicacion_Dest);
+                parametros.Add("@Cod_Usuario", ubicaciones.Cod_Usuario);
+
+                // Parámetros de salida
+                parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                await connection.ExecuteAsync(
+                    "[dbo].[Tx_Ubicar_Grupo_O_Bulto_Multialmacen]",
+                    parametros,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                var codigo = parametros.Get<int>("@Codigo");
+                var mensaje = parametros.Get<string>("@sMsj");
+
+                return (codigo!, mensaje!);
+            }
+        }
+
         public async Task<IEnumerable<Ubicaciones.ListaAgrupamientosDelDia>?> ListaAgrupamientosDelDia(DateTime? Fec_Creacion, string? Codigo_Barra_Grupo)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -112,7 +143,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
             }
         }
 
-        public async Task<IEnumerable<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento)
+        public async Task<IEnumerable<Ubicaciones.ListaDetalleBultosAgrupados>?> ListaDetalleBultosAgrupados(string? Cod_Almacen, int? Id_Agrupamiento, string? Codigo_Barra_Grupo)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -120,7 +151,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                 var parametros = new
                 {
                     Cod_Almacen = Cod_Almacen,
-                    Id_Agrupamiento = Id_Agrupamiento
+                    Id_Agrupamiento = Id_Agrupamiento,
+                    Codigo_Barra_Grupo = Codigo_Barra_Grupo
                 };
 
                 var result = await connection.QueryAsync<Ubicaciones.ListaDetalleBultosAgrupados>(
@@ -130,6 +162,42 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                  );
 
                 return result;
+            }
+        }
+
+        public async Task<Ubicaciones.ConsultaKardexPda?> ConsultaKardexPda(string? Cod_Almacen, string? Codigo_Escaneado)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    var parametros = new
+                    {
+                        Cod_Almacen = Cod_Almacen,
+                        Codigo_Escaneado = Codigo_Escaneado
+                    };
+
+                    using (var multi = await connection.QueryMultipleAsync(
+                        "[dbo].[Tx_Consulta_Kardex_PDA]",
+                        parametros,
+                        commandType: CommandType.StoredProcedure))
+                    {
+                        var cabecera = await multi.ReadFirstOrDefaultAsync<Ubicaciones.CabeceraKardexPda>();
+                        var movimientos = (await multi.ReadAsync<Ubicaciones.MovimientoKardexPda>()).ToList();
+
+                        return new Ubicaciones.ConsultaKardexPda
+                        {
+                            Cabecera = cabecera,
+                            Movimientos = movimientos
+                        };
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
+                    throw;
+                }
             }
         }
     }
