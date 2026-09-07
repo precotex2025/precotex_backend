@@ -28,5 +28,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Nom_Usuario { get; set; }
         public string? Usr_Cod_Ape { get; set; }
         public string? Usr_Cod_Ent { get; set; }
+        public int? Sec {  get; set; }
+        public string? Tip_Receta { get; set; }
     }
 }

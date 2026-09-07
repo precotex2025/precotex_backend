@@ -1916,9 +1916,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarCurvasV2")]
-        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta);
+            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2059,9 +2059,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getObtenerProcesosColorantesComponenteCotizacion")]
-        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
