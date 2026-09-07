@@ -84,6 +84,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Tipo_Fijado_Desccripcion { get; set; }
         public string? Cod_Usuario_Correlativo { get; set; }
         public decimal? Fel_Gr { get; set; }
+        public int Id_Concentracion2 { get; set; }
+        public int Id_Concentracion3 { get; set; }
 
     }
 

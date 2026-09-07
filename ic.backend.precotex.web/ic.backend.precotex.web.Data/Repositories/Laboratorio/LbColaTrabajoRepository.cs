@@ -364,6 +364,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 parametros.Add("@Aci_Ace", lb_AgrOpc_Colorantes.Aci_Ace);
                 parametros.Add("@Fel_Gr", lb_AgrOpc_Colorantes.Fel_Gr);
+                parametros.Add("@Id_Concentracion2", lb_AgrOpc_Colorantes.Id_Concentracion2);
+                parametros.Add("@Id_Concentracion3", lb_AgrOpc_Colorantes.Id_Concentracion3);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -1027,7 +1029,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Usr_Cod", Usr_Cod);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -1046,7 +1048,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Usr_Cod", Usr_Cod);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -1080,7 +1082,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
-                "[dbo].[PA_Lb_Colorantes_WB_S0002]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0002_JCF]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -2773,7 +2775,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@FechaFin", FecFin);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_hm]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
