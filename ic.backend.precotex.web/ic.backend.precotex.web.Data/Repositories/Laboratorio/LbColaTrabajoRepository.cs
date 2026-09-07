@@ -2946,7 +2946,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2956,6 +2956,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 parametros.Add("@Pro_Cod", Pro_Cod);
                 parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+                parametros.Add("@Tip_Receta", Tip_Receta);
 
                 var result = await connection.QueryAsync<Lb_Curvas>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Curvas_Tenido_S0002]"
@@ -3164,7 +3166,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -3172,6 +3174,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Tip_Receta", Tip_Receta);
 
                 var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Cotizacion>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Cotizacion]"
