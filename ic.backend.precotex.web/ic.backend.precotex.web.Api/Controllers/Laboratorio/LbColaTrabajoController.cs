@@ -254,6 +254,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Fij_Tip_Id = parametros.Fij_Tip_Id,
                 Aci_Ace = parametros.Aci_Ace,
                 Fel_Gr = parametros.Fel_Gr,
+                Id_Concentracion2 = parametros.Id_Concentracion2,
+                Id_Concentracion3 = parametros.Id_Concentracion3,
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);

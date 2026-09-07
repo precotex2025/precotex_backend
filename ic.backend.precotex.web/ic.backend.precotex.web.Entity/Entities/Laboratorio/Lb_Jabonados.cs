@@ -36,6 +36,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Familia_Org { get; set; }
         //Nuevo campo
         public int Id_Concentracion { get; set; }
+        public int Id_Concentracion2 { get; set; }
+        public int Id_Concentracion3 { get; set; }
     }
     
 }
