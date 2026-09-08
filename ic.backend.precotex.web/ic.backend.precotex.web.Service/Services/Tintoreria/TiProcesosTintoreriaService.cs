@@ -21,12 +21,12 @@ namespace ic.backend.precotex.web.Service.Services.Tintoreria
             _tiProcesosTintoreriaRepository = tiProcesosTintoreriaRepository;
         }
 
-        public async Task<ServiceResponseList<Tx_Muestra_Control_Proceso>?> ListaControlProcesosTintoreria(string Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin)
+        public async Task<ServiceResponseList<Tx_Muestra_Control_Proceso>?> ListaControlProcesosTintoreria(string Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin, string Numero_Referencia)
         {
             var result = new ServiceResponseList<Tx_Muestra_Control_Proceso>();
             try
             {
-                var resultData = await _tiProcesosTintoreriaRepository.ListaControlProcesosTintoreria(Cod_Ordtra, Fecha_Ini, Fecha_Fin);
+                var resultData = await _tiProcesosTintoreriaRepository.ListaControlProcesosTintoreria(Cod_Ordtra, Fecha_Ini, Fecha_Fin, Numero_Referencia);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
