@@ -60,6 +60,8 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Des_Concentracion { get; set; }
         public string? Fij_Tip_Des { get; set; }
         public string? Partida_Bano_Ciego { get; set; }
+        public string? Des_Concentracion2 { get; set; }
+        public string? Des_Concentracion3 { get; set; }
 
     }
 
