@@ -2662,5 +2662,34 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
 
         }
 
+        public async Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo()
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Neutralizado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerNeutralizadosTipo();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
+
+
+
+
     }
 }
