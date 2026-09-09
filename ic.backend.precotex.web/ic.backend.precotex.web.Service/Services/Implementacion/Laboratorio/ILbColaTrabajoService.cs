@@ -190,5 +190,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         #endregion
 
         Task<ServiceResponse<CotizacionColorantesDetalleEntity>> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
+        Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo();
+
     }
 }
