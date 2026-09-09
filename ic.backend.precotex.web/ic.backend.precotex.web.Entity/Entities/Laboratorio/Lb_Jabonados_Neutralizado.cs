@@ -7,6 +7,7 @@
         public string? Flg_Estado { get; set; }
         public string? Usr_Creacion { get; set; }
         public DateTime? Fec_Creacion { get; set; }
+        public string? Flg_Neutralizado { get; set; }
     }
 }
 

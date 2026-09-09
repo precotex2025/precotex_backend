@@ -136,7 +136,7 @@ if (app.Environment.IsDevelopment())
 // MIDDLEWARE
 // ========================================
 
-app.UseHttpsRedirection(); //*****************Este de debe de descomentar para producción
+//app.UseHttpsRedirection(); //*****************Este de debe de descomentar para producción
 
 app.UseRouting();
 

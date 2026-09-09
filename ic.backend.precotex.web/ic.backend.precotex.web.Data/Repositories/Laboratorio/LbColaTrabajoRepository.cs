@@ -3375,6 +3375,25 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        public async Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Colorante_Total", Colorante_Total);
+                parameters.Add("@Familia", Familia);
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Neutralizado>(
+                    "[dbo].[PA_Lb_Jabonados_Neutralizado_Recalculo]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
 
     }
 }
