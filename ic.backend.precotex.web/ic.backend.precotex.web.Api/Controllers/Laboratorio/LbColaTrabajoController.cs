@@ -254,6 +254,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Fij_Tip_Id = parametros.Fij_Tip_Id,
                 Aci_Ace = parametros.Aci_Ace,
                 Fel_Gr = parametros.Fel_Gr,
+                Id_Concentracion2 = parametros.Id_Concentracion2,
+                Id_Concentracion3 = parametros.Id_Concentracion3,
+                Id_Neutralizado = parametros.Id_Neutralizado,
+                Flg_Neutralizado = parametros.Flg_Neutralizado,
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -1914,9 +1918,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarCurvasV2")]
-        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta);
+            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2057,9 +2061,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getObtenerProcesosColorantesComponenteCotizacion")]
-        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2172,7 +2176,34 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadosTipo")]
+        public async Task<IActionResult> getObtenerNeutralizadosTipo()
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadosTipo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadoCalculado")]
+        public async Task<IActionResult> getObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadoCalculado(Colorante_Total, Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

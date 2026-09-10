@@ -20,7 +20,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
             _connectionString = configuration.GetConnectionString("TextilConnection")!;
         }
 
-        public async Task<IEnumerable<Tx_Muestra_Control_Proceso>?> ListaControlProcesosTintoreria(string Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin)
+        public async Task<IEnumerable<Tx_Muestra_Control_Proceso>?> ListaControlProcesosTintoreria(string Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin, string Numero_Referencia)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -34,6 +34,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Tintoreria
                     FECREGINI   = Fecha_Ini,
                     FECREGFIN   = Fecha_Fin,
                     COD_USUARIO = "",
+                    NRO_REFERENCIA = Numero_Referencia //AGREGADO 08/09/2026
                 };
 
                 var estatusProcesoTinto = await connection.QueryAsync<Tx_Muestra_Control_Proceso>(

@@ -112,6 +112,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Nombre_Analista { get; set; }
         public string? Des_Concentracion { get; set; }
         public string? Tip_Receta { get; set; }
-        
+        public string? Des_Concentracion2 { get; set; }
+        public string? Des_Concentracion3 { get; set; }
+        public string? Flg_Neutralizado { get; set; }
+        public int? Id_Neutralizado { get; set; }
+
     }
 }

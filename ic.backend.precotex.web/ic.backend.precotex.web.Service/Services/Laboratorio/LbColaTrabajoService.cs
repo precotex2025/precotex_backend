@@ -2203,12 +2203,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
             var result = new ServiceResponseList<Lb_Curvas>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarCurvasV2(Pro_Cod, Corr_Carta);
+                var resultData = await _lbColaTrabajoRepository.ListarCurvasV2(Pro_Cod, Corr_Carta, Sec, Tip_Receta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2469,12 +2469,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
             var result = new ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+                var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta, Sec, Tip_Receta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2661,6 +2661,57 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
 
         }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo()
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Neutralizado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerNeutralizadosTipo();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Neutralizado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerNeutralizadoCalculado(Colorante_Total, Familia);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
+
 
     }
 }
