@@ -10,6 +10,7 @@ using ic.backend.precotex.web.Entity.common;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
+using ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.QuejasReclamos;
 using static ic.backend.precotex.web.Entity.Entities.QuejasReclamos.Clientes;
@@ -150,29 +151,43 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             }
         }
 
-        public async Task<ServiceResponseList<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew)
+        public async Task<ServiceResponse<int>> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew)
         {
-            var result = new ServiceResponseList<ReclamoClienteDto>();
+            //var result = new ServiceResponseList<ReclamoClienteDto>();
+            var result = new ServiceResponse<int>();
             try
             {
                 var resultData = await _txtIQuejasReclamos.GuardarReclamo(reclamo, isNew);
-                if (resultData == null || !resultData.Any())
+                if (resultData.Codigo > 0)
                 {
+                    result.Message = resultData.Mensaje;
                     result.Success = true;
-                    result.Message = "No existe información";
+                    result.CodeTransacc = resultData.Codigo;
+
                     return result;
                 }
 
-                result.Success = true;
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
+                result.Message = resultData.Mensaje;
+                result.Success = false;
                 return result;
             }
             catch (SqlException sql)
             {
-                result.Message = "BD SQL: " + sql.Message;
+                result.Message = "Error en Servidor: " + sql.Message;
+                result.Success = false;
                 return result;
             }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Success = false;
+                return result;
+            }
+            //catch (SqlException sql)
+            //{
+            //    result.Message = "BD SQL: " + sql.Message;
+            //    return result;
+            //}
         }
 
         public async Task<ServiceResponseList<FiltroReclamoDto>?> ObtenerReclamos(FiltroReclamoDto filtro)
@@ -707,6 +722,36 @@ namespace ic.backend.precotex.web.Service.Services.QuejasReclamos
             {
                 result.Message = "Ocurrio una excepción" + ex.Message;
                 result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<FiltroReclamoDto>?> ObtenerReclamosById(int Id)
+        {
+            var result = new ServiceResponseList<FiltroReclamoDto>();
+            try
+            {
+                var resultData = await _txtIQuejasReclamos.ObtenerReclamosById(Id);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                    return result;
+                }
+
+                result.Success = true;
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (SqlException sql)
+            {
+                result.Message = "Error en Servidor: " + sql.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Ocurrio una excepción" + ex.Message;
                 return result;
             }
         }
