@@ -14,7 +14,9 @@ using ic.backend.precotex.web.Entity.common;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.CalificacionRollosEnProceso;
 using ic.backend.precotex.web.Entity.Entities.QuejasReclamos;
+using ic.backend.precotex.web.Entity.Entities.SolicitudMantenimiento;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Graph.Models;
 using static ic.backend.precotex.web.Entity.Entities.QuejasReclamos.Clientes;
 
 namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
@@ -141,169 +143,224 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
             }
         }
 
-        public async Task<IEnumerable<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew)
+        public async Task<(int Codigo, string Mensaje)> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew)
         {
-            try
+            var codigo = 0;
+            var mensaje = string.Empty;
+
+            //try
+            //{
+            using (var connection = new SqlConnection(_connectionString))
             {
-                using (var connection = new SqlConnection(_connectionString))
+
+                await connection.OpenAsync();
+
+                if (isNew == true)
                 {
-                    if (isNew == true)
+                    var detalles = new DataTable();
+                    detalles.Columns.Add("Cliente");
+                    detalles.Columns.Add("TipoRegistro");
+                    detalles.Columns.Add("UnidadNegocio");
+                    detalles.Columns.Add("Responsable");
+                    detalles.Columns.Add("MotivoRegistro");
+                    detalles.Columns.Add("EstadoSolicitud");
+                    detalles.Columns.Add("Observacion");
+                    detalles.Columns.Add("RutaArchivo");
+                    //NUEVOS CAMPOS
+                    detalles.Columns.Add("Cod_Cliente_Tex");
+                    detalles.Columns.Add("Cod_Ordtra");
+                    detalles.Columns.Add("Cod_Tela");
+                    detalles.Columns.Add("Cod_Color");
+                    detalles.Columns.Add("Id_Unidad_NegocioKey");
+                    detalles.Columns.Add("Cod_Motivo");
+                    //Nuevos Campos v2
+                    detalles.Columns.Add("IdArea");
+                    detalles.Columns.Add("IdResponsable");
+                    //Nuevos Campos v3
+                    detalles.Columns.Add("Cod_TemCli");
+                    detalles.Columns.Add("Cod_EstCli");
+
+                    foreach (var item in reclamo)
                     {
-                        var detalles = new DataTable();
-                        detalles.Columns.Add("Cliente");
-                        detalles.Columns.Add("TipoRegistro");
-                        detalles.Columns.Add("UnidadNegocio");
-                        detalles.Columns.Add("Responsable");
-                        detalles.Columns.Add("MotivoRegistro");
-                        detalles.Columns.Add("EstadoSolicitud");
-                        detalles.Columns.Add("Observacion");
-                        detalles.Columns.Add("RutaArchivo");
-                        //NUEVOS CAMPOS
-                        detalles.Columns.Add("Cod_Cliente_Tex");
-                        detalles.Columns.Add("Cod_Ordtra");
-                        detalles.Columns.Add("Cod_Tela");
-                        detalles.Columns.Add("Cod_Color");
-                        detalles.Columns.Add("Id_Unidad_NegocioKey");
-                        detalles.Columns.Add("Cod_Motivo");
-                        //Nuevos Campos v2
-                        detalles.Columns.Add("IdArea");
-                        detalles.Columns.Add("IdResponsable");
-                        //Nuevos Campos v3
-                        detalles.Columns.Add("Cod_TemCli");
-                        detalles.Columns.Add("Cod_EstCli");
-
-                        foreach (var item in reclamo)
-                        {
-                            detalles.Rows.Add(
-                                item.Cliente,
-                                item.TipoRegistro,
-                                item.UnidadNegocio,
-                                item.Responsable,
-                                item.MotivoRegistro,
-                                item.EstadoSolicitud,
-                                item.Observacion,
-                                item.archivoAdjunto, // o nombre del archivo si guardaste la ruta
-                                //NUEVOS CAMPOS
-                                item.Cod_Cliente_Tex,
-                                item.Cod_Ordtra,
-                                item.Cod_Tela,
-                                item.Cod_Color,
-                                item.Id_Unidad_NegocioKey,
-                                item.Cod_Motivo,
-                                //Nuevos Campos v2
-                                item.IdArea,
-                                item.IdResponsable,
-                                //Nuevos Campos v3
-                                item.Cod_TemCli,
-                                item.Cod_EstCli
-                            );
-                        }
-
-                        var parameters = new DynamicParameters();
-                        parameters.Add("@EstadoSolicitud", reclamo[0].EstadoSolicitud);
-                        parameters.Add("@UsuarioRegistro", reclamo[0].UsuarioRegistro);
-                        parameters.Add("@Detalles", detalles.AsTableValuedParameter("ReclamoDetalleType"));
-
-                        await connection.ExecuteAsync("USP_I_ReclamoCabeceraDetalle", parameters, commandType: CommandType.StoredProcedure);
-
+                        detalles.Rows.Add(
+                            item.Cliente,
+                            item.TipoRegistro,
+                            item.UnidadNegocio,
+                            item.Responsable,
+                            item.MotivoRegistro,
+                            item.EstadoSolicitud,
+                            item.Observacion,
+                            item.archivoAdjunto, // o nombre del archivo si guardaste la ruta
+                                                 //NUEVOS CAMPOS
+                            item.Cod_Cliente_Tex,
+                            item.Cod_Ordtra,
+                            item.Cod_Tela,
+                            item.Cod_Color,
+                            item.Id_Unidad_NegocioKey,
+                            item.Cod_Motivo,
+                            //Nuevos Campos v2
+                            item.IdArea,
+                            item.IdResponsable,
+                            //Nuevos Campos v3
+                            item.Cod_TemCli,
+                            item.Cod_EstCli
+                        );
                     }
 
-                    else
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@EstadoSolicitud", reclamo[0].EstadoSolicitud);
+                    parameters.Add("@UsuarioRegistro", reclamo[0].UsuarioRegistro);
+                    parameters.Add("@TipoQueja", reclamo[0].TipoQueja);
+                    parameters.Add("@Detalles", detalles.AsTableValuedParameter("ReclamoDetalleType"));
+
+                    // Parámetros de salida
+                    parameters.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    parameters.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                    //await connection.ExecuteAsync("USP_I_ReclamoCabeceraDetalle", parameters, commandType: CommandType.StoredProcedure);
+                    connection.Execute(
+                        "[dbo].[USP_I_ReclamoCabeceraDetalle]",
+                        parameters,
+                        commandType: CommandType.StoredProcedure
+                    );
+
+                    //Obtener los valores de salida
+                    codigo = parameters.Get<int>("@Codigo");
+                    mensaje = parameters.Get<string>("@sMsj");
+
+                    return (codigo, mensaje);
+                }
+
+                else
+                {
+                    // Actualizar detalles
+                    var Ncaso = reclamo.Select(x => x.NroCaso).FirstOrDefault();
+
+                    //Nuevo Recorrido debe de actualizar tambien 
+                    foreach (var item in reclamo)
                     {
-                        // Actualizar detalles
-                        var Ncaso = reclamo.Select(x => x.NroCaso).FirstOrDefault();
-
-                        //Nuevo Recorrido debe de actualizar tambien 
-                        foreach (var item in reclamo)
-                        {
-                            //INSERTA CUANDO ES NUEVO
-                            if (item.Id == "undefined")
-                            {
-                                var pDetalle = new DynamicParameters();
-                                pDetalle.Add("@Opcion", "I");
-                                pDetalle.Add("@NroCaso", Ncaso);
-                                pDetalle.Add("@Cliente", item.Cliente);
-                                pDetalle.Add("@TipoRegistro", item.TipoRegistro);
-                                pDetalle.Add("@UnidadNegocio", item.UnidadNegocio);
-                                pDetalle.Add("@Responsable", item.Responsable);
-                                pDetalle.Add("@MotivoRegistro", item.MotivoRegistro);
-                                pDetalle.Add("@EstadoSolicitud", item.EstadoSolicitud);
-                                pDetalle.Add("@Observacion", item.Observacion);
-                                pDetalle.Add("@NombreArchivo", item.archivoAdjunto);
-                                //NUEVOS CAMPOS
-                                pDetalle.Add("@Cod_Cliente_Tex", item.Cod_Cliente_Tex);
-                                pDetalle.Add("@Cod_Ordtra", item.Cod_Ordtra);
-                                pDetalle.Add("@Cod_Tela", item.Cod_Tela);
-                                pDetalle.Add("@Cod_Color", item.Cod_Color);
-                                pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
-                                pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
-                                pDetalle.Add("@IdReclamoClienteDetalle", 0);
-                                pDetalle.Add("@IdArea", item.IdArea);
-                                pDetalle.Add("@IdResponsable", item.IdResponsable);
-                                pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
-                                pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
-
-                                await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
-                            }
-                            //MODIFICA SI HAY ALGUN CAMBIO
-                            else
-                            {
-                                var pDetalle = new DynamicParameters();
-                                pDetalle.Add("@Opcion", "E");
-                                pDetalle.Add("@NroCaso", Ncaso);
-                                pDetalle.Add("@Cliente", item.Cliente);
-                                pDetalle.Add("@TipoRegistro", item.TipoRegistro);
-                                pDetalle.Add("@UnidadNegocio", item.UnidadNegocio);
-                                pDetalle.Add("@Responsable", item.Responsable);
-                                pDetalle.Add("@MotivoRegistro", item.MotivoRegistro);
-                                pDetalle.Add("@EstadoSolicitud", item.EstadoSolicitud);
-                                pDetalle.Add("@Observacion", item.Observacion);
-                                pDetalle.Add("@NombreArchivo", item.archivoAdjunto);
-                                //NUEVOS CAMPOS
-                                pDetalle.Add("@Cod_Cliente_Tex", item.Cod_Cliente_Tex);
-                                pDetalle.Add("@Cod_Ordtra", item.Cod_Ordtra);
-                                pDetalle.Add("@Cod_Tela", item.Cod_Tela);
-                                pDetalle.Add("@Cod_Color", item.Cod_Color);
-                                pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
-                                pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
-                                pDetalle.Add("@IdReclamoClienteDetalle", item.Id);
-                                pDetalle.Add("@IdArea", item.IdArea);
-                                pDetalle.Add("@IdResponsable", item.IdResponsable);
-                                pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
-                                pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
-
-                                await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
-                            }
-                        }
-
-                        /* NO VA 
-                        foreach (var detalle in reclamo.Where(x => x.Id == "undefined"))
+                        //INSERTA CUANDO ES NUEVO
+                        if (item.Id == "undefined")
                         {
                             var pDetalle = new DynamicParameters();
+                            pDetalle.Add("@Opcion", "I");
                             pDetalle.Add("@NroCaso", Ncaso);
-                            pDetalle.Add("@Cliente", detalle.Cliente);
-                            pDetalle.Add("@TipoRegistro", detalle.TipoRegistro);
-                            pDetalle.Add("@UnidadNegocio", detalle.UnidadNegocio);
-                            pDetalle.Add("@Responsable", detalle.Responsable);
-                            pDetalle.Add("@MotivoRegistro", detalle.MotivoRegistro);
-                            pDetalle.Add("@EstadoSolicitud", detalle.EstadoSolicitud);
-                            pDetalle.Add("@Observacion", detalle.Observacion);
-                            pDetalle.Add("@NombreArchivo", detalle.archivoAdjunto);
+                            pDetalle.Add("@Cliente", item.Cliente);
+                            pDetalle.Add("@TipoRegistro", item.TipoRegistro);
+                            pDetalle.Add("@UnidadNegocio", item.UnidadNegocio);
+                            pDetalle.Add("@Responsable", item.Responsable);
+                            pDetalle.Add("@MotivoRegistro", item.MotivoRegistro);
+                            pDetalle.Add("@EstadoSolicitud", item.EstadoSolicitud);
+                            pDetalle.Add("@Observacion", item.Observacion);
+                            pDetalle.Add("@NombreArchivo", item.archivoAdjunto);
+                            //NUEVOS CAMPOS
+                            pDetalle.Add("@Cod_Cliente_Tex", item.Cod_Cliente_Tex);
+                            pDetalle.Add("@Cod_Ordtra", item.Cod_Ordtra);
+                            pDetalle.Add("@Cod_Tela", item.Cod_Tela);
+                            pDetalle.Add("@Cod_Color", item.Cod_Color);
+                            pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
+                            pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
+                            pDetalle.Add("@IdReclamoClienteDetalle", 0);
+                            pDetalle.Add("@IdArea", item.IdArea);
+                            pDetalle.Add("@IdResponsable", item.IdResponsable);
+                            pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
+                            pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
 
-                            await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
+                            // Parámetros de salida
+                            pDetalle.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                            pDetalle.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                            //await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
+                            connection.Execute(
+                                "[dbo].[sp_UpdateReclamoDetalle]",
+                                pDetalle,
+                                commandType: CommandType.StoredProcedure
+                            );
+
+                            //Obtener los valores de salida
+                            codigo = pDetalle.Get<int>("@Codigo");
+                            mensaje = pDetalle.Get<string>("@sMsj");
+
+                            //return (codigo, mensaje);
                         }
-                        */
+                        //MODIFICA SI HAY ALGUN CAMBIO
+                        else
+                        {
+                            var pDetalle = new DynamicParameters();
+                            pDetalle.Add("@Opcion", "E");
+                            pDetalle.Add("@NroCaso", Ncaso);
+                            pDetalle.Add("@Cliente", item.Cliente);
+                            pDetalle.Add("@TipoRegistro", item.TipoRegistro);
+                            pDetalle.Add("@UnidadNegocio", item.UnidadNegocio);
+                            pDetalle.Add("@Responsable", item.Responsable);
+                            pDetalle.Add("@MotivoRegistro", item.MotivoRegistro);
+                            pDetalle.Add("@EstadoSolicitud", item.EstadoSolicitud);
+                            pDetalle.Add("@Observacion", item.Observacion);
+                            pDetalle.Add("@NombreArchivo", item.archivoAdjunto);
+                            //NUEVOS CAMPOS
+                            pDetalle.Add("@Cod_Cliente_Tex", item.Cod_Cliente_Tex);
+                            pDetalle.Add("@Cod_Ordtra", item.Cod_Ordtra);
+                            pDetalle.Add("@Cod_Tela", item.Cod_Tela);
+                            pDetalle.Add("@Cod_Color", item.Cod_Color);
+                            pDetalle.Add("@Id_Unidad_NegocioKey", item.Id_Unidad_NegocioKey);
+                            pDetalle.Add("@Cod_Motivo", item.Cod_Motivo);
+                            pDetalle.Add("@IdReclamoClienteDetalle", item.Id);
+                            pDetalle.Add("@IdArea", item.IdArea);
+                            pDetalle.Add("@IdResponsable", item.IdResponsable);
+                            pDetalle.Add("@Cod_TemCli", item.Cod_TemCli);
+                            pDetalle.Add("@Cod_EstCli", item.Cod_EstCli);
+
+                            // Parámetros de salida
+                            pDetalle.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                            pDetalle.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+                            //await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
+                            connection.Execute(
+                                "[dbo].[sp_UpdateReclamoDetalle]",
+                                pDetalle,
+                                commandType: CommandType.StoredProcedure
+                            );
+
+                            //Obtener los valores de salida
+                            codigo = pDetalle.Get<int>("@Codigo");
+                            mensaje = pDetalle.Get<string>("@sMsj");
+
+                            //return (codigo, mensaje);
+                        }
                     }
-   
+
+                    /* NO VA 
+                    foreach (var detalle in reclamo.Where(x => x.Id == "undefined"))
+                    {
+                        var pDetalle = new DynamicParameters();
+                        pDetalle.Add("@NroCaso", Ncaso);
+                        pDetalle.Add("@Cliente", detalle.Cliente);
+                        pDetalle.Add("@TipoRegistro", detalle.TipoRegistro);
+                        pDetalle.Add("@UnidadNegocio", detalle.UnidadNegocio);
+                        pDetalle.Add("@Responsable", detalle.Responsable);
+                        pDetalle.Add("@MotivoRegistro", detalle.MotivoRegistro);
+                        pDetalle.Add("@EstadoSolicitud", detalle.EstadoSolicitud);
+                        pDetalle.Add("@Observacion", detalle.Observacion);
+                        pDetalle.Add("@NombreArchivo", detalle.archivoAdjunto);
+
+                        await connection.ExecuteAsync("sp_UpdateReclamoDetalle", pDetalle, commandType: CommandType.StoredProcedure);
+                    }
+                    */
+
+
+                    return (codigo, mensaje);
                 }
-                return null;
 
             }
-            catch (SqlException sqlEx)
-            {
-                Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
-                throw;
-            }
+                //return null;
+
+
+            //}
+            //catch (SqlException sqlEx)
+            //{
+            //    Console.WriteLine($"Error de SQL Server: {sqlEx.Message}");
+            //    throw;
+            //}
         }
 
         public async Task<IEnumerable<FiltroReclamoDto>?> ObtenerReclamos(FiltroReclamoDto filtro)
@@ -856,6 +913,26 @@ namespace ic.backend.precotex.web.Data.Repositories.QuejasReclamos
                 var mensaje = parametros.Get<string>("@sMsj");
 
                 return (codigo, mensaje);
+            }
+        }
+
+        public async Task<IEnumerable<FiltroReclamoDto>?> ObtenerReclamosById(int Id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var parametros = new
+                {
+                    Id = Id
+                };
+
+                var result = await connection.QueryAsync<FiltroReclamoDto>(
+                     "[dbo].[usp_ObtenerReclamosClienteById]"
+                     , parametros
+                     , commandType: System.Data.CommandType.StoredProcedure
+                 );
+
+                return result;
             }
         }
     }

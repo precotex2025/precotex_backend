@@ -12,6 +12,9 @@ using ic.backend.precotex.web.Api.Parameters;
 using System;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
+using ic.backend.precotex.web.Service.Services.Implementacion.WallyChat;
+using Microsoft.Graph.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
 {
@@ -21,10 +24,14 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
     {
         private readonly IQuejasReclamosService _IClientes;
         private readonly IWebHostEnvironment _environment;
+        private readonly IWaliChatService _waliChatService;
+        private readonly IConfiguration _configuration;
 
-        public QuejasReclamosController(IQuejasReclamosService txtIClientes, IWebHostEnvironment environment)
+        public QuejasReclamosController(IQuejasReclamosService txtIClientes, IWaliChatService waliChatService, IConfiguration configuration, IWebHostEnvironment environment)
         {
             _IClientes = txtIClientes;
+            _waliChatService = waliChatService;
+            _configuration = configuration;
             _environment = environment;
         }
 
@@ -140,7 +147,8 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
                         IdResponsable = Convert.ToInt32(form[$"reclamos[{index}][idResponsable]"]),
                         //Campos Nuevos
                         Cod_TemCli = form[$"reclamos[{index}][Cod_TemCli]"],
-                        Cod_EstCli = form[$"reclamos[{index}][Cod_EstCli]"]
+                        Cod_EstCli = form[$"reclamos[{index}][Cod_EstCli]"],
+                        TipoQueja = form[$"reclamos[{index}][tipoQueja]"]
                     };
 
                     string rutaBase = @"D:\archivosReclamos"; //Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "archivosReclamos"); 
@@ -207,6 +215,43 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
                 var result = await _IClientes.GuardarReclamo(reclamos, isNew);
                 if (result.Success)
                 {
+                    //Aqui se envia mensaje a los involucrados por wathsapp.
+                    
+                    //1. Obtiene el id de la queja
+                    int idQueja = result.CodeTransacc;
+
+                    //2. Obtiene informacion de la queja
+                    var sInfo =  await this._IClientes.ObtenerReclamosById(idQueja);
+                    var detalle = sInfo?.Elements?.FirstOrDefault();
+
+                    //3. Genere el texto de notificación para WATHSAPP
+                    if (detalle != null)
+                    {
+                        var mensajeWhatsApp = GenerarNotificacionWhatsApp(
+                            detalle.NroCaso!,
+                            detalle.Tipo!,
+                            detalle.FechaRegistro ?? DateTime.Now,
+                            detalle.Cliente!,
+                            detalle.Responsable!,
+                            detalle.UsuarioRegistro!
+                        );
+
+                        //4. Enviar mensaje a WATHSAPP a cada teléfono configurado
+                        var telefonos = _configuration.GetSection("Notifica_QuejasReclamo:Telefonos").Get<string[]>() ?? Array.Empty<string>();
+
+                        foreach (var telefono in telefonos)
+                        {
+                            try
+                            {
+                                await _waliChatService.EnviarMensajePhoneAsync(telefono, mensajeWhatsApp);
+                            }
+                            catch (Exception exWsp)
+                            {
+                                Console.WriteLine($"Error al enviar WhatsApp a {telefono}: {exWsp.Message}");
+                            }
+                        }
+                    }
+
                     result.CodeResult = StatusCodes.Status200OK;
                     return Ok(result);
                 }
@@ -605,6 +650,29 @@ namespace ic.backend.precotex.web.Api.Controllers.QuejasReclamos
 
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
+        }
+
+        //METODOS PRIVADOS
+        private string GenerarNotificacionWhatsApp(
+            string nroCaso,
+            string tipo,
+            DateTime fecha,
+            string cliente,
+            string asignadoA,
+            string creadoPor)
+        {
+            // Usamos emojis para darle estilo y hacerlo más amigable
+            string mensaje =
+                "📢 *RECLAMO CLIENTE*\n\n" +
+                $"🆔 NRO CASO # {nroCaso}\n" +
+                $"📂 TIPO: {tipo}\n" +
+                $"📅 FECHA: {fecha:dd/MM/yyyy}\n" +
+                $"👨‍💼 CLIENTE: {cliente}\n" +
+                //$"👨‍💼 ASIGNADO A: {asignadoA}\n" +
+                $"✍️ CREADO POR: {creadoPor}\n\n" +
+                "🔔 Notificación automática: se ha generado un nuevo reclamo.";
+
+            return mensaje;
         }
 
 

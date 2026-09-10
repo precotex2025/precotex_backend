@@ -19,7 +19,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.QuejasReclamos
         Task<ServiceResponseList<UnidadNegocioDto>?> ObtenerUnidadNegocio();
         Task<ServiceResponseList<ResponsableDto>?> ObtenerResponsable();
         Task<ServiceResponseList<MotivoDto>?> ObtenerMotivo();
-        Task<ServiceResponseList<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
+        //Task<ServiceResponseList<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
+        Task<ServiceResponse<int>> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
         Task<ServiceResponseList<FiltroReclamoDto>?> ObtenerReclamos(FiltroReclamoDto filtro);
         Task<ServiceResponseList<ReclamoClienteDto>?> ObtenerDetReclamos(string nroCaso);
         Task<ServiceResponseList<bool>?> EliminarReclamos(string nroCaso);
@@ -45,5 +46,8 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.QuejasReclamos
         Task<ServiceResponseList<dtoGeneral>?> ObtieneTemporada(string sCodCliente);
         Task<ServiceResponseList<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada);
         Task<ServiceResponse<int>> ProcesoReenviaReclamo(int iId);
+
+        //Nuevo Metodo Obtener Reclamos By Id
+        Task<ServiceResponseList<FiltroReclamoDto>?> ObtenerReclamosById(int Id);
     }
 }
