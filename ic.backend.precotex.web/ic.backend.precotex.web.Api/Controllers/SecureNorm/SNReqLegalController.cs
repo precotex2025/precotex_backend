@@ -15,8 +15,10 @@ namespace Precotex.GestionSeguridad.Controllers
 
         public SNReqLegalController(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection") 
-                ?? "Server=localhost;Database=BD_PRECOTEX;Trusted_Connection=True;TrustServerCertificate=True;";
+            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")
+        ?? configuration.GetConnectionString("TextilConnectionSeguridad")
+        ?? configuration.GetConnectionString("TextilConnection")
+        ?? "Data Source=192.168.1.139;Initial Catalog=BDSecureNorm;User ID=pradmin;Password=7G}x:2Z*^H;";
         }
 
         /// <summary>

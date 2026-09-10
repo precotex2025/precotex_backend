@@ -256,6 +256,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Fel_Gr = parametros.Fel_Gr,
                 Id_Concentracion2 = parametros.Id_Concentracion2,
                 Id_Concentracion3 = parametros.Id_Concentracion3,
+                Id_Neutralizado = parametros.Id_Neutralizado,
+                Flg_Neutralizado = parametros.Flg_Neutralizado,
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -2174,7 +2176,34 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadosTipo")]
+        public async Task<IActionResult> getObtenerNeutralizadosTipo()
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadosTipo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadoCalculado")]
+        public async Task<IActionResult> getObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadoCalculado(Colorante_Total, Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

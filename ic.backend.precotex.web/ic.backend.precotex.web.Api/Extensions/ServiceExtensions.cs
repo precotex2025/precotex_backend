@@ -49,6 +49,8 @@ using ic.backend.precotex.web.Service.Services.Tejeduria;
 using ic.backend.precotex.web.Service.Services.Tintoreria;
 using ic.backend.precotex.web.Service.Services.WallyChat;
 using ic.backend.precotex.web.Service;
+using ic.backend.precotex.web.Service.Services.Calidad;
+using ic.backend.precotex.web.Service.Services.Implementacion.Calidad;
 
 namespace ic.backend.precotex.web.Api.Extensions
 {
@@ -105,10 +107,12 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<ISNNoConformidadService, SNNoConformidadService>();
             services.AddScoped<ISNObjetivoService, SNObjetivoService>();
             services.AddScoped<ISNRiesgoService, SNRiesgoService>();
-            services.AddScoped<ISNReqLegalService, SNReqLegalService>();
+            
             services.AddScoped<ISNManualService, SNManualService>();
             services.AddScoped<IAccesoUsuarioService, AccesoUsuarioService>();
+            services.AddScoped<ISNReqLegalService, SNReqLegalService>();
 
+            services.AddScoped<INoConformidadesService, NoConformidadesService>();
             return services;
         }
 

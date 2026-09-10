@@ -7,6 +7,10 @@ using ic.backend.precotex.web.Api.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+using ic.backend.precotex.web.Data.Repositories.SecureNorm;
+using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
+using ic.backend.precotex.web.Service.Services.SecureNorm;
 
 var builder = WebApplication.CreateBuilder(args);
 

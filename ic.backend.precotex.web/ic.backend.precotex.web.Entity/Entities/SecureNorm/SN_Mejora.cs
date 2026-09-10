@@ -12,6 +12,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public string? Responsable { get; set; }
         public DateTime? Fecha_Inicio { get; set; }
         public DateTime? Fecha_Fin_Estimada { get; set; }
+        public DateTime? Fecha_Fin { get; set; }
         public string? Estado { get; set; }
         public string? Sede { get; set; }
         public string? Herramienta { get; set; }

@@ -188,7 +188,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         #endregion
 
         Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
-
-
+        Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo();
+        Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia);
     }
 }
