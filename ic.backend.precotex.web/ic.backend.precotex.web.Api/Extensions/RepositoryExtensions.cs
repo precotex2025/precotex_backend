@@ -43,6 +43,8 @@ using ic.backend.precotex.web.Data.Repositories.SecureNorm;
 using ic.backend.precotex.web.Data.Repositories.SolicitudMantenimiento;
 using ic.backend.precotex.web.Data.Repositories.Tejeduria;
 using ic.backend.precotex.web.Data.Repositories.Tintoreria;
+using ic.backend.precotex.web.Data.Repositories.Calidad;
+using ic.backend.precotex.web.Data.Repositories.Implementation.Calidad;
 
 namespace ic.backend.precotex.web.Api.Extensions
 {
@@ -100,6 +102,7 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<IAccesoUsuarioRepository, AccesoUsuarioRepository>();
             services.AddScoped<ISNReqLegalRepository, SNReqLegalRepository>();
 
+            services.AddScoped<INoConformidadesRepository, NoConformidadesRepository>();
             return services;
         }
     }

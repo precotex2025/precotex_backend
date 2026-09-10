@@ -1,4 +1,4 @@
-using ic.backend.precotex.web.Api.Parameters;
+﻿using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +29,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Tipo = parametros.Tipo ?? "",
                 Norma = parametros.Norma ?? "",
                 Responsable = parametros.Responsable ?? "",
+                Sedes = parametros.Sedes ?? parametros.Sede ?? "",
                 Areas = parametros.Areas ?? "",
                 Fecha_Inicio = parametros.Fecha_Inicio,
                 Fecha_Fin = parametros.Fecha_Fin,
@@ -83,14 +84,35 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
         [Route("postProcesoMntoEjecucion")]
         public async Task<IActionResult> postProcesoMntoEjecucion([FromBody] SNAuditoriaEjecucionParameter parametros)
         {
+            int idParsed = 0;
+            if (parametros.Id_Ejecucion.HasValue && parametros.Id_Ejecucion.Value > 0)
+            {
+                idParsed = parametros.Id_Ejecucion.Value;
+            }
+            else if (!string.IsNullOrEmpty(parametros.Id) && int.TryParse(parametros.Id, out int pId))
+            {
+                idParsed = pId;
+            }
+
+            string codEjec = parametros.Codigo_Ejecucion ?? parametros.Codigo ?? (parametros.Id != null && parametros.Id.StartsWith("EJEC-") ? parametros.Id : "");
+
+            DateTime? fechaParsed = parametros.Fecha_Ejecucion;
+            if (!fechaParsed.HasValue && !string.IsNullOrEmpty(parametros.Fecha))
+            {
+                if (DateTime.TryParse(parametros.Fecha, out DateTime dt))
+                {
+                    fechaParsed = dt;
+                }
+            }
+
             SN_Auditoria_Ejecucion ejecucion = new SN_Auditoria_Ejecucion
             {
-                Id_Ejecucion = parametros.Id_Ejecucion ?? 0,
-                Codigo_Ejecucion = parametros.Codigo_Ejecucion ?? "",
+                Id_Ejecucion = idParsed,
+                Codigo_Ejecucion = codEjec,
                 Codigo_Auditoria = parametros.Codigo_Auditoria ?? parametros.Auditoria ?? "",
-                Fecha_Ejecucion = parametros.Fecha_Ejecucion,
+                Fecha_Ejecucion = fechaParsed,
                 Auditados = parametros.Auditados ?? "",
-                Tipo_Hallazgo = parametros.Tipo_Hallazgo ?? parametros.Tipo ?? "Observación",
+                Tipo_Hallazgo = parametros.Tipo_Hallazgo ?? parametros.Tipo ?? "ObservaciÃ³n",
                 Descripcion_Hallazgo = parametros.Descripcion_Hallazgo ?? parametros.Descripcion ?? "",
                 Codigo_NC = parametros.Codigo_NC ?? parametros.Nc ?? "",
                 Responsable_Auditor = parametros.Responsable_Auditor ?? parametros.Responsable ?? "",

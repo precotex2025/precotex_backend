@@ -9,7 +9,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ic.backend.precotex.web.Entity.Entities.Memorandum;
 
 namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 {
@@ -22,7 +21,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
             _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
         }
 
-        public async  Task<IEnumerable<SN_Norma>?> Listado(string sEstado)
+        public async Task<IEnumerable<SN_Norma>?> Listado(string sEstado)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -63,25 +62,46 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@Flg_Activo", sN_Norma.Flg_Activo);
                 parametros.Add("@Cod_Usuario", sN_Norma.Cod_Usuario);
 
-                // Parámetros de salida
+                // ParÃ¡metros de salida
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 parametros.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
                 // Ejecutar el procedimiento almacenado
                 try
                 {
-                    connection.Execute(
+                    await connection.ExecuteAsync(
                         "[dbo].[SN_Norma_Mnto_Proceso]",
                         parametros,
                         commandType: CommandType.StoredProcedure
                     );
                 }
-                catch (Exception ex) { }
+                catch (Exception ex) 
+                {
+                    return (0, "Error en BD: " + ex.Message);
+                }
 
-                //Obtener los valores de salida
-                var objCodigo = parametros.Get<dynamic>("@Codigo");
-                int codigo = (objCodigo != null && objCodigo != DBNull.Value) ? Convert.ToInt32(objCodigo) : 0;
-                var mensaje = parametros.Get<string>("@sMsj");
+                // Obtener los valores de salida de forma segura evitando RuntimeBinderException
+                int codigo = 0;
+                try
+                {
+                    var objCodigo = parametros.Get<object>("@Codigo");
+                    if (objCodigo != null && !Convert.IsDBNull(objCodigo))
+                    {
+                        codigo = Convert.ToInt32(objCodigo);
+                    }
+                }
+                catch { }
+
+                string mensaje = "";
+                try
+                {
+                    var objMsj = parametros.Get<object>("@sMsj");
+                    if (objMsj != null && !Convert.IsDBNull(objMsj))
+                    {
+                        mensaje = Convert.ToString(objMsj) ?? "";
+                    }
+                }
+                catch { }
 
                 return (codigo, mensaje);
             }

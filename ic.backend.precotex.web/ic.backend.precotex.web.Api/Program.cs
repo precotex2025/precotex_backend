@@ -11,8 +11,6 @@ using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Data.Repositories.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using ic.backend.precotex.web.Service.Services.SecureNorm;
-using ic.backend.precotex.web.Data.Repositories.Calidad;
-using ic.backend.precotex.web.Service.Services.Calidad;
 
 var builder = WebApplication.CreateBuilder(args);
 
