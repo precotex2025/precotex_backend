@@ -1,27 +1,18 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
 using ic.backend.precotex.web.Data.Repositories.Implementation.Calidad;
 using ic.backend.precotex.web.Entity.Entities.Calidad;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using ic.backend.precotex.web.Entity.Entities;
 
 namespace ic.backend.precotex.web.Data.Repositories.Calidad
 {
     public class NoConformidadesRepository : INoConformidadesRepository
     {
         private readonly string _cn;
-        private readonly ILogger<NoConformidadesRepository> _logger;
 
-        public NoConformidadesRepository(IConfiguration config, ILogger<NoConformidadesRepository> logger)
+        public NoConformidadesRepository(IConfiguration config)
         {
-            _logger = logger;
-            _cn = config.GetConnectionString("TextilConnection")
-               ?? config.GetConnectionString("DefaultConnection")
-               ?? "";
+            _cn = config.GetConnectionString("TextilConnection")!;
         }
 
         public async Task<List<Dictionary<string, object>>> ListarDatosInformeCalidad(string tipo, string cod = "")
@@ -302,7 +293,6 @@ namespace ic.backend.precotex.web.Data.Repositories.Calidad
                     catch (Exception ex)
                     {
                         try { tran.Rollback(); } catch { }
-                        _logger.LogError(ex, "Error en GuardarTransaccionCompleta");
                         throw;
                     }
                 }
