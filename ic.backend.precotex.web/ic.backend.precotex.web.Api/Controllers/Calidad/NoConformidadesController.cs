@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using ic.backend.precotex.web.Entity.Entities.Calidad;
 using ic.backend.precotex.web.Service.Services.Implementacion.Calidad;
 using Microsoft.AspNetCore.Mvc;

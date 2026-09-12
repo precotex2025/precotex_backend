@@ -1,10 +1,7 @@
 ﻿using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
 {
@@ -112,7 +109,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Codigo_Auditoria = parametros.Codigo_Auditoria ?? parametros.Auditoria ?? "",
                 Fecha_Ejecucion = fechaParsed,
                 Auditados = parametros.Auditados ?? "",
-                Tipo_Hallazgo = parametros.Tipo_Hallazgo ?? parametros.Tipo ?? "ObservaciÃ³n",
+                Tipo_Hallazgo = parametros.Tipo_Hallazgo ?? parametros.Tipo ?? "Observacion",
                 Descripcion_Hallazgo = parametros.Descripcion_Hallazgo ?? parametros.Descripcion ?? "",
                 Codigo_NC = parametros.Codigo_NC ?? parametros.Nc ?? "",
                 Responsable_Auditor = parametros.Responsable_Auditor ?? parametros.Responsable ?? "",
