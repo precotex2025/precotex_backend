@@ -106,13 +106,12 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<ISNAuditoriaService, SNAuditoriaService>();
             services.AddScoped<ISNNoConformidadService, SNNoConformidadService>();
             services.AddScoped<ISNObjetivoService, SNObjetivoService>();
-            services.AddScoped<ISNRiesgoService, SNRiesgoService>();
-            
+            services.AddScoped<ISNRiesgoService, SNRiesgoService>();            
             services.AddScoped<ISNManualService, SNManualService>();
             services.AddScoped<IAccesoUsuarioService, AccesoUsuarioService>();
             services.AddScoped<ISNReqLegalService, SNReqLegalService>();
-
             services.AddScoped<INoConformidadesService, NoConformidadesService>();
+
             return services;
         }
 
