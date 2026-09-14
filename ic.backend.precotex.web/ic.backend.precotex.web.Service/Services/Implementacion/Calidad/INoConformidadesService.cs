@@ -11,8 +11,10 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Calidad
         Task<List<Dictionary<string, object>>> MostrarPartida(string partida, string tipo = "");
         Task<List<Dictionary<string, object>>> MostrarDetalle(string numInforme = "", string partida = "");
         Task<List<Dictionary<string, object>>> MostrarDetalleMotivo(string numInforme, string partida = "");
+        Task<List<Dictionary<string, object>>> MostrarHistorial(string numInforme, string partida = "");
         Task<ResponseResultado> GuardarInforme(InformeGuardarRequest req);
         Task<List<Dictionary<string, object>>> ReporteNoConformidad(string fIni = "", string fFin = "");
         Task<List<Dictionary<string, object>>> MostrarEvolutivo();
+        Task<ResponseResultado> AnularInforme(InformeAnularRequest req);
     }
 }

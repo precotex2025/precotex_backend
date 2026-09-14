@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace ic.backend.precotex.web.Entity.Entities.Calidad
 {
@@ -29,6 +29,10 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public decimal? Kg_Total { get; set; }
         public string Observacion { get; set; } = "";
         public string Cod_Usuario { get; set; } = "";
+        public string Nom_Usuario { get; set; } = "";
+        public string Motivo_Edicion { get; set; } = "";
+        public string Detalle_Cambios { get; set; } = "";
+        public string Motivo_Anula { get; set; } = "";
         public List<ArticuloGuardarDto> Articulos { get; set; } = new();
     }
 
@@ -37,6 +41,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public string Accion { get; set; } = "U";
         public string Item { get; set; } = "1";
         public string Cod_Tela { get; set; } = "";
+        public string Nom_Tela { get; set; } = "";
         public string Comb { get; set; } = "";
         public string Cod_Color { get; set; } = "";
         public string Talla { get; set; } = "";
@@ -51,8 +56,25 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public string Accion { get; set; } = "I";
         public string Item { get; set; } = "1";
         public string Cod_Area { get; set; } = "";
+        public string Nom_Area { get; set; } = "";
         public string Cod_Motivo { get; set; } = "";
+        public string Des_Motivo { get; set; } = "";
         public string Observacion { get; set; } = "";
+        public List<string> FotosBase64 { get; set; } = new();
+        public List<string> NombresFotos { get; set; } = new();
+    }
+
+    public class InformeAnularRequest
+    {
+        public string Num_Informe { get; set; } = "";
+        public string Cod_OrdTra { get; set; } = "";
+        public string Cod_Usuario { get; set; } = "";
+        public string Nom_Usuario { get; set; } = "";
+        public string Nom_Cli { get; set; } = "";
+        public string Color { get; set; } = "";
+        public string Peso { get; set; } = "";
+        public string Detalle_Articulo { get; set; } = "";
+        public string Motivo_Anula { get; set; } = "";
     }
 
     public class ResponseResultado
@@ -60,5 +82,6 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public bool Success { get; set; }
         public string Message { get; set; } = "";
         public string Num_Informe { get; set; } = "";
+        public List<string> ArchivosGuardados { get; set; } = new();
     }
 }
