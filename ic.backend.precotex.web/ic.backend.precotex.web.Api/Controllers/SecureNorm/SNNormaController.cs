@@ -1,4 +1,4 @@
-using ic.backend.precotex.web.Api.Parameters;
+﻿using ic.backend.precotex.web.Api.Parameters;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
@@ -43,9 +43,8 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 result.CodeResult = result.CodeTransacc == 1 ? StatusCodes.Status200OK : StatusCodes.Status201Created;
                 return Ok(result);
             }
-
             result.CodeResult = StatusCodes.Status400BadRequest;
-            return BadRequest(result);
+            return BadRequest(result); // ← AQUÍ SE GENERA EL HTTP 400
         }
 
         [HttpGet]

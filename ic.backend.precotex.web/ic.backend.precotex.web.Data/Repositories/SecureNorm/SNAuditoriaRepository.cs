@@ -51,6 +51,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Tipo", sN_Auditoria.Tipo);
                 parametros.Add("@p_Norma", sN_Auditoria.Norma);
                 parametros.Add("@p_Responsable", sN_Auditoria.Responsable);
+                parametros.Add("@p_Sedes", sN_Auditoria.Sedes);
                 parametros.Add("@p_Areas", sN_Auditoria.Areas);
                 parametros.Add("@p_Fecha_Inicio", sN_Auditoria.Fecha_Inicio);
                 parametros.Add("@p_Fecha_Fin", sN_Auditoria.Fecha_Fin);

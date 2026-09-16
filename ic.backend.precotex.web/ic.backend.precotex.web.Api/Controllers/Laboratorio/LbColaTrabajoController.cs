@@ -15,18 +15,24 @@ using PdfiumViewer;
 using System.Diagnostics;
 using ZXing;
 using ic.backend.precotex.web.Service.Services.Laboratorio;
+using ic.backend.precotex.web.Api.Security;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Graph.Models.TermStore;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class LbColaTrabajoController : ControllerBase
     {
         public readonly ILbColaTrabajoService _LbColaTrabajoService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public LbColaTrabajoController(ILbColaTrabajoService LbColaTrabajoService)
+        public LbColaTrabajoController(ILbColaTrabajoService LbColaTrabajoService, IJwtTokenService jwtTokenService)
         {
             _LbColaTrabajoService = LbColaTrabajoService;
+            _jwtTokenService = jwtTokenService;
         }
 
         /*
@@ -245,7 +251,13 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Fij_Can = parametros.Fij_Can,
                 //Nuevo Campos
                 Id_Concentracion = parametros.Id_Concentracion,
-                Fij_Tip_Id = parametros.Fij_Tip_Id
+                Fij_Tip_Id = parametros.Fij_Tip_Id,
+                Aci_Ace = parametros.Aci_Ace,
+                Fel_Gr = parametros.Fel_Gr,
+                Id_Concentracion2 = parametros.Id_Concentracion2,
+                Id_Concentracion3 = parametros.Id_Concentracion3,
+                Id_Neutralizado = parametros.Id_Neutralizado,
+                Flg_Neutralizado = parametros.Flg_Neutralizado,
             };
 
             var result = await _LbColaTrabajoService.AgregarOpcionColorante(_lb_AgrOpc_Colorantes);
@@ -403,9 +415,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarFijadosCalculado")]
-        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<IActionResult> getListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Num_SDC, int Num_Sec, string TipoReceta)
         {
-            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
+            var result = await _LbColaTrabajoService.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color, Num_SDC, Num_Sec, TipoReceta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -602,7 +614,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Cambio = parametros.Cambio,
                 ProcedenciaHardCodeada = parametros.ProcedenciaHardCodeada,
                 Cur_Ten = parametros.Cur_Ten,
-                Tip_Ten = parametros.Tip_Ten
+                Tip_Ten = parametros.Tip_Ten,
+                Cod_Usuario_Correlativo = parametros.Cod_Usuario_Correlativo
             };
 
             var result = await _LbColaTrabajoService.AgregarAuxiliaresHojaFormulacion(_lbAgrOpcColorante);
@@ -714,12 +727,19 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        //[AllowAnonymous]
         [Route("getGetUsuarioWeb")]
         public async Task<IActionResult> getGetUsuarioWeb(string Cod_Usuario)
         {
             var result = await _LbColaTrabajoService.GetUsuarioWeb(Cod_Usuario);
             if (result!.Success)
             {
+                var usuario = result.Elements?.FirstOrDefault();
+                if (usuario != null)
+                {
+                    usuario.Token = _jwtTokenService.GenerateToken(Cod_Usuario, null);
+                }
+
                 result.CodeResult = StatusCodes.Status200OK;
                 return Ok(result);
             }
@@ -1898,9 +1918,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getListarCurvasV2")]
-        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<IActionResult> getListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta);
+            var result = await _LbColaTrabajoService.ListarCurvasV2(Pro_Cod, Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -1933,6 +1953,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpGet]
+        //[AllowAnonymous]
         [Route("getObtenerPermisoUsuario")]
         public async Task<IActionResult> getObtenerPermisoUsuario(string Usr_Cod, string Acc_Rut)
         {
@@ -2040,9 +2061,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 
         [HttpGet]
         [Route("getObtenerProcesosColorantesComponenteCotizacion")]
-        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<IActionResult> getObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
-            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+            var result = await _LbColaTrabajoService.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta, Sec, Tip_Receta);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2140,9 +2161,49 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 entityTag: new EntityTagHeaderValue(imagen.ETag));
         }
 
+        [HttpGet]
+        [Route("getObtenerCotizacionColorantes")]
+        public async Task<IActionResult> getObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            var result = await _LbColaTrabajoService.ObtenerCotizacionColorantes(Corr_Carta, Sec, Tip_Receta);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadosTipo")]
+        public async Task<IActionResult> getObtenerNeutralizadosTipo()
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadosTipo();
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
+        [HttpGet]
+        [Route("getObtenerNeutralizadoCalculado")]
+        public async Task<IActionResult> getObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = await _LbColaTrabajoService.ObtenerNeutralizadoCalculado(Colorante_Total, Familia);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
     }
 }

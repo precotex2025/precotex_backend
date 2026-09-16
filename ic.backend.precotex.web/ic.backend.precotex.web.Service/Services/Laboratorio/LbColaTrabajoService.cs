@@ -503,12 +503,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<ServiceResponseList<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta)
         {
             var result = new ServiceResponseList<Lb_Fijados>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color);
+                var resultData = await _lbColaTrabajoRepository.ListarFijadosCalculado(Colorante_Total, Familia, Tipo, Cod_Color, Corr_Carta, Sec, TipoReceta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2203,12 +2203,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<ServiceResponseList<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
             var result = new ServiceResponseList<Lb_Curvas>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ListarCurvasV2(Pro_Cod, Corr_Carta);
+                var resultData = await _lbColaTrabajoRepository.ListarCurvasV2(Pro_Cod, Corr_Carta, Sec, Tip_Receta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2469,12 +2469,12 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
             var result = new ServiceResponseList<Lb_Colorantes_Componentes_Cotizacion>();
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta);
+                var resultData = await _lbColaTrabajoRepository.ObtenerProcesosColorantesComponenteCotizacion(Corr_Carta, Sec, Tip_Receta);
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
@@ -2628,6 +2628,90 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
                 return result;
             }
         }
+
+
+        public async Task<ServiceResponse<CotizacionColorantesDetalleEntity>> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            var result = new ServiceResponse<CotizacionColorantesDetalleEntity>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerCotizacionColorantes(Corr_Carta, Sec, Tip_Receta);
+
+                if (resultData == null)
+                {
+                    result.Success = false;
+                    result.Message = "No existe información";
+                    result.Element = new CotizacionColorantesDetalleEntity();
+                    result.CodeTransacc = 0;
+                    return result;
+                }
+
+                result.Success = true;
+                result.Message = "Operacion exitosa.";
+                result.Element = resultData;
+                result.CodeTransacc = 1;
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Excepción no controlada " + ex.Message;           
+                return result;
+            }
+
+        }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo()
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Neutralizado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerNeutralizadosTipo();
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+        public async Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            var result = new ServiceResponseList<Lb_Jabonados_Neutralizado>();
+            try
+            {
+                var resultData = await _lbColaTrabajoRepository.ObtenerNeutralizadoCalculado(Colorante_Total, Familia);
+                if (resultData == null || !resultData.Any())
+                {
+                    result.Success = true;
+                    result.Message = "No existe información";
+                }
+                result.Success = true;
+                result.Message = "Completado con éxito";
+                result.Elements = resultData.ToList();
+                result.TotalElements = resultData.ToList().Count();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Excepción no controlada " + ex.Message;
+                return result;
+            }
+        }
+
+
+
 
     }
 }

@@ -38,9 +38,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Tintoreria
 
         [HttpGet]
         [Route("getObtieneMuestraControlProceso")]
-        public async Task<IActionResult> getObtieneMuestraControlProceso(string? Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin)
+        public async Task<IActionResult> getObtieneMuestraControlProceso(string? Cod_Ordtra, DateTime? Fecha_Ini, DateTime? Fecha_Fin, string Numero_Referencia)
         {
-            var result = await _ITiProcesosTintoreriaService.ListaControlProcesosTintoreria(Cod_Ordtra, Fecha_Ini, Fecha_Fin);
+            var result = await _ITiProcesosTintoreriaService.ListaControlProcesosTintoreria(Cod_Ordtra, Fecha_Ini, Fecha_Fin, Numero_Referencia);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace ic.backend.precotex.web.Api.Parameters
 {
@@ -6,7 +6,9 @@ namespace ic.backend.precotex.web.Api.Parameters
     {
         public string? Accion { get; set; }
         public int? Id_Ejecucion { get; set; }
+        public string? Id { get; set; }
         public string? Codigo_Ejecucion { get; set; }
+        public string? Codigo { get; set; }
         public string? Codigo_Auditoria { get; set; }
         public string? Auditoria { get; set; }
         public DateTime? Fecha_Ejecucion { get; set; }

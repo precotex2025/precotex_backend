@@ -59,19 +59,21 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
             try
             {
                 var resultData = await _sNNormaRepository.ProcesoMnto(sN_Norma, sTipoTransac);
-                if (resultData.Codigo > 0)
+                bool esExito = resultData.Codigo > 0 || sTipoTransac == "D" || sTipoTransac == "U";
+                if (esExito)
                 {
-                    result.Message = resultData.Mensaje;
+                    result.Message = !string.IsNullOrWhiteSpace(resultData.Mensaje)
+                        ? resultData.Mensaje
+                        : "Operación realizada con éxito.";
                     result.Success = true;
-                    result.CodeTransacc = resultData.Codigo;
-
+                    result.CodeTransacc = resultData.Codigo > 0 ? resultData.Codigo : 1;
                     return result;
                 }
-
-                result.Message = resultData.Mensaje;
+                result.Message = !string.IsNullOrWhiteSpace(resultData.Mensaje)
+                    ? resultData.Mensaje
+                    : "No se pudo completar el proceso.";
                 result.Success = false;
                 return result;
-
             }
             catch (SqlException sql)
             {
@@ -81,7 +83,7 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio una excepción" + ex.Message;
+                result.Message = "Ocurrió una excepción: " + ex.Message;
                 result.Success = false;
                 return result;
             }

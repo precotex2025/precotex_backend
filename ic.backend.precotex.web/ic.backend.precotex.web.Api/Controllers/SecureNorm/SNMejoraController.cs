@@ -33,6 +33,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Responsable = parametros.Responsable,
                 Fecha_Inicio = parametros.Fecha_Inicio,
                 Fecha_Fin_Estimada = parametros.Fecha_Fin_Estimada,
+                Fecha_Fin = parametros.Fecha_Fin,
                 Estado = parametros.Estado,
                 Sede = parametros.Sede,
                 Herramienta = parametros.Herramienta,

@@ -59,5 +59,8 @@ namespace ic.backend.precotex.web.Entity.Entities.QuejasReclamos
         public string? Cod_EstCli { get; set; }
         public string? Temporada { get; set; }
         public string? Estilo { get; set; }
+
+        //Nuevos Campos
+        public string? TipoQueja { get; set; }
     }
 }

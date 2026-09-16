@@ -12,5 +12,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.WallyChat
         Task<string> EnviarMensajeImageAsync(string groupId, string message, string imageUrl, bool viewOnce);
         Task<string> EnviarMensajeImagePhoneAsync(string phoneNumber, string message, string imageUrl);
         Task<string> EnviarMensajePhoneAsync(string phoneNumber, string message);
+        Task<string?> SubirArchivoAsync(byte[] fileBytes, string fileName, string contentType = "image/jpeg");
+        Task<string> EnviarMensajeMediaFileAsync(string groupId, string message, string fileId);
     }
 }

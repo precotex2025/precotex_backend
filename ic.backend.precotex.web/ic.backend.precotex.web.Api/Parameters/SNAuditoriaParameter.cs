@@ -9,6 +9,8 @@ namespace ic.backend.precotex.web.Api.Parameters
         public string? Tipo { get; set; }
         public string? Norma { get; set; }
         public string? Responsable { get; set; }
+        public string? Sedes { get; set; }
+        public string? Sede { get; set; }
         public string? Areas { get; set; }
         public DateTime? Fecha_Inicio { get; set; }
         public DateTime? Fecha_Fin { get; set; }

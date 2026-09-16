@@ -19,7 +19,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamo
         Task<IEnumerable<UnidadNegocioDto>?> ObtenerUnidadNegocio();
         Task<IEnumerable<ResponsableDto>?> ObtenerResponsable();
         Task<IEnumerable<MotivoDto>?> ObtenerMotivo();
-        Task<IEnumerable<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
+
+
+        //Task<IEnumerable<ReclamoClienteDto>?> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
+        Task<(int Codigo, string Mensaje)> GuardarReclamo(List<ReclamoClienteDto> reclamo, bool isNew);
+
+
         Task<IEnumerable<FiltroReclamoDto>?> ObtenerReclamos(FiltroReclamoDto filtro);
         Task<IEnumerable<ReclamoClienteDto>?> ObtenerDetReclamos(string nroCaso);
         Task<IEnumerable<bool>?> EliminarReclamos(string nroCaso);
@@ -45,5 +50,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.QuejasReclamo
         Task<IEnumerable<dtoGeneral>?> ObtieneTemporada(string sCodCliente);
         Task<IEnumerable<dtoGeneral>?> ObtieneEstilo(string sCodCliente, string sTemporada);
         Task<(int Codigo, string Mensaje)> ProcesoReenviaReclamo(int iId);
+
+        //Nuevo Metodo Obtener Reclamos By Id
+        Task<IEnumerable<FiltroReclamoDto>?> ObtenerReclamosById(int Id);
     }
 }

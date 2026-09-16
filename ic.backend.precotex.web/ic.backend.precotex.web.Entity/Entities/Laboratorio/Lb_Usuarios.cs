@@ -18,6 +18,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public string? Acc_Cod { get; set; }
         public string? Acc_Rut { get; set; }
         public string? Permitido { get; set; }
+        public string? Token { get; set; }
 
 
     }

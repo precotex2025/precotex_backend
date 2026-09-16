@@ -9,6 +9,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public string? Tipo { get; set; }
         public string? Norma { get; set; }
         public string? Responsable { get; set; }
+        public string? Sedes { get; set; }
         public string? Areas { get; set; }
         public DateTime? Fecha_Inicio { get; set; }
         public DateTime? Fecha_Fin { get; set; }
@@ -18,5 +19,7 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public string? Usuario_Registro { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public bool? flg_Activo { get; set; }
+        public string? Codigo_Proceso { get; set; }
+        public string? Codigo_Norma { get; set; }
     }
 }

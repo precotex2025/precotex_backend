@@ -15,6 +15,7 @@ using Microsoft.Graph.Models.TermStore;
 using System.ComponentModel;
 using Microsoft.Kiota.Http.HttpClientLibrary.Middleware;
 using Microsoft.Graph.Models;
+using System.Data.Common;
 
 namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 {
@@ -361,7 +362,12 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Id_Concentracion", lb_AgrOpc_Colorantes.Id_Concentracion);
                 parametros.Add("@Fij_Tip_Id", lb_AgrOpc_Colorantes.Fij_Tip_Id);
 
-
+                parametros.Add("@Aci_Ace", lb_AgrOpc_Colorantes.Aci_Ace);
+                parametros.Add("@Fel_Gr", lb_AgrOpc_Colorantes.Fel_Gr);
+                parametros.Add("@Id_Concentracion2", lb_AgrOpc_Colorantes.Id_Concentracion2);
+                parametros.Add("@Id_Concentracion3", lb_AgrOpc_Colorantes.Id_Concentracion3);
+                parametros.Add("@Id_Neutralizado", lb_AgrOpc_Colorantes.Id_Neutralizado);
+                parametros.Add("@Flg_Neutralizado", lb_AgrOpc_Colorantes.Flg_Neutralizado);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -372,7 +378,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0001_V2_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -458,7 +464,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
             using var multi = await connection.QueryMultipleAsync(
                 //"[dbo].[PA_Lb_Colorantes_WB_S0001]"
-                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0001_V2_JCF]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -645,7 +651,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color)
+        public async Task<IEnumerable<Lb_Fijados>?> ListarFijadosCalculado(decimal Colorante_Total, string Familia, string Tipo, string Cod_Color, string Corr_Carta, int Sec, string TipoReceta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -656,6 +662,9 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parameters.Add("@Familia", Familia);
                 parameters.Add("@Tipo", Tipo);
                 parameters.Add("@Cod_Color", Cod_Color);
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@TipoReceta", TipoReceta);
 
                 var result = await connection.QueryAsync<Lb_Fijados>(
                     "[dbo].[PA_Lb_Fijados_Detalle_S0001]"
@@ -946,6 +955,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Tip_Ten", _lbAgrOpcColorante.Tip_Ten);
                 parametros.Add("@Codigo", 0);
                 parametros.Add("@sMsj", "");
+                parametros.Add("@Usr_Cod", _lbAgrOpcColorante.Cod_Usuario_Correlativo);
 
                 //PARAMETROS SALIDA
                 parametros.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -956,7 +966,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     connection.Execute(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0003]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -1021,7 +1031,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Usr_Cod", Usr_Cod);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0006_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -1040,7 +1050,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@Usr_Cod", Usr_Cod);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0007_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -1074,7 +1084,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parametros.Add("@Tip_Ten", Tip_Ten);
 
             using var multi = await connection.QueryMultipleAsync(
-                "[dbo].[PA_Lb_Colorantes_WB_S0002]"
+                "[dbo].[PA_Lb_Colorantes_WB_S0002_JCF]"
                 , parametros
                 , commandType: CommandType.StoredProcedure
             );
@@ -2767,7 +2777,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 parametros.Add("@FechaFin", FecFin);
 
                 var result = await connection.QueryAsync<Lb_ColTra_Det>(
-                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_hm]"
+                    "[dbo].[PA_Lb_ColaTrabajoLabDetalle_WB_S0009_JCF]"
                     , parametros
                     , commandType: CommandType.StoredProcedure
                 );
@@ -2938,7 +2948,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta)
+        public async Task<IEnumerable<Lb_Curvas>?> ListarCurvasV2(string Pro_Cod, string Corr_Carta, int Sec, string Tip_Receta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -2948,6 +2958,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 parametros.Add("@Pro_Cod", Pro_Cod);
                 parametros.Add("@Corr_Carta", Corr_Carta);
+                parametros.Add("@Sec", Sec);
+                parametros.Add("@Tip_Receta", Tip_Receta);
 
                 var result = await connection.QueryAsync<Lb_Curvas>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Extra_Curvas_Tenido_S0002]"
@@ -3156,7 +3168,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta)
+        public async Task<IEnumerable<Lb_Colorantes_Componentes_Cotizacion>?> ObtenerProcesosColorantesComponenteCotizacion(string Corr_Carta, int Sec, string Tip_Receta)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -3164,6 +3176,8 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Tip_Receta", Tip_Receta);
 
                 var result = await connection.QueryAsync<Lb_Colorantes_Componentes_Cotizacion>(
                     "[dbo].[PA_Lb_Proceso_Colorantes_Componentes_Cotizacion]"
@@ -3309,5 +3323,77 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             [".bmp"] = "image/bmp",
             [".webp"] = "image/webp"
         };
+
+
+        public async Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Corr_Carta", Corr_Carta);
+                parameters.Add("@Sec", Sec);
+                parameters.Add("@Correlativo", 0);
+                parameters.Add("@Tip_Ten", "");
+                parameters.Add("@Tip_Receta", Tip_Receta);
+
+                using var multi = await connection.QueryMultipleAsync(
+                    "[dbo].[PA_Lb_Colorantes_WB_Cotizacion]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+
+
+                var resultado = new CotizacionColorantesDetalleEntity
+                {
+                    Colorante = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Descarga = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Fijado = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado1 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList(),
+                    Jabonado2 = (await multi.ReadAsync<CotizacionColoranteItemEntity>()).ToList()
+                };
+
+                return resultado;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parametros = new DynamicParameters();
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Neutralizado>(
+                    "[dbo].[Sp_Lb_Jabonados_Neutralizado_ListaCombo]"
+                    , parametros
+                    , commandType: CommandType.StoredProcedure
+                    );
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var parameters = new DynamicParameters();
+                parameters.Add("@Colorante_Total", Colorante_Total);
+                parameters.Add("@Familia", Familia);
+
+                var result = await connection.QueryAsync<Lb_Jabonados_Neutralizado>(
+                    "[dbo].[PA_Lb_Jabonados_Neutralizado_Recalculo]"
+                    , parameters
+                    , commandType: CommandType.StoredProcedure
+                );
+                return result;
+            }
+        }
+
+
     }
 }
