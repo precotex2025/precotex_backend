@@ -3394,6 +3394,40 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
+        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicada(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@Corr_Carta", Corr_Carta);
+            parameters.Add("@Sec", Sec);
+            parameters.Add("@Correlativo", Correlativo);
+            parameters.Add("@Tip_Receta", Tip_Receta);
+            parameters.Add("@Usr_Cod", Usr_Cod);
+
+            parameters.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+            try
+            {
+                await connection.ExecuteAsync(
+                    "dbo.PA_Lb_Colorantes_WB_Unido_I0001",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return (
+                    parameters.Get<int>("@Codigo"),
+                    parameters.Get<string>("@sMsj") ?? string.Empty
+                );
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+
+        }
+
 
     }
 }

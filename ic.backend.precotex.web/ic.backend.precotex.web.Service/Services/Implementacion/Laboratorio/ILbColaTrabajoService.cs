@@ -192,5 +192,7 @@ namespace ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio
         Task<ServiceResponse<CotizacionColorantesDetalleEntity>> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
         Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo();
         Task<ServiceResponseList<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia);
+        Task<ServiceResponse<int>> ValidarCorridaDuplicada(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod);
+
     }
 }
