@@ -1,4 +1,4 @@
-using ic.backend.precotex.web.Entity.Entities.SecureNorm;
+﻿using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

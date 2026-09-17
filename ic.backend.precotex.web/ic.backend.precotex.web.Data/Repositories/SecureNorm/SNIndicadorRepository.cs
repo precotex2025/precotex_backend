@@ -49,10 +49,25 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Accion", sTipoTransac);
                 parametros.Add("@p_Codigo", sN_Indicador.Codigo);
                 parametros.Add("@p_Nombre", sN_Indicador.Nombre);
-                parametros.Add("@p_Codigo_Proceso", sN_Indicador.Codigo_Proceso);
-                parametros.Add("@p_Unidad_Medida", sN_Indicador.Unidad_Medida);
-                parametros.Add("@p_Meta", sN_Indicador.Meta);
+                parametros.Add("@p_Tipo", sN_Indicador.Tipo);
+                parametros.Add("@p_Sede", sN_Indicador.Sede);
+                parametros.Add("@p_Norma", sN_Indicador.Norma);
                 parametros.Add("@p_Frecuencia", sN_Indicador.Frecuencia);
+                parametros.Add("@p_Meta", sN_Indicador.Meta);
+                parametros.Add("@p_Unidad_Medida", sN_Indicador.Unidad_Medida);
+                parametros.Add("@p_Tipo_Meta", sN_Indicador.Tipo_Meta);
+                parametros.Add("@p_Sentido", sN_Indicador.Sentido);
+                parametros.Add("@p_Linea_Base", sN_Indicador.Linea_Base);
+                parametros.Add("@p_Formula", sN_Indicador.Formula);
+                parametros.Add("@p_Codigo_Proceso", sN_Indicador.Codigo_Proceso);
+                parametros.Add("@p_Nombre_Proceso", sN_Indicador.Nombre_Proceso);
+                parametros.Add("@p_Responsable", sN_Indicador.Responsable);
+                parametros.Add("@p_Resp_Medicion", sN_Indicador.Resp_Medicion);
+                parametros.Add("@p_Fuente_Datos", sN_Indicador.Fuente_Datos);
+                parametros.Add("@p_Fecha_Inicio", sN_Indicador.Fecha_Inicio ?? sN_Indicador.Fec_Inicio);
+                parametros.Add("@p_Fecha_Fin", sN_Indicador.Fecha_Fin ?? sN_Indicador.Fec_Fin);
+                parametros.Add("@p_Areas_Acceso", sN_Indicador.Areas_Acceso);
+                parametros.Add("@p_Estado", sN_Indicador.Estado);
                 parametros.Add("@p_Usuario", sN_Indicador.Usuario_Registro);
 
                 try
@@ -125,7 +140,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                     {
                         return (Convert.ToInt32(result.success), result.message);
                     }
-                    return (0, "Error al ejecutar mantenimiento de medición de indicador");
+                    return (0, "Error al ejecutar mantenimiento de mediciÃ³n de indicador");
                 }
                 catch (Exception ex)
                 {

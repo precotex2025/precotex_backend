@@ -1,189 +1,98 @@
+﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
-namespace Precotex.GestionSeguridad.Controllers
+namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
 {
     [ApiController]
     [Route("api/[controller]")]
     public class SNReqLegalController : ControllerBase
     {
         private readonly ISNReqLegalService _service;
+        private readonly ILogger<SNReqLegalController> _logger;
 
-        public SNReqLegalController(ISNReqLegalService service)
+        public SNReqLegalController(
+            ISNReqLegalService service,
+            ILogger<SNReqLegalController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
-        //[HttpGet("getListadoReqLegal")]
-        //public IActionResult GetListadoReqLegal([FromQuery] string sFiltro = "")
-        //{
-        //    var listado = new List<ReqLegalResponse>();
 
-        //    try
-        //    {
-        //        using (var cn = new SqlConnection(_connectionString))
-        //        {
-        //            using (var cmd = new SqlCommand("dbo.SP_SN_REQ_LEGAL_LISTAR", cn))
-        //            {
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                cmd.Parameters.AddWithValue("@sFiltro", (object)sFiltro ?? DBNull.Value);
+        /// <summary>
+        /// Obtiene el listado de requisitos legales y normativos con filtro opcional.
+        /// GET: api/SNReqLegal/getListadoReqLegal?sFiltro=SST
+        /// </summary>
+        [HttpGet("getListadoReqLegal")]
+        public async Task<IActionResult> GetListadoReqLegal([FromQuery] string sFiltro = "")
+        {
+            try
+            {
+                var data = await _service.Listado(sFiltro);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener listado de requisitos legales");
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
 
-        //                cn.Open();
-        //                using (var dr = cmd.ExecuteReader())
-        //                {
-        //                    while (dr.Read())
-        //                    {
-        //                        listado.Add(new ReqLegalResponse
-        //                        {
-        //                            Id = dr["id"] != DBNull.Value ? Convert.ToInt32(dr["id"]) : 0,
-        //                            Item = dr["item"].ToString(),
-        //                            Requisito = dr["requisito"].ToString(),
-        //                            Tema = dr["tema"].ToString(),
-        //                            Ambito = dr["ambito"].ToString(),
-        //                            Tipo = dr["tipo"].ToString(),
-        //                            Norma = dr["norma"].ToString(),
-        //                            Articulo = dr["articulo"].ToString(),
-        //                            Entidad = dr["entidad"].ToString(),
-        //                            Obligacion = dr["obligacion"].ToString(),
-        //                            Evidenciadoc = dr["evidenciadoc"].ToString(),
-        //                            Estado = dr["estado"].ToString(),
-        //                            Responsable = dr["responsable"].ToString(),
-        //                            Frecuencia = dr["frecuencia"].ToString(),
-        //                            Evaluacion = dr["evaluacion"].ToString(),
-        //                            Proxeval = dr["proxeval"].ToString(),
-        //                            Vencimiento = dr["vencimiento"].ToString(),
-        //                            Observaciones = dr["observaciones"].ToString(),
-        //                            Evidencia = dr["evidencia"].ToString(),
-        //                            FlgEstado = dr["flg_estado"].ToString()
-        //                        });
-        //                    }
-        //                }
-        //            }
-        //        }
+        /// <summary>
+        /// Mantenimiento de Requisitos Legales (Insertar, Editar o Eliminar)
+        /// POST: api/SNReqLegal/postReqLegalMnto
+        /// </summary>
+        [HttpPost("postReqLegalMnto")]
+        [HttpPost("postProcesoMntoReqLegal")]
+        public async Task<IActionResult> PostReqLegalMnto([FromBody] SNReqLegalParameter request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new { success = false, message = "Los datos de la solicitud no son vÃ¡lidos." });
+            }
 
-        //        return Ok(new { success = true, elements = listado, message = "Listado de requisitos legales obtenido exitosamente." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { success = false, message = "Error al consultar listado legal: " + ex.Message });
-        //    }
-        //}
+            try
+            {
+                SN_Req_Legal reqLegal = new SN_Req_Legal
+                {
+                    Id = request.Id > 0 ? request.Id : request.Id_Req,
+                    Id_Req = request.Id > 0 ? request.Id : request.Id_Req,
+                    Codigo = request.Codigo,
+                    Item = request.Item,
+                    Requisito = request.Requisito,
+                    Tema = request.Tema,
+                    Ambito = request.Ambito,
+                    Tipo = request.Tipo,
+                    Norma = request.Norma,
+                    Articulo = request.Articulo,
+                    Entidad = request.Entidad,
+                    Obligacion = request.Obligacion,
+                    Evidenciadoc = request.Evidenciadoc,
+                    Estado = request.Estado,
+                    Responsable = request.Responsable,
+                    Frecuencia = request.Frecuencia,
+                    Evaluacion = request.Evaluacion,
+                    Proxeval = request.Proxeval,
+                    Vencimiento = request.Vencimiento,
+                    Observaciones = request.Observaciones,
+                    Evidencia = request.Evidencia,
+                    Usuario_Registro = request.Usuario ?? request.Usuario_Registro ?? "SISTEMAS"
+                };
 
-        ///// <summary>
-        ///// Mantenimiento de Requisitos Legales (Insertar, Editar o Eliminar)
-        ///// POST: api/SNReqLegal/postReqLegalMnto
-        ///// </summary>
-        //[HttpPost("postReqLegalMnto")]
-        //public IActionResult PostReqLegalMnto([FromBody] ReqLegalMntoRequest request)
-        //{
-        //    if (request == null)
-        //    {
-        //        return BadRequest(new { success = false, message = "Los datos de la solicitud no son válidos." });
-        //    }
-
-        //    try
-        //    {
-        //        using (var cn = new SqlConnection(_connectionString))
-        //        {
-        //            using (var cmd = new SqlCommand("dbo.SP_SN_REQ_LEGAL_MNTO", cn))
-        //            {
-        //                cmd.CommandType = CommandType.StoredProcedure;
-
-        //                cmd.Parameters.AddWithValue("@cAccion", request.Accion ?? (request.Id > 0 ? "U" : "I"));
-        //                cmd.Parameters.AddWithValue("@nid_req_legal", request.Id);
-        //                cmd.Parameters.AddWithValue("@citem", (object)request.Item ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vrequisito", (object)request.Requisito ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vtema", (object)request.Tema ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vambito", (object)request.Ambito ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vtipo", (object)request.Tipo ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vnorma", (object)request.Norma ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@varticulo", (object)request.Articulo ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@ventidad", (object)request.Entidad ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vextracto_obligacion", (object)request.Obligacion ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vevidencia_cumplimiento", (object)request.Evidenciadoc ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vestado", (object)request.Estado ?? "En proceso");
-        //                cmd.Parameters.AddWithValue("@vresponsable", (object)request.Responsable ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vfrecuencia", (object)request.Frecuencia ?? DBNull.Value);
-
-        //                // Manejo seguro de fechas NULL
-        //                cmd.Parameters.AddWithValue("@devaluacion", string.IsNullOrWhiteSpace(request.Evaluacion) ? DBNull.Value : (object)DateTime.Parse(request.Evaluacion));
-        //                cmd.Parameters.AddWithValue("@dproxeval", string.IsNullOrWhiteSpace(request.Proxeval) ? DBNull.Value : (object)DateTime.Parse(request.Proxeval));
-        //                cmd.Parameters.AddWithValue("@dvencimiento", string.IsNullOrWhiteSpace(request.Vencimiento) ? DBNull.Value : (object)DateTime.Parse(request.Vencimiento));
-
-        //                cmd.Parameters.AddWithValue("@vobservaciones", (object)request.Observaciones ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@vevidencia_archivo", (object)request.Evidencia ?? DBNull.Value);
-        //                cmd.Parameters.AddWithValue("@cusu_usuario", (object)request.Usuario ?? "SISTEMAS");
-
-        //                cn.Open();
-        //                using (var dr = cmd.ExecuteReader())
-        //                {
-        //                    if (dr.Read())
-        //                    {
-        //                        bool exito = Convert.ToInt32(dr["bExito"]) == 1;
-        //                        string mensaje = dr["vMensaje"].ToString();
-        //                        int idGenerado = dr["id"] != DBNull.Value ? Convert.ToInt32(dr["id"]) : request.Id;
-
-        //                        return Ok(new { success = exito, message = mensaje, id = idGenerado });
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //        return Ok(new { success = true, message = "Operación completada exitosamente." });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { success = false, message = "Error al procesar mantenimiento legal: " + ex.Message });
-        //    }
-        //}
-    }
-
-    public class ReqLegalMntoRequest
-    {
-        public string Accion { get; set; } // 'I', 'U', 'D'
-        public int Id { get; set; }
-        public string Item { get; set; }
-        public string Requisito { get; set; }
-        public string Tema { get; set; }
-        public string Ambito { get; set; }
-        public string Tipo { get; set; }
-        public string Norma { get; set; }
-        public string Articulo { get; set; }
-        public string Entidad { get; set; }
-        public string Obligacion { get; set; }
-        public string Evidenciadoc { get; set; }
-        public string Estado { get; set; }
-        public string Responsable { get; set; }
-        public string Frecuencia { get; set; }
-        public string Evaluacion { get; set; }
-        public string Proxeval { get; set; }
-        public string Vencimiento { get; set; }
-        public string Observaciones { get; set; }
-        public string Evidencia { get; set; }
-        public string Usuario { get; set; }
-    }
-
-    public class ReqLegalResponse
-    {
-        public int Id { get; set; }
-        public string Item { get; set; }
-        public string Requisito { get; set; }
-        public string Tema { get; set; }
-        public string Ambito { get; set; }
-        public string Tipo { get; set; }
-        public string Norma { get; set; }
-        public string Articulo { get; set; }
-        public string Entidad { get; set; }
-        public string Obligacion { get; set; }
-        public string Evidenciadoc { get; set; }
-        public string Estado { get; set; }
-        public string Responsable { get; set; }
-        public string Frecuencia { get; set; }
-        public string Evaluacion { get; set; }
-        public string Proxeval { get; set; }
-        public string Vencimiento { get; set; }
-        public string Observaciones { get; set; }
-        public string Evidencia { get; set; }
-        public string FlgEstado { get; set; }
+                string accion = request.Accion ?? (reqLegal.Id > 0 ? "U" : "I");
+                var data = await _service.Mnto(reqLegal, accion);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al procesar mantenimiento de requisito legal");
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
     }
 }

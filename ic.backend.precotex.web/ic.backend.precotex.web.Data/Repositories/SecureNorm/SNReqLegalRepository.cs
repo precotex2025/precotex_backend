@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,8 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
         public SNReqLegalRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
+            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")
+                ?? "Data Source=192.168.1.139;Initial Catalog=BDSecureNorm;User ID=pradmin;Password=7G}x:2Z*^H;";
         }
 
         public async Task<IEnumerable<SN_Req_Legal>?> Listado(string sFiltro)
@@ -26,7 +27,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 await connection.OpenAsync();
                 var parametros = new
                 {
-                    p_Filtro = sFiltro ?? ""
+                    sFiltro = sFiltro ?? ""
                 };
 
                 var result = await connection.QueryAsync<SN_Req_Legal>(
@@ -46,35 +47,48 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 await connection.OpenAsync();
                 var parametros = new DynamicParameters();
 
-                parametros.Add("@p_Accion", sTipoTransac);
-                parametros.Add("@p_Codigo", sN_Req_Legal.Codigo);
-                parametros.Add("@p_Requisito", sN_Req_Legal.Requisito);
-                parametros.Add("@p_Ambito", sN_Req_Legal.Ambito);
-                parametros.Add("@p_Tipo", sN_Req_Legal.Tipo);
-                parametros.Add("@p_Norma", sN_Req_Legal.Norma);
-                parametros.Add("@p_Entidad", sN_Req_Legal.Entidad);
-                parametros.Add("@p_Obligacion", sN_Req_Legal.Obligacion);
-                parametros.Add("@p_Estado", sN_Req_Legal.Estado);
-                parametros.Add("@p_Responsable", sN_Req_Legal.Responsable);
-                parametros.Add("@p_Evaluacion", sN_Req_Legal.Evaluacion);
-                parametros.Add("@p_Proxeval", sN_Req_Legal.Proxeval);
-                parametros.Add("@p_Vencimiento", sN_Req_Legal.Vencimiento);
-                parametros.Add("@p_Evidencia", sN_Req_Legal.Evidencia);
-                parametros.Add("@p_Usuario", sN_Req_Legal.Usuario_Registro);
+                int idReq = sN_Req_Legal.Id > 0 ? sN_Req_Legal.Id : sN_Req_Legal.Id_Req;
+
+                parametros.Add("@cAccion", sTipoTransac);
+                parametros.Add("@nid_req_legal", idReq);
+                parametros.Add("@citem", sN_Req_Legal.Item);
+                parametros.Add("@vrequisito", sN_Req_Legal.Requisito);
+                parametros.Add("@vtema", sN_Req_Legal.Tema);
+                parametros.Add("@vambito", sN_Req_Legal.Ambito);
+                parametros.Add("@vtipo", sN_Req_Legal.Tipo);
+                parametros.Add("@vnorma", sN_Req_Legal.Norma);
+                parametros.Add("@varticulo", sN_Req_Legal.Articulo);
+                parametros.Add("@ventidad", sN_Req_Legal.Entidad);
+                parametros.Add("@vextracto_obligacion", sN_Req_Legal.Obligacion);
+                parametros.Add("@vevidencia_cumplimiento", sN_Req_Legal.Evidenciadoc);
+                parametros.Add("@vestado", sN_Req_Legal.Estado ?? "En proceso");
+                parametros.Add("@vresponsable", sN_Req_Legal.Responsable);
+                parametros.Add("@vfrecuencia", sN_Req_Legal.Frecuencia);
+
+                DateTime dtTemp;
+                parametros.Add("@devaluacion", (!string.IsNullOrWhiteSpace(sN_Req_Legal.Evaluacion) && DateTime.TryParse(sN_Req_Legal.Evaluacion, out dtTemp)) ? (object)dtTemp : DBNull.Value);
+                parametros.Add("@dproxeval", (!string.IsNullOrWhiteSpace(sN_Req_Legal.Proxeval) && DateTime.TryParse(sN_Req_Legal.Proxeval, out dtTemp)) ? (object)dtTemp : DBNull.Value);
+                parametros.Add("@dvencimiento", (!string.IsNullOrWhiteSpace(sN_Req_Legal.Vencimiento) && DateTime.TryParse(sN_Req_Legal.Vencimiento, out dtTemp)) ? (object)dtTemp : DBNull.Value);
+
+                parametros.Add("@vobservaciones", sN_Req_Legal.Observaciones);
+                parametros.Add("@vevidencia_archivo", sN_Req_Legal.Evidencia);
+                parametros.Add("@cusu_usuario", sN_Req_Legal.Usuario_Registro ?? "SISTEMAS");
 
                 try
                 {
                     var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
-                        "[dbo].[SP_SN_REQ_LEGAL_MANTENIMIENTO]",
+                        "[dbo].[SP_SN_REQ_LEGAL_MNTO]",
                         parametros,
                         commandType: CommandType.StoredProcedure
                     );
 
                     if (result != null)
                     {
-                        return (Convert.ToInt32(result.success), result.message);
+                        int exito = Convert.ToInt32(result.bExito);
+                        string mensaje = result.vMensaje?.ToString() ?? "OperaciÃ³n completada exitosamente.";
+                        return (exito, mensaje);
                     }
-                    return (0, "Error desconocido al ejecutar mantenimiento de requisito legal");
+                    return (0, "Error desconocido al ejecutar mantenimiento de requisito legal.");
                 }
                 catch (Exception ex)
                 {
