@@ -140,7 +140,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                     {
                         return (Convert.ToInt32(result.success), result.message);
                     }
-                    return (0, "Error al ejecutar mantenimiento de mediciÃ³n de indicador");
+                    return (0, "Error al ejecutar mantenimiento de medición de indicador");
                 }
                 catch (Exception ex)
                 {

@@ -19,8 +19,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
     {
         private readonly INoConformidadesService _service;
         private readonly IWaliChatService _waliChatService;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<NoConformidadesController> _logger;
+        //private readonly IConfiguration _configuration;
+        //private readonly ILogger<NoConformidadesController> _logger;
 
         public NoConformidadesController(
             INoConformidadesService service,
@@ -30,8 +30,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
         {
             _service = service;
             _waliChatService = waliChatService;
-            _configuration = configuration;
-            _logger = logger;
+            //_configuration = configuration;
+            //_logger = logger;
         }
 
         [HttpGet("getInformesCabecera")]
@@ -208,7 +208,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                         }
                         catch (Exception exWsp)
                         {
-                            _logger.LogWarning(exWsp, "Error al enviar notificación de WhatsApp para NC {Num}", resultado.Num_Informe);
+                            //_logger.LogWarning(exWsp, "Error al enviar notificación de WhatsApp para NC {Num}", resultado.Num_Informe);
                         }
                     });
                 }
@@ -239,7 +239,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                         }
                         catch (Exception exWsp)
                         {
-                            _logger.LogWarning(exWsp, "Error al enviar notificación de anulación de WhatsApp para NC {Num}", req.Num_Informe);
+                            //_logger.LogWarning(exWsp, "Error al enviar notificación de anulación de WhatsApp para NC {Num}", req.Num_Informe);
                         }
                     });
                 }
@@ -257,10 +257,10 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             var grupos = new List<string>();
             foreach (var key in new[] { "2001", "2002", "2003" })
             {
-                var g = _configuration[$"WaliChat:{key}"];
-                if (!string.IsNullOrWhiteSpace(g))
+                //var g = _configuration[$"WaliChat:{key}"];
+                //if (!string.IsNullOrWhiteSpace(g))
                 {
-                    grupos.Add(g.Trim());
+                    //grupos.Add(g.Trim());
                 }
             }
             if (!grupos.Any())
@@ -391,7 +391,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 }
                 catch (Exception exDisk)
                 {
-                    _logger.LogWarning(exDisk, "Error al subir foto desde disco a WaliChat");
+                    //_logger.LogWarning(exDisk, "Error al subir foto desde disco a WaliChat");
                 }
             }
 
@@ -425,7 +425,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 }
                 catch (Exception exB64)
                 {
-                    _logger.LogWarning(exB64, "Error al subir foto Base64 a WaliChat");
+                    //_logger.LogWarning(exB64, "Error al subir foto Base64 a WaliChat");
                 }
             }
 
@@ -445,7 +445,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 }
                 catch (Exception exSend)
                 {
-                    _logger.LogWarning(exSend, $"Error al enviar WhatsApp a grupo {grupoId}");
+                    //_logger.LogWarning(exSend, $"Error al enviar WhatsApp a grupo {grupoId}");
                     if (!string.IsNullOrEmpty(fileId))
                     {
                         try { await _waliChatService.EnviarMensajeAsync(grupoId, mensajeWsp); } catch { }
@@ -494,7 +494,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 }
                 catch (Exception exDisk)
                 {
-                    _logger.LogWarning(exDisk, "Error al subir foto de anulación a WaliChat");
+                    //_logger.LogWarning(exDisk, "Error al subir foto de anulación a WaliChat");
                 }
             }
 
@@ -513,7 +513,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 }
                 catch (Exception exSend)
                 {
-                    _logger.LogWarning(exSend, $"Error al enviar WhatsApp de anulación a grupo {grupoId}");
+                    //_logger.LogWarning(exSend, $"Error al enviar WhatsApp de anulación a grupo {grupoId}");
                     if (!string.IsNullOrEmpty(fileIdAnula))
                     {
                         try { await _waliChatService.EnviarMensajeAsync(grupoId, mensajeWsp); } catch { }
