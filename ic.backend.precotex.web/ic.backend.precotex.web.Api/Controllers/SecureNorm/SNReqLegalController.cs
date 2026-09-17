@@ -13,14 +13,14 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
     public class SNReqLegalController : ControllerBase
     {
         private readonly ISNReqLegalService _service;
-        private readonly ILogger<SNReqLegalController> _logger;
+        //private readonly ILogger<SNReqLegalController> _logger;
 
         public SNReqLegalController(
             ISNReqLegalService service,
             ILogger<SNReqLegalController> logger)
         {
             _service = service;
-            _logger = logger;
+            //_logger = logger;
         }
 
 
@@ -38,7 +38,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener listado de requisitos legales");
+                //_logger.LogError(ex, "Error al obtener listado de requisitos legales");
                 return BadRequest(new { success = false, message = ex.Message });
             }
         }
@@ -53,7 +53,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
         {
             if (request == null)
             {
-                return BadRequest(new { success = false, message = "Los datos de la solicitud no son vÃ¡lidos." });
+                return BadRequest(new { success = false, message = "Los datos de la solicitud no son válidos." });
             }
 
             try
@@ -90,7 +90,7 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al procesar mantenimiento de requisito legal");
+                //_logger.LogError(ex, "Error al procesar mantenimiento de requisito legal");
                 return BadRequest(new { success = false, message = ex.Message });
             }
         }

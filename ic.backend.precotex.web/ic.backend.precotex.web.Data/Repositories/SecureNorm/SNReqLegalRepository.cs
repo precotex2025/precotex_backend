@@ -16,8 +16,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
         public SNReqLegalRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")
-                ?? "Data Source=192.168.1.139;Initial Catalog=BDSecureNorm;User ID=pradmin;Password=7G}x:2Z*^H;";
+            _connectionString = configuration.GetConnectionString("TextilConnectionSomma")!;
         }
 
         public async Task<IEnumerable<SN_Req_Legal>?> Listado(string sFiltro)
@@ -85,7 +84,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                     if (result != null)
                     {
                         int exito = Convert.ToInt32(result.bExito);
-                        string mensaje = result.vMensaje?.ToString() ?? "OperaciÃ³n completada exitosamente.";
+                        string mensaje = result.vMensaje?.ToString() ?? "Operación completada exitosamente.";
                         return (exito, mensaje);
                     }
                     return (0, "Error desconocido al ejecutar mantenimiento de requisito legal.");
