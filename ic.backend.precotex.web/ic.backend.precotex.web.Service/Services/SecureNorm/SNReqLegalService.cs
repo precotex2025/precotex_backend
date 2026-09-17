@@ -1,8 +1,9 @@
-using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
+﻿using ic.backend.precotex.web.Data.Repositories.Implementation.SecureNorm;
 using ic.backend.precotex.web.Entity.Entities.SecureNorm;
 using ic.backend.precotex.web.Service.common;
 using ic.backend.precotex.web.Service.Services.Implementacion.SecureNorm;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,23 +28,33 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
                 if (resultData == null || !resultData.Any())
                 {
                     result.Success = true;
-                    result.Message = "No existe información";
+                    result.CodeResult = 200;
+                    result.Message = "No existe informaciÃ³n";
+                    result.Elements = new List<SN_Req_Legal>();
+                    result.TotalElements = 0;
                     return result;
                 }
 
+                var list = resultData.ToList();
                 result.Success = true;
-                result.Elements = resultData.ToList();
-                result.TotalElements = resultData.ToList().Count();
+                result.CodeResult = 200;
+                result.Elements = list;
+                result.TotalElements = list.Count;
+                result.Message = "Listado de requisitos legales obtenido exitosamente.";
                 return result;
             }
             catch (SqlException sql)
             {
+                result.Success = false;
+                result.CodeResult = 500;
                 result.Message = "Error en Servidor: " + sql.Message;
                 return result;
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio una excepción: " + ex.Message;
+                result.Success = false;
+                result.CodeResult = 500;
+                result.Message = "OcurriÃ³ una excepciÃ³n: " + ex.Message;
                 return result;
             }
         }
@@ -58,24 +69,28 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
                 {
                     result.Message = resultData.Mensaje;
                     result.Success = true;
+                    result.CodeResult = 200;
                     result.CodeTransacc = resultData.Codigo;
                     return result;
                 }
 
                 result.Message = resultData.Mensaje;
                 result.Success = false;
+                result.CodeResult = 400;
                 return result;
             }
             catch (SqlException sql)
             {
                 result.Message = "Error en Servidor: " + sql.Message;
                 result.Success = false;
+                result.CodeResult = 500;
                 return result;
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio una excepción: " + ex.Message;
+                result.Message = "OcurriÃ³ una excepciÃ³n: " + ex.Message;
                 result.Success = false;
+                result.CodeResult = 500;
                 return result;
             }
         }
