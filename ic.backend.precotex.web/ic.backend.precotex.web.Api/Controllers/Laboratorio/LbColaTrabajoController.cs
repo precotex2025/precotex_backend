@@ -2207,9 +2207,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
-        [HttpGet]
-        [Route("getValidarCorridaDuplicada")]
-        public async Task<IActionResult> getValidarCorridaDuplicada([FromQuery] ValidarCorridaDuplicadaRequest request)
+        [HttpPost]
+        [Route("postValidarCorridaDuplicada")]
+        public async Task<IActionResult> postValidarCorridaDuplicada([FromBody] ValidarCorridaDuplicadaRequest request)
         {
             var result = await _LbColaTrabajoService.ValidarCorridaDuplicada(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Receta!, request.Usr_Cod!);
             if (result!.Success)

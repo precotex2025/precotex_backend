@@ -3411,7 +3411,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             try
             {
                 await connection.ExecuteAsync(
-                    "dbo.PA_Lb_Colorantes_WB_Unido_I0001",
+                    "Lb_Colorantes_WB_ValidarCorridaDuplicada",
                     parameters,
                     commandType: CommandType.StoredProcedure
                 );
