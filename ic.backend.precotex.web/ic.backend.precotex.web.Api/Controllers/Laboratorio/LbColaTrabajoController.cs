@@ -469,7 +469,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Posicion = parametros.Posicion,
-                Tip_Ten = parametros.Tip_Ten
+                Tip_Ten = parametros.Tip_Ten,
+                Cod_Usuario_Envio_Dispensar = parametros.Cod_Usuario_Envio_Dispensar
             };
 
             var result = await _LbColaTrabajoService.EnviarADispensado(_lbAgrOpcColorante);
