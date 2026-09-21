@@ -266,6 +266,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             if (!grupos.Any())
             {
                 grupos.Add("120363280015488353@g.us");
+                grupos.Add("51955407405-1537926002@g.us");
             }
             return grupos;
         }
