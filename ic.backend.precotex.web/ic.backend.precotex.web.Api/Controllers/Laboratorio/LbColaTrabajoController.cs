@@ -2224,8 +2224,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         }
 
         [HttpPost]
-        [Route("postEntregarCorrida")]
-        public async Task<IActionResult> postEntregarCorrida([FromBody] EntregarCorridaRequest request)
+        [Route("patchEntregarCorrida")]
+        public async Task<IActionResult> patchEntregarCorrida([FromBody] EntregarCorridaRequest request)
         {
             var result = await _LbColaTrabajoService.EntregarCorridaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Procedencia!, request.Tip_Ten!, request.Usr_Cod!);
             if (result!.Success)
