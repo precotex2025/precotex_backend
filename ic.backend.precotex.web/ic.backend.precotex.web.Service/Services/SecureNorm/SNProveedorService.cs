@@ -29,7 +29,7 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
                 {
                     result.Success = true;
                     result.CodeResult = 200;
-                    result.Message = "No existe informaciÃ³n";
+                    result.Message = "No existe información";
                     result.Elements = new List<SN_Proveedor>();
                     result.TotalElements = 0;
                     return result;
@@ -54,7 +54,7 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
             {
                 result.Success = false;
                 result.CodeResult = 500;
-                result.Message = "OcurriÃ³ una excepciÃ³n: " + ex.Message;
+                result.Message = "OcurriÃ³ una excepción: " + ex.Message;
                 return result;
             }
         }
@@ -88,7 +88,7 @@ namespace ic.backend.precotex.web.Service.Services.SecureNorm
             }
             catch (Exception ex)
             {
-                result.Message = "OcurriÃ³ una excepciÃ³n: " + ex.Message;
+                result.Message = "Ocurrió una excepción: " + ex.Message;
                 result.Success = false;
                 result.CodeResult = 500;
                 return result;
