@@ -16,8 +16,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
 
         public SNProveedorRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("TextilConnectionSomma") 
-                             ?? configuration.GetConnectionString("DefaultConnection")!;
+            _connectionString = configuration.GetConnectionString("TextilConnectionSomma");
         }
 
         public async Task<IEnumerable<SN_Proveedor>?> Listado(string sFiltro)
@@ -76,7 +75,7 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                     if (result != null)
                     {
                         int idGenerado = Convert.ToInt32(result.id ?? 0);
-                        string mensaje = result.mensaje?.ToString() ?? "OperaciÃ³n completada exitosamente.";
+                        string mensaje = result.mensaje?.ToString() ?? "Operación completada exitosamente.";
                         return (idGenerado, mensaje);
                     }
 
