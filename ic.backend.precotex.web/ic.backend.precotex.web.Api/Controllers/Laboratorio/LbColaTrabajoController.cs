@@ -2212,7 +2212,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         [Route("postValidarCorridaDuplicada")]
         public async Task<IActionResult> postValidarCorridaDuplicada([FromBody] ValidarCorridaDuplicadaRequest request)
         {
-            var result = await _LbColaTrabajoService.ValidarCorridaDuplicada(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Receta!, request.Usr_Cod!);
+            var result = await _LbColaTrabajoService.ValidarCorridaDuplicadaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Receta!, request.Usr_Cod!);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
@@ -2223,7 +2223,20 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("postEntregarCorrida")]
+        public async Task<IActionResult> postEntregarCorrida([FromBody] EntregarCorridaRequest request)
+        {
+            var result = await _LbColaTrabajoService.EntregarCorridaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Procedencia!, request.Tip_Ten!, request.Usr_Cod!);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
 
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
 
 
 

@@ -967,7 +967,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     await connection.ExecuteAsync(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF_V0]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -3395,7 +3395,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicada(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod)
+        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod)
         {
             await using var connection = new SqlConnection(_connectionString);
 
@@ -3409,25 +3409,47 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parameters.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
 
-            try
-            {
-                await connection.ExecuteAsync(
+            await connection.ExecuteAsync(
                     "Lb_Colorantes_WB_ValidarCorridaDuplicada",
+                    parameters,
+                    commandType: CommandType.StoredProcedure
+            );
+
+            return (
+                parameters.Get<int>("@Codigo"),
+                parameters.Get<string>("@sMsj") ?? string.Empty
+            );
+        }
+
+        public async Task<(int Codigo, string Mensaje)> EntregarCorridaAsync(string Corr_Carta, int Sec, int Correlativo, string Procedencia, string Tip_Ten, string Usr_Cod)
+        {
+            await using var connection = new SqlConnection(_connectionString);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@Corr_Carta", Corr_Carta);
+            parameters.Add("@Sec", Sec);
+            parameters.Add("@Correlativo", Correlativo);
+            parameters.Add("@Procedencia", Procedencia);
+            parameters.Add("@Tip_Ten", Tip_Ten);
+            parameters.Add("@Usr_Cod", Usr_Cod);
+
+            parameters.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);
+
+            await connection.ExecuteAsync(
+                    "PA_Lb_Colorantes_WB_Entregar_Corrida",
                     parameters,
                     commandType: CommandType.StoredProcedure
                 );
 
-                return (
-                    parameters.Get<int>("@Codigo"),
-                    parameters.Get<string>("@sMsj") ?? string.Empty
-                );
-            }
-            catch (SqlException ex)
-            {
-                throw;
-            }
+            return (
+                parameters.Get<int>("@Codigo"),
+                parameters.Get<string>("@sMsj") ?? string.Empty
+            );
 
         }
+
+
 
     }
 }
