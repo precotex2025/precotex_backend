@@ -190,7 +190,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Implementation.Laboratorio
         Task<CotizacionColorantesDetalleEntity> ObtenerCotizacionColorantes(string Corr_Carta, int Sec, string Tip_Receta);
         Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadosTipo();
         Task<IEnumerable<Lb_Jabonados_Neutralizado>?> ObtenerNeutralizadoCalculado(decimal Colorante_Total, string Familia);
-        Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod);
+        Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod, int Correlativo_Anterior);
         Task<(int Codigo, string Mensaje)> EntregarCorridaAsync(string Corr_Carta, int Sec, int Correlativo, string Procedencia, string Tip_Ten, string Usr_Cod);
 
     }

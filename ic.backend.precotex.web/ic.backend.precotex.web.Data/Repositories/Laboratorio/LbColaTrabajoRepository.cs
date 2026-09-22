@@ -967,7 +967,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
                 {
                     //EJECUTAR EL STORED PROCEDURE
                     await connection.ExecuteAsync(
-                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF]"
+                        "[dbo].[PA_Lb_Colorantes_WB_I0003_JCF_V0]"
                         , parametros
                         , commandType: CommandType.StoredProcedure
                     );
@@ -3395,7 +3395,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod)
+        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod, int Correlativo_Anterior)
         {
             await using var connection = new SqlConnection(_connectionString);
 
@@ -3405,6 +3405,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parameters.Add("@Correlativo", Correlativo);
             parameters.Add("@Tip_Receta", Tip_Receta);
             parameters.Add("@Usr_Cod", Usr_Cod);
+            parameters.Add("@Correlativo_Anterior", Correlativo_Anterior);
 
             parameters.Add("@Codigo", dbType: DbType.Int32, direction: ParameterDirection.Output);
             parameters.Add("@sMsj", dbType: DbType.String, size: 255, direction: ParameterDirection.Output);

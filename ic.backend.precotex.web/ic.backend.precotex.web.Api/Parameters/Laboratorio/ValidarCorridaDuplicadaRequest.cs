@@ -7,5 +7,6 @@
         public int Correlativo { get; set; }
         public string? Tip_Receta { get; set; }
         public string? Usr_Cod { get; set; }
+        public int Correlativo_Anterior {  get; set; }
     }
 }
