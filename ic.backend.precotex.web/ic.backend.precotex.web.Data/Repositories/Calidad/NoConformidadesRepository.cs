@@ -548,93 +548,96 @@ namespace ic.backend.precotex.web.Data.Repositories.Calidad
                     }
 
                     // ===========================================================
-
-                    // 2. ACTUALIZAR ROLLOS RECHAZADOS por artÃ­culo
-
+                    // 2. ACTUALIZAR ROLLOS RECHAZADOS por artículo
                     //    UP_Man_Informe_No_Conformidad_Detalle con @ACCION='U'
-
-                    //    ParÃ¡metros: @Num_Informe, @Cod_OrdTra, @Num_Secuencia, @Rollos_Rechazados
-
+                    //    Parámetros: @Num_Informe, @Cod_OrdTra, @Num_Secuencia, @Rollos_Rechazados
                     // ===========================================================
+                    var secuenciasActualizadas = new List<int>();
 
                     if (req.Articulos != null && req.Articulos.Count > 0)
-
                     {
-
                         foreach (var art in req.Articulos)
-
                         {
-
-                            // Obtener el Num_Secuencia de la tabla reciÃ©n insertada
-
                             int numSecuencia = 0;
 
-                            using (var cmdGetSec = new SqlCommand(
-
-                                "SELECT TOP 1 Num_Secuencia FROM CC_Informe_Control_Calidad_Detalle " +
-
-                                "WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Cod_Tela = @Tela",
-
-                                con))
-
+                            // 1° Intento: Por Item (Num_Secuencia enviado desde el Front)
+                            if (int.TryParse(art.Item, out int parsedSec) && parsedSec > 0)
                             {
+                                using (var cmdCheckSec = new SqlCommand(
+                                    "SELECT Num_Secuencia FROM CC_Informe_Control_Calidad_Detalle " +
+                                    "WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Num_Secuencia = @Sec",
+                                    con))
+                                {
+                                    cmdCheckSec.Parameters.AddWithValue("@Num", numInformeGenerado);
+                                    cmdCheckSec.Parameters.AddWithValue("@Ot", codOrdTra);
+                                    cmdCheckSec.Parameters.AddWithValue("@Sec", parsedSec);
+                                    var secObj = await cmdCheckSec.ExecuteScalarAsync();
+                                    if (secObj != null && secObj != DBNull.Value)
+                                        numSecuencia = Convert.ToInt32(secObj);
+                                }
+                            }
 
-                                cmdGetSec.Parameters.AddWithValue("@Num", numInformeGenerado);
+                            // 2° Intento: Por Cod_Tela y Talla (para discriminar cuellos y puños con misma tela)
+                            if (numSecuencia == 0)
+                            {
+                                using (var cmdGetSecTalla = new SqlCommand(
+                                    "SELECT TOP 1 Num_Secuencia FROM CC_Informe_Control_Calidad_Detalle " +
+                                    "WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Cod_Tela = @Tela " +
+                                    "AND (ISNULL(RTRIM(LTRIM(Cod_Talla)), '') = @Talla OR @Talla = '' OR @Talla = '-')",
+                                    con))
+                                {
+                                    cmdGetSecTalla.Parameters.AddWithValue("@Num", numInformeGenerado);
+                                    cmdGetSecTalla.Parameters.AddWithValue("@Ot", codOrdTra);
+                                    cmdGetSecTalla.Parameters.AddWithValue("@Tela", (art.Cod_Tela ?? "").Trim());
+                                    string cleanTalla = (art.Talla ?? "").Trim();
+                                    cmdGetSecTalla.Parameters.AddWithValue("@Talla", cleanTalla);
+                                    var secObj = await cmdGetSecTalla.ExecuteScalarAsync();
+                                    if (secObj != null && secObj != DBNull.Value)
+                                        numSecuencia = Convert.ToInt32(secObj);
+                                }
+                            }
 
-                                cmdGetSec.Parameters.AddWithValue("@Ot", codOrdTra);
-
-                                cmdGetSec.Parameters.AddWithValue("@Tela", (art.Cod_Tela ?? "").Trim());
-
-                                var secObj = await cmdGetSec.ExecuteScalarAsync();
-
-                                if (secObj != null && secObj != DBNull.Value)
-
-                                    numSecuencia = Convert.ToInt32(secObj);
-
+                            // 3° Intento: Fallback general por Cod_Tela
+                            if (numSecuencia == 0)
+                            {
+                                using (var cmdGetSec = new SqlCommand(
+                                    "SELECT TOP 1 Num_Secuencia FROM CC_Informe_Control_Calidad_Detalle " +
+                                    "WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Cod_Tela = @Tela",
+                                    con))
+                                {
+                                    cmdGetSec.Parameters.AddWithValue("@Num", numInformeGenerado);
+                                    cmdGetSec.Parameters.AddWithValue("@Ot", codOrdTra);
+                                    cmdGetSec.Parameters.AddWithValue("@Tela", (art.Cod_Tela ?? "").Trim());
+                                    var secObj = await cmdGetSec.ExecuteScalarAsync();
+                                    if (secObj != null && secObj != DBNull.Value)
+                                        numSecuencia = Convert.ToInt32(secObj);
+                                }
                             }
 
                             if (numSecuencia > 0 && art.Cant_Rollos_Rech > 0)
-
                             {
+                                secuenciasActualizadas.Add(numSecuencia);
 
                                 using (var cmdDet = new SqlCommand("UP_Man_Informe_No_Conformidad_Detalle", con))
-
                                 {
-
                                     cmdDet.CommandType = CommandType.StoredProcedure;
-
                                     cmdDet.Parameters.AddWithValue("@ACCION", "U");
-
                                     cmdDet.Parameters.AddWithValue("@Num_Informe", numInformeGenerado);
-
                                     cmdDet.Parameters.AddWithValue("@Cod_OrdTra", codOrdTra);
-
                                     cmdDet.Parameters.AddWithValue("@Num_Secuencia", numSecuencia);
-
                                     cmdDet.Parameters.AddWithValue("@Rollos_Rechazados", art.Cant_Rollos_Rech);
-
                                     var pCodDet = new SqlParameter("@Codigo", SqlDbType.Int) { Direction = ParameterDirection.Output };
-
                                     var pMsjDet = new SqlParameter("@sMsj", SqlDbType.VarChar, 255) { Direction = ParameterDirection.Output };
-
                                     cmdDet.Parameters.Add(pCodDet);
-
                                     cmdDet.Parameters.Add(pMsjDet);
-
                                     await cmdDet.ExecuteNonQueryAsync();
-
                                 }
-
                             }
 
                             // ========================================================
-
-                            // 3. REGISTRAR MOTIVOS/DEFECTOS de este artÃ­culo
-
+                            // 3. REGISTRAR MOTIVOS/DEFECTOS de este artículo
                             //    UP_Man_Informe_No_Conformidad_Motivo con @ACCION='I'
-
                             // ========================================================
-
                             if (numSecuencia > 0 && art.Defectos != null && art.Defectos.Count > 0)
                             {
                                 if (!esNuevo)
@@ -729,6 +732,23 @@ namespace ic.backend.precotex.web.Data.Repositories.Calidad
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // En modo edición (!esNuevo): resetear cualquier artículo de la partida que no esté en la lista actualizada
+                    if (!esNuevo && secuenciasActualizadas.Count > 0)
+                    {
+                        string secList = string.Join(",", secuenciasActualizadas);
+                        using (var cmdReset = new SqlCommand(
+                            $"UPDATE CC_Informe_Control_Calidad_Detalle SET Rollos_Rechazados = 0, CC_Codigo_Estado = '' " +
+                            $"WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Num_Secuencia NOT IN ({secList}); " +
+                            $"DELETE FROM CC_Informe_Control_Calidad_Det " +
+                            $"WHERE CC_Numero_Informe = @Num AND Cod_OrdTra = @Ot AND Num_Secuencia NOT IN ({secList});",
+                            con))
+                        {
+                            cmdReset.Parameters.AddWithValue("@Num", numInformeGenerado);
+                            cmdReset.Parameters.AddWithValue("@Ot", codOrdTra);
+                            await cmdReset.ExecuteNonQueryAsync();
                         }
                     }
 
