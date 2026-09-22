@@ -1,23 +1,24 @@
-﻿using ic.backend.precotex.web.Service.common;
-using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using ic.backend.precotex.web.Api.Parameters;
+﻿using ic.backend.precotex.web.Api.Parameters;
+using ic.backend.precotex.web.Api.Parameters.Laboratorio;
+using ic.backend.precotex.web.Api.Security;
 using ic.backend.precotex.web.Entity.Entities;
 using ic.backend.precotex.web.Entity.Entities.Laboratorio;
+using ic.backend.precotex.web.Service.common;
+using ic.backend.precotex.web.Service.Services.Implementacion.Laboratorio;
+using ic.backend.precotex.web.Service.Services.Laboratorio;
+using iTextSharp.text.pdf;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph.Models.TermStore;
+using Microsoft.Net.Http.Headers;
+using PdfiumViewer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Printing;
 using System.IO;
-using Microsoft.Net.Http.Headers;
-using iTextSharp.text.pdf;
-using PdfiumViewer;
-using System.Diagnostics;
 using ZXing;
-using ic.backend.precotex.web.Service.Services.Laboratorio;
-using ic.backend.precotex.web.Api.Security;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Graph.Models.TermStore;
 
 namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
 {
@@ -468,7 +469,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
                 Sec = parametros.Sec,
                 Correlativo = parametros.Correlativo,
                 Posicion = parametros.Posicion,
-                Tip_Ten = parametros.Tip_Ten
+                Tip_Ten = parametros.Tip_Ten,
+                Cod_Usuario_Envio_Dispensar = parametros.Cod_Usuario_Envio_Dispensar
             };
 
             var result = await _LbColaTrabajoService.EnviarADispensado(_lbAgrOpcColorante);
@@ -2205,5 +2207,45 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
             result.CodeResult = StatusCodes.Status400BadRequest;
             return BadRequest(result);
         }
+
+        [HttpPost]
+        [Route("postValidarCorridaDuplicada")]
+        public async Task<IActionResult> postValidarCorridaDuplicada([FromBody] ValidarCorridaDuplicadaRequest request)
+        {
+            var result = await _LbColaTrabajoService.ValidarCorridaDuplicadaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Receta!, request.Usr_Cod!, request.Correlativo_Anterior);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+        [HttpPatch]
+        [Route("patchEntregarCorrida")]
+        public async Task<IActionResult> patchEntregarCorrida([FromBody] EntregarCorridaRequest request)
+        {
+            var result = await _LbColaTrabajoService.EntregarCorridaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Procedencia!, request.Tip_Ten!, request.Usr_Cod!);
+            if (result!.Success)
+            {
+                result.CodeResult = StatusCodes.Status200OK;
+                return Ok(result);
+            }
+
+            result.CodeResult = StatusCodes.Status400BadRequest;
+            return BadRequest(result);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }
