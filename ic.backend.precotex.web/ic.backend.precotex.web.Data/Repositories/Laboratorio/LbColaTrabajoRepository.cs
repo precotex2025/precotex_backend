@@ -3395,7 +3395,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             }
         }
 
-        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod, int Correlativo_Anterior)
+        public async Task<(int Codigo, string Mensaje)> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten, string Usr_Cod, int Correlativo_Anterior)
         {
             await using var connection = new SqlConnection(_connectionString);
 
@@ -3403,7 +3403,7 @@ namespace ic.backend.precotex.web.Data.Repositories.Laboratorio
             parameters.Add("@Corr_Carta", Corr_Carta);
             parameters.Add("@Sec", Sec);
             parameters.Add("@Correlativo", Correlativo);
-            parameters.Add("@Tip_Receta", Tip_Receta);
+            parameters.Add("@Tip_Ten", Tip_Ten);
             parameters.Add("@Usr_Cod", Usr_Cod);
             parameters.Add("@Correlativo_Anterior", Correlativo_Anterior);
 

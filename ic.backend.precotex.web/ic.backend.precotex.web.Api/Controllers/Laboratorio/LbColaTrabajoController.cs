@@ -2212,7 +2212,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Laboratorio
         [Route("postValidarCorridaDuplicada")]
         public async Task<IActionResult> postValidarCorridaDuplicada([FromBody] ValidarCorridaDuplicadaRequest request)
         {
-            var result = await _LbColaTrabajoService.ValidarCorridaDuplicadaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Receta!, request.Usr_Cod!, request.Correlativo_Anterior);
+            var result = await _LbColaTrabajoService.ValidarCorridaDuplicadaAsync(request.CorrCarta!, request.Sec, request.Correlativo, request.Tip_Ten!, request.Usr_Cod!, request.Correlativo_Anterior);
             if (result!.Success)
             {
                 result.CodeResult = StatusCodes.Status200OK;
