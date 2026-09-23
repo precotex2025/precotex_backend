@@ -2710,13 +2710,13 @@ namespace ic.backend.precotex.web.Service.Services.Laboratorio
             }
         }
 
-        public async Task<ServiceResponse<int>> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Receta, string Usr_Cod, int Correlativo_Anterior)
+        public async Task<ServiceResponse<int>> ValidarCorridaDuplicadaAsync(string Corr_Carta, int Sec, int Correlativo, string Tip_Ten, string Usr_Cod, int Correlativo_Anterior)
         {
             var result = new ServiceResponse<int>();
 
             try
             {
-                var resultData = await _lbColaTrabajoRepository.ValidarCorridaDuplicadaAsync(Corr_Carta, Sec, Correlativo, Tip_Receta, Usr_Cod, Correlativo_Anterior);
+                var resultData = await _lbColaTrabajoRepository.ValidarCorridaDuplicadaAsync(Corr_Carta, Sec, Correlativo, Tip_Ten, Usr_Cod, Correlativo_Anterior);
                 if (resultData.Codigo > 0)
                 {
                     result.Success = true;
