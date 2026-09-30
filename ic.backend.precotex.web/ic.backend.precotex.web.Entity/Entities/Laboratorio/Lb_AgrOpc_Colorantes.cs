@@ -88,6 +88,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Laboratorio
         public int Id_Concentracion3 { get; set; }
         public string? Flg_Neutralizado { get; set; }
         public int? Id_Neutralizado { get; set; }
+        public string? Cod_Usuario_Envio_Dispensar {  get; set; }
 
     }
 
