@@ -19,8 +19,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
     {
         private readonly INoConformidadesService _service;
         private readonly IWaliChatService _waliChatService;
-        //private readonly IConfiguration _configuration;
-        //private readonly ILogger<NoConformidadesController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<NoConformidadesController> _logger;
 
         public NoConformidadesController(
             INoConformidadesService service,
@@ -30,8 +30,8 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
         {
             _service = service;
             _waliChatService = waliChatService;
-            //_configuration = configuration;
-            //_logger = logger;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpGet("getInformesCabecera")]
@@ -83,10 +83,11 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             {
                 var articulos = await _service.MostrarDetalle(numInforme, partida);
                 var motivos = await _service.MostrarDetalleMotivo(numInforme, partida);
+                var historial = await _service.MostrarHistorial(numInforme, partida);
 
                 EnriquecerMotivosConFotos(numInforme, motivos);
 
-                return Ok(new { articulos, motivos });
+                return Ok(new { articulos, motivos, historial });
             }
             catch (Exception ex)
             {
@@ -200,11 +201,12 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 {
                     // Disparar envío de notificación a WhatsApp en segundo plano
                     string tipoEvento = (req.Accion == "U") ? "EDICION" : "CREACION";
+                    string? fotoInicial = resultado.ArchivosGuardados?.FirstOrDefault();
                     _ = Task.Run(async () =>
                     {
                         try
                         {
-                            await NotificarWhatsAppNoConformidad(req, resultado.Num_Informe, tipoEvento);
+                            await NotificarWhatsAppNoConformidad(req, resultado.Num_Informe, tipoEvento, fotoInicial);
                         }
                         catch (Exception exWsp)
                         {
@@ -255,12 +257,14 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
         private List<string> ObtenerGruposWhatsAppNoConformidad()
         {
             var grupos = new List<string>();
+            // GRUPOS COMENTADOS TEMPORALMENTE PARA PRUEBAS (NO ENVIAR MENSAJES)
+            
             foreach (var key in new[] { "2001", "2002", "2003" })
             {
-                //var g = _configuration[$"WaliChat:{key}"];
-                //if (!string.IsNullOrWhiteSpace(g))
+                var g = _configuration[$"WaliChat:{key}"];
+                if (!string.IsNullOrWhiteSpace(g))
                 {
-                    //grupos.Add(g.Trim());
+                    grupos.Add(g.Trim());
                 }
             }
             if (!grupos.Any())
@@ -268,6 +272,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 grupos.Add("120363280015488353@g.us");
                 grupos.Add("51955407405-1537926002@g.us");
             }
+            
             return grupos;
         }
 
@@ -275,9 +280,9 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
         {
             string[] targetDirectories = new string[]
             {
-                @"\\192.168.1.36\d$\htdocs\app\noconfornidad",
                 @"D:\htdocs\app\noconfornidad",
-                @"D:\htdocs\app\foto"
+                @"D:\htdocs\app\foto",
+                @"\\192.168.1.36\d$\htdocs\app\noconfornidad"
             };
 
             foreach (var dir in targetDirectories)
@@ -298,7 +303,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             return null;
         }
 
-        private async Task NotificarWhatsAppNoConformidad(InformeGuardarRequest req, string numInforme, string tipoEvento)
+        private async Task NotificarWhatsAppNoConformidad(InformeGuardarRequest req, string numInforme, string tipoEvento, string? fotoPath = null)
         {
             var grupos = ObtenerGruposWhatsAppNoConformidad();
             if (!grupos.Any()) return;
@@ -345,39 +350,68 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             string motivoHeader = todosMotivos.Count > 0 ? $"Motivo: {string.Join("; ", todosMotivos)}" : "";
             string areaHeader = todasAreas.Count > 0 ? $"Área: {string.Join(", ", todasAreas)}" : "";
 
-            // 2. Agrupar artÃ­culos por cÃ³digo de artÃ­culo / tela para que cada uno aparezca una Ãºnica vez
+            // 2. Agrupar artículos por código de artículo / tela incluyendo conteo de rollos afectados y totales
             var sbDetalle = new StringBuilder();
             if (req.Articulos != null && req.Articulos.Count > 0)
             {
-                var articulosAgrupados = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                var articulosAgrupados = new Dictionary<string, (string Nombre, int CantRech, int TotalRollos)>(StringComparer.OrdinalIgnoreCase);
 
                 foreach (var art in req.Articulos)
                 {
                     string codTela = !string.IsNullOrWhiteSpace(art.Cod_Tela) ? art.Cod_Tela.Trim() : "";
-                    string nomTela = !string.IsNullOrWhiteSpace(art.Nom_Tela)
-                        ? art.Nom_Tela.Trim()
-                        : (!string.IsNullOrEmpty(codTela) ? codTela : "Artículo");
-
+                    string nomTela = !string.IsNullOrWhiteSpace(art.Abr_Tela)
+                        ? art.Abr_Tela.Trim()
+                        : (!string.IsNullOrWhiteSpace(art.Nom_Tela)
+                            ? art.Nom_Tela.Trim()
+                            : (!string.IsNullOrEmpty(codTela) ? codTela : "Artículo"));
                     string key = !string.IsNullOrEmpty(codTela) ? codTela : nomTela;
 
-                    if (!articulosAgrupados.ContainsKey(key))
+                    int cant = art.Cant_Rollos_Rech;
+                    int tot = art.Rollos;
+
+                    if (articulosAgrupados.TryGetValue(key, out var exist))
                     {
-                        articulosAgrupados[key] = nomTela;
+                        articulosAgrupados[key] = (exist.Nombre, exist.CantRech + cant, exist.TotalRollos + tot);
+                    }
+                    else
+                    {
+                        articulosAgrupados[key] = (nomTela, cant, tot);
                     }
                 }
 
-                foreach (var kvp in articulosAgrupados)
+                foreach (var item in articulosAgrupados.Values)
                 {
-                    sbDetalle.AppendLine($"* {kvp.Value}");
+                    string labelRollo = item.CantRech == 1 ? "ROLLO AFECTADO" : "ROLLOS AFECTADOS";
+                    string rollosTexto = item.TotalRollos > 0
+                        ? $"{item.CantRech} de {item.TotalRollos} rollos"
+                        : $"{item.CantRech} {(item.CantRech == 1 ? "rollo" : "rollos")}";
+
+                    sbDetalle.AppendLine($" • {item.Nombre} - {labelRollo}: {rollosTexto}");
                     sbDetalle.AppendLine();
                 }
             }
             string detalleTexto = sbDetalle.ToString().TrimEnd();
 
-            string pesoStr = req.Kg_Total.HasValue && req.Kg_Total.Value > 0 ? $"{req.Kg_Total.Value:0.00}" : "0.00";
-            string usuario = !string.IsNullOrWhiteSpace(req.Nom_Usuario) ? req.Nom_Usuario.Trim() : (!string.IsNullOrWhiteSpace(req.Cod_Usuario) ? req.Cod_Usuario.Trim() : "SISTEMAS");
+                        string usuario = !string.IsNullOrWhiteSpace(req.Nom_Usuario) ? req.Nom_Usuario.Trim() : (!string.IsNullOrWhiteSpace(req.Cod_Usuario) ? req.Cod_Usuario.Trim() : "SISTEMAS");
             string fechaHora = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             string comentarios = !string.IsNullOrWhiteSpace(req.Observacion) ? req.Observacion.Trim() : "";
+
+            // Si no vino observación en la cabecera, recopilar de los defectos de los artículos
+            if (string.IsNullOrEmpty(comentarios) && req.Articulos != null)
+            {
+                var obsList = req.Articulos
+                    .Where(a => a.Defectos != null)
+                    .SelectMany(a => a.Defectos!)
+                    .Where(d => !string.IsNullOrWhiteSpace(d.Observacion))
+                    .Select(d => d.Observacion!.Trim())
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                if (obsList.Count > 0)
+                {
+                    comentarios = string.Join("; ", obsList);
+                }
+            }
 
             string mensajeWsp = "";
             if (tipoEvento == "CREACION")
@@ -389,7 +423,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 sbMsg.AppendLine();
                 sbMsg.AppendLine($"Partida: {req.Cod_OrdPro} | Cliente: {req.Nom_Cli}");
                 sbMsg.AppendLine();
-                sbMsg.AppendLine($"Color: {req.Color} | Peso: {pesoStr} kg");
+                sbMsg.AppendLine($"Color: {req.Color}");
                 sbMsg.AppendLine();
                 if (!string.IsNullOrEmpty(motivoHeader))
                 {
@@ -401,7 +435,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                     sbMsg.AppendLine(areaHeader);
                     sbMsg.AppendLine();
                 }
-                sbMsg.AppendLine("Detalle por artí­culo:");
+                sbMsg.AppendLine("Detalle por artículo:");
                 sbMsg.AppendLine();
                 sbMsg.AppendLine(detalleTexto);
                 sbMsg.AppendLine();
@@ -411,6 +445,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 {
                     sbMsg.AppendLine($"Comentarios: {comentarios}");
                 }
+                sbMsg.AppendLine();
                 sbMsg.Append("Evidencia:");
 
                 mensajeWsp = sbMsg.ToString();
@@ -427,7 +462,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                 sbMsg.AppendLine();
                 sbMsg.AppendLine($"Partida: {req.Cod_OrdPro} | Cliente: {req.Nom_Cli}");
                 sbMsg.AppendLine();
-                sbMsg.AppendLine($"Color: {req.Color} | Peso: {pesoStr} kg");
+                sbMsg.AppendLine($"Color: {req.Color}");
                 sbMsg.AppendLine();
                 if (!string.IsNullOrEmpty(motivoHeader))
                 {
@@ -439,27 +474,65 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
                     sbMsg.AppendLine(areaHeader);
                     sbMsg.AppendLine();
                 }
-                sbMsg.AppendLine("Detalle por artí­culo:");
+                sbMsg.AppendLine("Detalle por artículo:");
                 sbMsg.AppendLine();
                 sbMsg.AppendLine(detalleTexto);
                 sbMsg.AppendLine();
-                sbMsg.AppendLine($"Motivo de edición: {motivoEdicion}");
+                sbMsg.AppendLine("Cambios realizados:");
+                sbMsg.AppendLine();
+
+                bool tieneMotivoEnCambios = false;
                 if (!string.IsNullOrEmpty(cambios))
                 {
-                    sbMsg.AppendLine($"Cambios realizados:\n{cambios}");
+                    var lineasCambios = cambios.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var l in lineasCambios)
+                    {
+                        string cleanL = l.TrimStart(' ', '•', '-', '*').Trim();
+                        if (!string.IsNullOrEmpty(cleanL))
+                        {
+                            if (cleanL.StartsWith("Modificación de NC", StringComparison.OrdinalIgnoreCase))
+                            {
+                                tieneMotivoEnCambios = true;
+                            }
+                            sbMsg.AppendLine($" • {cleanL}");
+                        }
+                    }
                 }
-                sbMsg.AppendLine($"Modificado por: {usuario}");
-                sbMsg.AppendLine($"Fecha: {fechaHora}");
+
+                if (!tieneMotivoEnCambios && !string.IsNullOrEmpty(motivoEdicion) && motivoEdicion != "Actualización de datos")
+                {
+                    sbMsg.AppendLine($" • Modificación de NC: {motivoEdicion}");
+                }
+
+                sbMsg.AppendLine($" • Modificado por: {usuario}");
+                sbMsg.AppendLine($" • Fecha: {fechaHora}");
                 if (!string.IsNullOrEmpty(comentarios))
                 {
-                    sbMsg.AppendLine($"Comentarios: {comentarios}");
+                    sbMsg.AppendLine($" • Comentarios: {comentarios}");
                 }
+                sbMsg.AppendLine();
                 sbMsg.Append("Evidencia:");
 
                 mensajeWsp = sbMsg.ToString();
             }
             // Buscar si existe foto guardada para este informe o en el request
-            string? fotoFullPath = BuscarFotoInformeFullPath(formattedNC);
+            string? fotoFullPath = null;
+            if (!string.IsNullOrEmpty(fotoPath))
+            {
+                if (System.IO.File.Exists(fotoPath))
+                {
+                    fotoFullPath = fotoPath;
+                }
+                else
+                {
+                    string candidate = System.IO.Path.Combine(@"D:\htdocs\app\noconfornidad", fotoPath);
+                    if (System.IO.File.Exists(candidate)) fotoFullPath = candidate;
+                }
+            }
+            if (string.IsNullOrEmpty(fotoFullPath))
+            {
+                fotoFullPath = BuscarFotoInformeFullPath(formattedNC);
+            }
             string? fileId = null;
 
             // 1. Si existe archivo físico en disco, subirlo directamente a WaliChat
@@ -556,7 +629,7 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
             string mensajeWsp = $"❌ *NC ANULADA*\\n" +
                                 $"{formattedNC}\\n" +
                                 $"Partida: {req.Cod_OrdTra} | Cliente: {req.Nom_Cli}\\n" +
-                                $"Color: {req.Color} | Peso: {req.Peso} kg\\n" +
+                                $"Color: {req.Color}\\n" +
                                 $"Detalle por artículo:\\n" +
                                 $"{req.Detalle_Articulo}\\n" +
                                 $"Motivo: {motivoAnula}\\n" +
@@ -684,3 +757,4 @@ namespace ic.backend.precotex.web.Api.Controllers.Calidad
         }
     }
 }
+

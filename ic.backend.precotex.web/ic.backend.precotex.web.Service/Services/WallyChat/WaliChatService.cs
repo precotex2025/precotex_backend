@@ -172,6 +172,26 @@ namespace ic.backend.precotex.web.Service.Services.WallyChat
 
                         var body = await response.Content.ReadAsStringAsync();
 
+                        // Si el archivo ya existía previamente en WaliChat (HTTP 409 Conflict), reutilizar el ID existente de meta.file
+                        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+                        {
+                            try
+                            {
+                                using var errDoc = JsonDocument.Parse(body);
+                                if (errDoc.RootElement.TryGetProperty("meta", out var metaProp) &&
+                                    metaProp.TryGetProperty("file", out var fileProp))
+                                {
+                                    var existingFileId = fileProp.GetString();
+                                    if (!string.IsNullOrEmpty(existingFileId))
+                                    {
+                                        Console.WriteLine($"Archivo reutilizado desde WaliChat (409): {existingFileId}");
+                                        return existingFileId;
+                                    }
+                                }
+                            }
+                            catch { }
+                        }
+
                         if (!response.IsSuccessStatusCode)
 
                         {
@@ -247,6 +267,8 @@ namespace ic.backend.precotex.web.Service.Services.WallyChat
             using (var client = new HttpClient())
 
             {
+
+                client.DefaultRequestHeaders.Add("Token", apiKey);
 
                 var payload = new Dictionary<string, object>
 
