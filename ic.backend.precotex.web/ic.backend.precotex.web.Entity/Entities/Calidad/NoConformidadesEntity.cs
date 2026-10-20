@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ic.backend.precotex.web.Entity.Entities.Calidad
 {
@@ -42,6 +42,7 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public string Item { get; set; } = "1";
         public string Cod_Tela { get; set; } = "";
         public string Nom_Tela { get; set; } = "";
+        public string Abr_Tela { get; set; } = "";
         public string Comb { get; set; } = "";
         public string Cod_Color { get; set; } = "";
         public string Talla { get; set; } = "";
@@ -85,3 +86,4 @@ namespace ic.backend.precotex.web.Entity.Entities.Calidad
         public List<string> ArchivosGuardados { get; set; } = new();
     }
 }
+
