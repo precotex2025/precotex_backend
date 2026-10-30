@@ -39,6 +39,16 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
             }
         }
 
+        
+        private static object SafeSqlDate(DateTime? dt)
+        {
+            if (dt.HasValue && dt.Value >= new DateTime(1753, 1, 1) && dt.Value <= new DateTime(9999, 12, 31))
+            {
+                return dt.Value;
+            }
+            return DBNull.Value;
+        }
+
         public async Task<(int Codigo, string Mensaje)> Mnto(SN_Mejora sN_Mejora, string sTipoTransac)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -52,9 +62,9 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Codigo_Proceso", sN_Mejora.Codigo_Proceso);
                 parametros.Add("@p_Descripcion", sN_Mejora.Descripcion);
                 parametros.Add("@p_Responsable", sN_Mejora.Responsable);
-                parametros.Add("@p_Fecha_Inicio", sN_Mejora.Fecha_Inicio);
-                parametros.Add("@p_Fecha_Fin_Estimada", sN_Mejora.Fecha_Fin_Estimada);
-                parametros.Add("@p_Fecha_Fin", sN_Mejora.Fecha_Fin);
+                parametros.Add("@p_Fecha_Inicio", SafeSqlDate(sN_Mejora.Fecha_Inicio));
+                parametros.Add("@p_Fecha_Fin_Estimada", SafeSqlDate(sN_Mejora.Fecha_Fin_Estimada));
+                parametros.Add("@p_Fecha_Fin", SafeSqlDate(sN_Mejora.Fecha_Fin));
                 parametros.Add("@p_Estado", sN_Mejora.Estado);
                 parametros.Add("@p_Sede", sN_Mejora.Sede);
                 parametros.Add("@p_Herramienta", sN_Mejora.Herramienta);

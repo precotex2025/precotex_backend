@@ -30,6 +30,8 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Codigo = parametros.Codigo,
                 Titulo = parametros.Titulo,
                 Subtitulo = parametros.Subtitulo,
+                Tipo_Documento = parametros.Tipo_Documento,
+                Fecha_Vigencia = parametros.Fecha_Vigencia,
                 Descripcion = parametros.Descripcion,
                 Autor = parametros.Autor,
                 Fecha_Publicacion = parametros.Fecha_Publicacion,
