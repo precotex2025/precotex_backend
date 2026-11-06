@@ -61,6 +61,7 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<ITxBultoHiladoService, TxBultoHiladoService>();
             services.AddScoped<ITxBultoHiladoGrupoService, TxBultoHiladoGrupoService>();
             services.AddScoped<ITxUbicacionService, TxUbicacionService>();
+            services.AddScoped<IControlUbicacionesService, ControlUbicacionesService>();
             services.AddScoped<ITmpVisorPermanenciaTelaCrudaService, TmpVisorPermanenciaTelaCrudaService>();
             services.AddScoped<ITiProcesosTintoreriaService, TiProcesosTintoreriaService>();
             services.AddScoped<IPowerBiTokenService, PowerBiTokenService>();

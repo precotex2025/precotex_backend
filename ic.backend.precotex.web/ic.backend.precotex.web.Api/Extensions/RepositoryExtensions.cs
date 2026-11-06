@@ -55,6 +55,7 @@ namespace ic.backend.precotex.web.Api.Extensions
             services.AddScoped<ITxBultoHiladoRepository, TxBultoHiladoRepository>();
             services.AddScoped<ITxBultoHiladoGrupoRepository, TxBultoHiladoGrupoRepository>();
             services.AddScoped<ITxUbicacionRepository, TxUbicacionRepository>();
+            services.AddScoped<IControlUbicacionesRepository, ControlUbicacionesRepository>();
             services.AddScoped<ITmpVisorPermanenciaTelaCrudaRepository, TmpVisorPermanenciaTelaCrudaRepository>();
             services.AddScoped<ITiProcesosTintoreriaRepository, TiProcesosTintoreriaRepository>();
             services.AddScoped<ITxTelaEstructuraTejidoItemsRepository, TxTelaEstructuraTejidoItemsRepository>();
