@@ -40,7 +40,9 @@ namespace ic.backend.precotex.web.Api.Controllers.SecureNorm
                 Proveniente = parametros.Proveniente,
                 Cumplimiento = parametros.Cumplimiento,
                 Archivo = parametros.Archivo,
-                Usuario_Registro = parametros.Usuario_Registro ?? "SISTEMAS"
+                Usuario_Registro = parametros.Usuario_Registro ?? "SISTEMAS",
+                Tipo = parametros.Tipo ?? parametros.TipoRegistro,
+                Fecha_Registro = parametros.Fecha_Registro ?? parametros.FechaRegistro
             };
 
             var result = await _sNMejoraService.Mnto(mejora, parametros.Accion!);

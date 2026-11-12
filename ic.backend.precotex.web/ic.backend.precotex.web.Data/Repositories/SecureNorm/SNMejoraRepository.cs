@@ -72,6 +72,8 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Cumplimiento", sN_Mejora.Cumplimiento);
                 parametros.Add("@p_Archivo", sN_Mejora.Archivo);
                 parametros.Add("@p_Usuario", sN_Mejora.Usuario_Registro);
+                parametros.Add("@p_TIpo", string.IsNullOrWhiteSpace(sN_Mejora.Tipo) ? (sTipoTransac == "I" ? "Iniciativa" : null) : sN_Mejora.Tipo);
+                parametros.Add("@p_Fecha_Registro", sN_Mejora.Fecha_Registro.HasValue ? sN_Mejora.Fecha_Registro.Value.ToString("yyyy-MM-dd HH:mm:ss") : null);
 
                 try
                 {
