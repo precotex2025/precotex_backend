@@ -51,6 +51,8 @@ namespace ic.backend.precotex.web.Data.Repositories.SecureNorm
                 parametros.Add("@p_Codigo", sN_Manual.Codigo);
                 parametros.Add("@p_Titulo", sN_Manual.Titulo);
                 parametros.Add("@p_Subtitulo", sN_Manual.Subtitulo);
+                parametros.Add("@p_Tipo_Documento", sN_Manual.Tipo_Documento);
+                parametros.Add("@p_Fecha_Vigencia", sN_Manual.Fecha_Vigencia);
                 parametros.Add("@p_Descripcion", sN_Manual.Descripcion);
                 parametros.Add("@p_Autor", sN_Manual.Autor);
                 parametros.Add("@p_Fecha_Publicacion", sN_Manual.Fecha_Publicacion);

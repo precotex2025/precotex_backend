@@ -19,5 +19,8 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public string? Usuario_Registro { get; set; }
         public DateTime? Fecha_Registro { get; set; }
         public bool? flg_Activo { get; set; }
+        public string? Tipo_Documento { get; set; }
+        public string? Fecha_Vigencia { get; set; }
+
     }
 }

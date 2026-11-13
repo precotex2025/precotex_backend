@@ -17,5 +17,7 @@ namespace ic.backend.precotex.web.Api.Parameters
         public string? Icono { get; set; }
         public string? Archivo { get; set; }
         public string? Usuario_Registro { get; set; }
+        public string? Tipo_Documento { get; set; }
+        public string? Fecha_Vigencia { get; set; }
     }
 }

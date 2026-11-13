@@ -1,4 +1,4 @@
-using System;
+using System;   
 
 namespace ic.backend.precotex.web.Api.Parameters
 {
@@ -20,5 +20,9 @@ namespace ic.backend.precotex.web.Api.Parameters
         public int? Cumplimiento { get; set; }
         public string? Archivo { get; set; }
         public string? Usuario_Registro { get; set; }
+        public string? Tipo { get; set; }
+        public string? TipoRegistro { get; set; }
+        public DateTime? Fecha_Registro { get; set; }
+        public DateTime? FechaRegistro { get; set; }
     }
 }

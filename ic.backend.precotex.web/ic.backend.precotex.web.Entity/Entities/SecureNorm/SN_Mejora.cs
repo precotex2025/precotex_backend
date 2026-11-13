@@ -24,5 +24,6 @@ namespace ic.backend.precotex.web.Entity.Entities.SecureNorm
         public bool? flg_Activo { get; set; }
 
         public string? Nombre_Proceso { get; set; }
+        public string? Tipo { get; set; }
     }
 }
